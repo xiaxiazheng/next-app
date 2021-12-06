@@ -1,0 +1,80 @@
+import Header from "../../components/header";
+import styles from "./index.module.scss";
+import { Form, Input, Button } from "antd";
+import { login } from "../../service";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+const Login = () => {
+    const [form] = Form.useForm();
+    const router = useRouter();
+
+    const onFinish = async (val) => {
+        const res = await login(val);
+        if (res) {
+            localStorage.setItem("username", val.username)
+            localStorage.setItem("password", val.password)
+            router.push("/");
+        }
+    };
+
+    useEffect(() => {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        if (username) {
+            form.setFieldsValue({
+                username,
+                password
+            });
+        }
+    }, []);
+
+    return (
+        <>
+            <Header title="登录" />
+            <main>
+                <div className={styles.login}>
+                    <h2>please Login</h2>
+                    <Form
+                        form={form}
+                        onFinish={onFinish}
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 16 }}
+                    >
+                        <Form.Item
+                            label="Username"
+                            name="username"
+                            style={{ width: '90vw' }}
+                            rules={[{ required: true, message: "Please input your username!" }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label="Password"
+                            name="password"
+                            style={{ width: 'calc(90vw - 24px)' }}
+                            rules={[{ required: true, message: "Please input your password!" }]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </main>
+        </>
+    );
+};
+
+export default Login;
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            // props for your component
+        },
+    };
+}

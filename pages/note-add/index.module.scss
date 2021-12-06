@@ -1,0 +1,29 @@
+.add_note {
+    .h2 {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    :global {
+        .ant-form-item {
+            margin-bottom: 10px;
+        }
+        .ant-form-item-label > label,
+        .ant-radio-wrapper {
+            color: #a6adb4;
+        }
+
+        .ant-input {
+            font-size: 16px;
+            color: #a6adb4;
+            background-color: #001529;
+        }
+
+        textarea.ant-input {
+            height: calc(100vh - 263px);
+            overflow-y: auto;
+            color: #a6adb4;
+            background-color: #001529 !important;
+        }
+    }
+}

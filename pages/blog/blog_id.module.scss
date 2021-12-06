@@ -1,0 +1,39 @@
+.blog_cont {
+    /* width: 100vw; */
+}
+
+.head {
+    text-align: center;
+}
+
+.blogcontEditor {
+    word-break: break-all;
+}
+
+.blogcontEditor pre {
+    padding: 10px;
+    border: 1px solid #a6adb4;
+    border-radius: 8px;
+    overflow-x: scroll;
+    box-sizing: border-box;
+}
+
+.blogcontEditor p>br {
+    display: none;
+}
+
+.blogcontEditor img {
+    width: 100%;
+}
+
+.blogcontEditor h1,
+.blogcontEditor h2,
+.blogcontEditor h3,
+.blogcontEditor h4,
+.blogcontEditor h5,
+.blogcontEditor h6 {
+    color: #1890ff;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #a6adb4;
+}
