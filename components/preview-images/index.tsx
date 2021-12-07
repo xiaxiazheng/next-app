@@ -17,8 +17,8 @@ export interface ImgType {
     type: string;
     username: string;
     size: string;
-    imageUrl: string;
-    imageMinUrl: string;
+    imageUrl?: string;
+    imageMinUrl?: string;
 }
 
 interface Props {

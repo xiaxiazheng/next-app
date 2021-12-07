@@ -98,7 +98,7 @@ const NoteRandom = () => {
                     {/* {note?.imgList.map((img) => {
                         return <PreviewImage key={img.img_id} img={img} />;
                     })} */}
-                    <PreviewImages imgs={note?.imgList || []} />
+                    <PreviewImages imagesList={note?.imgList || []} />
                 </div>
                 <AffixRefresh onClick={() => handleSwitch()} />
             </main>
