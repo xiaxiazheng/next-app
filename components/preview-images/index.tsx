@@ -1,11 +1,12 @@
+/**
+ * 多张图片的展示和预览，使用 react-proto-view 实现多图预览以及拖动和缩放功能
+ */
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "../../service";
-import { handleSize } from "../upload-image";
-// import AffixClose from "../affix/affix-close";
-import { PhotoProvider, PhotoConsumer } from "react-photo-view";
+import { PhotoProvider } from "react-photo-view";
 import "react-photo-view/dist/index.css";
-import localforage from "localforage";
+import PreviewImage from "./PreviewImage";
 
 export interface ImgType {
     cTime: string;
@@ -32,95 +33,31 @@ const PreviewImages: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (imagesList) {
-            handImageData(imagesList);
+            handleImageData(imagesList);
         }
     }, [imagesList]);
 
-    const handImageData = async (imagesList: ImgType[]) => {
-        const promiseList = imagesList.map(async (img) => {
-            const url = `${staticUrl}/img/${img.type}/${img.filename}`;
-            const imageUrl = await handleOnload(img.imageUrl, img.img_id);
+    const handleImageData = (imagesList: ImgType[]) => {
+        const imgList: ImgType[] = imagesList.map((img) => {
+            // 原图地址
+            const imageUrl = `${staticUrl}/img/${img.type}/${img.filename}`;
+            // 缩略图地址
+            const imageMinUrl = img.has_min === "1" ? `${staticUrl}/min-img/${img.filename}` : imageUrl;
 
             return {
                 ...img,
-                imageMinUrl: img.has_min === "1" ? `${staticUrl}/min-img/${img.filename}` : imageUrl, // 缩略图地址
+                imageMinUrl,
                 imageUrl
-            }
-        });
-        setList(await Promise.all(promiseList));
-    };
-
-    // 将 image 对象变成 canvas 对象
-    function imagetoCanvas(image) {
-        var cvs = document.createElement("canvas");
-        var ctx = cvs.getContext("2d");
-        cvs.width = image.width;
-        cvs.height = image.height;
-        ctx.drawImage(image, 0, 0, cvs.width, cvs.height);
-        return cvs;
-    }
-
-    // 将 canvas 变成 blob
-    const canvasResizetoBlob = async (canvas) => {
-        return new Promise((resolve) => {
-            canvas.toBlob(
-                function (blob) {
-                    resolve(blob);
-                }
-                // imageType,
-                // quality
-            );
-        });
-    };
-
-    // 将 canvas 变成 blob
-    const canvasResizetoDataUrl = (canvas) => {
-        return canvas.toDataURL();
-    };
-
-    const handleImageToBase64 = (src: string) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = (e) => {
-                const canvas = imagetoCanvas(e.target);
-                const base64 = canvasResizetoDataUrl(canvas);
-                resolve(base64);
             };
-            img.crossOrigin = ""; // 让图片可以跨域，不会触发 canvas 的 CORS
-            img.src = src;
         });
-    };
-
-    const handleOnload = async (src: string, img_id: string) => {
-        const cache = await localforage.getItem(img_id);
-        console.log("cache", cache);
-        if (cache) {
-            // return cache;
-            return src;
-        } else {
-            const base64 = (await handleImageToBase64(src)) as string;
-            localforage.setItem(img_id, base64);
-            return base64;
-        }
+        setList(imgList);
     };
 
     return (
         <PhotoProvider maskClosable={true}>
-            {list.map((img, index) => {
-                <PhotoConsumer
-                    key={index}
-                    src={img.imageUrl}
-                    intro={
-                        <>
-                            <div>{img.imgname}</div>
-                            <div>{handleSize(Number(img.size))}</div>
-                            <div>{img.cTime}</div>
-                        </>
-                    }
-                >
-                    <img className={styles.min_img} src={img.imageMinUrl} alt="" />
-                </PhotoConsumer>;
-            })}
+            {list.map((img) => (
+                <PreviewImage key={img.img_id} image={img} />
+            ))}
         </PhotoProvider>
     );
 };

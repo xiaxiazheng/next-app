@@ -1,8 +1,11 @@
+/**
+ * 单张图片的展示和点击预览，只能预览一张图
+ */
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "../../service";
 import { handleSize } from "../upload-image";
-import AffixClose from "../../components/affix/affix-close";
+import AffixClose from "../affix/affix-close";
 
 export interface ImgType {
     cTime: string;

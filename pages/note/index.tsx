@@ -154,7 +154,7 @@ const Note = () => {
                                 {/* {item.imgList.map((img) => {
                                     return <PreviewImage key={img.img_id} img={img} />;
                                 })} */}
-                                <PreviewImages imgs={item.imgList} />
+                                <PreviewImages imagesList={item.imgList} />
                             </div>
                         );
                     })}

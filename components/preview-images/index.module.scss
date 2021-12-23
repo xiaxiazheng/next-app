@@ -26,3 +26,16 @@
     margin: 5px 0;
 }
 
+.imageInfo {
+    display: flex;
+    justify-content: space-between;
+    word-break: break-all;
+    >div:last-child {
+        display: flex;
+        align-items: center;
+    }
+    button {
+        margin-left: 10px;
+    }
+}
+
