@@ -8,19 +8,18 @@ import { handleOnloadImage } from "./utils";
 import { ImgType } from "./";
 
 interface IProps {
+    ref: any;
     img: ImgType;
     setImg: any;
 }
 
 // 缩略图，采用交叉观察者
-const MinImg: React.FC<IProps> = (props) => {
-    const { img, setImg } = props;
+const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
+    const { img, setImg, ...rest } = props;
     const { imageMinUrl, img_id, imgname } = img;
 
     const [url, setUrl] = useState("/loading.svg");
     const [isShow, setIsShow] = useState(false);
-
-    const ref = useRef<any>(null);
 
     useEffect(() => {
         let observer = new IntersectionObserver(
@@ -36,8 +35,10 @@ const MinImg: React.FC<IProps> = (props) => {
                 root: null,
             }
         );
-        observer.observe(ref.current);
-    }, []);
+        if (ref?.current) {
+            observer.observe(ref.current);
+        }
+    }, [ref]);
 
     const onloadImage = async () => {
         const url = await handleOnloadImage(imageMinUrl, `min_${img_id}`, imgname);
@@ -48,7 +49,7 @@ const MinImg: React.FC<IProps> = (props) => {
         setUrl(url);
     };
 
-    return <img className={styles.min_img} src={url} ref={ref} />;
-};
+    return <img className={styles.min_img} src={url} ref={ref} {...rest} />;
+});
 
 export default MinImg;

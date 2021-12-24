@@ -2,7 +2,7 @@
  * 控制单个图片的状态，主要还是为了状态自治
  * 还有实现了查看 & 下载原图
  */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import styles from "./index.module.scss";
 import { handleSize } from "../upload-image";
 import { PhotoConsumer } from "react-photo-view";
@@ -50,6 +50,8 @@ const PreviewImage: React.FC<IProps> = (props) => {
         a.click();
     };
 
+    const ref = createRef();
+
     return (
         <PhotoConsumer
             key={img.img_id}
@@ -78,12 +80,11 @@ const PreviewImage: React.FC<IProps> = (props) => {
                 </div>
             }
         >
-            <span>
-                <MinImg
-                    img={img}
-                    setImg={setImg}
-                />
-            </span>
+            <MinImg
+                ref={ref}
+                img={img}
+                setImg={setImg}
+            />
         </PhotoConsumer>
     );
 };
