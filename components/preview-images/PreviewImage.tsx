@@ -9,7 +9,7 @@ import { PhotoConsumer } from "react-photo-view";
 import "react-photo-view/dist/index.css";
 import { Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
-import { handleOnloadImage } from "./utils";
+import { handleOnloadImage, base64ByBlob, blobToUrl } from "./utils";
 import MinImg from "./MinImg";
 import { ImgType } from "./";
 
@@ -42,12 +42,18 @@ const PreviewImage: React.FC<IProps> = (props) => {
 
     // 下载原图
     const handleDownload = async (img_id: string, imageUrl: string, imgname: string) => {
-        const url = await handleOnloadImage(imageUrl, img_id, imgname);
+        const base64 = await handleOnloadImage(imageUrl, img_id, imgname);
+        const blob = await base64ByBlob(base64);
+        const url = blobToUrl(blob);
 
         const a = document.createElement("a");
+        a.style.display = 'none';
         a.download = imgname;
         a.href = url;
+        
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
     };
 
     const ref = createRef();

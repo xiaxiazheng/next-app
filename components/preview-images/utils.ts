@@ -45,7 +45,7 @@ export const handleImageToBase64 = (src: string) => {
 // 从缓存里找原图，如果没有找到，就返回 src，同时下载图片缓存到本地
 export const handleOnloadImage = async (imageUrl: string, img_id: string, imgname: string) => {
     // gif 图是动画不能绘制在 canvas 上，出来的会是 png 图片，所以不能走 cache 了
-    if (imgname.indexOf('.gif') !== -1) {
+    if (imgname.indexOf(".gif") !== -1) {
         return imageUrl;
     }
 
@@ -58,3 +58,22 @@ export const handleOnloadImage = async (imageUrl: string, img_id: string, imgnam
     }
     return cache as string;
 };
+
+export const base64ByBlob = (base64) => {
+    return new Promise((resolve) => {
+        let arr = base64.split(","),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        // console.log(new Blob([u8arr], { type: mime }));
+        resolve(new Blob([u8arr], { type: mime }));
+    });
+};
+
+export const blobToUrl = (blob) => {
+    return window.URL.createObjectURL(blob);
+}
