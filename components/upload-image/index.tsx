@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Upload, message, Progress } from "antd";
 import { staticUrl } from "../../service";
@@ -22,7 +22,10 @@ export const handleSize = (size: number) => {
 const UploadImage: React.FC<Props> = (props) => {
     const { type, otherId, refreshImgList } = props;
 
-    const username = localStorage.getItem("username");
+    const [username, setUsername] = useState<string>();
+    useEffect(() => {
+        setUsername(localStorage.getItem("username"));
+    }, []);
 
     const [name, setName] = useState<string>();
     const [percent, setPercent] = useState<number>();

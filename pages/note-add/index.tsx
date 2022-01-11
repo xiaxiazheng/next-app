@@ -82,14 +82,14 @@ const AddNoteComp = () => {
                     保存并继续编辑
                 </Button>
             </h2>
-            <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
+            <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
                 <Form.Item name="note" label="内容" rules={[{ required: true }]}>
                     <TextArea className={styles.textarea} placeholder="请输入内容" autoFocus={true} />
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"其他"}>
                     <Radio.Group>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
+                            <Radio key={item.category} value={item.category} style={{ marginBottom: 5 }}>
                                 {item.category}
                             </Radio>
                         ))}
