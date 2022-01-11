@@ -14,7 +14,7 @@ import MinImg from "./MinImg";
 import { ImgType } from "./";
 
 interface IProps {
-  image: ImgType;
+    image: ImgType;
 }
 
 const PreviewImage: React.FC<IProps> = (props) => {
@@ -42,18 +42,21 @@ const PreviewImage: React.FC<IProps> = (props) => {
 
     // 下载原图
     const handleDownload = async (img_id: string, imageUrl: string, imgname: string) => {
-        const base64 = await handleOnloadImage(imageUrl, img_id, imgname);
-        const blob = await base64ByBlob(base64);
-        const url = blobToUrl(blob);
+        // 这里这样操作是因为图片原本是不同源的，只能用这种方式下载
+        // const base64 = await handleOnloadImage(imageUrl, img_id, imgname);
+        // const blob = await base64ByBlob(base64);
+        // const url = blobToUrl(blob);
+        // 不过某些移动端浏览器比较落后，不支持 blob:https 下载，所以只能改 nginx 让线上图片同源了
+        // 所以这里改成只用 a 标签的 download 下载同源图片
 
-        const a = document.createElement("a");
-        a.style.display = 'none';
-        a.download = imgname;
-        a.href = url;
-        
+        const a: any = document.createElement("a");
+        a.style.display = "none";
+        a.download = true;
+        a.href = imageUrl;
+
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
+        a.remove();
     };
 
     const ref = createRef();
@@ -86,11 +89,7 @@ const PreviewImage: React.FC<IProps> = (props) => {
                 </div>
             }
         >
-            <MinImg
-                ref={ref}
-                img={img}
-                setImg={setImg}
-            />
+            <MinImg ref={ref} img={img} setImg={setImg} />
         </PhotoConsumer>
     );
 };

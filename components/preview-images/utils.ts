@@ -69,7 +69,6 @@ export const base64ByBlob = (base64) => {
         while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
         }
-        // console.log(new Blob([u8arr], { type: mime }));
         resolve(new Blob([u8arr], { type: mime }));
     });
 };
