@@ -8,7 +8,8 @@ export * from "./translate";
 
 // const serverUrl = "http://localhost:300/api";
 const serverUrl = "https://www.xiaxiazheng.cn/api";
-export const staticUrl = "https://www.xiaxiazheng.cn:2333";
+// export const staticUrl = "https://www.xiaxiazheng.cn:2333";
+export const staticUrl = "https://www.xiaxiazheng.cn/static-server";
 
 export const getFetch = async (url) => {
     try {
