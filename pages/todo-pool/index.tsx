@@ -91,10 +91,10 @@ const TodoPool = () => {
                     onCancel={() => setShowModal(false)}
                     footer={() => (
                         <>
-                            <Button onClick={() => router.push(`/todo/copy_todo/${activeTodo?.todo_id}`)} danger>
+                            <Button onClick={() => router.push(`/todo-pool/copy_todo/${activeTodo?.todo_id}`)} danger>
                                 复制
                             </Button>
-                            <Button onClick={() => router.push(`/todo/edit_todo/${activeTodo?.todo_id}`)} danger>
+                            <Button onClick={() => router.push(`/todo-pool/edit_todo/${activeTodo?.todo_id}`)} danger>
                                 编辑
                             </Button>
                             <Button onClick={() => setShowModal(false)} type="primary">

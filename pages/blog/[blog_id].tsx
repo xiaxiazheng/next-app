@@ -36,7 +36,7 @@ const Blog = () => {
                         <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>
                     </div>
                 </div>
-                <AffixBack />
+                <AffixBack backUrl={'/blog'} />
             </main>
         </>
     );

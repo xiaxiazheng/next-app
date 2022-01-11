@@ -101,7 +101,7 @@ const AddNoteComp = () => {
                     </Button>
                 </Form.Item>
             </Form>
-            <AffixBack />
+            <AffixBack backUrl={'/note'} />
         </main>
     );
 };

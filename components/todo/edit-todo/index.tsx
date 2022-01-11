@@ -107,7 +107,7 @@ const EditTodo: React.FC<Props> = (props) => {
                     </Button>
                 </Form.Item>
             </Form>
-            <AffixBack />
+            <AffixBack backUrl={status === 2 ? '/todo-pool' : '/todo'} />
         </main>
     );
 };

@@ -117,7 +117,7 @@ const EditNoteComp = () => {
                     </Button>
                 </Form.Item>
             </Form>
-            <AffixBack />
+            <AffixBack backUrl={'/note'} />
         </main>
     );
 };
