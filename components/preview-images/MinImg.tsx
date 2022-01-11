@@ -6,6 +6,7 @@ import styles from "./index.module.scss";
 import "react-photo-view/dist/index.css";
 import { handleOnloadImage } from "./utils";
 import { ImgType } from "./";
+import Image from "next/image";
 
 interface IProps {
     ref: any;
@@ -18,7 +19,7 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
     const { img, setImg, ...rest } = props;
     const { imageMinUrl, img_id, imgname } = img;
 
-    const [url, setUrl] = useState("/loading.svg");
+    const [url, setUrl] = useState<string>();
     const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
@@ -49,7 +50,15 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
         setUrl(url);
     };
 
-    return <img className={styles.min_img} src={url} ref={ref} {...rest} />;
+    return (
+        <div ref={ref} className={styles.min_img}>
+            {!url ? (
+                <Image width={80} height={80} src="/loading.svg" />
+            ) : (
+                <img width={80} height={80} src={url} {...rest} />
+            )}
+        </div>
+    );
 });
 
 export default MinImg;
