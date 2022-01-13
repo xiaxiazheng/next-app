@@ -33,7 +33,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.back();
+            router.push(status === 2 ? "/todo-pool" : "/todo")
         }
     };
 
