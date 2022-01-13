@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import { EditNote, GetNoteById, GetNoteCategory } from "../../../service";
 import AffixBack from "../../../components/affix/affix-back";
 import AffixSubmit from "../../../components/affix/affix-submit";
+import AffixSaveProgress from "../../../components/affix/affix-save-progress";
 import PreviewImages from "../../../components/preview-images";
 import UploadImage from "../../../components/upload-image";
 
@@ -107,9 +108,6 @@ const EditNoteComp = () => {
         <main className={styles.edit_note}>
             <h2 className={styles.h2}>
                 <span>{title}</span>
-                <Button type="primary" onClick={() => handleSaveProgress()}>
-                    保存进度
-                </Button>
             </h2>
             <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
                 <Form.Item name="note" label="内容" rules={[{ required: true }]}>
@@ -134,6 +132,7 @@ const EditNoteComp = () => {
                 </Form.Item>
             </Form>
             <AffixBack backUrl={'/note'} />
+            <AffixSaveProgress onClick={() => handleSaveProgress()} />
         </main>
     );
 };

@@ -2,13 +2,15 @@ import styles from "./index.module.scss";
 import { Button } from "antd";
 
 interface Props {
+    onClick: Function;
 }
 
 const AffixBack: React.FC<Props> = (props) => {
+    const { onClick } = props;
 
     return (
-        <Button className={styles.submit} type="primary" htmlType="submit">
-            提交
+        <Button onClick={() => onClick()} className={styles.submit} type="primary">
+            暂存
         </Button>
     );
 };

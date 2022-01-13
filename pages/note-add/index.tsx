@@ -4,6 +4,8 @@ import { Form, message, Input, Button, Radio } from "antd";
 import styles from "./index.module.scss";
 import { AddNote, GetNoteCategory } from "../../service";
 import AffixBack from "../../components/affix/affix-back";
+import AffixSubmit from "../../components/affix/affix-submit";
+import AffixSaveProgress from "../../components/affix/affix-save-progress";
 
 const { TextArea } = Input;
 
@@ -51,7 +53,7 @@ const AddNoteComp = () => {
                 message.success(`${title}成功`);
                 router.push(`/note/edit_note/${res.data.newNote.note_id}`);
             }
-        } catch(err) {
+        } catch (err) {
             message.warning("请检查表单输入");
         }
     };
@@ -78,9 +80,6 @@ const AddNoteComp = () => {
         <main className={styles.add_note}>
             <h2 className={styles.h2}>
                 <span>{title}</span>
-                <Button type="primary" onClick={() => handleSaveAndEdit()}>
-                    保存并继续编辑
-                </Button>
             </h2>
             <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
                 <Form.Item name="note" label="内容" rules={[{ required: true }]}>
@@ -96,12 +95,11 @@ const AddNoteComp = () => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
+                    <AffixSubmit />
                 </Form.Item>
             </Form>
-            <AffixBack backUrl={'/note'} />
+            <AffixBack backUrl={"/note"} />
+            <AffixSaveProgress onClick={() => handleSaveAndEdit()} />
         </main>
     );
 };
