@@ -10,13 +10,13 @@ const { Search } = Input;
 
 const Blog = () => {
     const router = useRouter();
-    
+
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
     const pageSize = 10;
 
     const [list, setList] = useState<BlogListType[]>([]);
-    const [keyword, setKeyword] = useState<string>('');
+    const [keyword, setKeyword] = useState<string>("");
 
     const getData = async () => {
         const params = {
@@ -64,14 +64,18 @@ const Blog = () => {
                     <div className={styles.list}>
                         {list.map((item) => {
                             return (
-                                <div key={item.blog_id} className={`${styles.list_item} ${item.isStick === 'true' ? styles.isStick : ''}`} onClick={() => handleClick(item)}>
+                                <div
+                                    key={item.blog_id}
+                                    className={`${styles.list_item} ${item.isStick === "true" ? styles.isStick : ""}`}
+                                    onClick={() => handleClick(item)}
+                                >
                                     <div className={styles.title}>{item.title}</div>
                                     <div>
                                         {item.mTime}
                                         {item.tag && (
                                             <span className={styles.tag}>
                                                 {item.tag.map((item) => (
-                                                    <span>{item.tag_name}</span>
+                                                    <span key={item.tag_id}>{item.tag_name}</span>
                                                 ))}
                                             </span>
                                         )}
