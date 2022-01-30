@@ -30,7 +30,7 @@ export const getFetch = async (url) => {
 
         if (res.status === 401) {
             message.warning("登录已过期，请重新登录", 2);
-            location.href = `${location.origin}/login`;
+            location.href = `${location.origin}/m/login`;
             return false;
         }
 
@@ -66,7 +66,7 @@ export const postFetch = async (url, params) => {
 
         if (res.status === 401) {
             message.warning("401: 登录已过期，请重新登录", 2);
-            location.href = `${location.origin}/login`;
+            location.href = `${location.origin}/m/login`;
             return false;
         }
 
