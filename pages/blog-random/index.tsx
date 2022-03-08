@@ -4,11 +4,11 @@ import { GetBlogList, GetBlogCont } from "../../service";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
 import AffixRefresh from "../../components/affix/affix-refresh";
+import AffixCopy from "../../components/affix/affix-copy";
 // 代码高亮
 import "highlight.js/styles/vs2015.css";
 
 const Blog = () => {
-
     const [blog, setBlog] = useState<OneBlogType>();
     const [total, setTotal] = useState<number>();
 
@@ -28,7 +28,7 @@ const Blog = () => {
                 const data = res.data;
                 count = data.total;
                 setTotal(data.total);
-            }            
+            }
         }
 
         // 然后计算出 offset，随机选一篇
@@ -69,6 +69,9 @@ const Blog = () => {
                         <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>
                     </div>
                 </div>
+                <AffixCopy
+                    copyUrl={`https://www.xiaxiazheng.cn/blog/${blog && btoa(decodeURIComponent(blog.blog_id))}`}
+                />
                 <AffixRefresh onClick={() => handleSwitch()} />
             </main>
         </>

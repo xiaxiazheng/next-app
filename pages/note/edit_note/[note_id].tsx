@@ -4,13 +4,19 @@ import { Form, message, Input, Button, Radio } from "antd";
 import styles from "./index.module.scss";
 import { EditNote, GetNoteById, GetNoteCategory } from "../../../service";
 import AffixBack from "../../../components/affix/affix-back";
+import AffixSubmit from "../../../components/affix/affix-submit";
+import AffixSaveProgress from "../../../components/affix/affix-save-progress";
+import PreviewImages from "../../../components/preview-images";
+import UploadImage from "../../../components/upload-image";
 
 const { TextArea } = Input;
 
 const EditNoteComp = () => {
     const router = useRouter();
 
-    const { note_id } = router.query;
+    const { note_id } = router.query as { note_id: string };
+
+    const [imgList, setImgList] = useState<any>([]);
 
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
@@ -44,11 +50,19 @@ const EditNoteComp = () => {
                 note: res.data.note,
                 category: res.data.category
             });
+            setImgList(res.data.imgList);
         }
     };
     useEffect(() => {
         note_id && getData();
     }, [note_id]);
+
+    const NoteImgData = async () => {
+        const res = await GetNoteById(note_id);
+        if (res) {
+            setImgList(res.data.imgList);
+        }
+    }
 
     const onFinish = async (val) => {
         const res = await EditNote({
@@ -94,9 +108,6 @@ const EditNoteComp = () => {
         <main className={styles.edit_note}>
             <h2 className={styles.h2}>
                 <span>{title}</span>
-                <Button type="primary" onClick={() => handleSaveProgress()}>
-                    保存进度
-                </Button>
             </h2>
             <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
                 <Form.Item name="note" label="内容" rules={[{ required: true }]}>
@@ -111,13 +122,17 @@ const EditNoteComp = () => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
+                <UploadImage type="note" otherId={note_id} refreshImgList={() => NoteImgData()} />
+                <PreviewImages imagesList={imgList} />
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
+                    {/* <Button type="primary" htmlType="submit">
                         Submit
-                    </Button>
+                    </Button> */}
+                    <AffixSubmit />
                 </Form.Item>
             </Form>
-            <AffixBack />
+            <AffixBack backUrl={'/note'} />
+            <AffixSaveProgress onClick={() => handleSaveProgress()} />
         </main>
     );
 };

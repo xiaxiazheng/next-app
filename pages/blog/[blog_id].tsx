@@ -4,7 +4,8 @@ import styles from "./blog_id.module.scss";
 import { GetBlogCont } from "../../service";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
-import AffixBack from "../../components/affix/affix-back"; 
+import AffixBack from "../../components/affix/affix-back";
+import AffixCopy from "../../components/affix/affix-copy";
 // 代码高亮
 import "highlight.js/styles/vs2015.css";
 
@@ -28,7 +29,7 @@ const Blog = () => {
 
     return (
         <>
-            <Header title={blog?.title || '日志详情'} />
+            <Header title={blog?.title || "日志详情"} />
             <main>
                 <div className={styles.blog_cont}>
                     <h3 className={styles.head}>{blog?.title}</h3>
@@ -36,7 +37,10 @@ const Blog = () => {
                         <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>
                     </div>
                 </div>
-                <AffixBack />
+                <AffixCopy
+                    copyUrl={`https://www.xiaxiazheng.cn/blog/${blog && btoa(decodeURIComponent(blog.blog_id))}`}
+                />
+                <AffixBack backUrl={"/blog"} />
             </main>
         </>
     );

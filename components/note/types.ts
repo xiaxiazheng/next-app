@@ -1,4 +1,4 @@
-import { ImgType } from "../preview-image";
+import { ImgType } from "../preview-images";
 
 export type NoteType = {
     cTime: string;

@@ -12,6 +12,7 @@ import MyDrawer from "../../components/my-drawer";
 import PreviewImages from "../../components/preview-images";
 import UploadImage from "../../components/upload-image";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
+import AffixEdit from "../../components/affix/affix-edit";
 
 const { Search } = Input;
 
@@ -49,12 +50,14 @@ const Note = () => {
         const res = await GetNoteList(params);
         if (res) {
             const data = res.data;
-            setList(data?.list.map(item => {
-                return {
-                    ...item,
-                    note: keyword && keyword !== '' ? handleKeyword(item.note, keyword) : handleUrl(item.note) 
-                }
-            }));
+            setList(
+                data?.list.map((item) => {
+                    return {
+                        ...item,
+                        note: keyword && keyword !== "" ? handleKeyword(item.note, keyword) : handleUrl(item.note),
+                    };
+                })
+            );
             setTotal(data.total);
         }
     };
@@ -100,15 +103,6 @@ const Note = () => {
                             type="primary"
                             onClick={() => setShowDrawer(true)}
                         />
-                        {active && (
-                            <Button
-                                style={{ width: 50, marginRight: 10 }}
-                                icon={<EditOutlined />}
-                                type="primary"
-                                danger
-                                onClick={() => router.push(`/note/edit_note/${active.note_id}`)}
-                            />
-                        )}
                         <Button
                             style={{ width: 50 }}
                             icon={<PlusOutlined />}
@@ -186,6 +180,7 @@ const Note = () => {
                         ))}
                     </Radio.Group>
                 </MyDrawer>
+                {active && <AffixEdit onClick={() => router.push(`/note/edit_note/${active.note_id}`)} />}
             </main>
         </>
     );

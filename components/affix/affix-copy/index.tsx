@@ -1,0 +1,39 @@
+import styles from "./index.module.scss";
+import { Button } from "antd";
+import { ShareAltOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import { message } from "antd";
+
+interface Props {
+    copyUrl?: string;
+}
+
+const AffixCopy: React.FC<Props> = (props) => {
+    const { copyUrl } = props;
+
+    const router = useRouter();
+
+    // 复制文件的 url
+    const copyFileUrl = () => {
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        input.setAttribute("value", copyUrl);
+        input.select();
+        document.execCommand("copy");
+        message.success("复制文件路径成功", 1);
+        document.body.removeChild(input);
+    };
+
+    return (
+        <Button
+            className={styles.back}
+            type="primary"
+            shape="circle"
+            size="large"
+            onClick={() => copyFileUrl()}
+            icon={<ShareAltOutlined />}
+        />
+    );
+};
+
+export default AffixCopy;

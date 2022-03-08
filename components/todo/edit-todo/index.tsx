@@ -7,6 +7,7 @@ import { GetTodoCategory, AddTodoItem, EditTodoItem, TodoStatus } from "../../..
 import { colorMap, colorNameMap } from "../constant";
 import { TodoType } from "../types";
 import AffixBack from "../../affix/affix-back";
+import AffixSubmit from "../../affix/affix-submit";
 
 const { TextArea } = Input;
 
@@ -23,15 +24,16 @@ const EditTodo: React.FC<Props> = (props) => {
     const router = useRouter();
 
     const onFinish = async (val) => {
-        const res = todo && !isCopy
-            ? await EditTodoItem({
-                  ...val,
-                  todo_id: todo.todo_id,
-              })
-            : await AddTodoItem(val);
+        const res =
+            todo && !isCopy
+                ? await EditTodoItem({
+                      ...val,
+                      todo_id: todo.todo_id,
+                  })
+                : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.back();
+            router.push(status === 2 ? "/todo-pool" : "/todo")
         }
     };
 
@@ -56,7 +58,7 @@ const EditTodo: React.FC<Props> = (props) => {
 
     return (
         <main className={styles.edit_todo}>
-            <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
+            <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} onFinish={onFinish}>
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                     <Input placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成" autoFocus={true} />
                 </Form.Item>
@@ -75,7 +77,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
                     <Radio.Group>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
+                            <Radio key={item.category} value={item.category} style={{ marginBottom: 5 }}>
                                 {item.category}
                             </Radio>
                         ))}
@@ -102,12 +104,10 @@ const EditTodo: React.FC<Props> = (props) => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
+                    <AffixSubmit />
                 </Form.Item>
             </Form>
-            <AffixBack />
+            <AffixBack backUrl={status === 2 ? "/todo-pool" : "/todo"} />
         </main>
     );
 };
