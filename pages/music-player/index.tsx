@@ -1,5 +1,4 @@
 import Header from "../../components/header";
-import Link from "next/link";
 import styles from "./index.module.scss";
 import { GetMediaList } from "../../service";
 import { useEffect, useState } from "react";
@@ -18,18 +17,18 @@ export interface MusicListType extends MusicType {
 }
 
 const cdnUrl = "http://cdn.xiaxiazheng.cn";
-const hCdnUrl = "http://hcdn.xiaxiazheng.cn"
+const hCdnUrl = "http://hcdn.xiaxiazheng.cn";
 
 const MusicPlayer = () => {
     const [list, setList] = useState<MusicListType[]>([]);
 
     const getData = async () => {
         const res: any = await GetMediaList();
-        const resdata = await res.json();
-        const data: MusicType[] = resdata.data;
+        const resData = await res.json();
+        const data: MusicType[] = resData.data;
 
-        const username = localStorage.getItem('username');
-        const url = username === 'zyb' ? cdnUrl : hCdnUrl;
+        const username = localStorage.getItem("username");
+        const url = username === "zyb" ? cdnUrl : hCdnUrl;
         setList(
             data
                 .filter((item) => item.mimeType.indexOf("audio") !== -1)
@@ -38,7 +37,7 @@ const MusicPlayer = () => {
                         name: item.key,
                         url: `${url}/${item.key}`,
                         key: item.key,
-                        mimeType: item.mimeType
+                        mimeType: item.mimeType,
                     };
                 })
         );
@@ -53,9 +52,7 @@ const MusicPlayer = () => {
             <Header title="音乐播放器" />
             <main>
                 <div className={styles.musicPlayer}>
-                    <div className={styles.playerBox}>
-                        <MusicPlayerComp list={list} />
-                    </div>
+                    <MusicPlayerComp list={list} />
                 </div>
             </main>
         </>
