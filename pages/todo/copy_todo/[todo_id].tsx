@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from './index.module.scss';
 import EditTodo from "../../../components/todo/edit-todo";
 import { useEffect, useState } from "react";
-import { getTodoById, TodoStatus } from "../../../service";
+import { GetTodoById, TodoStatus } from "../../../service";
 
 const CopyTodo = () => {
     const router = useRouter();
@@ -11,7 +11,7 @@ const CopyTodo = () => {
     const [data, setData] = useState();
 
     const getData = async () => {
-        const res = await getTodoById(todo_id);
+        const res = await GetTodoById(todo_id);
         setData(res.data);
     };
 

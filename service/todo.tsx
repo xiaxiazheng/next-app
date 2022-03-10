@@ -19,7 +19,7 @@ export const GetTodo = async () => {
     }
 };
 
-export const getTodoById = async (todo_id) => {
+export const GetTodoById = async (todo_id) => {
     const res: any = await getFetch(`/todo/getTodoById?todo_id=${todo_id}`);
     if (res) {
         const data = res.json();

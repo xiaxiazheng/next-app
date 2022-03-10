@@ -6,7 +6,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import MyModal from "../my-modal";
 
 interface Props {
-    type: "main" | "cloud" | "treecont" | "blog" | "mao" | "note";
+    type: "main" | "cloud" | "treecont" | "blog" | "mao" | "note" | "todo";
     otherId: string;
     refreshImgList: Function;
 }

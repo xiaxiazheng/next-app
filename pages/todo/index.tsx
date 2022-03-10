@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
-import { GetTodo, DoneTodoItem, EditTodoItem } from "../../service";
+import { GetTodo, DoneTodoItem, EditTodoItem, GetTodoById } from "../../service";
 import { Button, message } from "antd";
-import { PlusOutlined, SettingOutlined, QuestionCircleOutlined, VerticalAlignTopOutlined } from "@ant-design/icons";
+import {
+    PlusOutlined,
+    SettingOutlined,
+    QuestionCircleOutlined,
+    VerticalAlignTopOutlined,
+    FileImageOutlined,
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import MyModal from "../../components/my-modal";
 import { handleDesc, formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { TodoType } from "../../components/todo/types";
 import Category from "../../components/todo/category";
+import PreviewImages from "../../components/preview-images";
+import UploadImage from "../../components/upload-image";
 
 const Todo = () => {
     const [todoMap, setTodoMap] = useState({});
@@ -37,6 +45,12 @@ const Todo = () => {
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoType>();
+
+    const getTodoById = async (todo_id: string) => {
+        const res = await GetTodoById(todo_id);
+        setActiveTodo(res.data);
+        getData();
+    };
 
     const handleDone = async () => {
         const params = {
@@ -118,18 +132,16 @@ const Todo = () => {
                                             }}
                                         />
                                         <Category color={item.color} category={item.category} />
-                                        {item.description && (
-                                            <span
-                                                onClick={() => {
-                                                    setActiveTodo(item);
-                                                    setShowDesc(true);
-                                                }}
-                                            >
-                                                <span>{item.name}</span>
-                                                <QuestionCircleOutlined className={styles.desc} />
-                                            </span>
-                                        )}
-                                        {!item.description && <span>{item.name}</span>}
+                                        <span
+                                            onClick={() => {
+                                                setActiveTodo(item);
+                                                setShowDesc(true);
+                                            }}
+                                        >
+                                            <span>{item.name}</span>
+                                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
+                                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                                        </span>
                                     </div>
                                 ))}
                             </div>
@@ -161,12 +173,22 @@ const Todo = () => {
                     <span>{activeTodo?.name}</span>
                 </MyModal>
                 <MyModal
-                    title={"详细描述："}
+                    title={<span className={styles.modalName}>{activeTodo?.name}</span>}
                     visible={showDesc}
                     onCancel={() => setShowDesc(false)}
                     cancelText="知道了"
                 >
                     {activeTodo?.description && handleDesc(activeTodo.description)}
+                    {activeTodo?.imgList && (
+                        <div>
+                            <UploadImage
+                                type="todo"
+                                otherId={activeTodo.todo_id}
+                                refreshImgList={() => getTodoById(activeTodo.todo_id)}
+                            />
+                            <PreviewImages imagesList={activeTodo.imgList} />
+                        </div>
+                    )}
                 </MyModal>
                 <MyModal
                     visible={showChangeExpire}

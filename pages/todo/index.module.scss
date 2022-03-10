@@ -35,7 +35,15 @@
     margin-bottom: 10px;
 }
 
-.desc {
+.icon {
     vertical-align: middle;
     margin-left: 5px;
+}
+
+.modalName {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
 }
