@@ -13,11 +13,10 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import MyModal from "../../components/my-modal";
-import { handleDesc, formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
+import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { TodoType } from "../../components/todo/types";
 import Category from "../../components/todo/category";
-import PreviewImages from "../../components/preview-images";
-import UploadImage from "../../components/upload-image";
+import DescriptionModal from "../../components/todo/description-modal";
 
 const Todo = () => {
     const [todoMap, setTodoMap] = useState({});
@@ -100,6 +99,7 @@ const Todo = () => {
                 <div>
                     {Object.keys(todoMap).map((time) => (
                         <div key={time}>
+                            {/* 日期 */}
                             <div
                                 className={`${styles.time} ${
                                     time === today ? styles.today : time < today ? styles.previously : styles.future
@@ -118,6 +118,7 @@ const Todo = () => {
                                     />
                                 )}
                             </div>
+                            {/* 当日 todo */}
                             <div className={styles.one_day}>
                                 {todoMap[time].map((item: TodoType) => (
                                     <div key={item.todo_id}>
@@ -148,6 +149,7 @@ const Todo = () => {
                         </div>
                     ))}
                 </div>
+                {/* 操作弹窗 */}
                 <MyModal
                     title={"请选择操作"}
                     visible={showModal}
@@ -172,24 +174,14 @@ const Todo = () => {
                     <Category color={activeTodo?.color} category={activeTodo?.category} />
                     <span>{activeTodo?.name}</span>
                 </MyModal>
-                <MyModal
-                    title={<span className={styles.modalName}>{activeTodo?.name}</span>}
+                {/* 详情弹窗 */}
+                <DescriptionModal
                     visible={showDesc}
-                    onCancel={() => setShowDesc(false)}
-                    cancelText="知道了"
-                >
-                    {activeTodo?.description && handleDesc(activeTodo.description)}
-                    {activeTodo?.imgList && (
-                        <div>
-                            <UploadImage
-                                type="todo"
-                                otherId={activeTodo.todo_id}
-                                refreshImgList={() => getTodoById(activeTodo.todo_id)}
-                            />
-                            <PreviewImages imagesList={activeTodo.imgList} />
-                        </div>
-                    )}
-                </MyModal>
+                    setVisible={setShowDesc}
+                    activeTodo={activeTodo}
+                    refresh={() => getTodoById(activeTodo.todo_id)}
+                />
+                {/* 批量调整过期 todo 日期的弹窗 */}
                 <MyModal
                     visible={showChangeExpire}
                     title={"调整日期"}
