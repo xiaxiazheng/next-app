@@ -4,8 +4,8 @@ import { getTodoDone, GetTodoById } from "../../service";
 import { useEffect, useState } from "react";
 import { TodoType } from "../../components/todo/types";
 import dayjs from "dayjs";
-import { Pagination, Input, Button } from "antd";
-import { QuestionCircleOutlined, SettingOutlined, FileImageOutlined } from "@ant-design/icons";
+import { Pagination, Input, Button, Spin } from "antd";
+import { QuestionCircleOutlined, SettingOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import MyModal from "../../components/my-modal";
 import Category from "../../components/todo/category";
@@ -23,7 +23,10 @@ const TodoDone = () => {
     const [keyword, setKeyword] = useState<string>("");
     const [pageNo, setPageNo] = useState<number>(1);
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const getData = async () => {
+        setLoading(true);
         const params = {
             keyword,
             pageNo,
@@ -33,6 +36,7 @@ const TodoDone = () => {
             setTotal(res.data.total);
             setTodoMap(formatArrayToTimeMap(res.data.list));
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -53,11 +57,13 @@ const TodoDone = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
 
     return (
-        <>
+        <Spin spinning={loading}>
             <Header title="已完成 todo" />
             <main className={styles.done}>
                 <h2 className={styles.h2}>
                     <span>已完成 todo ({total})</span>
+                    {/* 刷新列表 */}
+                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
                 </h2>
                 {/* 搜索框 */}
                 <div>
@@ -153,7 +159,7 @@ const TodoDone = () => {
                     refresh={() => getTodoById(activeTodo.todo_id)}
                 />
             </main>
-        </>
+        </Spin>
     );
 };
 

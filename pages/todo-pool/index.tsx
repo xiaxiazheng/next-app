@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { GetTodoPool, GetTodoById } from "../../service";
-import { Button } from "antd";
-import { PlusOutlined, QuestionCircleOutlined, SettingOutlined, FileImageOutlined } from "@ant-design/icons";
+import { Button, Space, Spin } from "antd";
+import {
+    PlusOutlined,
+    QuestionCircleOutlined,
+    SettingOutlined,
+    FileImageOutlined,
+    SyncOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Category from "../../components/todo/category";
 import MyModal from "../../components/my-modal";
@@ -16,12 +22,16 @@ const TodoPool = () => {
 
     const router = useRouter();
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const getData = async () => {
+        setLoading(true);
         const res = await GetTodoPool();
         if (res) {
             setTotal(res.data.length);
             setTodoList(res.data);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -44,12 +54,27 @@ const TodoPool = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
 
     return (
-        <>
+        <Spin spinning={loading}>
             <Header title="待办池 todo" />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
                     <span>待办池({total})</span>
-                    <Button style={{ width: 50 }} icon={<PlusOutlined />} onClick={() => handleAdd()} type="primary" />
+                    <Space size={8}>
+                        {/* 刷新列表 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<SyncOutlined />}
+                            onClick={() => getData()}
+                            type="default"
+                        />
+                        {/* 新建待办 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<PlusOutlined />}
+                            onClick={() => handleAdd()}
+                            type="primary"
+                        />
+                    </Space>
                 </h2>
                 {/* 待办 todo 列表 */}
                 <div className={styles.list}>
@@ -109,7 +134,7 @@ const TodoPool = () => {
                     refresh={() => getTodoById(activeTodo.todo_id)}
                 />
             </main>
-        </>
+        </Spin>
     );
 };
 

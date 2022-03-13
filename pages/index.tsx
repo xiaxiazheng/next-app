@@ -105,7 +105,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="container">
+        <div>
             <Header title="XIAXIAZheng" />
             <main>
                 <div className={styles.index}>

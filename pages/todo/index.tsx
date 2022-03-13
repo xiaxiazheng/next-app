@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { GetTodo, DoneTodoItem, EditTodoItem, GetTodoById } from "../../service";
-import { Button, message } from "antd";
+import { Button, message, Space, Spin } from "antd";
 import {
     PlusOutlined,
     SettingOutlined,
     QuestionCircleOutlined,
     VerticalAlignTopOutlined,
     FileImageOutlined,
+    SyncOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -24,12 +25,16 @@ const Todo = () => {
 
     const router = useRouter();
 
+    const [loading, setLaoding] = useState<boolean>(false);
+
     const getData = async () => {
+        setLaoding(true);
         const res = await GetTodo();
         if (res) {
             setTotal(res.data.length);
             setTodoMap(formatArrayToTimeMap(res.data));
         }
+        setLaoding(false);
     };
 
     useEffect(() => {
@@ -89,12 +94,27 @@ const Todo = () => {
     };
 
     return (
-        <>
+        <Spin spinning={loading}>
             <Header title="todo" />
             <main className={styles.todo}>
                 <h2 className={styles.h2}>
                     <span>待办({total})</span>
-                    <Button style={{ width: 50 }} icon={<PlusOutlined />} onClick={() => handleAdd()} type="primary" />
+                    <Space size={8}>
+                        {/* 刷新列表 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<SyncOutlined />}
+                            onClick={() => getData()}
+                            type="default"
+                        />
+                        {/* 新增待办 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<PlusOutlined />}
+                            onClick={() => handleAdd()}
+                            type="primary"
+                        />
+                    </Space>
                 </h2>
                 <div>
                     {Object.keys(todoMap).map((time) => (
@@ -193,7 +213,7 @@ const Todo = () => {
                     是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
                 </MyModal>
             </main>
-        </>
+        </Spin>
     );
 };
 
