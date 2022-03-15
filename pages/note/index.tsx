@@ -13,6 +13,7 @@ import PreviewImages from "../../components/preview-images";
 import UploadImage from "../../components/upload-image";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
 import AffixEdit from "../../components/affix/affix-edit";
+import PreviewFiles from "../../components/preview-files";
 
 const { Search } = Input;
 
@@ -142,13 +143,11 @@ const Note = () => {
                                         </div>
                                     )}
                                 </div>
+                                <PreviewImages imagesList={item.imgList} />
+                                <PreviewFiles filesList={item.fileList} />
                                 {isActive && (
                                     <UploadImage type="note" otherId={item.note_id} refreshImgList={() => getData()} />
                                 )}
-                                {/* {item.imgList.map((img) => {
-                                    return <PreviewImage key={img.img_id} img={img} />;
-                                })} */}
-                                <PreviewImages imagesList={item.imgList} />
                             </div>
                         );
                     })}

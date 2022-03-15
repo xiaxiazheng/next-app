@@ -1,0 +1,21 @@
+.preview_files {
+    display: inline-block;
+    font-size: 14px;
+}
+
+.fileBox {
+    display: inline-flex;
+    width: 80px;
+    height: 80px;
+    margin-right: 5px;
+    margin-top: 5px;
+    vertical-align: top;
+    border: 1px solid white;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    font-size: 16px;
+}

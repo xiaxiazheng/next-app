@@ -1,3 +1,4 @@
+import { FileType } from "../preview-files";
 import { ImgType } from "../preview-images";
 
 export type NoteType = {
@@ -8,4 +9,5 @@ export type NoteType = {
     username: string;
     category: string;
     imgList: ImgType[];
+    fileList: FileType[];
 };

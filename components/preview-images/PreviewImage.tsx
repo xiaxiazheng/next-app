@@ -41,7 +41,7 @@ const PreviewImage: React.FC<IProps> = (props) => {
     };
 
     // 下载原图
-    const handleDownload = async (img_id: string, imageUrl: string, imgname: string) => {
+    const handleDownload = async (imageUrl: string) => {
         // 这里这样操作是因为图片原本是不同源的，只能用这种方式下载
         // const base64 = await handleOnloadImage(imageUrl, img_id, imgname);
         // const blob = await base64ByBlob(base64);
@@ -81,10 +81,7 @@ const PreviewImage: React.FC<IProps> = (props) => {
                                 {loading ? "加载中..." : "查看原图"}
                             </Button>
                         )}
-                        <Button
-                            icon={<DownloadOutlined />}
-                            onClick={() => handleDownload(img.img_id, img.imageUrl, img.imgname)}
-                        />
+                        <Button icon={<DownloadOutlined />} onClick={() => handleDownload(img.imageUrl)} />
                     </div>
                 </div>
             }
