@@ -34,7 +34,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.push(status === 2 ? "/todo-pool" : "/todo");
+            router.push(status === 2 ? "/todo-list-pool" : "/todo-list");
         }
     };
 
@@ -108,7 +108,7 @@ const EditTodo: React.FC<Props> = (props) => {
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <AffixSubmit />
                     </Form.Item>
-                    <AffixBack backUrl={status === 2 ? "/todo-pool" : "/todo"} />
+                    <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
                 </AffixFooter>
             </Form>
         </main>

@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import styles from './index.module.scss';
-import EditTodo from "../../../components/todo/edit-todo";
+import EditTodo from "../../components/todo/edit-todo";
 import { useEffect, useState } from "react";
-import { GetTodoById, TodoStatus } from "../../../service";
+import { GetTodoById, TodoStatus } from "../../service";
 
 const EditTodoComp = () => {
     const router = useRouter();
@@ -22,7 +22,7 @@ const EditTodoComp = () => {
     return (
         <main className={styles.edit_todo}>
             <h2>编辑 todo</h2>
-            <EditTodo status={TodoStatus.pool} todo={data} />
+            <EditTodo status={TodoStatus.todo} todo={data} />
         </main>
     )
 }

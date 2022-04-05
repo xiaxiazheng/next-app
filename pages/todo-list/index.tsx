@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
-import { GetTodo, DoneTodoItem, EditTodoItem, GetTodoById } from "../../service";
+import { GetTodo, EditTodoItem, GetTodoById } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import {
     PlusOutlined,
@@ -47,26 +47,12 @@ const Todo = () => {
         router.push("/todo-add");
     };
 
-    const [showModal, setShowModal] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoType>();
 
     const getTodoById = async (todo_id: string) => {
         const res = await GetTodoById(todo_id);
         setActiveTodo(res.data);
         getData();
-    };
-
-    const handleDone = async () => {
-        const params = {
-            todo_id: activeTodo.todo_id,
-        };
-
-        const res = await DoneTodoItem(params);
-        if (res) {
-            message.success(res.message);
-            setShowModal(false);
-            getData();
-        }
     };
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
@@ -142,16 +128,6 @@ const Todo = () => {
                             <div className={styles.one_day}>
                                 {todoMap[time].map((item: TodoType) => (
                                     <div key={item.todo_id}>
-                                        <Button
-                                            size="small"
-                                            type="primary"
-                                            icon={<SettingOutlined />}
-                                            style={{ marginRight: 5, verticalAlign: "middle" }}
-                                            onClick={() => {
-                                                setShowModal(true);
-                                                setActiveTodo(item);
-                                            }}
-                                        />
                                         <Category color={item.color} category={item.category} />
                                         <span
                                             onClick={() => {
@@ -169,33 +145,9 @@ const Todo = () => {
                         </div>
                     ))}
                 </div>
-                {/* 操作弹窗 */}
-                <MyModal
-                    title={"请选择操作"}
-                    visible={showModal}
-                    onCancel={() => setShowModal(false)}
-                    footer={() => (
-                        <>
-                            <Button onClick={() => router.push(`/todo/copy_todo/${activeTodo?.todo_id}`)} danger>
-                                复制
-                            </Button>
-                            <Button onClick={() => router.push(`/todo/edit_todo/${activeTodo?.todo_id}`)} danger>
-                                编辑
-                            </Button>
-                            <Button onClick={() => handleDone()} danger>
-                                完成
-                            </Button>
-                            <Button onClick={() => setShowModal(false)} type="primary">
-                                取消
-                            </Button>
-                        </>
-                    )}
-                >
-                    <Category color={activeTodo?.color} category={activeTodo?.category} />
-                    <span>{activeTodo?.name}</span>
-                </MyModal>
                 {/* 详情弹窗 */}
                 <DescriptionModal
+                    isTodo={true}
                     visible={showDesc}
                     setVisible={setShowDesc}
                     activeTodo={activeTodo}

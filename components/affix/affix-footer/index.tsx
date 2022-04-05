@@ -8,10 +8,6 @@ interface Props {
 }
 
 const AffixFooter: React.FC<Props> = (props) => {
-    // const { backUrl } = props;
-
-    const router = useRouter();
-
     return (
         <div {...props} className={styles.footer}>
             {props.children}

@@ -15,7 +15,7 @@ import {
     FileTextOutlined,
     CoffeeOutlined,
     TranslationOutlined,
-    PlusOutlined
+    PlusOutlined,
 } from "@ant-design/icons";
 
 const Home = () => {
@@ -33,37 +33,27 @@ const Home = () => {
             icon: <LoginOutlined />,
         },
         {
-            name: "我的日志",
-            path: "blog",
-            icon: <BookOutlined />,
-        },
-        {
-            name: "随机日志",
-            path: "blog-random",
-            icon: <CoffeeOutlined />,
-        },
-        {
-            name: "长期任务",
-            path: "long-todo-pool",
-            icon: <ExperimentOutlined />,
-        },
-        {
             name: "待办池",
-            path: "todo-pool",
+            path: "todo-list-pool",
             icon: <ExperimentOutlined />,
         },
         {
             name: "我的已办",
-            path: "todo-done",
+            path: "todo-list-done",
             icon: <TrophyOutlined />,
         },
         {
-            name: "todo",
-            path: "todo",
+            name: "长期任务",
+            path: "todo-list-pool-long",
+            icon: <ExperimentOutlined />,
+        },
+        {
+            name: "todo list",
+            path: "todo-list",
             icon: <OrderedListOutlined />,
         },
         {
-            name: '新增 todo',
+            name: "新增 todo",
             path: "todo-add",
             icon: <PlusOutlined />,
         },
@@ -75,12 +65,22 @@ const Home = () => {
         {
             name: isMe ? "便签" : "法条",
             path: "note",
-            icon: <FileTextOutlined />
+            icon: <FileTextOutlined />,
         },
         {
             name: isMe ? "新增便签" : "新增法条",
             path: "note-add",
             icon: <PlusOutlined />,
+        },
+        {
+            name: "随机日志",
+            path: "blog-random",
+            icon: <CoffeeOutlined />,
+        },
+        {
+            name: "我的日志",
+            path: "blog",
+            icon: <BookOutlined />,
         },
         {
             name: "音乐播放器",
