@@ -6,6 +6,7 @@ import { AddNote, GetNoteCategory } from "../../service";
 import AffixBack from "../../components/affix/affix-back";
 import AffixSubmit from "../../components/affix/affix-submit";
 import AffixSaveProgress from "../../components/affix/affix-save-progress";
+import AffixFooter from "../../components/affix/affix-footer";
 
 const { TextArea } = Input;
 
@@ -94,12 +95,14 @@ const AddNoteComp = () => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <AffixSubmit />
-                </Form.Item>
+                <AffixFooter>
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <AffixSubmit />
+                    </Form.Item>
+                    <AffixBack backUrl={"/note"} />
+                    <AffixSaveProgress onClick={() => handleSaveAndEdit()} />
+                </AffixFooter>
             </Form>
-            <AffixBack backUrl={"/note"} />
-            <AffixSaveProgress onClick={() => handleSaveAndEdit()} />
         </main>
     );
 };

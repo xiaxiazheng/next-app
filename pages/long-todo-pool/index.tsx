@@ -28,7 +28,7 @@ const TodoPool = () => {
         setLoading(true);
         const res = await GetTodoPool();
         if (res) {
-            const list = res.data.filter((item) => item.color !== "-1");
+            const list = res.data.filter((item) => item.color === "-1");
             setTotal(list.length);
             setTodoList(list);
         }
@@ -40,7 +40,7 @@ const TodoPool = () => {
     }, []);
 
     const handleAdd = () => {
-        router.push("/todo-pool/add_todo");
+        router.push("/long-todo-pool/add_todo");
     };
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
@@ -56,10 +56,10 @@ const TodoPool = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="待办池 todo" />
+            <Header title="长期任务" />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>待办池({total})</span>
+                    <span>长期任务({total})</span>
                     <Space size={8}>
                         {/* 刷新列表 */}
                         <Button
@@ -112,10 +112,16 @@ const TodoPool = () => {
                     onCancel={() => setShowModal(false)}
                     footer={() => (
                         <>
-                            <Button onClick={() => router.push(`/todo-pool/copy_todo/${activeTodo?.todo_id}`)} danger>
+                            <Button
+                                onClick={() => router.push(`/long-todo-pool/copy_todo/${activeTodo?.todo_id}`)}
+                                danger
+                            >
                                 复制
                             </Button>
-                            <Button onClick={() => router.push(`/todo-pool/edit_todo/${activeTodo?.todo_id}`)} danger>
+                            <Button
+                                onClick={() => router.push(`/long-todo-pool/edit_todo/${activeTodo?.todo_id}`)}
+                                danger
+                            >
                                 编辑
                             </Button>
                             <Button onClick={() => setShowModal(false)} type="primary">

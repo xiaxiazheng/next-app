@@ -8,6 +8,7 @@ import AffixSubmit from "../../../components/affix/affix-submit";
 import AffixSaveProgress from "../../../components/affix/affix-save-progress";
 import PreviewImages from "../../../components/preview-images";
 import UploadImage from "../../../components/upload-image";
+import AffixFooter from "../../../components/affix/affix-footer";
 
 const { TextArea } = Input;
 
@@ -48,7 +49,7 @@ const EditNoteComp = () => {
         if (res) {
             form.setFieldsValue({
                 note: res.data.note,
-                category: res.data.category
+                category: res.data.category,
             });
             setImgList(res.data.imgList);
         }
@@ -62,7 +63,7 @@ const EditNoteComp = () => {
         if (res) {
             setImgList(res.data.imgList);
         }
-    }
+    };
 
     const onFinish = async (val) => {
         const res = await EditNote({
@@ -124,15 +125,14 @@ const EditNoteComp = () => {
                 </Form.Item>
                 <UploadImage type="note" otherId={note_id} refreshImgList={() => NoteImgData()} />
                 <PreviewImages imagesList={imgList} />
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    {/* <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button> */}
-                    <AffixSubmit />
-                </Form.Item>
+                <AffixFooter style={{ marginTop: 20 }}>
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <AffixSubmit />
+                    </Form.Item>
+                    <AffixBack backUrl={"/note"} />
+                    <AffixSaveProgress onClick={() => handleSaveProgress()} />
+                </AffixFooter>
             </Form>
-            <AffixBack backUrl={'/note'} />
-            <AffixSaveProgress onClick={() => handleSaveProgress()} />
         </main>
     );
 };

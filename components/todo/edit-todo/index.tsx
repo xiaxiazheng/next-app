@@ -8,6 +8,7 @@ import { colorMap, colorNameMap } from "../constant";
 import { TodoType } from "../types";
 import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
+import AffixFooter from "../../affix/affix-footer";
 
 const { TextArea } = Input;
 
@@ -33,7 +34,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.push(status === 2 ? "/todo-pool" : "/todo")
+            router.push(status === 2 ? "/todo-pool" : "/todo");
         }
     };
 
@@ -103,11 +104,13 @@ const EditTodo: React.FC<Props> = (props) => {
                         <Radio value={2}>待办池</Radio>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <AffixSubmit />
-                </Form.Item>
+                <AffixFooter>
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <AffixSubmit />
+                    </Form.Item>
+                    <AffixBack backUrl={status === 2 ? "/todo-pool" : "/todo"} />
+                </AffixFooter>
             </Form>
-            <AffixBack backUrl={status === 2 ? "/todo-pool" : "/todo"} />
         </main>
     );
 };

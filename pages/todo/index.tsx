@@ -44,7 +44,7 @@ const Todo = () => {
     const today = dayjs().format("YYYY-MM-DD");
 
     const handleAdd = () => {
-        router.push("/todo/add_todo");
+        router.push("/todo-add");
     };
 
     const [showModal, setShowModal] = useState<boolean>(false);

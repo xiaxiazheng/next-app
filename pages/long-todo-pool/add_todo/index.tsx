@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
 import EditTodo from "../../../components/todo/edit-todo";
-import styles from "./index.module.scss";
+import { TodoStatus } from "../../../service";
 
 const AddTodo = () => {
 
     return (
-        <main className={styles.add_todo}>
+        <main>
             <h2>新增 todo</h2>
-            <EditTodo status={0} />
+            <EditTodo status={TodoStatus.pool} />
         </main>
     );
 };

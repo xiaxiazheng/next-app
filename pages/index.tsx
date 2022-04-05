@@ -43,6 +43,11 @@ const Home = () => {
             icon: <CoffeeOutlined />,
         },
         {
+            name: "长期任务",
+            path: "long-todo-pool",
+            icon: <ExperimentOutlined />,
+        },
+        {
             name: "待办池",
             path: "todo-pool",
             icon: <ExperimentOutlined />,
@@ -53,9 +58,14 @@ const Home = () => {
             icon: <TrophyOutlined />,
         },
         {
-            name: "我的待办",
+            name: "todo",
             path: "todo",
             icon: <OrderedListOutlined />,
+        },
+        {
+            name: '新增 todo',
+            path: "todo-add",
+            icon: <PlusOutlined />,
         },
         {
             name: isMe ? "抽便签机" : "抽法条机",
