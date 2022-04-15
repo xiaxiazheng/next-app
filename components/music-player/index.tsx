@@ -140,14 +140,11 @@ const Music: React.FC<PropsType> = (props) => {
         return randomList[index] ? randomList[index] : "";
     };
 
-    console.log("musicList", musicList);
-
     const [showList, setShowList] = useState<MusicListType[]>(musicList);
     const [keyword, setKeyword] = useState<string>("");
     useEffect(() => {
         if (keyword && keyword !== "") {
-            console.log(111);
-            setShowList(musicList.filter((item) => item.name.indexOf(keyword) !== -1));
+            setShowList(musicList.filter((item) => item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1));
         } else {
             setShowList(musicList);
         }
