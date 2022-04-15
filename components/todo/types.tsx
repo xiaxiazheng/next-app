@@ -1,16 +1,21 @@
 import { ImgType } from "../preview-images";
 
 const obj = {
-    category: "公司",
+    cTime: "2022-04-15 17:07:39",
+    category: "需求",
+    child_todo_list: [],
     color: "1",
     description: "",
-    name: "文档填写",
+    imgList: [],
+    name: "交换共享：下一个需求，搜索优化&附件",
+    other_id: "",
     status: "0",
-    time: "2021-09-13",
-    todo_id: "92f77eff-69fd-4dc6-9fdd-6e6c6b097bdc",
+    time: "2022-04-18",
+    todo_id: "53ec86bd-994e-4c46-8ebd-5f2c765d5304",
     username: "zyb",
 };
 type Obj = typeof obj;
 export interface TodoType extends Obj {
+    child_todo_list: Obj[];
     imgList: ImgType[];
 };

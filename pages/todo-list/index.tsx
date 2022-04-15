@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
-import { GetTodo, EditTodoItem, GetTodoById } from "../../service";
-import { Button, message, Space, Spin } from "antd";
+import { GetTodo, EditTodoItem, GetTodoById, TodoStatus } from "../../service";
+import { Button, Collapse, message, Space, Spin } from "antd";
 import {
     PlusOutlined,
-    SettingOutlined,
     QuestionCircleOutlined,
     VerticalAlignTopOutlined,
     FileImageOutlined,
     SyncOutlined,
+    GoldOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -25,16 +25,16 @@ const Todo = () => {
 
     const router = useRouter();
 
-    const [loading, setLaoding] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const getData = async () => {
-        setLaoding(true);
+        setLoading(true);
         const res = await GetTodo();
         if (res) {
             setTotal(res.data.length);
             setTodoMap(formatArrayToTimeMap(res.data));
         }
-        setLaoding(false);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -78,6 +78,31 @@ const Todo = () => {
             setShowChangeExpire(false);
         }
     };
+
+    // 渲染单条 todo
+    const getTodoItem = (item: TodoType) => {
+        const Component = (props) =>
+            item.status !== String(TodoStatus.done) ? <span>{props.children}</span> : <s>{props.children}</s>;
+
+        return (
+            <Component>
+                <Category color={item.color} category={item.category} />
+                <span
+                    onClick={(e) => {
+                        setActiveTodo(item);
+                        setShowDesc(true);
+                        e.stopPropagation();
+                    }}
+                >
+                    <span>{item.name}</span>
+                    {item.description && <QuestionCircleOutlined className={styles.icon} />}
+                    {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                </span>
+            </Component>
+        );
+    };
+
+    const [showAllProgress, setShowAllProgress] = useState<boolean>(false);
 
     return (
         <Spin spinning={loading}>
@@ -126,21 +151,47 @@ const Todo = () => {
                             </div>
                             {/* 当日 todo */}
                             <div className={styles.one_day}>
-                                {todoMap[time].map((item: TodoType) => (
-                                    <div key={item.todo_id}>
-                                        <Category color={item.color} category={item.category} />
-                                        <span
-                                            onClick={() => {
-                                                setActiveTodo(item);
-                                                setShowDesc(true);
-                                            }}
-                                        >
-                                            <span>{item.name}</span>
-                                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                                        </span>
-                                    </div>
-                                ))}
+                                {(() => {
+                                    const list: TodoType[] = todoMap[time];
+                                    const map = list.reduce((prev, cur) => {
+                                        prev[cur.todo_id] = true;
+                                        return prev;
+                                    }, {});
+
+                                    return todoMap[time]
+                                        .filter((item) => !(item?.other_id && map[item?.other_id]))
+                                        .map((item: TodoType) => {
+                                            const childListNow =
+                                                item?.child_todo_list?.filter((item) => map[item.todo_id]) || [];
+
+                                            return childListNow.length !== 0 ? (
+                                                <Collapse key={item.todo_id} defaultActiveKey={[item.todo_id]}>
+                                                    <Collapse.Panel
+                                                        key={item.todo_id}
+                                                        header={
+                                                            <span>
+                                                                {getTodoItem(item)}
+                                                                <Button
+                                                                    type="primary"
+                                                                    style={{ marginLeft: 10 }}
+                                                                    icon={<GoldOutlined />}
+                                                                    onClick={(e) => {
+                                                                        setActiveTodo(item);
+                                                                        setShowAllProgress(true);
+                                                                        e.stopPropagation();
+                                                                    }}
+                                                                />
+                                                            </span>
+                                                        }
+                                                    >
+                                                        {childListNow.map((child) => getTodoItem(child))}
+                                                    </Collapse.Panel>
+                                                </Collapse>
+                                            ) : (
+                                                <div key={item.todo_id}>{getTodoItem(item)}</div>
+                                            );
+                                        });
+                                })()}
                             </div>
                         </div>
                     ))}
@@ -163,6 +214,23 @@ const Todo = () => {
                     }}
                 >
                     是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
+                </MyModal>
+                {/* 查看总进度 */}
+                <MyModal
+                    visible={showAllProgress}
+                    title={"总进度"}
+                    showFooter={false}
+                    onCancel={() => setShowAllProgress(false)}
+                >
+                    {activeTodo && (
+                        <Collapse key={activeTodo.todo_id} defaultActiveKey={[activeTodo.todo_id]}>
+                            <Collapse.Panel key={activeTodo.todo_id} header={getTodoItem(activeTodo)}>
+                                {activeTodo.child_todo_list?.map((child) => (
+                                    <div key={child.todo_id}>{getTodoItem(child)}</div>
+                                ))}
+                            </Collapse.Panel>
+                        </Collapse>
+                    )}
                 </MyModal>
             </main>
         </Spin>
