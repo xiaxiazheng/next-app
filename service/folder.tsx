@@ -20,3 +20,14 @@ export const getFolder = async (parentId: string, username: string) => {
         return false;
     }
 };
+
+// 新增文件夹
+export const addFolder = async (params: any) => {
+    const res = await postFetch(`/folder/addFolder`, params);
+    if (res) {
+        const data = await res.json();
+        return data;
+    } else {
+        return false;
+    }
+};

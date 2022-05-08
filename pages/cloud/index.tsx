@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import PreviewImages from "../../components/preview-images";
 import PreviewFiles, { FileType } from "../../components/preview-files";
 import UploadImageFile from "../../components/upload-image-file";
-import { getFolder } from "../../service/folder";
+import { addFolder, getFolder } from "../../service/folder";
 import { FolderType } from "../../components/cloud/type";
 import { FolderOutlined } from "@ant-design/icons";
-import { FType, getFileListByOtherId } from "../../service/file";
+import { getFileListByOtherId } from "../../service/file";
 import { getImageListByOtherId, ImageType } from "../../service/image";
 import AffixBack from "../../components/affix/affix-back";
 import AffixFooter from "../../components/affix/affix-footer";
+import AffixAdd from "../../components/affix/affix-add";
+import { message } from "antd";
 
 const MusicPlayer = () => {
     const [parent_id, setParentId] = useState<string>("root");
@@ -34,7 +36,9 @@ const MusicPlayer = () => {
         const username = localStorage.getItem("username");
         const res = await getFolder(parent_id, username);
         if (res) {
-            setFolderList(res.data);
+            setFolderList(res.data.sort((a, b) => new Date(b.cTime).getTime() - new Date(a.cTime).getTime()));
+        } else {
+            setFolderList([]);
         }
     };
 
@@ -44,12 +48,9 @@ const MusicPlayer = () => {
         const res = await getImageListByOtherId(parent_id, username);
         console.log(res);
         if (res) {
-            let resList = [...(res as ImageType[])];
-            // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
-            // if (parent_id === "") {
-            //     resList = resList.filter((item) => item.type === "cloud");
-            // }
-            setImageList(resList);
+            setImageList(res as ImageType[]);
+        } else {
+            setImageList([]);
         }
     };
 
@@ -58,14 +59,23 @@ const MusicPlayer = () => {
         const username = localStorage.getItem("username");
         const res = await getFileListByOtherId(parent_id, username);
         if (res) {
-            // const list: FType[] = [];
-            let resList = [...(res as FileType[])];
-            // 如果 parent_id 为空串，会把 other_id 为空的所有图片返回回来，需要自己手动筛选掉 type 不为 cloud 的
-            // if (parent_id === "") {
-            //     resList = resList.filter((item) => item.type === "cloud");
-            // }
-            // console.log(list);
-            setFileList(resList);
+            setFileList(res as FileType[]);
+        } else {
+            setFileList([]);
+        }
+    };
+
+    const addAFolder = async () => {
+        const params = {
+            name: "新建文件夹",
+            parent_id,
+        };
+        const res = await addFolder(params);
+        if (res) {
+            message.success("新增文件夹成功");
+            getFolderList(parent_id);
+        } else {
+            message.error("新增文件夹失败");
         }
     };
 
@@ -96,11 +106,19 @@ const MusicPlayer = () => {
                         }}
                     />
                 </div>
-                {parent_id !== "root" && (
+                {parent_id !== "root" ? (
                     <AffixFooter type="fixed">
                         <AffixBack
                             onClick={() => {
                                 setParentId("root");
+                            }}
+                        />
+                    </AffixFooter>
+                ) : (
+                    <AffixFooter type="fixed">
+                        <AffixAdd
+                            onClick={() => {
+                                addAFolder();
                             }}
                         />
                     </AffixFooter>
