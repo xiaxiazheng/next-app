@@ -169,7 +169,7 @@ const Todo = () => {
                                                     <Collapse.Panel
                                                         key={item.todo_id}
                                                         header={
-                                                            <span>
+                                                            <div>
                                                                 {getTodoItem(item)}
                                                                 <Button
                                                                     type="primary"
@@ -181,10 +181,12 @@ const Todo = () => {
                                                                         e.stopPropagation();
                                                                     }}
                                                                 />
-                                                            </span>
+                                                            </div>
                                                         }
                                                     >
-                                                        {childListNow.map((child) => getTodoItem(child))}
+                                                        {childListNow.map((child) => (
+                                                            <div key={child.todo_id}>{getTodoItem(child)}</div>
+                                                        ))}
                                                     </Collapse.Panel>
                                                 </Collapse>
                                             ) : (
