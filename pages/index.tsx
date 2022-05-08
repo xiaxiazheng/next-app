@@ -16,6 +16,7 @@ import {
     CoffeeOutlined,
     TranslationOutlined,
     PlusOutlined,
+    CloudOutlined,
 } from "@ant-design/icons";
 
 const Home = () => {
@@ -73,11 +74,6 @@ const Home = () => {
             icon: <PlusOutlined />,
         },
         {
-            name: "随机日志",
-            path: "blog-random",
-            icon: <CoffeeOutlined />,
-        },
-        {
             name: "我的日志",
             path: "blog",
             icon: <BookOutlined />,
@@ -86,6 +82,16 @@ const Home = () => {
             name: "音乐播放器",
             path: "music-player",
             icon: <CustomerServiceOutlined />,
+        },
+        {
+            name: "云盘",
+            path: "cloud",
+            icon: <CloudOutlined />,
+        },
+        {
+            name: "随机日志",
+            path: "blog-random",
+            icon: <CoffeeOutlined />,
         },
         // {
         //     name: "原生 audio",

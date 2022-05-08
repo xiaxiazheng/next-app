@@ -19,7 +19,7 @@ export const handleSize = (size: number) => {
     }
 };
 
-const UploadImage: React.FC<Props> = (props) => {
+const UploadImageFile: React.FC<Props> = (props) => {
     const { type, otherId, refreshImgList } = props;
 
     const [username, setUsername] = useState<string>();
@@ -71,7 +71,7 @@ const UploadImage: React.FC<Props> = (props) => {
                 onChange={handleChange}
             >
                 <PlusOutlined className={styles.addIcon} />
-                点击上传图片
+                点击上传图片/文件
             </Upload>
             <MyModal visible={!!name} showFooter={false} title={"上传图片"}>
                 <div className={styles.progress}>
@@ -92,4 +92,4 @@ const UploadImage: React.FC<Props> = (props) => {
     );
 };
 
-export default UploadImage;
+export default UploadImageFile;

@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 
 interface Props {
     backUrl?: string;
+    onClick?: Function;
 }
 
 const AffixBack: React.FC<Props> = (props) => {
-    const { backUrl } = props;
+    const { backUrl, onClick } = props;
 
     const router = useRouter();
 
@@ -20,7 +21,7 @@ const AffixBack: React.FC<Props> = (props) => {
             shape="circle"
             size="large"
             // onClick={() => router.back()} // 这个在套壳 app 上行为会出问题
-            onClick={() => (backUrl ? router.push(backUrl) : router.back())}
+            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : router.back())}
             icon={<RollbackOutlined />}
         />
     );

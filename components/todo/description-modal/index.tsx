@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PreviewImages from "../../preview-images";
-import UploadImage from "../../upload-image";
+import UploadImageFile from "../../upload-image-file";
 import MyModal from "../../my-modal";
 import { TodoType } from "../types";
 import styles from "./index.module.scss";
@@ -49,7 +49,7 @@ const DescriptionModal: React.FC<IProps> = (props) => {
             <div style={{ fontSize: 14 }}>{activeTodo?.description && handleDesc(activeTodo.description)}</div>
             {activeTodo?.imgList && (
                 <div style={{ marginTop: 10 }}>
-                    <UploadImage type="todo" otherId={activeTodo.todo_id} refreshImgList={refresh} />
+                    <UploadImageFile type="todo" otherId={activeTodo.todo_id} refreshImgList={refresh} />
                     <PreviewImages imagesList={activeTodo.imgList} />
                 </div>
             )}

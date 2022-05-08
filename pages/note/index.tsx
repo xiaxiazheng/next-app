@@ -10,7 +10,7 @@ import Category from "../../components/todo/category";
 import MyDrawer from "../../components/my-drawer";
 // import PreviewImage from "../../components/preview-image";
 import PreviewImages from "../../components/preview-images";
-import UploadImage from "../../components/upload-image";
+import UploadImageFile from "../../components/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
 import AffixEdit from "../../components/affix/affix-edit";
 import PreviewFiles from "../../components/preview-files";
@@ -146,7 +146,7 @@ const Note = () => {
                                 <PreviewImages imagesList={item.imgList} />
                                 <PreviewFiles filesList={item.fileList} />
                                 {isActive && (
-                                    <UploadImage type="note" otherId={item.note_id} refreshImgList={() => getData()} />
+                                    <UploadImageFile type="note" otherId={item.note_id} refreshImgList={() => getData()} />
                                 )}
                             </div>
                         );

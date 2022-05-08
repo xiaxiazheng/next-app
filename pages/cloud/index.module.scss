@@ -1,25 +1,24 @@
-// .preview_files {
-//     display: inline-block;
-//     font-size: 14px;
-// }
+.cloud {
+    padding-bottom: 70px;
+}
 
-.fileBox {
+.folder {
     display: inline-flex;
     width: 80px;
     height: 80px;
     margin-right: 5px;
     margin-top: 5px;
     vertical-align: top;
-    border: 1px solid white;
-    box-sizing: border-box;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
     border-radius: 2px;
-}
-
-.name {
-    font-size: 12px;
     word-break: break-all;
-    padding: 5px;
+    font-size: 12px;
+    .icon {
+        margin-bottom: 5px;
+        font-size: 24px;
+    }
 }

@@ -68,7 +68,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
     const [isShow, setIsShow] = useState<boolean>(false);
 
     return (
-        <div className={styles.preview_files}>
+        <>
             {list.map((file) => (
                 <div
                     key={file.file_id}
@@ -89,7 +89,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
                     <Button onClick={() => handleDownload(active?.file_id)}>下载文件</Button>
                 </Space>
             </MyModal>
-        </div>
+        </>
     );
 };
 

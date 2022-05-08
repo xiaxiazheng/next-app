@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "../../service";
-import { handleSize } from "../upload-image";
+import { handleSize } from "../upload-image-file";
 import AffixClose from "../affix/affix-close";
 
 export interface ImgType {

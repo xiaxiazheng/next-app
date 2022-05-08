@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useState, createRef } from "react";
 import styles from "./index.module.scss";
-import { handleSize } from "../upload-image";
+import { handleSize } from "../upload-image-file";
 import { PhotoConsumer } from "react-photo-view";
 import "react-photo-view/dist/index.css";
 import { Button } from "antd";

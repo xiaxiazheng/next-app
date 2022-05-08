@@ -7,7 +7,7 @@ import AffixBack from "../../../components/affix/affix-back";
 import AffixSubmit from "../../../components/affix/affix-submit";
 import AffixSaveProgress from "../../../components/affix/affix-save-progress";
 import PreviewImages from "../../../components/preview-images";
-import UploadImage from "../../../components/upload-image";
+import UploadImageFile from "../../../components/upload-image-file";
 import AffixFooter from "../../../components/affix/affix-footer";
 
 const { TextArea } = Input;
@@ -123,7 +123,7 @@ const EditNoteComp = () => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <UploadImage type="note" otherId={note_id} refreshImgList={() => NoteImgData()} />
+                <UploadImageFile type="note" otherId={note_id} refreshImgList={() => NoteImgData()} />
                 <PreviewImages imagesList={imgList} />
                 <AffixFooter style={{ marginTop: 20 }}>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

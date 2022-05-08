@@ -22,11 +22,12 @@
             }
             .ant-upload {
                 color: #a6adb4;
+                font-size: 12px;
+                padding: 0 5px;
             }
         }
-    }    
+    }
 }
-
 
 .progress {
     :global {
@@ -37,9 +38,9 @@
 }
 
 .name {
-
 }
 
 .addIcon {
     display: block;
+    font-size: 24px;
 }
