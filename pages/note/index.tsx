@@ -3,17 +3,17 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { GetNoteList, GetNoteCategory } from "../../service";
 import { useEffect, useState } from "react";
-import { Input, Button, Pagination, Radio, Image } from "antd";
-import { PlusOutlined, EditOutlined, ApartmentOutlined } from "@ant-design/icons";
+import { Input, Button, Pagination, Radio } from "antd";
+import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { NoteType } from "../../components/note/types";
 import Category from "../../components/todo/category";
 import MyDrawer from "../../components/my-drawer";
-// import PreviewImage from "../../components/preview-image";
 import PreviewImages from "../../components/preview-images";
 import UploadImageFile from "../../components/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
 import AffixEdit from "../../components/affix/affix-edit";
 import PreviewFiles from "../../components/preview-files";
+import MyModal from "../../components/my-modal";
 
 const { Search } = Input;
 
@@ -89,6 +89,27 @@ const Note = () => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
+    const Item = (props: { item: NoteType; isActive: boolean }) => {
+        const { item, isActive } = props;
+        if (!item) return null;
+        return (
+            <>
+                <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
+                    {isMe && <Category category={item.category} color="2" />}
+                    <span dangerouslySetInnerHTML={{ __html: item.note }} />
+                    {isActive && !isMe && (
+                        <div>
+                            <Category category={item.category} color="2" />
+                        </div>
+                    )}
+                </div>
+                <PreviewImages imagesList={item.imgList} />
+                <PreviewFiles filesList={item.fileList} />
+                {isActive && <UploadImageFile type="note" otherId={item.note_id} refreshImgList={() => getData()} />}
+            </>
+        );
+    };
+
     return (
         <>
             <Header title={title} />
@@ -98,12 +119,6 @@ const Note = () => {
                         {title} ({total})
                     </span>
                     <span>
-                        <Button
-                            style={{ width: 50, marginRight: 10, background: "yellow", color: "black" }}
-                            icon={<ApartmentOutlined />}
-                            type="primary"
-                            onClick={() => setShowDrawer(true)}
-                        />
                         <Button
                             style={{ width: 50 }}
                             icon={<PlusOutlined />}
@@ -125,32 +140,21 @@ const Note = () => {
                         }}
                     />
                 </div>
-                <div className={styles.list}>
-                    {list.map((item) => {
-                        const isActive = active?.note_id === item.note_id;
-                        return (
-                            <div
-                                key={item.note_id}
-                                className={`${styles.list_item} ${isActive ? styles.active : ""}`}
-                                onClick={() => handleClick(item)}
-                            >
-                                <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                                    {isMe && <Category category={item.category} color="2" />}
-                                    <span dangerouslySetInnerHTML={{ __html: item.note }} />
-                                    {isActive && !isMe && (
-                                        <div>
-                                            <Category category={item.category} color="2" />
-                                        </div>
-                                    )}
+                <div className={styles.content}>
+                    <div className={styles.list}>
+                        {list.map((item) => {
+                            const isActive = active?.note_id === item.note_id;
+                            return (
+                                <div
+                                    key={item.note_id}
+                                    className={`${styles.list_item} ${isActive ? styles.active : ""}`}
+                                    onClick={() => handleClick(item)}
+                                >
+                                    <Item item={item} isActive={false} />
                                 </div>
-                                <PreviewImages imagesList={item.imgList} />
-                                <PreviewFiles filesList={item.fileList} />
-                                {isActive && (
-                                    <UploadImageFile type="note" otherId={item.note_id} refreshImgList={() => getData()} />
-                                )}
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
                 <Pagination
                     className={styles.pagination}
@@ -160,7 +164,16 @@ const Note = () => {
                     size="small"
                     onChange={(val) => setPageNo(val)}
                 />
-                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="top">
+                <Button
+                    className={styles.category}
+                    type="primary"
+                    danger
+                    shape="circle"
+                    size="large"
+                    icon={<ApartmentOutlined />}
+                    onClick={() => setShowDrawer(true)}
+                />
+                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         value={activeCategory}
@@ -179,6 +192,11 @@ const Note = () => {
                         ))}
                     </Radio.Group>
                 </MyDrawer>
+                <MyModal visible={!!active} onCancel={() => setActive(undefined)} showFooter={false}>
+                    <div className={styles.modalContent}>
+                        <Item item={active} isActive={true} />
+                    </div>
+                </MyModal>
                 {active && <AffixEdit onClick={() => router.push(`/note/edit_note/${active.note_id}`)} />}
             </main>
         </>
