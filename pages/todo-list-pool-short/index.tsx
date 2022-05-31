@@ -21,7 +21,7 @@ const TodoPool = () => {
         setLoading(true);
         const res = await GetTodoPool();
         if (res) {
-            const list = res.data.filter((item) => item.color === "-1");
+            const list = res.data.filter((item) => item.color === "-2");
             setTotal(list.length);
             setTodoList(list);
         }
@@ -47,10 +47,10 @@ const TodoPool = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="长期方向" />
+            <Header title="短期目标" />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>长期方向({total})</span>
+                    <span>短期目标({total})</span>
                     <Space size={8}>
                         {/* 刷新列表 */}
                         <Button
