@@ -30,7 +30,7 @@ const TodoPool = (props: IProps) => {
     const router = useRouter();
 
     const handleAdd = () => {
-        router.push("/todo-pool/add_todo");
+        router.push("/todo-add");
     };
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
