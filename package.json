@@ -10,7 +10,9 @@
         "pm2": "pm2 start yarn --name 'next-app' --interpreter bash -- start",
         "prepare": "husky install",
         "restart": "pm2 restart next-app",
-        "checkByted": "sh ./checkByted.sh"
+        "checkByted": "sh ./checkByted.sh",
+        "push": "sh deploy.sh",
+        "pull": "sh deployDocker.sh"
     },
     "dependencies": {
         "antd": "^4.16.13",
