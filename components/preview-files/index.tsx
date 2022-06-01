@@ -52,7 +52,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
         setList(fileList);
     };
 
-    // 下载原图
+    // 下载文件
     const handleDownload = async (fileUrl: string) => {
         const a: any = document.createElement("a");
         a.style.display = "none";

@@ -9,6 +9,8 @@ import AffixSaveProgress from "../../../components/affix/affix-save-progress";
 import PreviewImages from "../../../components/preview-images";
 import UploadImageFile from "../../../components/upload-image-file";
 import AffixFooter from "../../../components/affix/affix-footer";
+import PreviewFiles, { FileType } from "../../../components/preview-files";
+import { ImageType } from "../../../service/image";
 
 const { TextArea } = Input;
 
@@ -17,7 +19,10 @@ const EditNoteComp = () => {
 
     const { note_id } = router.query as { note_id: string };
 
-    const [imgList, setImgList] = useState<any>([]);
+    // 图片列表
+    const [imageList, setImageList] = useState<ImageType[]>([]);
+    // 文件列表
+    const [fileList, setFileList] = useState<FileType[]>([]);
 
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
@@ -44,24 +49,27 @@ const EditNoteComp = () => {
         };
     }, []);
 
-    const getData = async () => {
+    const getNoteData = async () => {
         const res = await GetNoteById(note_id);
         if (res) {
             form.setFieldsValue({
                 note: res.data.note,
                 category: res.data.category,
             });
-            setImgList(res.data.imgList);
+            setImageList(res.data.imgList);
+            setFileList(res.data.fileList);
         }
     };
     useEffect(() => {
-        note_id && getData();
+        note_id && getNoteData();
     }, [note_id]);
 
-    const NoteImgData = async () => {
+    // 获取 note 的 image 和 file
+    const getNoteImageFileData = async () => {
         const res = await GetNoteById(note_id);
         if (res) {
-            setImgList(res.data.imgList);
+            setImageList(res.data.imgList);
+            setFileList(res.data.fileList);
         }
     };
 
@@ -123,8 +131,9 @@ const EditNoteComp = () => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <UploadImageFile type="note" otherId={note_id} refreshImgList={() => NoteImgData()} />
-                <PreviewImages imagesList={imgList} />
+                <UploadImageFile type="note" otherId={note_id} refreshImgList={() => getNoteImageFileData()} />
+                <PreviewImages imagesList={imageList} />
+                <PreviewFiles filesList={fileList} />
                 <AffixFooter style={{ marginTop: 20 }}>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <AffixSubmit />
