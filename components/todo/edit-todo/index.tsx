@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Form, Input, Button, Radio, message } from "antd";
-import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { GetTodoCategory, AddTodoItem, EditTodoItem, TodoStatus } from "../../../service";
@@ -9,6 +8,7 @@ import { TodoType } from "../types";
 import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
 import AffixFooter from "../../affix/affix-footer";
+import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
@@ -22,7 +22,6 @@ const EditTodo: React.FC<Props> = (props) => {
     const { status, todo, isCopy = false } = props;
 
     const [form] = Form.useForm();
-    const router = useRouter();
 
     const onFinish = async (val) => {
         const res =
@@ -34,8 +33,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            // router.push(status === 2 ? "/todo-list-pool" : "/todo-list");
-            history?.back();
+            history?.go(-1);
         }
     };
 
@@ -45,6 +43,7 @@ const EditTodo: React.FC<Props> = (props) => {
         const resData = await res.json();
         setCategory(resData.data);
     };
+
     useEffect(() => {
         getCategory();
     }, []);
