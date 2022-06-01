@@ -125,6 +125,8 @@ const Home = () => {
         }
     }, []);
 
+    const [active, setActive] = useState<string>();
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
@@ -133,9 +135,10 @@ const Home = () => {
                     {routes.map((item) => {
                         return (
                             <div
-                                className={styles.route_item}
+                                className={`${styles.route_item} ${active === item.path ? styles.active : ''}`}
                                 key={item.path}
                                 onClick={() => {
+                                    setActive(item.path);
                                     router.push(`/${item.path}`);
                                 }}
                             >
