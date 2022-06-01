@@ -13,15 +13,21 @@ import { getImageListByOtherId, ImageType } from "../../service/image";
 import AffixBack from "../../components/affix/affix-back";
 import AffixFooter from "../../components/affix/affix-footer";
 import AffixAdd from "../../components/affix/affix-add";
-import { message } from "antd";
+import { Spin, message } from "antd";
 
 const MusicPlayer = () => {
     const [parent_id, setParentId] = useState<string>("root");
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     useEffect(() => {
-        getFolderList(parent_id);
-        getImageList(parent_id);
-        getFileList(parent_id);
+        setLoading(true);
+        Promise.all([getFolderList(parent_id), getImageList(parent_id), getFileList(parent_id)]).finally(() => {
+            setLoading(false);
+        });
+        // getFolderList(parent_id);
+        // getImageList(parent_id);
+        // getFileList(parent_id);
     }, [parent_id]);
 
     // 文件夹列表
@@ -33,35 +39,32 @@ const MusicPlayer = () => {
 
     // 获取文件夹列表
     const getFolderList = async (parent_id: string) => {
+        setFolderList([]);
         const username = localStorage.getItem("username");
         const res = await getFolder(parent_id, username);
         if (res) {
             setFolderList(res.data.sort((a, b) => new Date(b.cTime).getTime() - new Date(a.cTime).getTime()));
-        } else {
-            setFolderList([]);
         }
     };
 
     // 获取图片列表
     const getImageList = async (parent_id: string) => {
+        setImageList([]);
         const username = localStorage.getItem("username");
         const res = await getImageListByOtherId(parent_id, username);
         console.log(res);
         if (res) {
             setImageList(res as ImageType[]);
-        } else {
-            setImageList([]);
         }
     };
 
     // 获取文件列表
     const getFileList = async (parent_id: string) => {
+        setFileList([]);
         const username = localStorage.getItem("username");
         const res = await getFileListByOtherId(parent_id, username);
         if (res) {
             setFileList(res as FileType[]);
-        } else {
-            setFileList([]);
         }
     };
 
@@ -83,46 +86,48 @@ const MusicPlayer = () => {
         <>
             <Header title="云盘" />
             <main>
-                <div className={styles.cloud}>
-                    {folderList &&
-                        folderList.map((item) => (
-                            <div
-                                key={item.folder_id}
-                                className={styles.folder}
-                                onClick={() => setParentId(item.folder_id)}
-                            >
-                                <FolderOutlined className={styles.icon} />
-                                {item.name}
-                            </div>
-                        ))}
-                    <PreviewImages imagesList={imageList} />
-                    <PreviewFiles filesList={fileList} />
-                    <UploadImageFile
-                        type="cloud"
-                        otherId={parent_id}
-                        refreshImgList={() => {
-                            getImageList(parent_id);
-                            getFileList(parent_id);
-                        }}
-                    />
-                </div>
-                {parent_id !== "root" ? (
-                    <AffixFooter type="fixed">
-                        <AffixBack
-                            onClick={() => {
-                                setParentId("root");
+                <Spin spinning={loading}>
+                    <div className={styles.cloud}>
+                        {folderList &&
+                            folderList.map((item) => (
+                                <div
+                                    key={item.folder_id}
+                                    className={styles.folder}
+                                    onClick={() => setParentId(item.folder_id)}
+                                >
+                                    <FolderOutlined className={styles.icon} />
+                                    {item.name}
+                                </div>
+                            ))}
+                        <PreviewImages imagesList={imageList} />
+                        <PreviewFiles filesList={fileList} />
+                        <UploadImageFile
+                            type="cloud"
+                            otherId={parent_id}
+                            refreshImgList={() => {
+                                getImageList(parent_id);
+                                getFileList(parent_id);
                             }}
                         />
-                    </AffixFooter>
-                ) : (
-                    <AffixFooter type="fixed">
-                        <AffixAdd
-                            onClick={() => {
-                                addAFolder();
-                            }}
-                        />
-                    </AffixFooter>
-                )}
+                    </div>
+                    {parent_id !== "root" ? (
+                        <AffixFooter type="fixed">
+                            <AffixBack
+                                onClick={() => {
+                                    setParentId("root");
+                                }}
+                            />
+                        </AffixFooter>
+                    ) : (
+                        <AffixFooter type="fixed">
+                            <AffixAdd
+                                onClick={() => {
+                                    addAFolder();
+                                }}
+                            />
+                        </AffixFooter>
+                    )}
+                </Spin>
             </main>
         </>
     );
