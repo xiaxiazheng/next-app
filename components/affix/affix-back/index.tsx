@@ -21,7 +21,7 @@ const AffixBack: React.FC<Props> = (props) => {
             shape="circle"
             size="large"
             // onClick={() => router.back()} // 这个在套壳 app 上行为会出问题
-            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : router.back())}
+            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : history?.back())}
             icon={<RollbackOutlined />}
         />
     );

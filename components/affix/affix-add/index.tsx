@@ -5,20 +5,21 @@ import { useRouter } from "next/router";
 
 interface Props {
     onClick: Function;
+    isLeft?: boolean;
 }
 
 const AffixAdd: React.FC<Props> = (props) => {
-    const { onClick } = props;
+    const { onClick, isLeft = false } = props;
 
     const router = useRouter();
 
     return (
         <Button
             className={styles.back}
+            style={{ left: isLeft ? 20 : 'unset'}}
             type="primary"
             shape="circle"
             size="large"
-            // onClick={() => router.back()} // 这个在套壳 app 上行为会出问题
             onClick={() => onClick()}
             icon={<FolderAddOutlined />}
         />

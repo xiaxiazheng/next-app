@@ -121,6 +121,7 @@ const MusicPlayer = () => {
                     ) : (
                         <AffixFooter type="fixed">
                             <AffixAdd
+                                isLeft={true}
                                 onClick={() => {
                                     addAFolder();
                                 }}
