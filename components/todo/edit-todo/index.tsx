@@ -22,6 +22,7 @@ const EditTodo: React.FC<Props> = (props) => {
     const { status, todo, isCopy = false } = props;
 
     const [form] = Form.useForm();
+    const router = useRouter();
 
     const onFinish = async (val) => {
         const res =
@@ -33,7 +34,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            history?.go(-1);
+            router.push(document.referrer);
         }
     };
 
