@@ -2,7 +2,6 @@ import styles from "./index.module.scss";
 import { Button } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { goBack } from "../../utils";
 
 interface Props {
     backUrl?: string;
@@ -21,7 +20,7 @@ const AffixBack: React.FC<Props> = (props) => {
             danger
             shape="circle"
             size="large"
-            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : goBack())}
+            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : router.back())}
             icon={<RollbackOutlined />}
         />
     );

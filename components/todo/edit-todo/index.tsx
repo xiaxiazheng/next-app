@@ -9,9 +9,27 @@ import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
 import AffixFooter from "../../affix/affix-footer";
 import { useRouter } from "next/router";
-import { goBack } from "../../utils";
 
 const { TextArea } = Input;
+
+const getRouterPath = (todo: TodoType) => {
+    if (todo.status === "0") {
+        return "/todo_list";
+    } else if (todo.status === "1") {
+        return "/todo-list-done";
+    }
+    if (todo.status === "2") {
+        if (todo.color === "-1") {
+            return "/todo-list-pool-long";
+        }
+        if (todo.color === "-2") {
+            return "/todo-list-pool-short";
+        }
+        return "/todo-list-pool";
+    }
+
+    return "/";
+};
 
 interface Props {
     status: TodoStatus;
@@ -35,7 +53,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            goBack();
+            router.push(getRouterPath(todo || val));
         }
     };
 
