@@ -2,6 +2,7 @@ import styles from "./index.module.scss";
 import { Button } from "antd";
 import { RollbackOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { goBack } from "../../utils";
 
 interface Props {
     backUrl?: string;
@@ -20,8 +21,7 @@ const AffixBack: React.FC<Props> = (props) => {
             danger
             shape="circle"
             size="large"
-            // onClick={() => router.back()} // 这个在套壳 app 上行为会出问题
-            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : history?.back())}
+            onClick={() => (onClick ? onClick() : backUrl ? router.push(backUrl) : goBack())}
             icon={<RollbackOutlined />}
         />
     );

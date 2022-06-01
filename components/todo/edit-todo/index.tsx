@@ -9,6 +9,7 @@ import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
 import AffixFooter from "../../affix/affix-footer";
 import { useRouter } from "next/router";
+import { goBack } from "../../utils";
 
 const { TextArea } = Input;
 
@@ -34,7 +35,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.push(document.referrer);
+            goBack();
         }
     };
 
