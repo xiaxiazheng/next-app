@@ -1,6 +1,6 @@
 .music {
     position: relative;
-    padding: 40px 0 100px;
+    padding: 40px 0 130px;
     .search {
         position: fixed;
         top: 0;
@@ -37,8 +37,9 @@
         left: 0;
         right: 0;
         background-color: #333d45;
-        z-index: 2;
+        // z-index: 2;
         text-align: center;
+        padding-bottom: 20px;
         .musicBox {
             padding: 10px;
             height: 32px;

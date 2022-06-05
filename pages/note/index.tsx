@@ -176,6 +176,7 @@ const Note = () => {
                 <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
+                        className={styles.content}
                         value={activeCategory}
                         onChange={(e) => {
                             setActiveCategory(e.target.value);
@@ -183,11 +184,11 @@ const Note = () => {
                         }}
                     >
                         <Radio key="所有" value="所有" style={{ marginBottom: 10 }}>
-                            所有
+                            所有 ({category?.reduce((prev: number, cur: any) => prev + Number(cur.count), 0)})
                         </Radio>
                         {category?.map((item) => (
                             <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
-                                {item.category}
+                                {item.category} ({item.count})
                             </Radio>
                         ))}
                     </Radio.Group>

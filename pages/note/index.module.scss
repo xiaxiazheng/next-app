@@ -111,6 +111,10 @@
     opacity: 0.5;
 }
 
+.content {
+    padding-bottom: 20px;
+}
+
 .modalContent {
     max-height: calc(100vh - 200px);
     overflow-y: auto;

@@ -126,7 +126,7 @@ const EditNoteComp = () => {
                     <Radio.Group>
                         {category?.map((item) => (
                             <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
-                                {item.category}
+                                {item.category} ({item.count})
                             </Radio>
                         ))}
                     </Radio.Group>

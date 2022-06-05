@@ -8,9 +8,9 @@ import AffixRefresh from "../../components/affix/affix-refresh";
 import { NoteType } from "../../components/note/types";
 import { useRouter } from "next/router";
 import Category from "../../components/todo/category";
-// import PreviewImage from "../../components/preview-image";
 import PreviewImages from "../../components/preview-images";
-import { handleUrl } from '../../components/note/utils';
+import { handleUrl } from "../../components/note/utils";
+import PreviewFiles from "../../components/preview-files";
 
 const NoteRandom = () => {
     const router = useRouter();
@@ -91,14 +91,15 @@ const NoteRandom = () => {
                     </span>
                 </h2>
                 <div className={`${styles.note_random} ScrollBar`}>
-                    <span className={styles.note_cont} dangerouslySetInnerHTML={{ __html: handleUrl(note?.note || '') }}></span>
+                    <span
+                        className={styles.note_cont}
+                        dangerouslySetInnerHTML={{ __html: handleUrl(note?.note || "") }}
+                    ></span>
                     <div>
                         <Category color="2" category={note?.category} />
                     </div>
-                    {/* {note?.imgList.map((img) => {
-                        return <PreviewImage key={img.img_id} img={img} />;
-                    })} */}
                     <PreviewImages imagesList={note?.imgList || []} />
+                    <PreviewFiles filesList={note?.fileList || []} />
                 </div>
                 <AffixRefresh onClick={() => handleSwitch()} />
             </main>

@@ -13,16 +13,18 @@ import { useRouter } from "next/router";
 const { TextArea } = Input;
 
 const getRouterPath = (todo: TodoType) => {
-    if (todo.status === "0") {
-        return "/todo_list";
-    } else if (todo.status === "1") {
+    console.log("todo", todo);
+
+    if (String(todo.status) === "0") {
+        return "/todo-list";
+    } else if (String(todo.status) === "1") {
         return "/todo-list-done";
     }
-    if (todo.status === "2") {
-        if (todo.color === "-1") {
+    if (String(todo.status) === "2") {
+        if (String(todo.color) === "-1") {
             return "/todo-list-pool-long";
         }
-        if (todo.color === "-2") {
+        if (String(todo.color) === "-2") {
             return "/todo-list-pool-short";
         }
         return "/todo-list-pool";
@@ -88,7 +90,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
-                        {["0", "1", "2", "3", "-1"].map((item) => (
+                        {["0", "1", "2", "3", "-1", "-2"].map((item) => (
                             <Radio key={item} value={item} style={{ color: colorMap[item] }}>
                                 {colorNameMap[item]}
                             </Radio>
@@ -99,7 +101,7 @@ const EditTodo: React.FC<Props> = (props) => {
                     <Radio.Group>
                         {category?.map((item) => (
                             <Radio key={item.category} value={item.category} style={{ marginBottom: 5 }}>
-                                {item.category}
+                                {item.category} ({item.count})
                             </Radio>
                         ))}
                     </Radio.Group>
