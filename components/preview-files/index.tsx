@@ -97,9 +97,9 @@ const PreviewFiles: React.FC<Props> = (props) => {
                     <div className={styles.name}>{active?.originalname}</div>
                     <div className={styles.size}>大小：{handleSize(Number(active?.size || 0))}</div>
                     <div className={styles.time}>创建时间：{active?.cTime}</div>
-                    <Space size={4}>
-                        <Button onClick={() => handleDownload(active?.file_id)}>下载文件</Button>
-                        <Button onClick={() => copyFileUrl(active?.file_id)}>复制文件路径</Button>
+                    <Space size={8}>
+                        <Button onClick={() => handleDownload(active?.fileUrl)}>下载文件</Button>
+                        <Button onClick={() => copyFileUrl(active?.fileUrl)}>复制文件路径</Button>
                     </Space>
                 </Space>
             </MyModal>
