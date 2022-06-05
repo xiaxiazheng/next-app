@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "../../service";
 import MyModal from "../my-modal";
-import { Button, Space } from "antd";
+import { Button, message, Space } from "antd";
 
 export interface FileType {
     cTime: string;
@@ -67,6 +67,17 @@ const PreviewFiles: React.FC<Props> = (props) => {
     const [active, setActive] = useState<FileType>();
     const [isShow, setIsShow] = useState<boolean>(false);
 
+    // 复制文件的 url
+    const copyFileUrl = (fileUrl: string) => {
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        input.setAttribute("value", fileUrl);
+        input.select();
+        document.execCommand("copy");
+        message.success("复制文件路径成功", 1);
+        document.body.removeChild(input);
+    };
+
     return (
         <>
             {list.map((file) => (
@@ -86,7 +97,10 @@ const PreviewFiles: React.FC<Props> = (props) => {
                     <div className={styles.name}>{active?.originalname}</div>
                     <div className={styles.size}>大小：{handleSize(Number(active?.size || 0))}</div>
                     <div className={styles.time}>创建时间：{active?.cTime}</div>
-                    <Button onClick={() => handleDownload(active?.file_id)}>下载文件</Button>
+                    <Space size={4}>
+                        <Button onClick={() => handleDownload(active?.file_id)}>下载文件</Button>
+                        <Button onClick={() => copyFileUrl(active?.file_id)}>复制文件路径</Button>
+                    </Space>
                 </Space>
             </MyModal>
         </>
