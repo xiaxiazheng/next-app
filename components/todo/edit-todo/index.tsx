@@ -88,6 +88,16 @@ const EditTodo: React.FC<Props> = (props) => {
                 <Form.Item name="description" label="详细描述">
                     <TextArea placeholder="补充以及具体描述" autoSize={{ minRows: 4, maxRows: 6 }} />
                 </Form.Item>
+                <Form.Item name="doing" label="星标" rules={[{ required: true }]} initialValue={"0"}>
+                    <Radio.Group>
+                        <Radio key={"1"} value={"1"}>
+                            是
+                        </Radio>
+                        <Radio key={"1"} value={"1"}>
+                            否
+                        </Radio>
+                    </Radio.Group>
+                </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
                         {["0", "1", "2", "3", "-1", "-2"].map((item) => (

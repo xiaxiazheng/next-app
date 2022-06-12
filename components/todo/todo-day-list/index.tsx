@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { GetTodo, EditTodoItem, GetTodoById, TodoStatus } from "../../../service";
-import { Button, Collapse, message, Space, Spin } from "antd";
+import { EditTodoItem, GetTodoById, TodoStatus } from "../../../service";
+import { Button, Collapse, message, Space } from "antd";
 import {
     PlusOutlined,
     QuestionCircleOutlined,
@@ -9,6 +9,7 @@ import {
     FileImageOutlined,
     SyncOutlined,
     GoldOutlined,
+    StarFilled,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -84,6 +85,7 @@ const Todo = (props: IProps) => {
 
         return (
             <Component>
+                {item.doing === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
                 <Category color={item.color} category={item.category} />
                 <span
                     onClick={(e) => {

@@ -13,6 +13,7 @@ const obj = {
     time: "2022-04-18",
     todo_id: "53ec86bd-994e-4c46-8ebd-5f2c765d5304",
     username: "zyb",
+    doing: '0'
 };
 type Obj = typeof obj;
 export interface TodoType extends Obj {
