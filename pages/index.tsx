@@ -34,6 +34,16 @@ const Home = () => {
             icon: <LoginOutlined />,
         },
         {
+            name: "翻译",
+            path: "translate",
+            icon: <TranslationOutlined />,
+        },
+        {
+            name: "单词本",
+            path: "word-book",
+            icon: <TranslationOutlined />,
+        },
+        {
             name: "我的已办",
             path: "todo-list-done",
             icon: <TrophyOutlined />,
@@ -69,6 +79,16 @@ const Home = () => {
             icon: <RedditOutlined />,
         },
         {
+            name: "随机日志",
+            path: "blog-random",
+            icon: <CoffeeOutlined />,
+        },
+        {
+            name: "我的日志",
+            path: "blog",
+            icon: <BookOutlined />,
+        },
+        {
             name: isMe ? "便签" : "法条",
             path: "note",
             icon: <FileTextOutlined />,
@@ -78,11 +98,11 @@ const Home = () => {
             path: "note-add",
             icon: <PlusOutlined />,
         },
-        {
-            name: "我的日志",
-            path: "blog",
-            icon: <BookOutlined />,
-        },
+        // {
+        //     name: "原生 audio",
+        //     path: "native-audio",
+        //     icon: <CustomerServiceOutlined />,
+        // },
         {
             name: "音乐播放器",
             path: "music-player",
@@ -92,26 +112,6 @@ const Home = () => {
             name: "云盘",
             path: "cloud",
             icon: <CloudOutlined />,
-        },
-        {
-            name: "随机日志",
-            path: "blog-random",
-            icon: <CoffeeOutlined />,
-        },
-        // {
-        //     name: "原生 audio",
-        //     path: "native-audio",
-        //     icon: <CustomerServiceOutlined />,
-        // },
-        {
-            name: "翻译",
-            path: "translate",
-            icon: <TranslationOutlined />,
-        },
-        {
-            name: "单词本",
-            path: "word-book",
-            icon: <TranslationOutlined />,
         },
     ];
 
