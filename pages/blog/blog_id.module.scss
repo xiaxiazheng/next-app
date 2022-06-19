@@ -8,6 +8,8 @@
 
 .blogcontEditor {
     word-break: break-all;
+    line-height: 1.75;
+    letter-spacing: 1px;
 }
 
 .blogcontEditor pre {
@@ -18,7 +20,7 @@
     box-sizing: border-box;
 }
 
-.blogcontEditor p>br {
+.blogcontEditor p > br {
     display: none;
 }
 
