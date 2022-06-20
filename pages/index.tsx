@@ -2,7 +2,7 @@ import Header from "../components/header";
 import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import {
     LoginOutlined,
     CustomerServiceOutlined,
@@ -19,7 +19,9 @@ import {
     CloudOutlined,
 } from "@ant-design/icons";
 
-const Home = () => {
+const Home = (props) => {
+    const { setRouterLoading } = props;
+
     const [isMe, setIsMe] = useState<boolean>();
     useEffect(() => {
         const username = localStorage.getItem("username");
@@ -135,11 +137,13 @@ const Home = () => {
                     {routes.map((item) => {
                         return (
                             <div
-                                className={`${styles.route_item} ${active === item.path ? styles.active : ''}`}
+                                className={`${styles.route_item} ${active === item.path ? styles.active : ""}`}
                                 key={item.path}
-                                onClick={() => {
+                                onClick={async () => {
+                                    setRouterLoading(true);
                                     setActive(item.path);
-                                    router.push(`/${item.path}`);
+                                    await router.push(`/${item.path}`);
+                                    setRouterLoading(false);
                                 }}
                             >
                                 <div className={styles.icon}>{item.icon}</div>
