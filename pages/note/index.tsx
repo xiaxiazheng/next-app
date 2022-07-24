@@ -193,12 +193,19 @@ const Note = () => {
                         ))}
                     </Radio.Group>
                 </MyDrawer>
-                <MyModal visible={!!active} onCancel={() => setActive(undefined)} showFooter={false}>
+                <MyModal
+                    visible={!!active}
+                    onCancel={() => setActive(undefined)}
+                    footer={() => (
+                        <Button onClick={() => router.push(`/note/edit_note/${active.note_id}`)} danger type="primary">
+                            编辑
+                        </Button>
+                    )}
+                >
                     <div className={styles.modalContent}>
                         <Item item={active} isActive={true} />
                     </div>
                 </MyModal>
-                {active && <AffixEdit onClick={() => router.push(`/note/edit_note/${active.note_id}`)} />}
             </main>
         </>
     );

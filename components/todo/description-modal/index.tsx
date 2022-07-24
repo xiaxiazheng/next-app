@@ -44,7 +44,21 @@ const DescriptionModal: React.FC<IProps> = (props) => {
             title={<span className={styles.modalName}>{activeTodo?.name}</span>}
             visible={visible}
             onCancel={() => setVisible(false)}
-            showFooter={false}
+            footer={() => (
+                <Space className={styles.operator} size={10}>
+                    <Button type="primary" onClick={() => router.push(`/todo-copy/${activeTodo?.todo_id}`)}>
+                        复制
+                    </Button>
+                    <Button type="primary" onClick={() => router.push(`/todo-edit/${activeTodo?.todo_id}`)}>
+                        编辑
+                    </Button>
+                    {isTodo && (
+                        <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
+                            完成Todo
+                        </Button>
+                    )}
+                </Space>
+            )}
         >
             <div style={{ fontSize: 14 }}>{activeTodo?.description && handleDesc(activeTodo.description)}</div>
             {activeTodo?.imgList && (
@@ -53,19 +67,6 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                     <PreviewImages imagesList={activeTodo.imgList} />
                 </div>
             )}
-            <Space className={styles.operator} size={10}>
-                <Button type="primary" onClick={() => router.push(`/todo-copy/${activeTodo?.todo_id}`)}>
-                    复制
-                </Button>
-                <Button type="primary" onClick={() => router.push(`/todo-edit/${activeTodo?.todo_id}`)}>
-                    编辑
-                </Button>
-                {isTodo && (
-                    <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
-                        完成Todo
-                    </Button>
-                )}
-            </Space>
         </MyModal>
     );
 };

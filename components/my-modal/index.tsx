@@ -9,7 +9,7 @@ interface Props {
     children?: any;
     okText?: string;
     cancelText?: string;
-    footer?: any;
+    footer?: React.FC;
     showFooter?: boolean;
 }
 
