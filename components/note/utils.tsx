@@ -12,7 +12,7 @@ export const handleUrl = (str: string): string => {
         s = s.replace(url, "<url_flag>");
     }
 
-    const jsx =
+    const jsx: any =
         urlList.length === 0 ? (
             str
         ) : (

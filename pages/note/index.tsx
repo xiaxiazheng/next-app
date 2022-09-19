@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { GetNoteList, GetNoteCategory } from "../../service";
 import { useEffect, useState } from "react";
-import { Input, Button, Pagination, Radio } from "antd";
+import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { NoteType } from "../../components/note/types";
 import Category from "../../components/todo/category";
@@ -110,6 +110,17 @@ const Note = () => {
         );
     };
 
+    // 复制内容
+    const copyContent = (content: string) => {
+        const input = document.createElement("textarea");
+        document.body.appendChild(input);
+        input.value = content;
+        input.select();
+        document.execCommand("copy");
+        message.success("已复制到粘贴板");
+        document.body.removeChild(input);
+    };
+
     return (
         <>
             <Header title={title} />
@@ -197,9 +208,18 @@ const Note = () => {
                     visible={!!active}
                     onCancel={() => setActive(undefined)}
                     footer={() => (
-                        <Button onClick={() => router.push(`/note/edit_note/${active.note_id}`)} danger type="primary">
-                            编辑
-                        </Button>
+                        <Space size={16}>
+                            <Button onClick={() => copyContent(active?.note)} type="primary">
+                                复制
+                            </Button>
+                            <Button
+                                onClick={() => router.push(`/note/edit_note/${active.note_id}`)}
+                                danger
+                                type="primary"
+                            >
+                                编辑
+                            </Button>
+                        </Space>
                     )}
                 >
                     <div className={styles.modalContent}>
