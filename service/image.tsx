@@ -19,7 +19,7 @@ export interface ImgType extends ImageType {
     imageUrl: string;
 }
 
-export const getImageListByOtherId = async (otherId: string, username: string): Promise<ImageType[] | boolean> => {
+export const getImageListByOtherId = async (otherId: string, username: string): Promise<ImageType[] | false> => {
     const res = await getFetch(`/image/getImgListByOtherId?otherId=${otherId}&username=${username}`);
     if (res) {
         const data = await res.json();
