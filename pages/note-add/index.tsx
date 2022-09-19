@@ -14,8 +14,8 @@ const AddNoteComp = () => {
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isMe = username === "zyb" ? true : false;
-        const title = isMe ? "新增便签" : "新增法条";
+        const isPP = username === "hyp" ? true : false;
+        const title = !isPP ? "新增便签" : "新增法条";
         setTitle(title);
     }, []);
 

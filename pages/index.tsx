@@ -23,11 +23,11 @@ import {
 const Home = (props) => {
     const { setRouterLoading } = props;
 
-    const [isMe, setIsMe] = useState<boolean>();
+    const [isPP, setIsPP] = useState<boolean>();
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isMe = username === "zyb" ? true : false;
-        setIsMe(isMe);
+        const isPP = username === "hyp" ? true : false;
+        setIsPP(isPP);
     }, []);
 
     const routes = [
@@ -77,7 +77,7 @@ const Home = (props) => {
             icon: <PlusOutlined />,
         },
         {
-            name: isMe ? "抽便签机" : "抽法条机",
+            name: !isPP ? "抽便签机" : "抽法条机",
             path: "note-random",
             icon: <RedditOutlined />,
         },
@@ -92,12 +92,12 @@ const Home = (props) => {
             icon: <BookOutlined />,
         },
         {
-            name: isMe ? "便签" : "法条",
+            name: !isPP ? "便签" : "法条",
             path: "note",
             icon: <FileTextOutlined />,
         },
         {
-            name: isMe ? "新增便签" : "新增法条",
+            name: !isPP ? "新增便签" : "新增法条",
             path: "note-add",
             icon: <PlusOutlined />,
         },

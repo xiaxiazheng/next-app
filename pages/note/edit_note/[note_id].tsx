@@ -27,8 +27,8 @@ const EditNoteComp = () => {
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isMe = username === "zyb" ? true : false;
-        const title = isMe ? "编辑便签" : "编辑法条";
+        const isPP = username === "hyp" ? true : false;
+        const title = !isPP ? "编辑便签" : "编辑法条";
         setTitle(title);
     }, []);
 

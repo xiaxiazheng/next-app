@@ -19,12 +19,12 @@ const { Search } = Input;
 
 const Note = () => {
     const [title, setTitle] = useState<string>("");
-    const [isMe, setIsMe] = useState<boolean>(false);
+    const [isPP, setIsPP] = useState<boolean>(false);
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isMe = username === "zyb" ? true : false;
-        setIsMe(isMe);
-        const title = isMe ? "便签" : "法条";
+        const isPP = username === "hyp" ? true : false;
+        setIsPP(isPP);
+        const title = !isPP ? "便签" : "法条";
         setTitle(title);
 
         getCategory();
@@ -95,9 +95,9 @@ const Note = () => {
         return (
             <>
                 <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                    {isMe && <Category category={item.category} color="2" />}
+                    {!isPP && <Category category={item.category} color="2" />}
                     <span dangerouslySetInnerHTML={{ __html: item.note }} />
-                    {isActive && !isMe && (
+                    {isActive && isPP && (
                         <div>
                             <Category category={item.category} color="2" />
                         </div>

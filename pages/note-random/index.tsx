@@ -19,8 +19,8 @@ const NoteRandom = () => {
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isMe = username === "zyb" ? true : false;
-        const title = isMe ? "随机便签" : "抽法条机";
+        const isPP = username === "hyp" ? true : false;
+        const title = isPP ? "随机便签" : "抽法条机";
         setTitle(title);
     }, []);
 
