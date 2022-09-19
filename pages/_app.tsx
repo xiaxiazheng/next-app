@@ -4,7 +4,7 @@ import AffixHome from "../components/affix/affix-home";
 import { useState } from "react";
 import { Spin } from "antd";
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: any) {
     const [loading, setLoading] = useState<boolean>(false);
 
     return (

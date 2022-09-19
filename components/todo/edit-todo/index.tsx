@@ -93,7 +93,7 @@ const EditTodo: React.FC<Props> = (props) => {
                         <Radio key={"1"} value={"1"}>
                             是
                         </Radio>
-                        <Radio key={"1"} value={"1"}>
+                        <Radio key={"0"} value={"0"}>
                             否
                         </Radio>
                     </Radio.Group>
