@@ -12,7 +12,9 @@
         "restart": "pm2 restart next-app",
         "checkByted": "sh ./checkByted.sh",
         "push": "sh deploy.sh",
-        "pull": "sh deployDocker.sh"
+        "pull": "sh deployDocker.sh",
+        "buildDocker": "docker build -t xiaxiazheng/nextapp:latest .",
+        "runDocker": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest"
     },
     "dependencies": {
         "antd": "^4.16.13",
