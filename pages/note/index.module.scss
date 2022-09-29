@@ -119,3 +119,12 @@
     max-height: calc(100vh - 200px);
     overflow-y: auto;
 }
+
+.imgFileList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 80px);
+    justify-content: flex-start;
+    grid-row-gap: 8px;
+    grid-column-gap: 7px;
+    margin: 7px 0 5px;
+}

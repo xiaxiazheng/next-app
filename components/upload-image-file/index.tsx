@@ -9,6 +9,7 @@ interface Props {
     type: "main" | "cloud" | "treecont" | "blog" | "mao" | "note" | "todo";
     otherId: string;
     refreshImgList: Function;
+    style?: any;
 }
 
 export const handleSize = (size: number) => {
@@ -20,7 +21,7 @@ export const handleSize = (size: number) => {
 };
 
 const UploadImageFile: React.FC<Props> = (props) => {
-    const { type, otherId, refreshImgList } = props;
+    const { type, otherId, refreshImgList, style } = props;
 
     const [username, setUsername] = useState<string>();
     useEffect(() => {
@@ -56,7 +57,7 @@ const UploadImageFile: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className={styles.upload_wrapper} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.upload_wrapper} onClick={(e) => e.stopPropagation()} style={style}>
             <Upload
                 className={styles.upload}
                 name={type}

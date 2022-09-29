@@ -12,11 +12,12 @@ interface IProps {
     ref: any;
     img: ImgType;
     setImg: any;
+    style?: any;
 }
 
 // 缩略图，采用交叉观察者
 const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
-    const { img, setImg, ...rest } = props;
+    const { img, setImg, style, ...rest } = props;
     const { imageMinUrl, img_id, imgname } = img;
 
     const [url, setUrl] = useState<string>();
@@ -51,7 +52,7 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
     };
 
     return (
-        <div ref={ref} className={styles.min_img}>
+        <div ref={ref} className={styles.min_img} style={style}>
             {!url ? (
                 <Image width={80} height={80} src="/loading.svg" />
             ) : (

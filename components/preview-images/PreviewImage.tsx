@@ -15,10 +15,11 @@ import { ImgType } from "./";
 
 interface IProps {
     image: ImgType;
+    style?: any;
 }
 
 const PreviewImage: React.FC<IProps> = (props) => {
-    const { image } = props;
+    const { image, style } = props;
 
     // 这里各个 image 的状态必须自治，不能统一去修改传入的 list，不然由于副作用里的异步的原因，会导致每次最后的那次修改会覆盖前面的所有的修改
     const [img, setImg] = useState(image);
@@ -86,7 +87,7 @@ const PreviewImage: React.FC<IProps> = (props) => {
                 </div>
             }
         >
-            <MinImg ref={ref} img={img} setImg={setImg} />
+            <MinImg ref={ref} img={img} setImg={setImg} style={style} />
         </PhotoConsumer>
     );
 };

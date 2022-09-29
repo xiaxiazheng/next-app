@@ -103,9 +103,18 @@ const Note = () => {
                         </div>
                     )}
                 </div>
-                <PreviewImages imagesList={item.imgList} />
-                <PreviewFiles filesList={item.fileList} />
-                {isActive && <UploadImageFile type="note" otherId={item.note_id} refreshImgList={() => getData()} />}
+                <div className={styles.imgFileList}>
+                    <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
+                    <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
+                    {isActive && (
+                        <UploadImageFile
+                            type="note"
+                            otherId={item.note_id}
+                            refreshImgList={() => getData()}
+                            style={{ margin: 0 }}
+                        />
+                    )}
+                </div>
             </>
         );
     };
@@ -221,6 +230,7 @@ const Note = () => {
                             </Button>
                         </Space>
                     )}
+                    style={{ width: "100vw", maxWidth: "100vw" }}
                 >
                     <div className={styles.modalContent}>
                         <Item item={active} isActive={true} />

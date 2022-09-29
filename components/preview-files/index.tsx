@@ -26,10 +26,11 @@ export const handleSize = (size: number) => {
 
 interface Props {
     filesList: FileType[];
+    style?: any;
 }
 
 const PreviewFiles: React.FC<Props> = (props) => {
-    const { filesList } = props;
+    const { filesList, style } = props;
 
     const [list, setList] = useState<FileType[]>([]);
 
@@ -84,6 +85,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
                 <div
                     key={file.file_id}
                     className={styles.fileBox}
+                    style={style}
                     onClick={() => {
                         setActive(file);
                         setIsShow(true);

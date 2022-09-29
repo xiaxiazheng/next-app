@@ -24,10 +24,11 @@ export interface ImgType {
 
 interface Props {
     imagesList: ImgType[];
+    style?: any;
 }
 
 const PreviewImages: React.FC<Props> = (props) => {
-    const { imagesList } = props;
+    const { imagesList, style } = props;
 
     const [list, setList] = useState<ImgType[]>([]);
 
@@ -56,7 +57,7 @@ const PreviewImages: React.FC<Props> = (props) => {
     return (
         <PhotoProvider maskClosable={true}>
             {list.map((img) => (
-                <PreviewImage key={img.img_id} image={img} />
+                <PreviewImage key={img.img_id} image={img} style={style} />
             ))}
         </PhotoProvider>
     );

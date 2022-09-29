@@ -172,7 +172,7 @@ const MaoPu = () => {
                     title={active?.name}
                     onCancel={() => setActive(undefined)}
                     footer={() => null}
-                    maxWidth={"100vw"}
+                    style={{ maxWidth: "100vw" }}
                 >
                     <div className={styles.modalContent}>
                         <Item item={active} isShowAll={true} />
