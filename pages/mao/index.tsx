@@ -1,5 +1,4 @@
 import Header from "../../components/header";
-import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { useEffect, useState } from "react";
 import { Input, Pagination } from "antd";
@@ -13,7 +12,6 @@ import { getImageListByOtherId, ImageType } from "../../service/image";
 const { Search } = Input;
 
 const MaoPu = () => {
-    const router = useRouter();
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
     const pageSize = 10;
@@ -68,7 +66,9 @@ const MaoPu = () => {
     };
 
     const getShowList = (pageNo: number) => {
-        setShowList(list.slice((pageNo - 1) * 10, 10 * pageNo));
+        const l = keyword ? list.filter((item) => item.name.indexOf(keyword) !== -1) : list;
+        setTotal(l.length);
+        setShowList(l.slice((pageNo - 1) * 10, 10 * pageNo));
     };
 
     useEffect(() => {
@@ -78,6 +78,14 @@ const MaoPu = () => {
             setShowList([]);
         }
     }, [list, pageNo]);
+
+    useEffect(() => {
+        if (pageNo === 1) {
+            getShowList(pageNo);
+        } else {
+            setPageNo(1);
+        }
+    }, [keyword]);
 
     useEffect(() => {
         getData();
@@ -105,7 +113,6 @@ const MaoPu = () => {
         // 获取该猫咪所有照片
         const [imgList, setImgList] = useState<ImageType[]>([]);
         const getOtherImgList = async (mao_id: string) => {
-            let imgList: any = [];
             const res = await getImageListByOtherId(mao_id, localStorage.getItem("username"));
             if (res) {
                 setImgList(res);
@@ -121,8 +128,13 @@ const MaoPu = () => {
 
         return (
             <>
-                <PreviewImages imagesList={!isShowAll ? headList.slice(0, 1) : headList.concat(imgList)} />
-                {!isShowAll && <div style={{ marginTop: 10, fontSize: 16 }}>{item.name}</div>}
+                {isShowAll && (
+                    <>
+                        <div>出生日期：{item.birthday}</div>
+                        <div>父亲：{item.father}</div>
+                        <div>母亲：{item.mother}</div>
+                    </>
+                )}
                 {isShowAll && (
                     <UploadImageFile
                         type="mao"
@@ -130,6 +142,8 @@ const MaoPu = () => {
                         refreshImgList={() => getOtherImgList(item.mao_id)}
                     />
                 )}
+                <PreviewImages imagesList={!isShowAll ? headList.slice(0, 1) : headList.concat(imgList)} />
+                {!isShowAll && <div style={{ marginTop: 10, fontSize: 16 }}>{item.name}</div>}
             </>
         );
     };
@@ -183,6 +197,7 @@ const MaoPu = () => {
                     title={active?.name}
                     onCancel={() => setActive(undefined)}
                     footer={() => null}
+                    maxWidth={"100vw"}
                 >
                     <div className={styles.modalContent}>
                         <Item item={active} isShowAll={true} />

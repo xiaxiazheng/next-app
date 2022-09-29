@@ -11,15 +11,26 @@ interface Props {
     cancelText?: string;
     footer?: React.FC;
     showFooter?: boolean;
+    maxWidth?: string;
 }
 
 const MyModal: React.FC<Props> = (props) => {
-    const { title, visible, onOk, onCancel, okText, cancelText, footer: Footer, showFooter = true } = props;
+    const {
+        title,
+        visible,
+        onOk,
+        onCancel,
+        okText,
+        cancelText,
+        footer: Footer,
+        showFooter = true,
+        maxWidth = "80vw",
+    } = props;
 
     return (
         <div className={styles.my_modal} style={{ display: visible ? "flex" : "none" }}>
             <div className={styles.mask} onClick={() => onCancel && onCancel()} />
-            <div className={styles.modal_box}>
+            <div className={styles.modal_box} style={{ maxWidth: maxWidth }}>
                 {title && <div className={styles.title}>{title}</div>}
                 <div className={styles.content}>{props.children}</div>
                 {showFooter && (

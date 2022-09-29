@@ -1,20 +1,3 @@
-# STAGE 1
-# FROM node:16-alpine AS build
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install
-# COPY . /app/
-# # RUN
-
-# # STAGE 2
-# FROM node:16-alpine
-# WORKDIR /app
-# RUN npm install -g webserver.local
-# COPY --from=build /app/build ./build
-# EXPOSE 3000
-# CMD webserver.local -d ./build
-
-
 # 使用 node 镜像a
 FROM node:16-alpine
 
