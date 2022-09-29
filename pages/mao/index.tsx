@@ -12,9 +12,7 @@ import { getImageListByOtherId, ImageType } from "../../service/image";
 const { Search } = Input;
 
 const MaoPu = () => {
-    const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
-    const pageSize = 10;
     const [keyword, setKeyword] = useState<string>();
 
     const [list, setList] = useState<IMao[]>([]);
@@ -53,39 +51,31 @@ const MaoPu = () => {
     const getData = async () => {
         const res = await getMaoList();
         if (res) {
-            const list: any = res.data.sort(
-                (a: any, b: any) => new Date(a.birthday).getTime() - new Date(b.birthday).getTime()
-            );
-            list.map((item: IMao) => {
-                item.key = item.mao_id;
-                item.title = item.name;
+            const list = res.data.map((item: IMao) => {
+                return {
+                    ...item,
+                    key: item.mao_id,
+                    title: item.name,
+                };
             });
             setList(handleParent(list));
             setTotal(list.length);
         }
     };
 
-    const getShowList = (pageNo: number) => {
+    const getShowList = () => {
         const l = keyword ? list.filter((item) => item.name.indexOf(keyword) !== -1) : list;
         setTotal(l.length);
-        setShowList(l.slice((pageNo - 1) * 10, 10 * pageNo));
+        setShowList(l);
     };
 
     useEffect(() => {
         if (list?.length !== 0) {
-            getShowList(pageNo);
+            getShowList();
         } else {
             setShowList([]);
         }
-    }, [list, pageNo]);
-
-    useEffect(() => {
-        if (pageNo === 1) {
-            getShowList(pageNo);
-        } else {
-            setPageNo(1);
-        }
-    }, [keyword]);
+    }, [list, keyword]);
 
     useEffect(() => {
         getData();
@@ -101,30 +91,23 @@ const MaoPu = () => {
         const { item, isShowAll = false } = props;
         if (!item) return null;
 
-        const [headList, setHeadList] = useState<ImageType[]>([]);
-
+        const headList = item.headImgList;
+        // const [headList, setHeadList] = useState<ImageType[]>(item.headImgList);
         // 获取猫咪头像照片
-        const getHeadImgList = async (head_img_id: string) => {
-            const res = await getImageListByOtherId(head_img_id, localStorage.getItem("username"));
-            if (res) {
-                setHeadList(res);
-            }
-        };
+        // const getHeadImgList = async (head_img_id: string) => {
+        //     const res = await getImageListByOtherId(head_img_id, localStorage.getItem("username"));
+        //     if (res) {
+        //         setHeadList(res);
+        //     }
+        // };
         // 获取该猫咪所有照片
-        const [imgList, setImgList] = useState<ImageType[]>([]);
+        const [imgList, setImgList] = useState<ImageType[]>(item.imgList);
         const getOtherImgList = async (mao_id: string) => {
             const res = await getImageListByOtherId(mao_id, localStorage.getItem("username"));
             if (res) {
                 setImgList(res);
             }
         };
-
-        useEffect(() => {
-            getHeadImgList(item.head_img_id);
-            if (isShowAll) {
-                getOtherImgList(item.mao_id);
-            }
-        }, [item]);
 
         return (
             <>
@@ -184,14 +167,6 @@ const MaoPu = () => {
                         })}
                     </div>
                 </div>
-                <Pagination
-                    className={styles.pagination}
-                    pageSize={pageSize}
-                    current={pageNo}
-                    total={total}
-                    size="small"
-                    onChange={(val) => setPageNo(val)}
-                />
                 <MyModal
                     visible={!!active}
                     title={active?.name}
