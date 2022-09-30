@@ -52,13 +52,8 @@ const Home = (props) => {
             icon: <TrophyOutlined />,
         },
         {
-            name: "长期方向",
+            name: "长期任务",
             path: "todo-list-pool-long",
-            icon: <ExperimentOutlined />,
-        },
-        {
-            name: "短期目标",
-            path: "todo-list-pool-short",
             icon: <ExperimentOutlined />,
         },
         {

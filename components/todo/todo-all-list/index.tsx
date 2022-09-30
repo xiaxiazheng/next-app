@@ -45,7 +45,9 @@ const TodoPool = (props: IProps) => {
     return (
         <>
             <h2 className={styles.h2}>
-                <span>{title}({total})</span>
+                <span>
+                    {title}({total})
+                </span>
                 <Space size={8}>
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
@@ -56,8 +58,8 @@ const TodoPool = (props: IProps) => {
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
                 {todoList?.map((item) => (
-                    <div key={item.todo_id}>
-                        <Category color={item.color} category={item.category} />
+                    <div key={item.todo_id} style={{ marginBottom: 8 }}>
+                        <Category color={item.color} category={item.category} style={{ verticalAlign: '-1px' }} />
                         <span
                             onClick={() => {
                                 setActiveTodo(item);

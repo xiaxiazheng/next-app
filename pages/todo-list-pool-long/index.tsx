@@ -27,9 +27,9 @@ const TodoPool = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="长期方向" />
+            <Header title="长期任务" />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title="长期方向" />
+                <TodoAllList list={todoList} getData={getData} title="长期任务" />
             </main>
         </Spin>
     );
