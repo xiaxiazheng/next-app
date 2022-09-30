@@ -86,7 +86,13 @@ const Todo = (props: IProps) => {
         return (
             <Component>
                 {item.doing === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                <Category color={item.color} category={item.category} />
+                <Category
+                    color={item.color}
+                    category={item.category}
+                    style={{
+                        verticalAlign: "-1px",
+                    }}
+                />
                 <span
                     onClick={(e) => {
                         setActiveTodo(item);
