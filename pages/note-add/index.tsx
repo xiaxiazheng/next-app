@@ -77,12 +77,20 @@ const AddNoteComp = () => {
         }
     };
 
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+
     return (
         <main className={styles.add_note}>
             <h2 className={styles.h2}>
                 <span>{title}</span>
             </h2>
-            <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
+            <Form
+                form={form}
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 16 }}
+                onFieldsChange={() => setIsEdit(true)}
+                onFinish={onFinish}
+            >
                 <Form.Item name="note" label="内容" rules={[{ required: true }]}>
                     <TextArea className={styles.textarea} placeholder="请输入内容" autoFocus={true} />
                 </Form.Item>
@@ -97,10 +105,16 @@ const AddNoteComp = () => {
                 </Form.Item>
                 <AffixFooter>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <AffixSubmit />
+                        <AffixSubmit danger={isEdit} />
                     </Form.Item>
                     <AffixBack backUrl={"/note"} />
-                    <AffixSaveProgress onClick={() => handleSaveAndEdit()} />
+                    <AffixSaveProgress
+                        danger={isEdit}
+                        onClick={() => {
+                            handleSaveAndEdit();
+                            setIsEdit(false);
+                        }}
+                    />
                 </AffixFooter>
             </Form>
         </main>

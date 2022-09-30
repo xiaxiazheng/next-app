@@ -79,9 +79,20 @@ const EditTodo: React.FC<Props> = (props) => {
         }
     }, [todo]);
 
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+
     return (
         <main className={styles.edit_todo}>
-            <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} onFinish={onFinish}>
+            <Form
+                form={form}
+                layout={"vertical"}
+                labelCol={{ span: 4 }}
+                wrapperCol={{ span: 4 }}
+                onFieldsChange={() => {
+                    setIsEdit(true);
+                }}
+                onFinish={onFinish}
+            >
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                     <Input placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成" autoFocus={true} />
                 </Form.Item>
@@ -138,7 +149,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <AffixFooter>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <AffixSubmit />
+                        <AffixSubmit danger={isEdit} />
                     </Form.Item>
                     <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
                 </AffixFooter>
