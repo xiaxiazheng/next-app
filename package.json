@@ -11,10 +11,10 @@
         "prepare": "husky install",
         "restart": "pm2 restart next-app",
         "checkByted": "sh ./checkByted.sh",
-        "push": "sh deploy.sh",
-        "pull": "sh deployDocker.sh",
-        "buildDocker": "docker build -t xiaxiazheng/nextapp:latest .",
-        "runDocker": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest"
+        "docker:push": "sh dockerPush.sh",
+        "docker:pull": "sh dockerPull.sh",
+        "docker:build": "docker build -t xiaxiazheng/nextapp:latest .",
+        "docker:run": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest"
     },
     "dependencies": {
         "antd": "^4.16.13",
