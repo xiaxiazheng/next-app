@@ -20,7 +20,7 @@ const NoteRandom = () => {
     useEffect(() => {
         const username = localStorage.getItem("username");
         const isPP = username === "hyp" ? true : false;
-        const title = isPP ? "随机便签" : "抽法条机";
+        const title = isPP ? "抽法条机" : "随机便签";
         setTitle(title);
     }, []);
 
