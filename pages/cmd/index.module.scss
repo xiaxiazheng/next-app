@@ -1,0 +1,43 @@
+.cmd {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    text-align: left;
+    .input {
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+    .operator {
+        display: flex;
+        justify-content: space-between;
+    }
+    .result {
+        height: calc(100vh - 300px);
+        margin-top: 5px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: auto;
+        font-size: 12px;
+        white-space: pre;
+    }
+    .script {
+        max-height: 70vh;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+        .scriptItem {
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+            &:last-child {
+                border-bottom: unset;
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+}

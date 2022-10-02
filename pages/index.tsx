@@ -18,16 +18,18 @@ import {
     PlusOutlined,
     CloudOutlined,
     GithubOutlined,
+    CodepenOutlined,
 } from "@ant-design/icons";
 
 const Home = (props) => {
     const { setRouterLoading } = props;
 
+    const [isMe, setIsMe] = useState<boolean>();
     const [isPP, setIsPP] = useState<boolean>();
     useEffect(() => {
         const username = localStorage.getItem("username");
-        const isPP = username === "hyp" ? true : false;
-        setIsPP(isPP);
+        setIsMe(username === "zyb" ? true : false);
+        setIsPP(username === "hyp" ? true : false);
     }, []);
 
     const routes = [
@@ -116,7 +118,17 @@ const Home = (props) => {
             path: "mao",
             icon: <GithubOutlined />,
         },
-    ];
+    ].concat(
+        isMe
+            ? [
+                  {
+                      name: "CMD",
+                      path: "cmd",
+                      icon: <CodepenOutlined />,
+                  },
+              ]
+            : []
+    );
 
     const router = useRouter();
 
