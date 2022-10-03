@@ -5,6 +5,7 @@ export * from "./todo";
 export * from "./blog";
 export * from "./note";
 export * from "./translate";
+export * from "./tree";
 
 // const serverUrl = "http://localhost:300/api";
 const serverUrl = "https://www.xiaxiazheng.cn/api";

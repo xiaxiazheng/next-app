@@ -19,6 +19,7 @@ import {
     CloudOutlined,
     GithubOutlined,
     CodepenOutlined,
+    ClusterOutlined,
 } from "@ant-design/icons";
 
 const Home = (props) => {
@@ -117,6 +118,11 @@ const Home = (props) => {
             name: "猫",
             path: "mao",
             icon: <GithubOutlined />,
+        },
+        {
+            name: "树",
+            path: "tree",
+            icon: <ClusterOutlined />,
         },
     ].concat(
         isMe
