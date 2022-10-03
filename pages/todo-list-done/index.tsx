@@ -86,7 +86,7 @@ const TodoDone = () => {
                                     time === today ? styles.today : time < today ? "" : styles.future
                                 }`}
                             >
-                                {time} ({getWeek(time)})
+                                {time} ({getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>

@@ -137,6 +137,7 @@ const Todo = (props: IProps) => {
                             >
                                 <span>
                                     {time} ({getWeek(time)})
+                                    {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
                                 </span>
                                 {time < today && (
                                     <Button
