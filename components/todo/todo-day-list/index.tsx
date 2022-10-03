@@ -10,6 +10,7 @@ import {
     SyncOutlined,
     GoldOutlined,
     StarFilled,
+    CalendarOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -28,7 +29,7 @@ interface IProps {
 const Todo = (props: IProps) => {
     const { list, getData, title } = props;
 
-    const [todoMap, setTodoMap] = useState({});
+    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoType[] }>({});
     const [total, setTotal] = useState(0);
 
     const router = useRouter();
@@ -110,6 +111,16 @@ const Todo = (props: IProps) => {
 
     const [showAllProgress, setShowAllProgress] = useState<boolean>(false);
 
+    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const getShowList = (list: TodoType[]) => {
+        return !isSortTime
+            ? list
+            : [...list].sort(
+                  // sort 会改变原数组
+                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
+              );
+    };
+
     return (
         <>
             <h2 className={styles.h2}>
@@ -117,6 +128,13 @@ const Todo = (props: IProps) => {
                     {title}({total})
                 </span>
                 <Space size={8}>
+                    {/* 排序方式 */}
+                    <Button
+                        style={{ width: 50 }}
+                        icon={<CalendarOutlined />}
+                        onClick={() => setIsSortTime((prev) => !prev)}
+                        type={isSortTime ? "primary" : "default"}
+                    />
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
                     {/* 新增待办 */}
@@ -158,7 +176,7 @@ const Todo = (props: IProps) => {
                                         return prev;
                                     }, {});
 
-                                    return todoMap[time]
+                                    return getShowList(todoMap[time])
                                         .filter((item) => !(item?.other_id && map[item?.other_id]))
                                         .map((item: TodoType) => {
                                             const childListNow =

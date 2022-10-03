@@ -4,10 +4,10 @@ import { getTodoDone, GetTodoById } from "../../service";
 import { useEffect, useState } from "react";
 import { TodoType } from "../../components/todo/types";
 import dayjs from "dayjs";
-import { Pagination, Input, Button, Spin } from "antd";
+import { Pagination, Input, Button, Spin, Space } from "antd";
 import { QuestionCircleOutlined, SettingOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
-import MyModal from "../../components/my-modal";
+import { CalendarOutlined } from "@ant-design/icons";
 import Category from "../../components/todo/category";
 import { useRouter } from "next/router";
 import DescriptionModal from "../../components/todo/description-modal";
@@ -17,7 +17,7 @@ const { Search } = Input;
 const TodoDone = () => {
     const router = useRouter();
 
-    const [todoMap, setTodoMap] = useState({});
+    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoType[] }>({});
     const [total, setTotal] = useState(0);
 
     const [keyword, setKeyword] = useState<string>("");
@@ -54,14 +54,38 @@ const TodoDone = () => {
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
 
+    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const getShowList = (list) => {
+        return !isSortTime
+            ? list
+            : [...list].sort(
+                  // sort 会改变原数组
+                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
+              );
+    };
+
     return (
         <Spin spinning={loading}>
             <Header title="已完成 todo" />
             <main className={styles.done}>
                 <h2 className={styles.h2}>
                     <span>已完成 todo ({total})</span>
-                    {/* 刷新列表 */}
-                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
+                    <Space size={8}>
+                        {/* 排序方式 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<CalendarOutlined />}
+                            onClick={() => setIsSortTime((prev) => !prev)}
+                            type={isSortTime ? "primary" : "default"}
+                        />
+                        {/* 刷新列表 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<SyncOutlined />}
+                            onClick={() => getData()}
+                            type="default"
+                        />
+                    </Space>
                 </h2>
                 {/* 搜索框 */}
                 <div>
@@ -90,7 +114,7 @@ const TodoDone = () => {
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>
-                                {todoMap[time].map((item: TodoType) => (
+                                {getShowList(todoMap[time]).map((item: TodoType) => (
                                     <div key={item.todo_id}>
                                         <Category color={item.color} category={item.category} />
                                         <span

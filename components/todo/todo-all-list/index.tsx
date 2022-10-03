@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
 import { TodoType } from "../../../components/todo/types";
 import DescriptionModal from "../../../components/todo/description-modal";
+import { CalendarOutlined } from "@ant-design/icons";
 
 interface IProps {
     list: any[];
@@ -42,6 +43,16 @@ const TodoPool = (props: IProps) => {
         getData();
     };
 
+    const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const getShowList = (list: TodoType[]) => {
+        return !isSortTime
+            ? list
+            : [...list].sort(
+                  // sort 会改变原数组
+                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
+              );
+    };
+
     return (
         <>
             <h2 className={styles.h2}>
@@ -49,6 +60,13 @@ const TodoPool = (props: IProps) => {
                     {title}({total})
                 </span>
                 <Space size={8}>
+                    {/* 排序方式 */}
+                    <Button
+                        style={{ width: 50 }}
+                        icon={<CalendarOutlined />}
+                        onClick={() => setIsSortTime((prev) => !prev)}
+                        type={isSortTime ? "primary" : "default"}
+                    />
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
                     {/* 新建待办 */}
@@ -57,21 +75,22 @@ const TodoPool = (props: IProps) => {
             </h2>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList?.map((item) => (
-                    <div key={item.todo_id} style={{ marginBottom: 8 }}>
-                        <Category color={item.color} category={item.category} style={{ verticalAlign: '-1px' }} />
-                        <span
-                            onClick={() => {
-                                setActiveTodo(item);
-                                setShowDesc(true);
-                            }}
-                        >
-                            <span>{item.name}</span>
-                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                        </span>
-                    </div>
-                ))}
+                {todoList &&
+                    getShowList(todoList).map((item) => (
+                        <div key={item.todo_id} style={{ marginBottom: 8 }}>
+                            <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
+                            <span
+                                onClick={() => {
+                                    setActiveTodo(item);
+                                    setShowDesc(true);
+                                }}
+                            >
+                                <span>{item.name}</span>
+                                {item.description && <QuestionCircleOutlined className={styles.icon} />}
+                                {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                            </span>
+                        </div>
+                    ))}
             </div>
             {/* 详情弹窗 */}
             <DescriptionModal
