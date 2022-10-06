@@ -3,6 +3,7 @@ import { Button } from "antd";
 
 interface Props {
     danger?: boolean;
+    loading?: boolean;
 }
 
 const AffixBack: React.FC<Props> = (props) => {

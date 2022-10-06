@@ -45,7 +45,10 @@ const EditTodo: React.FC<Props> = (props) => {
     const [form] = Form.useForm();
     const router = useRouter();
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const onFinish = async (val) => {
+        setLoading(true);
         const res =
             todo && !isCopy
                 ? await EditTodoItem({
@@ -57,6 +60,7 @@ const EditTodo: React.FC<Props> = (props) => {
             message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
             router.push(getRouterPath(todo || val));
         }
+        setLoading(false);
     };
 
     const [category, setCategory] = useState<any[]>([]);
@@ -149,7 +153,7 @@ const EditTodo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <AffixFooter>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <AffixSubmit danger={isEdit} />
+                        <AffixSubmit danger={isEdit} loading={loading} />
                     </Form.Item>
                     <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
                 </AffixFooter>
