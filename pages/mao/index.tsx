@@ -82,32 +82,17 @@ const MaoPu = () => {
     }, []);
 
     const handleClick = (item: IMao) => {
-        active?.mao_id === item?.mao_id ? setActive(undefined) : setActive(item);
+        activeId === item?.mao_id ? setActiveId(undefined) : setActiveId(item?.mao_id);
     };
 
-    const [active, setActive] = useState<IMao>();
+    const [activeId, setActiveId] = useState<string>();
 
     const Item = (props: { item: IMao; isShowAll?: boolean }) => {
         const { item, isShowAll = false } = props;
         if (!item) return null;
 
         const headList = item.headImgList;
-        // const [headList, setHeadList] = useState<ImageType[]>(item.headImgList);
-        // 获取猫咪头像照片
-        // const getHeadImgList = async (head_img_id: string) => {
-        //     const res = await getImageListByOtherId(head_img_id, localStorage.getItem("username"));
-        //     if (res) {
-        //         setHeadList(res);
-        //     }
-        // };
-        // 获取该猫咪所有照片
-        const [imgList, setImgList] = useState<ImageType[]>(item.imgList);
-        const getOtherImgList = async (mao_id: string) => {
-            const res = await getImageListByOtherId(mao_id, localStorage.getItem("username"));
-            if (res) {
-                setImgList(res);
-            }
-        };
+        const imgList = item.imgList;
 
         return (
             <>
@@ -118,13 +103,7 @@ const MaoPu = () => {
                         <div>母亲：{item.mother}</div>
                     </>
                 )}
-                {isShowAll && (
-                    <UploadImageFile
-                        type="mao"
-                        otherId={item.mao_id}
-                        refreshImgList={() => getOtherImgList(item.mao_id)}
-                    />
-                )}
+                {isShowAll && <UploadImageFile type="mao" otherId={item.mao_id} refreshImgList={() => getData()} />}
                 <PreviewImages imagesList={!isShowAll ? headList.slice(0, 1) : headList.concat(imgList)} />
                 {!isShowAll && <div style={{ marginTop: 10, fontSize: 16 }}>{item.name}</div>}
             </>
@@ -154,7 +133,7 @@ const MaoPu = () => {
                 <div className={styles.content}>
                     <div className={styles.list}>
                         {showList.map((item) => {
-                            const isActive = active?.mao_id === item.mao_id;
+                            const isActive = activeId === item.mao_id;
                             return (
                                 <div
                                     key={item.mao_id}
@@ -168,14 +147,14 @@ const MaoPu = () => {
                     </div>
                 </div>
                 <MyModal
-                    visible={!!active}
-                    title={active?.name}
-                    onCancel={() => setActive(undefined)}
+                    visible={!!activeId}
+                    title={list.find((item) => item.mao_id === activeId)?.name}
+                    onCancel={() => setActiveId(undefined)}
                     footer={() => null}
                     style={{ maxWidth: "100vw" }}
                 >
                     <div className={styles.modalContent}>
-                        <Item item={active} isShowAll={true} />
+                        <Item item={list.find((item) => item.mao_id === activeId)} isShowAll={true} />
                     </div>
                 </MyModal>
             </main>
