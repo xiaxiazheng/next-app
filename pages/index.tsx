@@ -21,6 +21,7 @@ import {
     CodepenOutlined,
     ClusterOutlined,
 } from "@ant-design/icons";
+import Category from "../components/todo/category";
 
 const Home = (props) => {
     const { setRouterLoading } = props;
@@ -35,106 +36,127 @@ const Home = (props) => {
 
     const routes = [
         {
-            name: "登录",
-            path: "login",
-            icon: <LoginOutlined />,
+            title: "others",
+            children: [
+                {
+                    name: "登录",
+                    path: "login",
+                    icon: <LoginOutlined />,
+                },
+                {
+                    name: "翻译",
+                    path: "translate",
+                    icon: <TranslationOutlined />,
+                },
+                {
+                    name: "单词本",
+                    path: "word-book",
+                    icon: <TranslationOutlined />,
+                },
+
+                // {
+                //     name: "原生 audio",
+                //     path: "native-audio",
+                //     icon: <CustomerServiceOutlined />,
+                // },
+                {
+                    name: "音乐播放器",
+                    path: "music-player",
+                    icon: <CustomerServiceOutlined />,
+                },
+                {
+                    name: "云盘",
+                    path: "cloud",
+                    icon: <CloudOutlined />,
+                },
+                {
+                    name: "猫",
+                    path: "mao",
+                    icon: <GithubOutlined />,
+                },
+                {
+                    name: "树",
+                    path: "tree",
+                    icon: <ClusterOutlined />,
+                },
+            ].concat(
+                isMe
+                    ? [
+                          {
+                              name: "CMD",
+                              path: "cmd",
+                              icon: <CodepenOutlined />,
+                          },
+                      ]
+                    : []
+            ),
         },
         {
-            name: "翻译",
-            path: "translate",
-            icon: <TranslationOutlined />,
+            title: "todo",
+            children: [
+                {
+                    name: "我的已办",
+                    path: "todo-list-done",
+                    icon: <TrophyOutlined />,
+                },
+                {
+                    name: "长期任务",
+                    path: "todo-list-pool-long",
+                    icon: <ExperimentOutlined />,
+                },
+                {
+                    name: "待办池",
+                    path: "todo-list-pool",
+                    icon: <ExperimentOutlined />,
+                },
+                {
+                    name: "todo list",
+                    path: "todo-list",
+                    icon: <OrderedListOutlined />,
+                },
+                {
+                    name: "新增 todo",
+                    path: "todo-add",
+                    icon: <PlusOutlined />,
+                },
+            ],
         },
         {
-            name: "单词本",
-            path: "word-book",
-            icon: <TranslationOutlined />,
+            title: "note",
+            children: [
+                {
+                    name: !isPP ? "抽便签机" : "抽法条机",
+                    path: "note-random",
+                    icon: <RedditOutlined />,
+                },
+                {
+                    name: !isPP ? "便签" : "法条",
+                    path: "note",
+                    icon: <FileTextOutlined />,
+                },
+                {
+                    name: !isPP ? "新增便签" : "新增法条",
+                    path: "note-add",
+                    icon: <PlusOutlined />,
+                },
+            ],
         },
         {
-            name: "我的已办",
-            path: "todo-list-done",
-            icon: <TrophyOutlined />,
+            title: "blog",
+            children: [
+                {
+                    name: "随机日志",
+                    path: "blog-random",
+                    icon: <CoffeeOutlined />,
+                },
+                {
+                    name: "我的日志",
+                    path: "blog",
+                    icon: <BookOutlined />,
+                },
+            ],
         },
-        {
-            name: "长期任务",
-            path: "todo-list-pool-long",
-            icon: <ExperimentOutlined />,
-        },
-        {
-            name: "待办池",
-            path: "todo-list-pool",
-            icon: <ExperimentOutlined />,
-        },
-        {
-            name: "todo list",
-            path: "todo-list",
-            icon: <OrderedListOutlined />,
-        },
-        {
-            name: "新增 todo",
-            path: "todo-add",
-            icon: <PlusOutlined />,
-        },
-        {
-            name: !isPP ? "抽便签机" : "抽法条机",
-            path: "note-random",
-            icon: <RedditOutlined />,
-        },
-        {
-            name: "随机日志",
-            path: "blog-random",
-            icon: <CoffeeOutlined />,
-        },
-        {
-            name: "我的日志",
-            path: "blog",
-            icon: <BookOutlined />,
-        },
-        {
-            name: !isPP ? "便签" : "法条",
-            path: "note",
-            icon: <FileTextOutlined />,
-        },
-        {
-            name: !isPP ? "新增便签" : "新增法条",
-            path: "note-add",
-            icon: <PlusOutlined />,
-        },
-        // {
-        //     name: "原生 audio",
-        //     path: "native-audio",
-        //     icon: <CustomerServiceOutlined />,
-        // },
-        {
-            name: "音乐播放器",
-            path: "music-player",
-            icon: <CustomerServiceOutlined />,
-        },
-        {
-            name: "云盘",
-            path: "cloud",
-            icon: <CloudOutlined />,
-        },
-        {
-            name: "猫",
-            path: "mao",
-            icon: <GithubOutlined />,
-        },
-        {
-            name: "树",
-            path: "tree",
-            icon: <ClusterOutlined />,
-        },
-    ].concat(
-        isMe
-            ? [
-                  {
-                      name: "CMD",
-                      path: "cmd",
-                      icon: <CodepenOutlined />,
-                  },
-              ]
-            : []
-    );
+    ];
 
     const router = useRouter();
 
@@ -152,21 +174,32 @@ const Home = (props) => {
         <div>
             <Header title="XIAXIAZheng" />
             <main>
-                <div className={styles.index}>
-                    {routes.map((item) => {
+                <div className={styles.main}>
+                    {routes.map((category) => {
                         return (
-                            <div
-                                className={`${styles.route_item} ${active === item.path ? styles.active : ""}`}
-                                key={item.path}
-                                onClick={async () => {
-                                    setRouterLoading(true);
-                                    setActive(item.path);
-                                    await router.push(`/${item.path}`);
-                                    setRouterLoading(false);
-                                }}
-                            >
-                                <div className={styles.icon}>{item.icon}</div>
-                                <div>{item.name || item.path}</div>
+                            <div key={category.title}>
+                                <h3 className={styles.title}>{category.title}</h3>
+                                <div  className={styles.index}>
+                                    {category.children.map((item) => {
+                                        return (
+                                            <div
+                                                className={`${styles.route_item} ${
+                                                    active === item.path ? styles.active : ""
+                                                }`}
+                                                key={item.path}
+                                                onClick={async () => {
+                                                    setRouterLoading(true);
+                                                    setActive(item.path);
+                                                    await router.push(`/${item.path}`);
+                                                    setRouterLoading(false);
+                                                }}
+                                            >
+                                                <div className={styles.icon}>{item.icon}</div>
+                                                <div>{item.name || item.path}</div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         );
                     })}
