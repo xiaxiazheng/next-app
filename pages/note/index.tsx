@@ -11,7 +11,6 @@ import MyDrawer from "../../components/my-drawer";
 import PreviewImages from "../../components/preview-images";
 import UploadImageFile from "../../components/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
-import AffixEdit from "../../components/affix/affix-edit";
 import PreviewFiles from "../../components/preview-files";
 import MyModal from "../../components/my-modal";
 

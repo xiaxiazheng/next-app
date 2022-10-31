@@ -95,7 +95,7 @@ const Home = (props) => {
             title: "todo",
             children: [
                 {
-                    name: "我的已办",
+                    name: "已完成",
                     path: "todo-list-done",
                     icon: <TrophyOutlined />,
                 },
@@ -115,7 +115,7 @@ const Home = (props) => {
                     icon: <OrderedListOutlined />,
                 },
                 {
-                    name: "新增 todo",
+                    name: "新建 todo",
                     path: "todo-add",
                     icon: <PlusOutlined />,
                 },

@@ -29,12 +29,15 @@ export const GetTodoById = async (todo_id) => {
     }
 };
 
-export const getTodoDone = async ({ keyword, pageNo }) => {
+export const getTodoDone = async ({ keyword, pageNo, category }) => {
     const params = {
         status: TodoStatus.done,
         keyword,
         pageNo,
     };
+    if (category) {
+        params['category'] = category;
+    }
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
