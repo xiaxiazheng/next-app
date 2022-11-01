@@ -113,7 +113,11 @@ const CMD: React.FC<ICMD> = (props) => {
     return (
         <div className={styles.cmd}>
             <div>
-                <TextArea className={styles.input} value={cmd} onChange={(e) => setCmd(e.target.value)} rows={6} />
+            <Spin spinning={loading}>
+                    <div className={styles.result} ref={resultRef}>
+                        {result}
+                    </div>
+                </Spin>
                 <div className={styles.operator}>
                     <Space size={10}>
                         <Button type="primary" onClick={() => submit()}>
@@ -131,12 +135,8 @@ const CMD: React.FC<ICMD> = (props) => {
                         </Button>
                     </Space>
                 </div>
-                <div style={{ marginTop: 20 }}>结果：</div>
-                <Spin spinning={loading}>
-                    <div className={styles.result} ref={resultRef}>
-                        {result}
-                    </div>
-                </Spin>
+                <TextArea className={styles.input} value={cmd} onChange={(e) => setCmd(e.target.value)} rows={6} />
+                {/* <div style={{ marginTop: 20 }}>结果：</div> */}
             </div>
             <MyDrawer title="预设脚本" visible={visible} onCancel={() => setVisible(false)}>
                 <div className={styles.script}>

@@ -3,23 +3,22 @@
     padding: 10px 0;
     font-size: 16px;
     text-align: left;
-    .input {
-        margin-bottom: 5px;
-        font-size: 16px;
-    }
-    .operator {
-        display: flex;
-        justify-content: space-between;
-    }
     .result {
-        height: calc(100vh - 300px);
-        margin-top: 5px;
+        height: calc(100vh - 280px);
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
         overflow: auto;
         font-size: 12px;
         white-space: pre;
+    }
+    .operator {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0 5px;
+    }
+    .input {
+        font-size: 16px;
     }
     .script {
         max-height: 70vh;
