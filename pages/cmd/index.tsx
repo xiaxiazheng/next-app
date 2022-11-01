@@ -89,9 +89,11 @@ const CMD: React.FC<ICMD> = (props) => {
         ref.current = websocket;
         websocket.onopen = function () {
             pushResult(`websocket open`);
+            setIsConnect(true);
         };
         websocket.onclose = function () {
             pushResult(`websocket close`);
+            setIsConnect(false);
         };
         websocket.onmessage = function (e) {
             pushResult(
@@ -106,6 +108,8 @@ const CMD: React.FC<ICMD> = (props) => {
 
     const [visible, setVisible] = useState<boolean>(false);
 
+    const [isConnect, setIsConnect] = useState<boolean>(false);
+
     return (
         <div className={styles.cmd}>
             <div>
@@ -118,6 +122,9 @@ const CMD: React.FC<ICMD> = (props) => {
                         <Button onClick={() => setResult(placeholder)}>清空</Button>
                     </Space>
                     <Space size={10}>
+                        <Button onClick={() => connectWS()} danger={!isConnect}>
+                            重连
+                        </Button>
                         <Button onClick={() => saveScript()}>保存</Button>
                         <Button onClick={() => setVisible(true)} type="primary">
                             预设
