@@ -202,13 +202,13 @@ const Note = () => {
                             setShowDrawer(false);
                         }}
                     >
-                        <Radio key="所有" value="所有" style={{ marginBottom: 10 }}>
+                        <Radio.Button key="所有" value="所有">
                             所有 ({category?.reduce((prev: number, cur: any) => prev + Number(cur.count), 0)})
-                        </Radio>
+                        </Radio.Button>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
+                            <Radio.Button key={item.category} value={item.category}>
                                 {item.category} ({item.count})
-                            </Radio>
+                            </Radio.Button>
                         ))}
                     </Radio.Group>
                 </MyDrawer>

@@ -39,16 +39,21 @@
 
 .note_cont {
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 8;
     white-space: pre-line;
     word-break: break-all;
     &.active {
         -webkit-line-clamp: unset;
+    }
+    >div:first-child {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 3px;
+        padding-bottom: 5px;
     }
 }
 

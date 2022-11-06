@@ -47,12 +47,18 @@ const Note = () => {
         if (res) {
             const data = res.data;
             setList(
-                data?.list.map((item) => {
-                    return {
-                        ...item,
-                        note: keyword && keyword !== "" ? handleKeyword(item.note, keyword) : handleUrl(item.note),
-                    };
-                })
+                data.list
+                // 处理高亮
+                // data?.list.map((item: TodoItemType) => {
+                //     return {
+                //         ...item,
+                //         name: keyword && keyword !== "" ? handleKeyword(item.name, keyword) : item.name,
+                //         description:
+                //             keyword && keyword !== ""
+                //                 ? handleKeyword(item.description, keyword)
+                //                 : handleUrl(item.description),
+                //     };
+                // })
             );
             setTotal(data.total);
         }
@@ -91,7 +97,7 @@ const Note = () => {
             <>
                 <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
                     <div>
-                        {<Category category={item.category} color="2" />}
+                        {<Category style={{ verticalAlign: 1 }} category={item.category} color={item.color} />}
                         {item.name}
                     </div>
                     <div>{item.description}</div>

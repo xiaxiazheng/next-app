@@ -31,7 +31,7 @@ const TodoDone = () => {
         const params = {
             keyword,
             pageNo,
-            category: activeCategory === '所有' ? '' : activeCategory
+            category: activeCategory === "所有" ? "" : activeCategory,
         };
         const res = await getTodoDone(params);
         if (res) {
@@ -43,6 +43,7 @@ const TodoDone = () => {
 
     useEffect(() => {
         getData();
+        getCategory();
     }, [pageNo]);
 
     const today = dayjs().format("YYYY-MM-DD");
@@ -182,13 +183,13 @@ const TodoDone = () => {
                             setShowDrawer(false);
                         }}
                     >
-                        <Radio key="所有" value="所有" style={{ marginBottom: 10 }}>
-                            所有 ({category?.reduce((prev: number, cur: any) => prev + Number(cur.count), 0)})
-                        </Radio>
+                        <Radio.Button key="所有" value="所有" style={{ marginBottom: 10 }}>
+                            所有
+                        </Radio.Button>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 10 }}>
-                                {item.category} ({item.count})
-                            </Radio>
+                            <Radio.Button key={item.category} value={item.category} style={{ marginBottom: 10 }}>
+                                {item.category}
+                            </Radio.Button>
                         ))}
                     </Radio.Group>
                 </MyDrawer>
