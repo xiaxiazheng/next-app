@@ -1,23 +1,58 @@
-import { ImgType } from "../preview-images";
+export interface ImageType {
+    cTime: string;
+    filename: string;
+    has_min: "0" | "1"; // 是否有缩略图
+    img_id: string;
+    imgname: string;
+    other_id: string;
+    type: string;
+    username: string;
+    size: string;
+  }
 
-const obj = {
-    cTime: "2022-04-15 17:07:39",
-    category: "需求",
-    child_todo_list: [],
-    color: "1",
-    description: "",
-    imgList: [],
-    name: "交换共享：下一个需求，搜索优化&附件",
-    other_id: "",
-    status: "0",
-    time: "2022-04-18",
-    todo_id: "53ec86bd-994e-4c46-8ebd-5f2c765d5304",
-    username: "zyb",
-    doing: "0",
-    mTime: "2022-04-15 17:07:39",
-};
-type Obj = typeof obj;
-export interface TodoType extends Obj {
-    child_todo_list: Obj[];
-    imgList: ImgType[];
+export interface FileType {
+    cTime: string
+    file_id: string
+    filename: string
+    originalname: string
+    other_id: string
+    type: string
+    username: string
+    size: string
+  }
+
+export interface TodoItemType {
+    todo_id: string;
+    time: string;
+    description: string;
+    name: string;
+    status: number | string;
+    color: string;
+    category: string;
+    other_id?: string;
+    cTime?: string;
+    doing: "0" | "1";
+    mTime?: string;
+    isNote?: "0" | "1";
+
+    imgList: ImageType[];
+    fileList: FileType[];
+    other_todo: TodoItemType;
+    child_todo_list: TodoItemType[];
+}
+
+export interface CreateTodoItemReq {
+    time: string;
+    description: string;
+    name: string;
+    status: number | string;
+    color: string;
+    category: string;
+    other_id?: string;
+    doing: "0" | "1";
+    isNote: "0" | "1";
+}
+
+export interface EditTodoItemReq extends CreateTodoItemReq {
+    todo_id: string;
 }

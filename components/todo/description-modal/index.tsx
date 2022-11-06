@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PreviewImages from "../../preview-images";
 import UploadImageFile from "../../upload-image-file";
 import MyModal from "../../my-modal";
-import { TodoType } from "../types";
+import { TodoItemType } from "../types";
 import styles from "./index.module.scss";
 import { handleDesc } from "../utils";
 import { Button, message, Space } from "antd";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 interface IProps {
     isTodo?: boolean;
-    activeTodo: TodoType;
+    activeTodo: TodoItemType;
     visible: boolean;
     setVisible: Function;
     refresh: Function;

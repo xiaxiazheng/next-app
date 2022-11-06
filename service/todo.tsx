@@ -29,6 +29,16 @@ export const GetTodoById = async (todo_id) => {
     }
 };
 
+export const getTodoList = async (params: any) => {
+    const res: any = await postFetch(`/todo/getTodoList`, params);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+};
+
 export const getTodoDone = async ({ keyword, pageNo, category }) => {
     const params = {
         status: TodoStatus.done,
@@ -36,7 +46,7 @@ export const getTodoDone = async ({ keyword, pageNo, category }) => {
         pageNo,
     };
     if (category) {
-        params['category'] = category;
+        params["category"] = category;
     }
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
@@ -60,8 +70,8 @@ export const GetTodoPool = async () => {
     }
 };
 
-export const GetTodoCategory = async () => {
-    return await getFetch(`/todo/getTodoCategory`);
+export const GetTodoCategory = async (params?: { isNote?: string }) => {
+    return await getFetch(`/todo/getTodoCategory${params?.isNote ? `?isNote=${params.isNote}` : ""}`);
 };
 
 export const AddTodoItem = async (params) => {

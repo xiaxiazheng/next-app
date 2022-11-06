@@ -1,7 +1,7 @@
 import Header from "../../components/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import { GetNoteList, GetNoteCategory } from "../../service";
+import { GetNoteList, GetNoteCategory, getTodoDone, getTodoList, GetTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
@@ -13,19 +13,14 @@ import UploadImageFile from "../../components/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
 import PreviewFiles from "../../components/preview-files";
 import MyModal from "../../components/my-modal";
+import { TodoItemType } from "../../components/todo/types";
 
 const { Search } = Input;
 
-const Note = () => {
-    const [title, setTitle] = useState<string>("");
-    const [isPP, setIsPP] = useState<boolean>(false);
-    useEffect(() => {
-        const username = localStorage.getItem("username");
-        const isPP = username === "hyp" ? true : false;
-        setIsPP(isPP);
-        const title = "note";
-        setTitle(title);
+const title = "todo note";
 
+const Note = () => {
+    useEffect(() => {
         getCategory();
     }, []);
 
@@ -36,18 +31,19 @@ const Note = () => {
     const pageSize = 10;
     const [keyword, setKeyword] = useState<string>();
 
-    const [list, setList] = useState<NoteType[]>([]);
+    const [list, setList] = useState<TodoItemType[]>([]);
 
     const getData = async () => {
         const params = {
             pageNo,
             pageSize,
             keyword: keyword || "",
+            isNote: "1",
         };
         if (activeCategory !== "所有") {
             params["category"] = activeCategory;
         }
-        const res = await GetNoteList(params);
+        const res = await getTodoList(params);
         if (res) {
             const data = res.data;
             setList(
@@ -62,25 +58,25 @@ const Note = () => {
         }
     };
 
-    const handleClick = (item: NoteType) => {
-        active?.note_id === item.note_id ? setActive(undefined) : setActive(item);
+    const handleClick = (item: TodoItemType) => {
+        active?.todo_id === item.todo_id ? setActive(undefined) : setActive(item);
     };
 
     const handleAdd = () => {
-        router.push("/note-add");
+        router.push("/todo-add");
     };
 
     useEffect(() => {
         getData();
     }, [pageNo]);
 
-    const [active, setActive] = useState<NoteType>();
+    const [active, setActive] = useState<TodoItemType>();
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [category, setCategory] = useState<any[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
     const getCategory = async () => {
-        const res: any = await GetNoteCategory();
+        const res: any = await GetTodoCategory({ isNote: "1" });
         const resData = await res.json();
         setCategory(resData.data);
     };
@@ -88,27 +84,25 @@ const Note = () => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
-    const Item = (props: { item: NoteType; isActive: boolean }) => {
+    const Item = (props: { item: TodoItemType; isActive: boolean }) => {
         const { item, isActive } = props;
         if (!item) return null;
         return (
             <>
                 <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                    {!isPP && <Category category={item.category} color="2" />}
-                    <span dangerouslySetInnerHTML={{ __html: item.note }} />
-                    {isActive && isPP && (
-                        <div>
-                            <Category category={item.category} color="2" />
-                        </div>
-                    )}
+                    <div>
+                        {<Category category={item.category} color="2" />}
+                        {item.name}
+                    </div>
+                    <div>{item.description}</div>
                 </div>
                 <div className={styles.imgFileList}>
                     <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
                     <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
                     {isActive && (
                         <UploadImageFile
-                            type="note"
-                            otherId={item.note_id}
+                            type="todo"
+                            otherId={item.todo_id}
                             refreshImgList={() => getData()}
                             style={{ margin: 0 }}
                         />
@@ -162,10 +156,10 @@ const Note = () => {
                 <div className={styles.content}>
                     <div className={styles.list}>
                         {list.map((item) => {
-                            const isActive = active?.note_id === item.note_id;
+                            const isActive = active?.todo_id === item.todo_id;
                             return (
                                 <div
-                                    key={item.note_id}
+                                    key={item.todo_id}
                                     className={`${styles.list_item} ${isActive ? styles.active : ""}`}
                                     onClick={() => handleClick(item)}
                                 >
@@ -217,14 +211,13 @@ const Note = () => {
                     onCancel={() => setActive(undefined)}
                     footer={() => (
                         <Space size={16}>
-                            <Button onClick={() => copyContent(active?.note)} type="primary">
-                                复制
-                            </Button>
                             <Button
-                                onClick={() => router.push(`/note/edit_note/${active.note_id}`)}
-                                danger
+                                onClick={() => copyContent(`${active?.name}\n${active?.description}`)}
                                 type="primary"
                             >
+                                复制内容
+                            </Button>
+                            <Button onClick={() => router.push(`/todo-edit/${active.todo_id}`)} danger type="primary">
                                 编辑
                             </Button>
                         </Space>

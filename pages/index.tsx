@@ -115,6 +115,11 @@ const Home = (props) => {
                     icon: <OrderedListOutlined />,
                 },
                 {
+                    name: "todo note",
+                    path: "todo-note",
+                    icon: <FileTextOutlined />,
+                },
+                {
                     name: "新建 todo",
                     path: "todo-add",
                     icon: <PlusOutlined />,
@@ -125,17 +130,17 @@ const Home = (props) => {
             title: "note",
             children: [
                 {
-                    name: !isPP ? "抽便签机" : "抽法条机",
+                    name: "随机 note",
                     path: "note-random",
                     icon: <RedditOutlined />,
                 },
                 {
-                    name: !isPP ? "便签" : "法条",
+                    name: "note",
                     path: "note",
                     icon: <FileTextOutlined />,
                 },
                 {
-                    name: !isPP ? "新增便签" : "新增法条",
+                    name: "新增 note",
                     path: "note-add",
                     icon: <PlusOutlined />,
                 },

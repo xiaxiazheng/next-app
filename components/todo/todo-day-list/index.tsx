@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import MyModal from "../../my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
-import { TodoType } from "../../todo/types";
+import { TodoItemType } from "../../todo/types";
 import Category from "../../todo/category";
 import DescriptionModal from "../../todo/description-modal";
 
@@ -29,7 +29,7 @@ interface IProps {
 const Todo = (props: IProps) => {
     const { list, getData, title } = props;
 
-    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoType[] }>({});
+    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
     const router = useRouter();
@@ -47,7 +47,7 @@ const Todo = (props: IProps) => {
         router.push("/todo-add");
     };
 
-    const [activeTodo, setActiveTodo] = useState<TodoType>();
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
     const getTodoById = async (todo_id: string) => {
         const res = await GetTodoById(todo_id);
@@ -59,8 +59,8 @@ const Todo = (props: IProps) => {
 
     // 把过期任务的日期调整成今天
     const [showChangeExpire, setShowChangeExpire] = useState<boolean>(false);
-    const [changeExpireList, setChangeExpireList] = useState<TodoType[]>();
-    const handleChangeExpire = (todoList: TodoType[]) => {
+    const [changeExpireList, setChangeExpireList] = useState<TodoItemType[]>();
+    const handleChangeExpire = (todoList: TodoItemType[]) => {
         setChangeExpireList(todoList);
         setShowChangeExpire(true);
     };
@@ -80,7 +80,7 @@ const Todo = (props: IProps) => {
     };
 
     // 渲染单条 todo
-    const getTodoItem = (item: TodoType) => {
+    const getTodoItem = (item: TodoItemType) => {
         const Component = (props) =>
             item.status !== String(TodoStatus.done) ? <span>{props.children}</span> : <s>{props.children}</s>;
 
@@ -112,7 +112,7 @@ const Todo = (props: IProps) => {
     const [showAllProgress, setShowAllProgress] = useState<boolean>(false);
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const getShowList = (list: TodoType[]) => {
+    const getShowList = (list: TodoItemType[]) => {
         return !isSortTime
             ? list
             : [...list].sort(
@@ -170,7 +170,7 @@ const Todo = (props: IProps) => {
                             {/* 当日 todo */}
                             <div className={styles.one_day}>
                                 {(() => {
-                                    const list: TodoType[] = todoMap[time];
+                                    const list: TodoItemType[] = todoMap[time];
                                     const map = list.reduce((prev, cur) => {
                                         prev[cur.todo_id] = true;
                                         return prev;
@@ -178,7 +178,7 @@ const Todo = (props: IProps) => {
 
                                     return getShowList(todoMap[time])
                                         .filter((item) => !(item?.other_id && map[item?.other_id]))
-                                        .map((item: TodoType) => {
+                                        .map((item: TodoItemType) => {
                                             const childListNow =
                                                 item?.child_todo_list?.filter((item) => map[item.todo_id]) || [];
 

@@ -5,7 +5,7 @@ import { Button, Space } from "antd";
 import { PlusOutlined, QuestionCircleOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
-import { TodoType } from "../../../components/todo/types";
+import { TodoItemType } from "../../../components/todo/types";
 import DescriptionModal from "../../../components/todo/description-modal";
 import { CalendarOutlined } from "@ant-design/icons";
 
@@ -25,7 +25,7 @@ const TodoPool = (props: IProps) => {
         }
     }, [list]);
 
-    const [todoList, setTodoList] = useState<TodoType[]>();
+    const [todoList, setTodoList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState(0);
 
     const router = useRouter();
@@ -35,7 +35,7 @@ const TodoPool = (props: IProps) => {
     };
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
-    const [activeTodo, setActiveTodo] = useState<TodoType>();
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
     const getTodoById = async (todo_id: string) => {
         const res = await GetTodoById(todo_id);
@@ -44,7 +44,7 @@ const TodoPool = (props: IProps) => {
     };
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const getShowList = (list: TodoType[]) => {
+    const getShowList = (list: TodoItemType[]) => {
         return !isSortTime
             ? list
             : [...list].sort(

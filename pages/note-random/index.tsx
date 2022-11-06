@@ -18,9 +18,9 @@ const NoteRandom = () => {
     const [pageNo, setPageNo] = useState<number>();
     const [title, setTitle] = useState<string>("");
     useEffect(() => {
-        const username = localStorage.getItem("username");
-        const isPP = username === "hyp" ? true : false;
-        const title = isPP ? "抽法条机" : "随机便签";
+        // const username = localStorage.getItem("username");
+        // const isPP = username === "hyp" ? true : false;
+        const title = "随机 note";
         setTitle(title);
     }, []);
 

@@ -2,7 +2,7 @@ import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { getTodoDone, GetTodoById, GetTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
-import { TodoType } from "../../components/todo/types";
+import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { QuestionCircleOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
@@ -18,7 +18,7 @@ const { Search } = Input;
 const TodoDone = () => {
     const router = useRouter();
 
-    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoType[] }>({});
+    const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
     const [keyword, setKeyword] = useState<string>("");
@@ -46,7 +46,7 @@ const TodoDone = () => {
     }, [pageNo]);
 
     const today = dayjs().format("YYYY-MM-DD");
-    const [activeTodo, setActiveTodo] = useState<TodoType>();
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
     const getTodoById = async (todo_id: string) => {
         const res = await GetTodoById(todo_id);
@@ -128,7 +128,7 @@ const TodoDone = () => {
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>
-                                {getShowList(todoMap[time]).map((item: TodoType) => (
+                                {getShowList(todoMap[time]).map((item: TodoItemType) => (
                                     <div key={item.todo_id}>
                                         <Category color={item.color} category={item.category} />
                                         <span

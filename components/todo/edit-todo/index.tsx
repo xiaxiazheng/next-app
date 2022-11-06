@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { GetTodoCategory, AddTodoItem, EditTodoItem, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
-import { TodoType } from "../types";
+import { TodoItemType } from "../types";
 import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
 import AffixFooter from "../../affix/affix-footer";
@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
-const getRouterPath = (todo: TodoType) => {
+const getRouterPath = (todo: TodoItemType) => {
     console.log("todo", todo);
 
     if (String(todo.status) === "0") {
@@ -35,7 +35,7 @@ const getRouterPath = (todo: TodoType) => {
 
 interface Props {
     status: TodoStatus;
-    todo?: TodoType; // 通过有没有传这个来判断是否编辑
+    todo?: TodoItemType; // 通过有没有传这个来判断是否编辑
     isCopy?: boolean;
 }
 

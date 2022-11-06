@@ -1,4 +1,4 @@
-import { TodoType } from "./types";
+import { TodoItemType } from "./types";
 import dayjs from 'dayjs';
 
 // 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
@@ -34,7 +34,7 @@ export const handleDesc = (str: string) => {
 };
 
 // 将数组按照 time 抽成 map
-export const formatArrayToTimeMap = (list: TodoType[]) => {
+export const formatArrayToTimeMap = (list: TodoItemType[]) => {
     return list.reduce((prev, cur) => {
         prev[cur.time] = typeof prev[cur.time] === "undefined" ? [cur] : prev[cur.time].concat(cur);
         return prev;

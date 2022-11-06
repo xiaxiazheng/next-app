@@ -3,11 +3,11 @@ import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { GetTodoPool } from "../../service";
 import { Spin } from "antd";
-import { TodoType } from "../../components/todo/types";
+import { TodoItemType } from "../../components/todo/types";
 import TodoAllList from "../../components/todo/todo-all-list";
 
 const TodoPool = () => {
-    const [todoList, setTodoList] = useState<TodoType[]>();
+    const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
 
