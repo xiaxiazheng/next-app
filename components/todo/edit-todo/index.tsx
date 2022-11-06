@@ -105,29 +105,29 @@ const EditTodo: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="doing" label="星标" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
-                        <Radio key={"1"} value={"1"}>
+                        <Radio.Button key={"1"} value={"1"}>
                             是
-                        </Radio>
-                        <Radio key={"0"} value={"0"}>
+                        </Radio.Button>
+                        <Radio.Button key={"0"} value={"0"}>
                             否
-                        </Radio>
+                        </Radio.Button>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
                         {["0", "1", "2", "3", "-1"].map((item) => (
-                            <Radio key={item} value={item} style={{ color: colorMap[item] }}>
+                            <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
                                 {colorNameMap[item]}
-                            </Radio>
+                            </Radio.Button>
                         ))}
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
                     <Radio.Group>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 5 }}>
+                            <Radio.Button key={item.category} value={item.category}>
                                 {item.category} ({item.count})
-                            </Radio>
+                            </Radio.Button>
                         ))}
                     </Radio.Group>
                 </Form.Item>
@@ -138,17 +138,17 @@ const EditTodo: React.FC<Props> = (props) => {
                     initialValue={dayjs().format("YYYY-MM-DD")}
                 >
                     <Radio.Group>
-                        <Radio value={dayjs().format("YYYY-MM-DD")}>Today</Radio>
-                        <Radio value={dayjs().add(1, "day").format("YYYY-MM-DD")}>Tomorrow</Radio>
-                        <Radio value={dayjs().subtract(1, "day").format("YYYY-MM-DD")}>Yesterday</Radio>
-                        {todo && <Radio value={todo.time}>{todo.time}</Radio>}
+                        <Radio.Button value={dayjs().format("YYYY-MM-DD")}>Today</Radio.Button>
+                        <Radio.Button value={dayjs().add(1, "day").format("YYYY-MM-DD")}>Tomorrow</Radio.Button>
+                        <Radio.Button value={dayjs().subtract(1, "day").format("YYYY-MM-DD")}>Yesterday</Radio.Button>
+                        {todo && <Radio.Button value={todo.time}>{todo.time}</Radio.Button>}
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="status" label="状态" rules={[{ required: true }]} initialValue={status}>
                     <Radio.Group>
-                        <Radio value={0}>待办</Radio>
-                        <Radio value={1}>已完成</Radio>
-                        <Radio value={2}>待办池</Radio>
+                        <Radio.Button value={0}>待办</Radio.Button>
+                        <Radio.Button value={1}>已完成</Radio.Button>
+                        <Radio.Button value={2}>待办池</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
                 <AffixFooter>

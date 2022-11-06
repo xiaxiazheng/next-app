@@ -97,9 +97,9 @@ const AddNoteComp = () => {
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"其他"}>
                     <Radio.Group>
                         {category?.map((item) => (
-                            <Radio key={item.category} value={item.category} style={{ marginBottom: 5 }}>
+                            <Radio.Button key={item.category} value={item.category}>
                                 {item.category} ({item.count})
-                            </Radio>
+                            </Radio.Button>
                         ))}
                     </Radio.Group>
                 </Form.Item>
