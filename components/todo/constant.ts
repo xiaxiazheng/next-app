@@ -13,5 +13,5 @@ export const colorNameMap: any = {
     0: "重要紧急",
     1: "紧急",
     2: "重要",
-    3: "其他",
+    3: "普通",
 };
