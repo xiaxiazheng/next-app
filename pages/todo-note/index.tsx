@@ -225,7 +225,7 @@ const Note = () => {
                     style={{ width: "100vw", maxWidth: "100vw" }}
                 >
                     <div className={styles.modalContent}>
-                        <Item item={active} isActive={true} />
+                        <Item item={list.find((item) => item.todo_id === active?.todo_id)} isActive={true} />
                     </div>
                 </MyModal>
             </main>
