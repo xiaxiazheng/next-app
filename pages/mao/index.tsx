@@ -1,13 +1,12 @@
 import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { useEffect, useState } from "react";
-import { Input, Pagination } from "antd";
+import { Input } from "antd";
 import PreviewImages from "../../components/preview-images";
 import UploadImageFile from "../../components/upload-image-file";
 import MyModal from "../../components/my-modal";
 import { getMaoList } from "../../service/mao";
 import { IMao } from "../../components/mao/types";
-import { getImageListByOtherId, ImageType } from "../../service/image";
 
 const { Search } = Input;
 

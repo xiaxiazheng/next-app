@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { GetTodoById } from "../../../service";
-import { Button, Space } from "antd";
+import { Button, Input, Space } from "antd";
 import { PlusOutlined, QuestionCircleOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
 import DescriptionModal from "../../../components/todo/description-modal";
 import { CalendarOutlined } from "@ant-design/icons";
+
+const { Search } = Input;
 
 interface IProps {
     list: any[];
@@ -44,13 +46,18 @@ const TodoPool = (props: IProps) => {
     };
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
+    const [keyword, setKeyword] = useState<string>();
     const getShowList = (list: TodoItemType[]) => {
-        return !isSortTime
+        const l = !isSortTime
             ? list
             : [...list].sort(
                   // sort 会改变原数组
                   (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
               );
+
+        return !keyword
+            ? l
+            : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
     };
 
     return (
@@ -73,6 +80,19 @@ const TodoPool = (props: IProps) => {
                     <Button style={{ width: 50 }} icon={<PlusOutlined />} onClick={() => handleAdd()} type="primary" />
                 </Space>
             </h2>
+            <div>
+                <Search
+                    className={styles.search}
+                    placeholder="输入搜索"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    enterButton
+                    allowClear
+                    onSearch={() => {
+                        getData();
+                    }}
+                />
+            </div>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
                 {todoList &&
