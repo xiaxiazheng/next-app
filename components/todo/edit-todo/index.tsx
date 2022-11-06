@@ -9,6 +9,7 @@ import AffixBack from "../../affix/affix-back";
 import AffixSubmit from "../../affix/affix-submit";
 import AffixFooter from "../../affix/affix-footer";
 import { useRouter } from "next/router";
+import InputList from "../input-list";
 
 const { TextArea } = Input;
 
@@ -101,7 +102,7 @@ const EditTodo: React.FC<Props> = (props) => {
                     <Input placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成" autoFocus={true} />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
-                    <TextArea placeholder="补充以及具体描述" autoSize={{ minRows: 4, maxRows: 6 }} />
+                    <InputList />
                 </Form.Item>
                 <Form.Item name="doing" label="星标" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
