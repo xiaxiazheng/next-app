@@ -153,9 +153,7 @@ const MaoPu = () => {
                     footer={() => null}
                     style={{ maxWidth: "100vw" }}
                 >
-                    <div className={styles.modalContent}>
-                        <Item item={list.find((item) => item.mao_id === activeId)} isShowAll={true} />
-                    </div>
+                    <Item item={list.find((item) => item.mao_id === activeId)} isShowAll={true} />
                 </MyModal>
             </main>
         </>
