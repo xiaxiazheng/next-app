@@ -144,7 +144,6 @@ const Todo = (props: IProps) => {
             <div className={styles.list}>
                 {Object.keys(todoMap)
                     .sort()
-                    .reverse()
                     .map((time) => (
                         <div key={time}>
                             {/* 日期 */}
