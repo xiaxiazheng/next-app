@@ -32,6 +32,7 @@ const Note = () => {
     const [keyword, setKeyword] = useState<string>();
 
     const [list, setList] = useState<TodoItemType[]>([]);
+    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
 
     const getData = async () => {
         const params = {
@@ -39,6 +40,7 @@ const Note = () => {
             pageSize,
             keyword: keyword || "",
             isNote: "1",
+            sortBy: [[sortBy, "DESC"]],
         };
         if (activeCategory !== "所有") {
             params["category"] = activeCategory;
@@ -74,7 +76,7 @@ const Note = () => {
 
     useEffect(() => {
         getData();
-    }, [pageNo]);
+    }, [pageNo, sortBy]);
 
     const [active, setActive] = useState<TodoItemType>();
 
@@ -137,14 +139,20 @@ const Note = () => {
                     <span>
                         {title} ({total})
                     </span>
-                    <span>
+                    <Space size={5}>
+                        <Button
+                            type="primary"
+                            onClick={() => setSortBy((prev) => (prev === "cTime" ? "mTime" : "cTime"))}
+                        >
+                            {sortBy}
+                        </Button>
                         <Button
                             style={{ width: 50 }}
                             icon={<PlusOutlined />}
                             type="primary"
                             onClick={() => handleAdd()}
                         />
-                    </span>
+                    </Space>
                 </h2>
                 <div>
                     <Search
