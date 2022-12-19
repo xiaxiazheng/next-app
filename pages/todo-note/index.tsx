@@ -14,6 +14,7 @@ import { handleUrl, handleKeyword } from "../../components/note/utils";
 import PreviewFiles from "../../components/preview-files";
 import MyModal from "../../components/my-modal";
 import { TodoItemType } from "../../components/todo/types";
+import { renderDescription } from "../../components/todo/utils";
 
 const { Search } = Input;
 
@@ -48,20 +49,7 @@ const Note = () => {
         const res = await getTodoList(params);
         if (res) {
             const data = res.data;
-            setList(
-                data.list
-                // 处理高亮
-                // data?.list.map((item: TodoItemType) => {
-                //     return {
-                //         ...item,
-                //         name: keyword && keyword !== "" ? handleKeyword(item.name, keyword) : item.name,
-                //         description:
-                //             keyword && keyword !== ""
-                //                 ? handleKeyword(item.description, keyword)
-                //                 : handleUrl(item.description),
-                //     };
-                // })
-            );
+            setList(data.list);
             setTotal(data.total);
         }
     };
@@ -102,7 +90,7 @@ const Note = () => {
                         {<Category style={{ verticalAlign: 1 }} category={item.category} color={item.color} />}
                         {item.name}
                     </div>
-                    <div>{item.description}</div>
+                    <div>{renderDescription(item.description)}</div>
                 </div>
                 <div className={styles.imgFileList}>
                     <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />

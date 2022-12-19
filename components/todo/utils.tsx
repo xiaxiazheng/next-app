@@ -1,5 +1,19 @@
 import { TodoItemType } from "./types";
 import dayjs from 'dayjs';
+import styles from './utils.module.scss';
+import { splitStr } from "./input-list";
+
+export const renderDescription = (str: string) => {
+    return (
+        <div className={styles.descList}>
+            {str.split(splitStr).map((i, index) => (
+                <div className={styles.desc} key={index}>
+                    {handleDesc(i)}
+                </div>
+            ))}
+        </div>
+    );
+};
 
 // 处理详细描述，把链接抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
 export const handleDesc = (str: string) => {

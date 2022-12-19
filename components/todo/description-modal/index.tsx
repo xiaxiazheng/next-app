@@ -4,7 +4,7 @@ import UploadImageFile from "../../upload-image-file";
 import MyModal from "../../my-modal";
 import { TodoItemType } from "../types";
 import styles from "./index.module.scss";
-import { handleDesc } from "../utils";
+import { renderDescription } from "../utils";
 import { Button, message, Space } from "antd";
 import { DoneTodoItem } from "../../../service";
 import { useRouter } from "next/router";
@@ -60,7 +60,7 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                 </Space>
             )}
         >
-            <div style={{ fontSize: 14 }}>{activeTodo?.description && handleDesc(activeTodo.description)}</div>
+            <div style={{ fontSize: 14 }}>{activeTodo?.description && renderDescription(activeTodo.description)}</div>
             {activeTodo?.imgList && (
                 <div style={{ marginTop: 10 }}>
                     <UploadImageFile type="todo" otherId={activeTodo.todo_id} refreshImgList={refresh} />
