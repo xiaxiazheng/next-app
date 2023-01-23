@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
-import { GetTodoPool } from "../../service";
+import { getTodoTarget } from "../../service";
 import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "../../components/todo/types";
@@ -13,9 +13,9 @@ const TodoPool = () => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await GetTodoPool();
+        const res = await getTodoTarget();
         if (res) {
-            const list = res.data.filter((item) => item.color === "-1");
+            const list = res.data;
             setTodoList(list);
         }
         setLoading(false);
@@ -27,9 +27,9 @@ const TodoPool = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="长期任务" />
+            <Header title="目标" />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title="长期任务" />
+                <TodoAllList list={todoList} getData={getData} title="目标" />
             </main>
         </Spin>
     );

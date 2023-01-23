@@ -57,6 +57,20 @@ export const getTodoDone = async ({ keyword, pageNo, category }) => {
     }
 };
 
+export const getTodoTarget = async () => {
+    const params: any = {
+        status: TodoStatus.todo,
+        isTarget: "1"
+    };
+    const res = await postFetch(`/todo/getTodoList`, params);;
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+}
+
 export const GetTodoPool = async () => {
     const params = {
         status: TodoStatus.pool,

@@ -100,7 +100,7 @@ const Home = (props) => {
                     icon: <TrophyOutlined />,
                 },
                 {
-                    name: "长期任务",
+                    name: "目标",
                     path: "todo-list-pool-long",
                     icon: <ExperimentOutlined />,
                 },
