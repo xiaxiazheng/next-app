@@ -14,7 +14,7 @@ const Todo = () => {
         setLoading(true);
         const res = await GetTodo();
         if (res) {
-            setTodoList(res.data);
+            setTodoList(res.data.filter((item) => item.isTarget !== "1"));
         }
         setLoading(false);
     };
@@ -27,7 +27,7 @@ const Todo = () => {
         <Spin spinning={loading}>
             <Header title="todo" />
             <main className={styles.todo}>
-                <TodoDayList list={todoList} getData={getData} title="todo" />
+                <TodoDayList list={todoList} getData={getData} title="todo" isReverse={true} />
             </main>
         </Spin>
     );

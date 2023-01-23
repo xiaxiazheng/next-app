@@ -24,10 +24,11 @@ interface IProps {
     list: any[];
     getData: Function;
     title: string;
+    isReverse?: boolean;
 }
 
 const Todo = (props: IProps) => {
-    const { list, getData, title } = props;
+    const { list, getData, title, isReverse = false } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
@@ -142,79 +143,75 @@ const Todo = (props: IProps) => {
                 </Space>
             </h2>
             <div className={styles.list}>
-                {Object.keys(todoMap)
-                    .sort()
-                    .reverse()
-                    .map((time) => (
-                        <div key={time}>
-                            {/* 日期 */}
-                            <div
-                                className={`${styles.time} ${
-                                    time === today ? styles.today : time < today ? styles.previously : styles.future
-                                }`}
-                            >
-                                <span>
-                                    {time} ({getWeek(time)})
-                                    {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
-                                </span>
-                                {time < today && (
-                                    <Button
-                                        size="small"
-                                        title="调整日期"
-                                        icon={<VerticalAlignTopOutlined />}
-                                        onClick={() => handleChangeExpire(todoMap[time])}
-                                        type="primary"
-                                    />
-                                )}
-                            </div>
-                            {/* 当日 todo */}
-                            <div className={styles.one_day}>
-                                {(() => {
-                                    const list: TodoItemType[] = todoMap[time];
-                                    const map = list.reduce((prev, cur) => {
-                                        prev[cur.todo_id] = true;
-                                        return prev;
-                                    }, {});
-
-                                    return getShowList(todoMap[time])
-                                        .filter((item) => !(item?.other_id && map[item?.other_id]))
-                                        .map((item: TodoItemType) => {
-                                            const childListNow =
-                                                item?.child_todo_list?.filter((item) => map[item.todo_id]) || [];
-
-                                            return childListNow.length !== 0 ? (
-                                                <Collapse key={item.todo_id} defaultActiveKey={[item.todo_id]}>
-                                                    <Collapse.Panel
-                                                        key={item.todo_id}
-                                                        header={
-                                                            <span>
-                                                                {getTodoItem(item)}
-                                                                <Button
-                                                                    type="primary"
-                                                                    style={{ marginLeft: 10 }}
-                                                                    icon={<GoldOutlined />}
-                                                                    onClick={(e) => {
-                                                                        setActiveTodo(item);
-                                                                        setShowAllProgress(true);
-                                                                        e.stopPropagation();
-                                                                    }}
-                                                                />
-                                                            </span>
-                                                        }
-                                                    >
-                                                        {childListNow.map((child) => (
-                                                            <div key={child.todo_id}>{getTodoItem(child)}</div>
-                                                        ))}
-                                                    </Collapse.Panel>
-                                                </Collapse>
-                                            ) : (
-                                                <div key={item.todo_id}>{getTodoItem(item)}</div>
-                                            );
-                                        });
-                                })()}
-                            </div>
+                {(isReverse ? Object.keys(todoMap).sort() : Object.keys(todoMap).sort().reverse()).map((time) => (
+                    <div key={time}>
+                        {/* 日期 */}
+                        <div
+                            className={`${styles.time} ${
+                                time === today ? styles.today : time < today ? styles.previously : styles.future
+                            }`}
+                        >
+                            <span>
+                                {time} ({getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
+                            </span>
+                            {time < today && (
+                                <Button
+                                    size="small"
+                                    title="调整日期"
+                                    icon={<VerticalAlignTopOutlined />}
+                                    onClick={() => handleChangeExpire(todoMap[time])}
+                                    type="primary"
+                                />
+                            )}
                         </div>
-                    ))}
+                        {/* 当日 todo */}
+                        <div className={styles.one_day}>
+                            {(() => {
+                                const list: TodoItemType[] = todoMap[time];
+                                const map = list.reduce((prev, cur) => {
+                                    prev[cur.todo_id] = true;
+                                    return prev;
+                                }, {});
+
+                                return getShowList(todoMap[time])
+                                    .filter((item) => !(item?.other_id && map[item?.other_id]))
+                                    .map((item: TodoItemType) => {
+                                        const childListNow =
+                                            item?.child_todo_list?.filter((item) => map[item.todo_id]) || [];
+
+                                        return childListNow.length !== 0 ? (
+                                            <Collapse key={item.todo_id} defaultActiveKey={[item.todo_id]}>
+                                                <Collapse.Panel
+                                                    key={item.todo_id}
+                                                    header={
+                                                        <span>
+                                                            {getTodoItem(item)}
+                                                            <Button
+                                                                type="primary"
+                                                                style={{ marginLeft: 10 }}
+                                                                icon={<GoldOutlined />}
+                                                                onClick={(e) => {
+                                                                    setActiveTodo(item);
+                                                                    setShowAllProgress(true);
+                                                                    e.stopPropagation();
+                                                                }}
+                                                            />
+                                                        </span>
+                                                    }
+                                                >
+                                                    {childListNow.map((child) => (
+                                                        <div key={child.todo_id}>{getTodoItem(child)}</div>
+                                                    ))}
+                                                </Collapse.Panel>
+                                            </Collapse>
+                                        ) : (
+                                            <div key={item.todo_id}>{getTodoItem(item)}</div>
+                                        );
+                                    });
+                            })()}
+                        </div>
+                    </div>
+                ))}
             </div>
             {/* 详情弹窗 */}
             <DescriptionModal
