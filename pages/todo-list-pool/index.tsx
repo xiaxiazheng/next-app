@@ -15,7 +15,7 @@ const TodoPool = () => {
         setLoading(true);
         const res = await GetTodoPool();
         if (res) {
-            setTodoList(res.data.filter((item) => item.color !== "-1"));
+            setTodoList(res.data);
         }
         setLoading(false);
     };

@@ -166,49 +166,9 @@ const Todo = (props: IProps) => {
                         </div>
                         {/* 当日 todo */}
                         <div className={styles.one_day}>
-                            {(() => {
-                                const list: TodoItemType[] = todoMap[time];
-                                const map = list.reduce((prev, cur) => {
-                                    prev[cur.todo_id] = true;
-                                    return prev;
-                                }, {});
-
-                                return getShowList(todoMap[time])
-                                    .filter((item) => !(item?.other_id && map[item?.other_id]))
-                                    .map((item: TodoItemType) => {
-                                        const childListNow =
-                                            item?.child_todo_list?.filter((item) => map[item.todo_id]) || [];
-
-                                        return childListNow.length !== 0 ? (
-                                            <Collapse key={item.todo_id} defaultActiveKey={[item.todo_id]}>
-                                                <Collapse.Panel
-                                                    key={item.todo_id}
-                                                    header={
-                                                        <span>
-                                                            {getTodoItem(item)}
-                                                            <Button
-                                                                type="primary"
-                                                                style={{ marginLeft: 10 }}
-                                                                icon={<GoldOutlined />}
-                                                                onClick={(e) => {
-                                                                    setActiveTodo(item);
-                                                                    setShowAllProgress(true);
-                                                                    e.stopPropagation();
-                                                                }}
-                                                            />
-                                                        </span>
-                                                    }
-                                                >
-                                                    {childListNow.map((child) => (
-                                                        <div key={child.todo_id}>{getTodoItem(child)}</div>
-                                                    ))}
-                                                </Collapse.Panel>
-                                            </Collapse>
-                                        ) : (
-                                            <div key={item.todo_id}>{getTodoItem(item)}</div>
-                                        );
-                                    });
-                            })()}
+                            {getShowList(todoMap[time]).map((item: TodoItemType) => {
+                                return <div key={item.todo_id}>{getTodoItem(item)}</div>;
+                            })}
                         </div>
                     </div>
                 ))}
