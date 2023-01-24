@@ -12,6 +12,7 @@ import Category from "../../components/todo/category";
 import { useRouter } from "next/router";
 import DescriptionModal from "../../components/todo/description-modal";
 import MyDrawer from "../../components/my-drawer";
+import TodoItem from "../../components/todo/todo-item";
 
 const { Search } = Input;
 
@@ -129,21 +130,13 @@ const TodoDone = () => {
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>
-                                {getShowList(todoMap[time]).map((item: TodoItemType) => (
-                                    <div key={item.todo_id}>
-                                        <Category color={item.color} category={item.category} />
-                                        <span
-                                            onClick={() => {
-                                                setActiveTodo(item);
-                                                setShowDesc(true);
-                                            }}
-                                        >
-                                            <span>{item.name}</span>
-                                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                                        </span>
-                                    </div>
-                                ))}
+                                <TodoItem
+                                    list={getShowList(todoMap[time])}
+                                    handleClick={(item) => {
+                                        setActiveTodo(item);
+                                        setShowDesc(true);
+                                    }}
+                                />
                             </div>
                         </div>
                     ))}

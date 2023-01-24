@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { GetTodoById } from "../../../service";
+import { GetTodoById, TodoStatus } from "../../../service";
 import { Button, Input, Space } from "antd";
-import { PlusOutlined, QuestionCircleOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
+import {
+    PlusOutlined,
+    QuestionCircleOutlined,
+    FileImageOutlined,
+    SyncOutlined,
+    AimOutlined,
+    BookOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
 import DescriptionModal from "../../../components/todo/description-modal";
 import { CalendarOutlined } from "@ant-design/icons";
+import TodoItem from "../todo-item";
 
 const { Search } = Input;
 
@@ -95,22 +104,15 @@ const TodoPool = (props: IProps) => {
             </div>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList &&
-                    getShowList(todoList).map((item) => (
-                        <div key={item.todo_id} style={{ marginBottom: 8 }}>
-                            <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
-                            <span
-                                onClick={() => {
-                                    setActiveTodo(item);
-                                    setShowDesc(true);
-                                }}
-                            >
-                                <span>{item.name}</span>
-                                {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                                {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                            </span>
-                        </div>
-                    ))}
+                {todoList && (
+                    <TodoItem
+                        list={getShowList(todoList)}
+                        handleClick={(item) => {
+                            setActiveTodo(item);
+                            setShowDesc(true);
+                        }}
+                    />
+                )}
             </div>
             {/* 详情弹窗 */}
             <DescriptionModal
