@@ -58,3 +58,5 @@ export interface CreateTodoItemReq {
 export interface EditTodoItemReq extends CreateTodoItemReq {
     todo_id: string;
 }
+
+export type OperatorType = 'edit' | 'copy';

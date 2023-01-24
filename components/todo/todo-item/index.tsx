@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
-import DescriptionModal from "../../../components/todo/description-modal";
+import DescriptionModal from "../description-drawer";
 import { CalendarOutlined } from "@ant-design/icons";
 
 interface IProps {
@@ -27,34 +27,36 @@ const TodoItem: React.FC<IProps> = (props) => {
 
     return (
         <>
-            {list.map((item) => (
-                <div key={item.todo_id} style={{ marginBottom: 8 }}>
-                    <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
-                    {/* 目标 */}
-                    {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                    {/* 存档 */}
-                    {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                    {/* 书签 */}
-                    {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                    <span
-                        onClick={() => {
-                            handleClick(item);
-                        }}
-                    >
+            {list
+                .sort((a, b) => (a.doing === "1" ? -1 : 0))
+                .map((item) => (
+                    <div key={item.todo_id} style={{ marginBottom: 8 }}>
+                        <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
+                        {/* 目标 */}
+                        {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                        {/* 存档 */}
+                        {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                        {/* 书签 */}
+                        {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
                         <span
-                            style={
-                                item.status === String(TodoStatus.todo) && item.doing === "1"
-                                    ? { color: "#ffeb3b" }
-                                    : {}
-                            }
+                            onClick={() => {
+                                handleClick(item);
+                            }}
                         >
-                            {item.name}
+                            <span
+                                style={
+                                    item.status === String(TodoStatus.todo) && item.doing === "1"
+                                        ? { color: "#ffeb3b" }
+                                        : {}
+                                }
+                            >
+                                {item.name}
+                            </span>
+                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
+                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
                         </span>
-                        {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                        {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                    </span>
-                </div>
-            ))}
+                    </div>
+                ))}
         </>
     );
 };

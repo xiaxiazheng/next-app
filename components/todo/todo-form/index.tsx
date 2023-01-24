@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Radio, message } from "antd";
+import { Form, Input, Button, Radio, message, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { GetTodoCategory, AddTodoItem, EditTodoItem, TodoStatus } from "../../../service";
@@ -34,16 +34,17 @@ const getRouterPath = (todo: TodoItemType) => {
     return "/";
 };
 
-interface Props {
+interface Props extends FormProps {
     status: TodoStatus;
     todo?: TodoItemType; // 通过有没有传这个来判断是否编辑
     isCopy?: boolean;
+    form?: FormInstance;
+    showFooter?: boolean;
 }
 
-const EditTodo: React.FC<Props> = (props) => {
-    const { status, todo, isCopy = false } = props;
+const TodoForm: React.FC<Props> = (props) => {
+    const { status, todo, isCopy = false, form, showFooter = false, ...rest } = props;
 
-    const [form] = Form.useForm();
     const router = useRouter();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -97,6 +98,7 @@ const EditTodo: React.FC<Props> = (props) => {
                     setIsEdit(true);
                 }}
                 onFinish={onFinish}
+                {...rest}
             >
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                     <Input placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成" autoFocus={true} />
@@ -162,15 +164,17 @@ const EditTodo: React.FC<Props> = (props) => {
                         <Radio.Button value={2}>待办池</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
-                <AffixFooter>
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <AffixSubmit danger={isEdit} loading={loading} />
-                    </Form.Item>
-                    <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
-                </AffixFooter>
+                {showFooter && (
+                    <AffixFooter>
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            <AffixSubmit danger={isEdit} loading={loading} />
+                        </Form.Item>
+                        <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
+                    </AffixFooter>
+                )}
             </Form>
         </main>
     );
 };
 
-export default EditTodo;
+export default TodoForm;

@@ -18,7 +18,8 @@ import MyModal from "../../my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import Category from "../../todo/category";
-import DescriptionModal from "../../todo/description-modal";
+import DescriptionModal from "../description-drawer";
+import TodoItem from "../todo-item";
 
 interface IProps {
     list: any[];
@@ -81,34 +82,34 @@ const Todo = (props: IProps) => {
     };
 
     // 渲染单条 todo
-    const getTodoItem = (item: TodoItemType) => {
-        const Component = (props) =>
-            item.status !== String(TodoStatus.done) ? <span>{props.children}</span> : <s>{props.children}</s>;
+    // const getTodoItem = (item: TodoItemType) => {
+    //     const Component = (props) =>
+    //         item.status !== String(TodoStatus.done) ? <span>{props.children}</span> : <s>{props.children}</s>;
 
-        return (
-            <Component>
-                {item.doing === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                <Category
-                    color={item.color}
-                    category={item.category}
-                    style={{
-                        verticalAlign: "-1px",
-                    }}
-                />
-                <span
-                    onClick={(e) => {
-                        setActiveTodo(item);
-                        setShowDesc(true);
-                        e.stopPropagation();
-                    }}
-                >
-                    <span>{item.name}</span>
-                    {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                    {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                </span>
-            </Component>
-        );
-    };
+    //     return (
+    //         <Component>
+    //             {item.doing === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
+    //             <Category
+    //                 color={item.color}
+    //                 category={item.category}
+    //                 style={{
+    //                     verticalAlign: "-1px",
+    //                 }}
+    //             />
+    //             <span
+    //                 onClick={(e) => {
+    //                     setActiveTodo(item);
+    //                     setShowDesc(true);
+    //                     e.stopPropagation();
+    //                 }}
+    //             >
+    //                 <span>{item.name}</span>
+    //                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
+    //                 {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+    //             </span>
+    //         </Component>
+    //     );
+    // };
 
     const [showAllProgress, setShowAllProgress] = useState<boolean>(false);
 
@@ -166,9 +167,13 @@ const Todo = (props: IProps) => {
                         </div>
                         {/* 当日 todo */}
                         <div className={styles.one_day}>
-                            {getShowList(todoMap[time]).map((item: TodoItemType) => {
-                                return <div key={item.todo_id}>{getTodoItem(item)}</div>;
-                            })}
+                            <TodoItem
+                                list={getShowList(todoMap[time])}
+                                handleClick={(item) => {
+                                    setActiveTodo(item);
+                                    setShowDesc(true);
+                                }}
+                            />
                         </div>
                     </div>
                 ))}
@@ -179,7 +184,7 @@ const Todo = (props: IProps) => {
                 visible={showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
-                refresh={() => getTodoById(activeTodo.todo_id)}
+                onFinish={() => getTodoById(activeTodo.todo_id)}
             />
             {/* 批量调整过期 todo 日期的弹窗 */}
             <MyModal
@@ -193,7 +198,7 @@ const Todo = (props: IProps) => {
                 是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
             </MyModal>
             {/* 查看总进度 */}
-            <MyModal
+            {/* <MyModal
                 visible={showAllProgress}
                 title={"总进度"}
                 showFooter={false}
@@ -208,7 +213,7 @@ const Todo = (props: IProps) => {
                         </Collapse.Panel>
                     </Collapse>
                 )}
-            </MyModal>
+            </MyModal> */}
         </>
     );
 };

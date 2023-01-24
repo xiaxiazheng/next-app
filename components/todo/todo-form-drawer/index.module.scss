@@ -1,0 +1,7 @@
+.TodoFormDrawer {
+    :global {
+        .ant-drawer-body {
+            overflow-y: auto;
+        }
+    }
+}

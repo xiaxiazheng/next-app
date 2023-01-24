@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
-import DescriptionModal from "../../../components/todo/description-modal";
+import DescriptionModal from "../description-drawer";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoItem from "../todo-item";
 
@@ -119,7 +119,7 @@ const TodoPool = (props: IProps) => {
                 visible={showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
-                refresh={() => getTodoById(activeTodo.todo_id)}
+                onFinish={() => getTodoById(activeTodo.todo_id)}
             />
         </>
     );

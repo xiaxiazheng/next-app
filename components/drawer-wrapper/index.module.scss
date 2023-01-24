@@ -1,0 +1,11 @@
+.drawer {
+    :global {
+        .ant-drawer-content,
+        .ant-drawer-header,
+        .ant-drawer-title,
+        .ant-radio-button-wrapper {
+            color: #a6adb4;
+            background-color: #001529;
+        }
+    }
+}

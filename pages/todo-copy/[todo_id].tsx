@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import styles from './index.module.scss';
-import EditTodo from "../../components/todo/edit-todo";
+import EditTodo from "../../components/todo/todo-form";
 import { useEffect, useState } from "react";
 import { GetTodoById, TodoStatus } from "../../service";
 

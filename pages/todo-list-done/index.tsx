@@ -10,9 +10,10 @@ import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined } from "@ant-design/icons";
 import Category from "../../components/todo/category";
 import { useRouter } from "next/router";
-import DescriptionModal from "../../components/todo/description-modal";
+import DescriptionModal from "../../components/todo/description-drawer";
 import MyDrawer from "../../components/my-drawer";
 import TodoItem from "../../components/todo/todo-item";
+import DrawerWrapper from "../../components/drawer-wrapper";
 
 const { Search } = Input;
 
@@ -163,10 +164,10 @@ const TodoDone = () => {
                     visible={showDesc}
                     setVisible={setShowDesc}
                     activeTodo={activeTodo}
-                    refresh={() => getTodoById(activeTodo.todo_id)}
+                    onFinish={() => getTodoById(activeTodo.todo_id)}
                 />
                 {/* 分类弹窗 */}
-                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
+                <DrawerWrapper visible={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}
@@ -185,7 +186,7 @@ const TodoDone = () => {
                             </Radio.Button>
                         ))}
                     </Radio.Group>
-                </MyDrawer>
+                </DrawerWrapper>
             </main>
         </Spin>
     );
