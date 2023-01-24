@@ -19,6 +19,19 @@ interface IProps {
     onFinish: Function;
 }
 
+export const splitStr = "<#####>";
+export const renderDescription = (str: string, keyword: string = "") => {
+    return (
+        <div className={styles.descList}>
+            {str.split(splitStr).map((i, index) => (
+                <div className={styles.desc} key={index}>
+                    {handleDesc(i, keyword)}
+                </div>
+            ))}
+        </div>
+    );
+};
+
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const DescriptionModal: React.FC<IProps> = (props) => {
     const { isTodo = false, activeTodo, visible, setVisible, onFinish } = props;
@@ -78,7 +91,9 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                     </Space>
                 }
             >
-                <div style={{ fontSize: 14 }}>{activeTodo?.description && handleDesc(activeTodo.description)}</div>
+                <div style={{ fontSize: 14 }}>
+                    {activeTodo?.description && renderDescription(activeTodo.description)}
+                </div>
                 {activeTodo?.imgList && (
                     <div style={{ marginTop: 10 }}>
                         <UploadImageFile type="todo" otherId={activeTodo.todo_id} refreshImgList={onFinish} />
