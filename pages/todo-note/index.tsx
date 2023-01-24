@@ -14,6 +14,7 @@ import { handleUrl, handleKeyword } from "../../components/note/utils";
 import PreviewFiles from "../../components/preview-files";
 import MyModal from "../../components/my-modal";
 import { TodoItemType } from "../../components/todo/types";
+import { renderDescription } from "../../components/todo/utils";
 
 const { Search } = Input;
 
@@ -32,6 +33,7 @@ const Note = () => {
     const [keyword, setKeyword] = useState<string>();
 
     const [list, setList] = useState<TodoItemType[]>([]);
+    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
 
     const getData = async () => {
         const params = {
@@ -39,6 +41,7 @@ const Note = () => {
             pageSize,
             keyword: keyword || "",
             isNote: "1",
+            sortBy: [[sortBy, "DESC"]],
         };
         if (activeCategory !== "所有") {
             params["category"] = activeCategory;
@@ -46,20 +49,7 @@ const Note = () => {
         const res = await getTodoList(params);
         if (res) {
             const data = res.data;
-            setList(
-                data.list
-                // 处理高亮
-                // data?.list.map((item: TodoItemType) => {
-                //     return {
-                //         ...item,
-                //         name: keyword && keyword !== "" ? handleKeyword(item.name, keyword) : item.name,
-                //         description:
-                //             keyword && keyword !== ""
-                //                 ? handleKeyword(item.description, keyword)
-                //                 : handleUrl(item.description),
-                //     };
-                // })
-            );
+            setList(data.list);
             setTotal(data.total);
         }
     };
@@ -74,7 +64,7 @@ const Note = () => {
 
     useEffect(() => {
         getData();
-    }, [pageNo]);
+    }, [pageNo, sortBy]);
 
     const [active, setActive] = useState<TodoItemType>();
 
@@ -100,7 +90,7 @@ const Note = () => {
                         {<Category style={{ verticalAlign: 1 }} category={item.category} color={item.color} />}
                         {item.name}
                     </div>
-                    <div>{item.description}</div>
+                    <div>{renderDescription(item.description)}</div>
                 </div>
                 <div className={styles.imgFileList}>
                     <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
@@ -137,14 +127,20 @@ const Note = () => {
                     <span>
                         {title} ({total})
                     </span>
-                    <span>
+                    <Space size={5}>
+                        <Button
+                            type="primary"
+                            onClick={() => setSortBy((prev) => (prev === "cTime" ? "mTime" : "cTime"))}
+                        >
+                            {sortBy}
+                        </Button>
                         <Button
                             style={{ width: 50 }}
                             icon={<PlusOutlined />}
                             type="primary"
                             onClick={() => handleAdd()}
                         />
-                    </span>
+                    </Space>
                 </h2>
                 <div>
                     <Search

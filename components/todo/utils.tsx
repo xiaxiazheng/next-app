@@ -1,5 +1,19 @@
 import { TodoItemType } from "./types";
 import dayjs from 'dayjs';
+import styles from './utils.module.scss';
+import { splitStr } from "./input-list";
+
+export const renderDescription = (str: string) => {
+    return (
+        <div className={styles.descList}>
+            {str.split(splitStr).map((i, index) => (
+                <div className={styles.desc} key={index}>
+                    {handleDesc(i)}
+                </div>
+            ))}
+        </div>
+    );
+};
 
 export const handleDesc = (description: string, keyword: string = "") => {
     return !description
