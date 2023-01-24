@@ -23,7 +23,7 @@ const getRouterPath = (todo: TodoItemType) => {
     }
     if (String(todo.status) === "2") {
         if (String(todo.color) === "-1") {
-            return "/todo-list-pool-long";
+            return "/todo-list-target";
         }
         if (String(todo.color) === "-2") {
             return "/todo-list-pool-short";

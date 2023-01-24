@@ -20,6 +20,8 @@ import {
     GithubOutlined,
     CodepenOutlined,
     ClusterOutlined,
+    StarFilled,
+    AimOutlined,
 } from "@ant-design/icons";
 import Category from "../components/todo/category";
 
@@ -101,8 +103,13 @@ const Home = (props) => {
                 },
                 {
                     name: "目标",
-                    path: "todo-list-pool-long",
-                    icon: <ExperimentOutlined />,
+                    path: "todo-list-target",
+                    icon: <AimOutlined />,
+                },
+                {
+                    name: "书签",
+                    path: "todo-list-bookmark",
+                    icon: <StarFilled />,
                 },
                 {
                     name: "待办池",

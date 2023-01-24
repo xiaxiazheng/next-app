@@ -57,6 +57,21 @@ export const getTodoDone = async ({ keyword, pageNo, category }) => {
     }
 };
 
+export const getTodoBookMark = async () => {
+    const params: any = {
+        isBookMark: "1",
+        pageNo: 1,
+        pageSize: 100,
+    };
+    const res = await postFetch(`/todo/getTodoList`, params);;
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+}
+
 export const getTodoTarget = async () => {
     const params: any = {
         status: TodoStatus.todo,
