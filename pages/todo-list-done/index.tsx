@@ -1,25 +1,20 @@
 import Header from "../../components/header";
 import styles from "./index.module.scss";
-import { getTodoDone, GetTodoById, GetTodoCategory } from "../../service";
+import { getTodoDone, GetTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
-import { QuestionCircleOutlined, FileImageOutlined, SyncOutlined } from "@ant-design/icons";
+import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined } from "@ant-design/icons";
-import Category from "../../components/todo/category";
 import { useRouter } from "next/router";
-import DescriptionModal from "../../components/todo/description-drawer";
-import MyDrawer from "../../components/my-drawer";
-import TodoItem from "../../components/todo/todo-item";
+import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/drawer-wrapper";
 
 const { Search } = Input;
 
 const TodoDone = () => {
-    const router = useRouter();
-
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
@@ -49,15 +44,6 @@ const TodoDone = () => {
     }, [pageNo]);
 
     const today = dayjs().format("YYYY-MM-DD");
-    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
-
-    const getTodoById = async (todo_id: string) => {
-        const res = await GetTodoById(todo_id);
-        setActiveTodo(res.data);
-        getData();
-    };
-
-    const [showDesc, setShowDesc] = useState<boolean>(false);
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const getShowList = (list) => {
@@ -131,12 +117,9 @@ const TodoDone = () => {
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>
-                                <TodoItem
+                                <TodoItemList
                                     list={getShowList(todoMap[time])}
-                                    handleClick={(item) => {
-                                        setActiveTodo(item);
-                                        setShowDesc(true);
-                                    }}
+                                    onRefresh={getData}
                                 />
                             </div>
                         </div>
@@ -159,15 +142,8 @@ const TodoDone = () => {
                     icon={<ApartmentOutlined />}
                     onClick={() => setShowDrawer(true)}
                 />
-                {/* 详情弹窗 */}
-                <DescriptionModal
-                    visible={showDesc}
-                    setVisible={setShowDesc}
-                    activeTodo={activeTodo}
-                    onFinish={() => getTodoById(activeTodo.todo_id)}
-                />
                 {/* 分类弹窗 */}
-                <DrawerWrapper visible={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom">
+                <DrawerWrapper visible={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom" height="40vh">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}

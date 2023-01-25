@@ -1,25 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { EditTodoItem, GetTodoById, TodoStatus } from "../../../service";
-import { Button, Collapse, message, Space } from "antd";
-import {
-    PlusOutlined,
-    QuestionCircleOutlined,
-    VerticalAlignTopOutlined,
-    FileImageOutlined,
-    SyncOutlined,
-    GoldOutlined,
-    StarFilled,
-    CalendarOutlined,
-} from "@ant-design/icons";
+import { EditTodoItem, GetTodoById } from "../../../service";
+import { Button, message, Space } from "antd";
+import { PlusOutlined, VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import MyModal from "../../my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
-import Category from "../../todo/category";
-import DescriptionModal from "../description-drawer";
-import TodoItem from "../todo-item";
+import TodoItemList from "../todo-item-list";
 
 interface IProps {
     list: any[];
@@ -81,38 +70,6 @@ const Todo = (props: IProps) => {
         }
     };
 
-    // 渲染单条 todo
-    // const getTodoItem = (item: TodoItemType) => {
-    //     const Component = (props) =>
-    //         item.status !== String(TodoStatus.done) ? <span>{props.children}</span> : <s>{props.children}</s>;
-
-    //     return (
-    //         <Component>
-    //             {item.doing === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-    //             <Category
-    //                 color={item.color}
-    //                 category={item.category}
-    //                 style={{
-    //                     verticalAlign: "-1px",
-    //                 }}
-    //             />
-    //             <span
-    //                 onClick={(e) => {
-    //                     setActiveTodo(item);
-    //                     setShowDesc(true);
-    //                     e.stopPropagation();
-    //                 }}
-    //             >
-    //                 <span>{item.name}</span>
-    //                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
-    //                 {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-    //             </span>
-    //         </Component>
-    //     );
-    // };
-
-    const [showAllProgress, setShowAllProgress] = useState<boolean>(false);
-
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const getShowList = (list: TodoItemType[]) => {
         return !isSortTime
@@ -167,25 +124,11 @@ const Todo = (props: IProps) => {
                         </div>
                         {/* 当日 todo */}
                         <div className={styles.one_day}>
-                            <TodoItem
-                                list={getShowList(todoMap[time])}
-                                handleClick={(item) => {
-                                    setActiveTodo(item);
-                                    setShowDesc(true);
-                                }}
-                            />
+                            <TodoItemList list={getShowList(todoMap[time])} onRefresh={getData} />
                         </div>
                     </div>
                 ))}
             </div>
-            {/* 详情弹窗 */}
-            <DescriptionModal
-                isTodo={true}
-                visible={showDesc}
-                setVisible={setShowDesc}
-                activeTodo={activeTodo}
-                onFinish={() => getTodoById(activeTodo.todo_id)}
-            />
             {/* 批量调整过期 todo 日期的弹窗 */}
             <MyModal
                 visible={showChangeExpire}
@@ -197,23 +140,6 @@ const Todo = (props: IProps) => {
             >
                 是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
             </MyModal>
-            {/* 查看总进度 */}
-            {/* <MyModal
-                visible={showAllProgress}
-                title={"总进度"}
-                showFooter={false}
-                onCancel={() => setShowAllProgress(false)}
-            >
-                {activeTodo && (
-                    <Collapse key={activeTodo.todo_id} defaultActiveKey={[activeTodo.todo_id]}>
-                        <Collapse.Panel key={activeTodo.todo_id} header={getTodoItem(activeTodo)}>
-                            {activeTodo.child_todo_list?.map((child) => (
-                                <div key={child.todo_id}>{getTodoItem(child)}</div>
-                            ))}
-                        </Collapse.Panel>
-                    </Collapse>
-                )}
-            </MyModal> */}
         </>
     );
 };

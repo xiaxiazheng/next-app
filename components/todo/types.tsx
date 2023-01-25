@@ -41,6 +41,7 @@ export interface TodoItemType {
     fileList: FileType[];
     other_todo: TodoItemType;
     child_todo_list: TodoItemType[];
+    child_todo_list_length: number;
 }
 
 export interface CreateTodoItemReq {
@@ -59,4 +60,4 @@ export interface EditTodoItemReq extends CreateTodoItemReq {
     todo_id: string;
 }
 
-export type OperatorType = 'edit' | 'copy';
+export type OperatorType = 'progress' | 'edit' | 'copy';

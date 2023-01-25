@@ -29,6 +29,17 @@ export const GetTodoById = async (todo_id) => {
     }
 };
 
+/** 获取所有前置 todo，根据 other_id 一路往上查 */
+export async function getTodoChainById(todo_id: string): Promise<any> {
+    const res = await getFetch(`/todo/getTodoChainById?todo_id=${todo_id}`);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+}
+
 export const getTodoList = async (params: any) => {
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {

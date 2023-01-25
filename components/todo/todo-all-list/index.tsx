@@ -16,12 +16,12 @@ import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
 import DescriptionModal from "../description-drawer";
 import { CalendarOutlined } from "@ant-design/icons";
-import TodoItem from "../todo-item";
+import TodoItemList from "../todo-item-list";
 
 const { Search } = Input;
 
 interface IProps {
-    list: any[];
+    list: TodoItemType[];
     getData: Function;
     title: string;
 }
@@ -43,15 +43,6 @@ const TodoPool = (props: IProps) => {
 
     const handleAdd = () => {
         router.push("/todo-add");
-    };
-
-    const [showDesc, setShowDesc] = useState<boolean>(false);
-    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
-
-    const getTodoById = async (todo_id: string) => {
-        const res = await GetTodoById(todo_id);
-        setActiveTodo(res.data);
-        getData();
     };
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
@@ -104,23 +95,8 @@ const TodoPool = (props: IProps) => {
             </div>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList && (
-                    <TodoItem
-                        list={getShowList(todoList)}
-                        handleClick={(item) => {
-                            setActiveTodo(item);
-                            setShowDesc(true);
-                        }}
-                    />
-                )}
+                {todoList && <TodoItemList list={getShowList(todoList)} onRefresh={getData} />}
             </div>
-            {/* 详情弹窗 */}
-            <DescriptionModal
-                visible={showDesc}
-                setVisible={setShowDesc}
-                activeTodo={activeTodo}
-                onFinish={() => getTodoById(activeTodo.todo_id)}
-            />
         </>
     );
 };

@@ -1,29 +1,58 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { GetTodoById, TodoStatus } from "../../../service";
-import { Button, Input, Space } from "antd";
 import {
-    PlusOutlined,
     QuestionCircleOutlined,
     FileImageOutlined,
-    SyncOutlined,
     AimOutlined,
     BookOutlined,
     StarFilled,
 } from "@ant-design/icons";
-import { useRouter } from "next/router";
-import Category from "../../../components/todo/category";
-import { TodoItemType } from "../../../components/todo/types";
+import Category from "../category";
+import { TodoItemType } from "../types";
+import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 import DescriptionModal from "../description-drawer";
-import { CalendarOutlined } from "@ant-design/icons";
 
 interface IProps {
     list: TodoItemType[];
-    handleClick: (item: TodoItemType) => void;
+    onRefresh: Function;
 }
 
-const TodoItem: React.FC<IProps> = (props) => {
-    const { list, handleClick } = props;
+const TodoItemList: React.FC<IProps> = (props) => {
+    const { list, onRefresh } = props;
+
+    const Icon = ({ item }: { item: TodoItemType }) => {
+        const isHasChild = item?.child_todo_list_length !== 0;
+
+        // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
+        const isUp = item?.other_id;
+        // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
+        const isDown = isHasChild;
+
+        if (!isUp && !isDown) {
+            return null;
+        }
+        let Comp: any;
+
+        if (isUp && isDown) {
+            Comp = SwapOutlined;
+        } else if (isUp) {
+            Comp = SwapLeftOutlined;
+        } else {
+            Comp = SwapRightOutlined;
+        }
+
+        return <Comp className={styles.icon} style={{ color: "#1890ff" }} />;
+    };
+
+    const [showDesc, setShowDesc] = useState<boolean>(false);
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
+
+    const getTodoById = async (todo_id: string) => {
+        const res = await GetTodoById(todo_id);
+        setActiveTodo(res.data);
+        onRefresh();
+    };
 
     return (
         <>
@@ -40,7 +69,8 @@ const TodoItem: React.FC<IProps> = (props) => {
                         {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
                         <span
                             onClick={() => {
-                                handleClick(item);
+                                setActiveTodo(item);
+                                setShowDesc(true);
                             }}
                         >
                             <span
@@ -54,11 +84,19 @@ const TodoItem: React.FC<IProps> = (props) => {
                             </span>
                             {item.description && <QuestionCircleOutlined className={styles.icon} />}
                             {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                            <Icon item={item} />
                         </span>
                     </div>
                 ))}
+            {/* 详情弹窗 */}
+            <DescriptionModal
+                visible={showDesc}
+                setVisible={setShowDesc}
+                activeTodo={activeTodo}
+                onFinish={() => getTodoById(activeTodo.todo_id)}
+            />
         </>
     );
 };
 
-export default TodoItem;
+export default TodoItemList;
