@@ -1,7 +1,7 @@
 import { TodoItemType } from "./types";
 import dayjs from 'dayjs';
 import styles from './utils.module.scss';
-import { splitStr } from "./input-list";
+import { splitStr } from "./todo-form/input-list";
 
 export const renderDescription = (str: string) => {
     return (

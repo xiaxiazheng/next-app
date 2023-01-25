@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { GetNoteList, GetNoteCategory, getTodoDone, getTodoList, GetTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
-import { Input, Button, Pagination, Radio, Space, message } from "antd";
+import { Input, Button, Pagination, Radio, Space, message, Drawer } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { NoteType } from "../../components/note/types";
 import Category from "../../components/todo/category";
@@ -13,8 +13,10 @@ import UploadImageFile from "../../components/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
 import PreviewFiles from "../../components/preview-files";
 import MyModal from "../../components/my-modal";
-import { TodoItemType } from "../../components/todo/types";
+import { OperatorType, TodoItemType } from "../../components/todo/types";
 import { renderDescription } from "../../components/todo/utils";
+import DrawerWrapper from "../../components/drawer-wrapper";
+import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 
 const { Search } = Input;
 
@@ -59,7 +61,7 @@ const Note = () => {
     };
 
     const handleAdd = () => {
-        router.push("/todo-add");
+        setShowAdd(true);
     };
 
     useEffect(() => {
@@ -80,16 +82,24 @@ const Note = () => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
-    const Item = (props: { item: TodoItemType; isActive: boolean }) => {
-        const { item, isActive } = props;
+    const Title = (props: { item?: TodoItemType }) => {
+        const { item } = props;
+
+        return (
+            <div>
+                {<Category style={{ verticalAlign: 1 }} category={item?.category} color={item?.color} />}
+                {item?.name}
+            </div>
+        );
+    };
+
+    const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolean }) => {
+        const { item, isActive, showTitle = true } = props;
         if (!item) return null;
         return (
             <>
                 <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                    <div>
-                        {<Category style={{ verticalAlign: 1 }} category={item.category} color={item.color} />}
-                        {item.name}
-                    </div>
+                    {showTitle && <Title item={item} />}
                     <div>{renderDescription(item.description)}</div>
                 </div>
                 <div className={styles.imgFileList}>
@@ -118,6 +128,9 @@ const Note = () => {
         message.success("已复制到粘贴板");
         document.body.removeChild(input);
     };
+
+    const [showAdd, setShowAdd] = useState<boolean>(false);
+    const [operatorType, setOperatorType] = useState<OperatorType>("add-note");
 
     return (
         <>
@@ -208,28 +221,48 @@ const Note = () => {
                         ))}
                     </Radio.Group>
                 </MyDrawer>
-                <MyModal
+                <DrawerWrapper
                     visible={!!active}
-                    onCancel={() => setActive(undefined)}
-                    footer={() => (
-                        <Space size={16}>
+                    onClose={() => setActive(undefined)}
+                    placement="bottom"
+                    title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} />}
+                    footer={
+                        <Space size={16} style={{ display: "flex", justifyContent: "flex-end" }}>
                             <Button
                                 onClick={() => copyContent(`${active?.name}\n${active?.description}`)}
                                 type="primary"
                             >
                                 复制内容
                             </Button>
-                            <Button onClick={() => router.push(`/todo-edit/${active.todo_id}`)} danger type="primary">
+                            <Button
+                                onClick={() => {
+                                    setOperatorType("edit");
+                                    setShowAdd(true);
+                                }}
+                                danger
+                                type="primary"
+                            >
                                 编辑
                             </Button>
                         </Space>
-                    )}
-                    style={{ width: "100vw", maxWidth: "100vw" }}
+                    }
                 >
                     <div className={styles.modalContent}>
-                        <Item item={list.find((item) => item.todo_id === active?.todo_id)} isActive={true} />
+                        <Item
+                            item={list.find((item) => item.todo_id === active?.todo_id)}
+                            isActive={true}
+                            showTitle={false}
+                        />
                     </div>
-                </MyModal>
+                </DrawerWrapper>
+                <TodoFormDrawer
+                    visible={showAdd}
+                    onClose={() => {
+                        setOperatorType("add-note");
+                        setShowAdd(false);
+                    }}
+                    operatorType={operatorType}
+                />
             </main>
         </>
     );

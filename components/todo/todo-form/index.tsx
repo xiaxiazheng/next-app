@@ -1,69 +1,43 @@
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Radio, message, FormInstance, FormProps } from "antd";
+import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { GetTodoCategory, AddTodoItem, EditTodoItem, TodoStatus } from "../../../service";
+import { GetTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
-import { TodoItemType } from "../types";
-import AffixBack from "../../affix/affix-back";
-import AffixSubmit from "../../affix/affix-submit";
-import AffixFooter from "../../affix/affix-footer";
+import { OperatorType, TodoItemType } from "../types";
 import { useRouter } from "next/router";
-import InputList from "../input-list";
+import InputList from "./input-list";
+import SwitchComp from "./switch";
+import SearchTodo from "./searchTodo";
 
-const { TextArea } = Input;
+// const getRouterPath = (todo: TodoItemType) => {
+//     if (String(todo.status) === "0") {
+//         return "/todo-list";
+//     } else if (String(todo.status) === "1") {
+//         return "/todo-list-done";
+//     }
+//     if (String(todo.status) === "2") {
+//         if (String(todo.color) === "-1") {
+//             return "/todo-list-target";
+//         }
+//         if (String(todo.color) === "-2") {
+//             return "/todo-list-pool-short";
+//         }
+//         return "/todo-list-pool";
+//     }
 
-const getRouterPath = (todo: TodoItemType) => {
-    console.log("todo", todo);
-
-    if (String(todo.status) === "0") {
-        return "/todo-list";
-    } else if (String(todo.status) === "1") {
-        return "/todo-list-done";
-    }
-    if (String(todo.status) === "2") {
-        if (String(todo.color) === "-1") {
-            return "/todo-list-target";
-        }
-        if (String(todo.color) === "-2") {
-            return "/todo-list-pool-short";
-        }
-        return "/todo-list-pool";
-    }
-
-    return "/";
-};
+//     return "/";
+// };
 
 interface Props extends FormProps {
     status: TodoStatus;
-    todo?: TodoItemType; // 通过有没有传这个来判断是否编辑
-    isCopy?: boolean;
+    todo?: TodoItemType;
     form?: FormInstance;
-    showFooter?: boolean;
+    operatorType: OperatorType;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { status, todo, isCopy = false, form, showFooter = false, ...rest } = props;
-
-    const router = useRouter();
-
-    const [loading, setLoading] = useState<boolean>(false);
-
-    const onFinish = async (val) => {
-        setLoading(true);
-        const res =
-            todo && !isCopy
-                ? await EditTodoItem({
-                      ...val,
-                      todo_id: todo.todo_id,
-                  })
-                : await AddTodoItem(val);
-        if (res) {
-            message.success(`${todo ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
-            router.push(getRouterPath(todo || val));
-        }
-        setLoading(false);
-    };
+    const { status, todo, operatorType, form, ...rest } = props;
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
@@ -78,14 +52,27 @@ const TodoForm: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (todo) {
-            form.setFieldsValue({
-                ...todo,
-                status: Number(todo.status),
-            });
+            if (operatorType === "progress") {
+                form.setFieldsValue({
+                    ...todo,
+                    status: Number(todo.status),
+                    other_id: todo.todo_id,
+                });
+            }
+            if (operatorType === "add-note") {
+                form.setFieldsValue({
+                    ...todo,
+                    status: Number(todo.status),
+                    isNote: "1",
+                });
+            } else {
+                form.setFieldsValue({
+                    ...todo,
+                    status: Number(todo.status),
+                });
+            }
         }
-    }, [todo]);
-
-    const [isEdit, setIsEdit] = useState<boolean>(false);
+    }, [todo, operatorType]);
 
     return (
         <main className={styles.edit_todo}>
@@ -94,10 +81,6 @@ const TodoForm: React.FC<Props> = (props) => {
                 layout={"vertical"}
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 4 }}
-                onFieldsChange={() => {
-                    setIsEdit(true);
-                }}
-                onFinish={onFinish}
                 {...rest}
             >
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
@@ -105,26 +88,6 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
                     <InputList />
-                </Form.Item>
-                <Form.Item name="doing" label="星标" rules={[{ required: true }]} initialValue={"0"}>
-                    <Radio.Group>
-                        <Radio.Button key={"1"} value={"1"}>
-                            是
-                        </Radio.Button>
-                        <Radio.Button key={"0"} value={"0"}>
-                            否
-                        </Radio.Button>
-                    </Radio.Group>
-                </Form.Item>
-                <Form.Item name="isNote" label="存为便签" rules={[{ required: true }]} initialValue={"0"}>
-                    <Radio.Group>
-                        <Radio.Button key={"1"} value={"1"}>
-                            是
-                        </Radio.Button>
-                        <Radio.Button key={"0"} value={"0"}>
-                            否
-                        </Radio.Button>
-                    </Radio.Group>
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
@@ -164,14 +127,21 @@ const TodoForm: React.FC<Props> = (props) => {
                         <Radio.Button value={2}>待办池</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
-                {showFooter && (
-                    <AffixFooter>
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <AffixSubmit danger={isEdit} loading={loading} />
-                        </Form.Item>
-                        <AffixBack backUrl={status === 2 ? "/todo-list-pool" : "/todo-list"} />
-                    </AffixFooter>
-                )}
+                <Form.Item name="doing" label="现在处理" rules={[{ required: true }]} initialValue={"0"}>
+                    <SwitchComp />
+                </Form.Item>
+                <Form.Item name="isTarget" label="设为目标" rules={[{ required: true }]} initialValue={"0"}>
+                    <SwitchComp />
+                </Form.Item>
+                <Form.Item name="isBookMark" label="设为书签" rules={[{ required: true }]} initialValue={"0"}>
+                    <SwitchComp />
+                </Form.Item>
+                <Form.Item name="isNote" label="存档" rules={[{ required: true }]} initialValue={"0"}>
+                    <SwitchComp />
+                </Form.Item>
+                <Form.Item name="other_id" label="前置 todo">
+                    <SearchTodo activeTodo={todo} />
+                </Form.Item>
             </Form>
         </main>
     );

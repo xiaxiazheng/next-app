@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { EditTodoItem, GetTodoById } from "../../../service";
+import { EditTodoItem } from "../../../service";
 import { Button, message, Space } from "antd";
 import { PlusOutlined, VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -9,6 +9,7 @@ import MyModal from "../../my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";
+import TodoFormDrawer from "../todo-form-drawer";
 
 interface IProps {
     list: any[];
@@ -23,8 +24,6 @@ const Todo = (props: IProps) => {
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
-    const router = useRouter();
-
     useEffect(() => {
         if (list) {
             setTodoMap(formatArrayToTimeMap(list));
@@ -35,18 +34,8 @@ const Todo = (props: IProps) => {
     const today = dayjs().format("YYYY-MM-DD");
 
     const handleAdd = () => {
-        router.push("/todo-add");
+        setShowAdd(true);
     };
-
-    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
-
-    const getTodoById = async (todo_id: string) => {
-        const res = await GetTodoById(todo_id);
-        setActiveTodo(res.data);
-        getData();
-    };
-
-    const [showDesc, setShowDesc] = useState<boolean>(false);
 
     // 把过期任务的日期调整成今天
     const [showChangeExpire, setShowChangeExpire] = useState<boolean>(false);
@@ -79,6 +68,8 @@ const Todo = (props: IProps) => {
                   (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
               );
     };
+
+    const [showAdd, setShowAdd] = useState<boolean>(false);
 
     return (
         <>
@@ -140,6 +131,12 @@ const Todo = (props: IProps) => {
             >
                 是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
             </MyModal>
+            <TodoFormDrawer
+                visible={showAdd}
+                onClose={() => setShowAdd(false)}
+                operatorType={"add"}
+                onFinish={getData}
+            />
         </>
     );
 };

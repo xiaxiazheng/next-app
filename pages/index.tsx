@@ -24,6 +24,7 @@ import {
     AimOutlined,
 } from "@ant-design/icons";
 import Category from "../components/todo/category";
+import TodoFormDrawer from "../components/todo/todo-form-drawer";
 
 const Home = (props) => {
     const { setRouterLoading } = props;
@@ -182,6 +183,8 @@ const Home = (props) => {
 
     const [active, setActive] = useState<string>();
 
+    const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
@@ -191,7 +194,7 @@ const Home = (props) => {
                         return (
                             <div key={category.title}>
                                 <h3 className={styles.title}>{category.title}</h3>
-                                <div  className={styles.index}>
+                                <div className={styles.index}>
                                     {category.children.map((item) => {
                                         return (
                                             <div
@@ -200,10 +203,14 @@ const Home = (props) => {
                                                 }`}
                                                 key={item.path}
                                                 onClick={async () => {
-                                                    setRouterLoading(true);
-                                                    setActive(item.path);
-                                                    await router.push(`/${item.path}`);
-                                                    setRouterLoading(false);
+                                                    if (item.path === "todo-add") {
+                                                        setShowAddTodo(true);
+                                                    } else {
+                                                        setRouterLoading(true);
+                                                        setActive(item.path);
+                                                        await router.push(`/${item.path}`);
+                                                        setRouterLoading(false);
+                                                    }
                                                 }}
                                             >
                                                 <div className={styles.icon}>{item.icon}</div>
@@ -216,6 +223,8 @@ const Home = (props) => {
                         );
                     })}
                 </div>
+
+                <TodoFormDrawer operatorType="add" visible={showAddTodo} onClose={() => setShowAddTodo(false)} />
             </main>
         </div>
     );

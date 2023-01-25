@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { GetTodoById, TodoStatus } from "../../../service";
 import { Button, Input, Space } from "antd";
 import {
     PlusOutlined,
-    QuestionCircleOutlined,
-    FileImageOutlined,
     SyncOutlined,
-    AimOutlined,
-    BookOutlined,
-    StarFilled,
 } from "@ant-design/icons";
-import { useRouter } from "next/router";
-import Category from "../../../components/todo/category";
 import { TodoItemType } from "../../../components/todo/types";
-import DescriptionModal from "../description-drawer";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoItemList from "../todo-item-list";
+import TodoFormDrawer from "../todo-form-drawer";
 
 const { Search } = Input;
 
@@ -39,10 +31,8 @@ const TodoPool = (props: IProps) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState(0);
 
-    const router = useRouter();
-
     const handleAdd = () => {
-        router.push("/todo-add");
+        setShowAdd(true);
     };
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
@@ -59,6 +49,8 @@ const TodoPool = (props: IProps) => {
             ? l
             : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
     };
+
+    const [showAdd, setShowAdd] = useState<boolean>(false);
 
     return (
         <>
@@ -97,6 +89,12 @@ const TodoPool = (props: IProps) => {
             <div className={styles.list}>
                 {todoList && <TodoItemList list={getShowList(todoList)} onRefresh={getData} />}
             </div>
+            <TodoFormDrawer
+                visible={showAdd}
+                onClose={() => setShowAdd(false)}
+                operatorType={'add'}
+                onFinish={getData}
+            />
         </>
     );
 };

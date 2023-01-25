@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import EditTodo from "../todo-form";
+import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
 import { AddTodoItem, EditTodoItem, GetTodoById, TodoStatus } from "../../../service";
-import { Button, DrawerProps, Form, message, Spin } from "antd";
+import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../drawer-wrapper";
-import { OperatorType, TodoItemType } from "../types";
+import { operatorMap, OperatorType, TodoItemType } from "../types";
 
 interface IProps extends DrawerProps {
-    todo_id: string;
+    todo_id?: string;
     operatorType: OperatorType;
-    onFinish?: () => void;
+    onFinish?: Function;
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
@@ -42,7 +42,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                   })
                 : await AddTodoItem(val);
         if (res) {
-            message.success(`${data ? "编辑" : isCopy ? "复制" : "新建"} Todo 成功`);
+            message.success(`${operatorMap[operatorType]} Todo 成功`);
         }
         setLoading(false);
         handleFinish?.();
@@ -55,7 +55,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             className={styles.TodoFormDrawer}
             title={
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <span>{operatorType === "copy" ? "复制" : "编辑"} todo</span>
+                    <span>{operatorMap[operatorType]} todo</span>
                     <span
                         style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }}
                         onClick={() => onFinish(form.getFieldsValue())}
@@ -67,11 +67,11 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             {...props}
         >
             <Spin spinning={loading}>
-                <EditTodo
+                <TodoForm
                     form={form}
                     status={TodoStatus.todo}
                     todo={data}
-                    isCopy={isCopy}
+                    operatorType={operatorType}
                     onFieldsChange={() => {
                         setIsEdit(true);
                     }}
