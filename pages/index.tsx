@@ -38,6 +38,26 @@ const Home = (props) => {
 
     const routes = [
         {
+            title: "note",
+            children: [
+                {
+                    name: "随机 note",
+                    path: "note-random",
+                    icon: <RedditOutlined />,
+                },
+                {
+                    name: "note",
+                    path: "note",
+                    icon: <FileTextOutlined />,
+                },
+                {
+                    name: "新增 note",
+                    path: "note-add",
+                    icon: <PlusOutlined />,
+                },
+            ],
+        },
+        {
             title: "others",
             children: [
                 {
@@ -97,11 +117,6 @@ const Home = (props) => {
             title: "todo",
             children: [
                 {
-                    name: "已完成",
-                    path: "todo-list-done",
-                    icon: <TrophyOutlined />,
-                },
-                {
                     name: "目标",
                     path: "todo-list-target",
                     icon: <AimOutlined />,
@@ -112,9 +127,9 @@ const Home = (props) => {
                     icon: <StarFilled />,
                 },
                 {
-                    name: "待办池",
-                    path: "todo-list-pool",
-                    icon: <ExperimentOutlined />,
+                    name: "已完成",
+                    path: "todo-list-done",
+                    icon: <TrophyOutlined />,
                 },
                 {
                     name: "todo list",
@@ -127,44 +142,14 @@ const Home = (props) => {
                     icon: <FileTextOutlined />,
                 },
                 {
+                    name: "待办池",
+                    path: "todo-list-pool",
+                    icon: <ExperimentOutlined />,
+                },
+                {
                     name: "新建 todo",
                     path: "todo-add",
                     icon: <PlusOutlined />,
-                },
-            ],
-        },
-        {
-            title: "note",
-            children: [
-                {
-                    name: "随机 note",
-                    path: "note-random",
-                    icon: <RedditOutlined />,
-                },
-                {
-                    name: "note",
-                    path: "note",
-                    icon: <FileTextOutlined />,
-                },
-                {
-                    name: "新增 note",
-                    path: "note-add",
-                    icon: <PlusOutlined />,
-                },
-            ],
-        },
-        {
-            title: "blog",
-            children: [
-                {
-                    name: "随机日志",
-                    path: "blog-random",
-                    icon: <CoffeeOutlined />,
-                },
-                {
-                    name: "我的日志",
-                    path: "blog",
-                    icon: <BookOutlined />,
                 },
             ],
         },
