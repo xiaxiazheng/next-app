@@ -98,15 +98,6 @@ const TodoForm: React.FC<Props> = (props) => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
-                    <Radio.Group>
-                        {category?.map((item) => (
-                            <Radio.Button key={item.category} value={item.category}>
-                                {item.category} ({item.count})
-                            </Radio.Button>
-                        ))}
-                    </Radio.Group>
-                </Form.Item>
                 <Form.Item
                     name="time"
                     label="时间"
@@ -125,6 +116,15 @@ const TodoForm: React.FC<Props> = (props) => {
                         <Radio.Button value={0}>待办</Radio.Button>
                         <Radio.Button value={1}>已完成</Radio.Button>
                         <Radio.Button value={2}>待办池</Radio.Button>
+                    </Radio.Group>
+                </Form.Item>
+                <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
+                    <Radio.Group>
+                        {category?.map((item) => (
+                            <Radio.Button key={item.category} value={item.category}>
+                                {item.category} ({item.count})
+                            </Radio.Button>
+                        ))}
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="doing" label="现在处理" rules={[{ required: true }]} initialValue={"0"}>
