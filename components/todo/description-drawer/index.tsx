@@ -151,7 +151,10 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                 todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
                 operatorType={operatorType}
-                onFinish={() => onFinish()}
+                onSubmit={() => {
+                    onFinish();
+                    setShowEdit(false);
+                }}
             />
             <ChainDrawer visible={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
         </>

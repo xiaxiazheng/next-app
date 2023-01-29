@@ -13,6 +13,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
             footer={footer}
             title={title}
             closeIcon={null}
+            closable={false}
             height={height}
         >
             <div className={styles.content}>{props.children}</div>

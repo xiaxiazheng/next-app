@@ -135,7 +135,10 @@ const Todo = (props: IProps) => {
                 visible={showAdd}
                 onClose={() => setShowAdd(false)}
                 operatorType={"add"}
-                onFinish={getData}
+                onSubmit={() => {
+                    getData();
+                    setShowAdd(false);
+                }}
             />
         </>
     );

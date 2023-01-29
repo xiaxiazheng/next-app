@@ -2,14 +2,13 @@ import Header from "../components/header";
 import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
-import { message, Spin } from "antd";
+import { message } from "antd";
 import {
     LoginOutlined,
     CustomerServiceOutlined,
     RedditOutlined,
     BookOutlined,
     OrderedListOutlined,
-    AlertOutlined,
     ExperimentOutlined,
     TrophyOutlined,
     FileTextOutlined,
@@ -23,8 +22,8 @@ import {
     StarFilled,
     AimOutlined,
 } from "@ant-design/icons";
-import Category from "../components/todo/category";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
+import { TodoStatus } from "../service";
 
 const Home = (props) => {
     const { setRouterLoading } = props;
@@ -224,7 +223,20 @@ const Home = (props) => {
                     })}
                 </div>
 
-                <TodoFormDrawer operatorType="add" visible={showAddTodo} onClose={() => setShowAddTodo(false)} />
+                <TodoFormDrawer
+                    operatorType="add"
+                    visible={showAddTodo}
+                    onClose={() => setShowAddTodo(false)}
+                    onSubmit={(val) => {
+                        const map = {
+                            [TodoStatus.todo]: "/todo-list",
+                            [TodoStatus.done]: "/todo-list-done",
+                            [TodoStatus.pool]: "/todo-list-pool",
+                        };
+                        router.push(map[val.status]);
+                        setShowAddTodo(false);
+                    }}
+                />
             </main>
         </div>
     );

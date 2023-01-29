@@ -10,11 +10,11 @@ import { operatorMap, OperatorType, TodoItemType } from "../types";
 interface IProps extends DrawerProps {
     todo_id?: string;
     operatorType: OperatorType;
-    onFinish?: Function;
+    onSubmit?: (val: any) => void;
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, visible, operatorType, onFinish: handleFinish } = props;
+    const { todo_id, visible, operatorType, onSubmit } = props;
 
     const [data, setData] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
     const isCopy = operatorType === "copy";
 
-    const onFinish = async (val) => {
+    const handleDone = async (val) => {
         setLoading(true);
         const res =
             data && !isCopy
@@ -45,7 +45,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
         }
         setLoading(false);
-        handleFinish?.();
+        onSubmit?.(val);
     };
     const [form] = Form.useForm();
     const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -58,7 +58,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     <span>{operatorMap[operatorType]} todo</span>
                     <span
                         style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }}
-                        onClick={() => onFinish(form.getFieldsValue())}
+                        onClick={() => handleDone(form.getFieldsValue())}
                     >
                         done
                     </span>

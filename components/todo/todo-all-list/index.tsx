@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Space } from "antd";
-import {
-    PlusOutlined,
-    SyncOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../../components/todo/types";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoItemList from "../todo-item-list";
@@ -92,8 +89,11 @@ const TodoPool = (props: IProps) => {
             <TodoFormDrawer
                 visible={showAdd}
                 onClose={() => setShowAdd(false)}
-                operatorType={'add'}
-                onFinish={getData}
+                operatorType={"add"}
+                onSubmit={() => {
+                    getData();
+                    setShowAdd(false);
+                }}
             />
         </>
     );

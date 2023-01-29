@@ -261,6 +261,10 @@ const Note = () => {
                         setOperatorType("add-note");
                         setShowAdd(false);
                     }}
+                    onSubmit={() => {
+                        setOperatorType("add-note");
+                        setShowAdd(false);
+                    }}
                     operatorType={operatorType}
                 />
             </main>
