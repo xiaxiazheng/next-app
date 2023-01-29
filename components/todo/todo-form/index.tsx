@@ -5,29 +5,9 @@ import dayjs from "dayjs";
 import { GetTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
-import { useRouter } from "next/router";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
-
-// const getRouterPath = (todo: TodoItemType) => {
-//     if (String(todo.status) === "0") {
-//         return "/todo-list";
-//     } else if (String(todo.status) === "1") {
-//         return "/todo-list-done";
-//     }
-//     if (String(todo.status) === "2") {
-//         if (String(todo.color) === "-1") {
-//             return "/todo-list-target";
-//         }
-//         if (String(todo.color) === "-2") {
-//             return "/todo-list-pool-short";
-//         }
-//         return "/todo-list-pool";
-//     }
-
-//     return "/";
-// };
 
 interface Props extends FormProps {
     status: TodoStatus;
