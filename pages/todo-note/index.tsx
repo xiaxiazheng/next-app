@@ -227,7 +227,7 @@ const Note = () => {
                     placement="bottom"
                     title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} />}
                     footer={
-                        <Space size={16} style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: '10px' }}>
                             <Button
                                 onClick={() => copyContent(`${active?.name}\n${active?.description}`)}
                                 type="primary"

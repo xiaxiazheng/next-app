@@ -97,7 +97,7 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                 visible={visible}
                 onClose={() => setVisible(false)}
                 footer={
-                    <span style={{ display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ display: "flex", justifyContent: "space-between", paddingBottom: '10px' }}>
                         <ChainButton />
                         <Space className={styles.operator} size={10}>
                             <Button
