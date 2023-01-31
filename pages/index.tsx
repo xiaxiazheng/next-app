@@ -153,6 +153,21 @@ const Home = (props) => {
                 },
             ],
         },
+        {
+            title: "blog",
+            children: [
+                {
+                    name: "随机日志",
+                    path: "blog-random",
+                    icon: <CoffeeOutlined />,
+                },
+                {
+                    name: "我的日志",
+                    path: "blog",
+                    icon: <BookOutlined />,
+                },
+            ],
+        },
     ];
 
     const router = useRouter();
