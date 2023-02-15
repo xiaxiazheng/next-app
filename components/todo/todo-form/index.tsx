@@ -55,12 +55,12 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
-    const inputRef = useRef<any>(null);
-    useEffect(() => {
-        if (visible) {
-            inputRef.current?.focus();
-        }
-    }, [visible])
+    // const inputRef = useRef<any>(null);
+    // useEffect(() => {
+    //     if (visible) {
+    //         inputRef.current?.focus();
+    //     }
+    // }, [visible])
 
     return (
         <main className={styles.edit_todo}>
@@ -70,12 +70,12 @@ const TodoForm: React.FC<Props> = (props) => {
                         autoSize={{ minRows: 2, maxRows: 2 }}
                         allowClear
                         placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
-                        ref={function (input) {
-                            if (input !== null) {
-                                inputRef.current = input;
-                                input.focus();
-                            }
-                        }}
+                        // ref={function (input) {
+                        //     if (input !== null) {
+                        //         inputRef.current = input;
+                        //         input.focus();
+                        //     }
+                        // }}
                     />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
