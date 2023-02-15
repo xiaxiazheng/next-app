@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { GetTodoById, TodoStatus } from "../../../service";
-import {
-    QuestionCircleOutlined,
-    FileImageOutlined,
-    AimOutlined,
-    BookOutlined,
-    StarFilled,
-} from "@ant-design/icons";
+import { QuestionCircleOutlined, FileImageOutlined, AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
@@ -73,15 +67,19 @@ const TodoItemList: React.FC<IProps> = (props) => {
                                 setShowDesc(true);
                             }}
                         >
-                            <span
-                                style={
-                                    item.status === String(TodoStatus.todo) && item.doing === "1"
-                                        ? { color: "#ffeb3b" }
-                                        : {}
-                                }
-                            >
-                                {item.name}
-                            </span>
+                            {item.status === String(TodoStatus.done) ? (
+                                <s>{item.name}</s>
+                            ) : (
+                                <span
+                                    style={
+                                        item.status === String(TodoStatus.todo) && item.doing === "1"
+                                            ? { color: "#ffeb3b" }
+                                            : {}
+                                    }
+                                >
+                                    {item.name}
+                                </span>
+                            )}
                             {item.description && <QuestionCircleOutlined className={styles.icon} />}
                             {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
                             <Icon item={item} />
