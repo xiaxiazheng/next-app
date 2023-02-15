@@ -10,6 +10,8 @@ import DrawerWrapper from "../../drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
+import Category from "../category";
+import { AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -93,11 +95,38 @@ const DescriptionModal: React.FC<IProps> = (props) => {
     return (
         <>
             <DrawerWrapper
-                title={<span className={styles.modalName}>{activeTodo?.name}</span>}
+                title={
+                    <div>
+                        <Category
+                            color={activeTodo?.color || ""}
+                            category={activeTodo?.category || ""}
+                            style={{ verticalAlign: "1px" }}
+                        />
+                        {/* 目标 */}
+                        {activeTodo?.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                        {/* 存档 */}
+                        {activeTodo?.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                        {/* 书签 */}
+                        {activeTodo?.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                        
+                        {activeTodo?.status === String(TodoStatus.done) ? (
+                            <s className={styles.modalName}>{activeTodo?.name}</s>
+                        ) : (
+                            <span className={styles.modalName}>{activeTodo?.name}</span>
+                        )}
+                    </div>
+                }
                 visible={visible}
                 onClose={() => setVisible(false)}
                 footer={
-                    <span style={{ display: "flex", justifyContent: "space-between", paddingBottom: "10px", overflowX: 'auto' }}>
+                    <span
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            paddingBottom: "10px",
+                            overflowX: "auto",
+                        }}
+                    >
                         <Space>
                             {activeTodo?.status === String(TodoStatus.todo) && (
                                 <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
