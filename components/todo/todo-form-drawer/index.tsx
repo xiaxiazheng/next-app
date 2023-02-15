@@ -78,6 +78,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     onFieldsChange={() => {
                         setIsEdit(true);
                     }}
+                    visible={visible}
                 />
             </Spin>
         </DrawerWrapper>

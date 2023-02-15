@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
@@ -14,10 +14,11 @@ interface Props extends FormProps {
     todo?: TodoItemType;
     form?: FormInstance;
     operatorType: OperatorType;
+    visible?: boolean;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { status, todo, operatorType, form, ...rest } = props;
+    const { status, todo, operatorType, form, visible, ...rest } = props;
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
@@ -54,17 +55,26 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
+    const inputRef = useRef<any>(null);
+    useEffect(() => {
+        if (visible) {
+            inputRef.current?.focus();
+        }
+    }, [visible])
+
     return (
         <main className={styles.edit_todo}>
-            <Form
-                form={form}
-                layout={"vertical"}
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 4 }}
-                {...rest}
-            >
+            <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
-                    <Input placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成" autoFocus={true} />
+                    <Input
+                        placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
+                        ref={function (input) {
+                            if (input !== null) {
+                                inputRef.current = input;
+                                input.focus();
+                            }
+                        }}
+                    />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
                     <InputList />

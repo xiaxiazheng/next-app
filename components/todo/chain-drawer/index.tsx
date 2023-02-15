@@ -26,9 +26,6 @@ const ChainDrawer: React.FC<IProps> = (props) => {
     };
 
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
-    console.log('todoChainList', todoChainList);
-    console.log('todoId', todoId);
-    
 
     useEffect(() => {
         if (todoId && visible) {
