@@ -26,6 +26,10 @@
     background-color: #001529;
 }
 
+.edit_todo :global(.anticon.ant-input-clear-icon) {
+    color: #a6adb4 !important;
+}
+
 .searchTodo {
     :global {
         .ant-select-selector {
