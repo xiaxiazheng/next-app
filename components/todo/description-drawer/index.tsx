@@ -97,8 +97,15 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                 visible={visible}
                 onClose={() => setVisible(false)}
                 footer={
-                    <span style={{ display: "flex", justifyContent: "space-between", paddingBottom: '10px' }}>
-                        <ChainButton />
+                    <span style={{ display: "flex", justifyContent: "space-between", paddingBottom: "10px", overflowX: 'auto' }}>
+                        <Space>
+                            {activeTodo?.status === String(TodoStatus.todo) && (
+                                <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
+                                    完成Todo
+                                </Button>
+                            )}
+                            <ChainButton />
+                        </Space>
                         <Space className={styles.operator} size={10}>
                             <Button
                                 type="primary"
@@ -127,11 +134,6 @@ const DescriptionModal: React.FC<IProps> = (props) => {
                             >
                                 编辑
                             </Button>
-                            {/* {activeTodo?.status === String(TodoStatus.todo) && (
-                                <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
-                                    完成Todo
-                                </Button>
-                            )} */}
                         </Space>
                     </span>
                 }
