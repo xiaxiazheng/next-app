@@ -31,3 +31,13 @@ export const addFolder = async (params: any) => {
         return false;
     }
 };
+
+export const getMediaList = async () => {
+    const res = await getFetch(`/media/getMediaList`);
+    if (res) {
+        const data = await res.json();
+        return data;
+    } else {
+        return false;
+    }
+};

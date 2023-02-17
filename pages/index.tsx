@@ -21,6 +21,7 @@ import {
     ClusterOutlined,
     StarFilled,
     AimOutlined,
+    VideoCameraOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
 import { TodoStatus } from "../service";
@@ -87,9 +88,9 @@ const Home = (props) => {
                     icon: <CustomerServiceOutlined />,
                 },
                 {
-                    name: "云盘",
-                    path: "cloud",
-                    icon: <CloudOutlined />,
+                    name: "七牛云视频",
+                    path: "video",
+                    icon: <VideoCameraOutlined />,
                 },
                 {
                     name: "猫",
@@ -100,6 +101,11 @@ const Home = (props) => {
                     name: "树",
                     path: "tree",
                     icon: <ClusterOutlined />,
+                },
+                {
+                    name: "云盘",
+                    path: "cloud",
+                    icon: <CloudOutlined />,
                 },
             ].concat(
                 isMe
