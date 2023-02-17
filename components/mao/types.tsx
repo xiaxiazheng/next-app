@@ -1,3 +1,4 @@
+import { FileType } from "../../service/file";
 import { ImageType } from "../../service/image";
 
 export interface Mao {
@@ -17,6 +18,7 @@ export interface Mao {
     children?: Mao[];
     headImgList: ImageType[];
     imgList: ImageType[];
+    fileList: FileType[];
 }
 
 export interface IMao extends Mao {

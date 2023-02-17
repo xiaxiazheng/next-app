@@ -7,6 +7,7 @@ import UploadImageFile from "../../components/upload-image-file";
 import MyModal from "../../components/my-modal";
 import { getMaoList } from "../../service/mao";
 import { IMao } from "../../components/mao/types";
+import PreviewFiles from "../../components/preview-files";
 
 const { Search } = Input;
 
@@ -92,6 +93,7 @@ const MaoPu = () => {
 
         const headList = item.headImgList;
         const imgList = item.imgList;
+        const fileLsit = item.fileList;
 
         return (
             <>
@@ -104,6 +106,7 @@ const MaoPu = () => {
                 )}
                 {isShowAll && <UploadImageFile type="mao" otherId={item.mao_id} refreshImgList={() => getData()} />}
                 <PreviewImages imagesList={!isShowAll ? headList.slice(0, 1) : headList.concat(imgList)} />
+                {isShowAll && <PreviewFiles filesList={fileLsit} />}
                 {!isShowAll && <div style={{ marginTop: 10, fontSize: 16 }}>{item.name}</div>}
             </>
         );
