@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { staticUrl } from "../../service";
 import MyModal from "../my-modal";
 import { Button, message, Space } from "antd";
+import { PlayCircleOutlined } from "@ant-design/icons";
 
 export interface FileType {
     cTime: string;
@@ -79,6 +80,36 @@ const PreviewFiles: React.FC<Props> = (props) => {
         document.body.removeChild(input);
     };
 
+    const videoBox = useRef(null);
+    const handlePlay = (file: FileType) => {
+        const dom: any = videoBox;
+        if (dom.current) {
+            dom.current.childNodes[0].pause();
+            dom.current.childNodes[0].src = "";
+            dom.current.childNodes[0].childNodes[0].src = "";
+            dom.current.removeChild(dom.current.childNodes[0]);
+
+            const video: any = document.createElement("video");
+            video.controls = true;
+            video.autoPlay = true;
+
+            const source = document.createElement("source");
+            source.src = file.fileUrl;
+            source.type = "video/mp4";
+            video.appendChild(source);
+            dom.current.appendChild(video);
+        }
+    };
+
+    const isVideo = (file: FileType) => {
+        if (!file) {
+            return false;
+        }
+        const tail = file.filename.split(".")?.slice(-1)?.[0];
+        const videoTailList = ["mov", "mp4"];
+        return videoTailList.some((item) => item === tail.toLowerCase());
+    };
+
     return (
         <>
             {list.map((file) => (
@@ -87,20 +118,33 @@ const PreviewFiles: React.FC<Props> = (props) => {
                     className={styles.fileBox}
                     style={style}
                     onClick={() => {
+                        if (isVideo(file)) {
+                            handlePlay(file);
+                        }
                         setActive(file);
                         setIsShow(true);
                     }}
                 >
-                    <div className={styles.name}>{file.originalname}</div>
+                    <div className={styles.name}>
+                        {file.originalname}
+                        <div className={styles.background}>
+                            <PlayCircleOutlined />
+                        </div>
+                    </div>
                 </div>
             ))}
-            <MyModal visible={isShow} onCancel={() => setIsShow(false)} showFooter={false}>
-                <Space size={10} direction="vertical">
-                    <div className={styles.name}>{active?.originalname}</div>
+            <MyModal title={active?.originalname} visible={isShow} onCancel={() => setIsShow(false)} showFooter={false}>
+                <Space size={10} direction="vertical" style={{ display: "flex" }}>
+                    <div className={styles.videoBox} style={{ display: isVideo(active) ? "" : "none" }} ref={videoBox}>
+                        <audio controls autoPlay>
+                            <source src={""} />
+                        </audio>
+                    </div>
+                    {/* <div className={styles.name}>{active?.originalname}</div> */}
                     <div className={styles.size}>大小：{handleSize(Number(active?.size || 0))}</div>
                     <div className={styles.time}>创建时间：{active?.cTime}</div>
                     <Space size={8}>
-                        <Button onClick={() => handleDownload(active?.fileUrl)}>下载文件</Button>
+                        {!isVideo(active) && <Button onClick={() => handleDownload(active?.fileUrl)}>下载文件</Button>}
                         <Button onClick={() => copyFileUrl(active?.fileUrl)}>复制文件路径</Button>
                     </Space>
                 </Space>

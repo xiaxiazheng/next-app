@@ -1,13 +1,14 @@
 .cloud {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
     padding-bottom: 70px;
 }
 
 .folder {
     display: inline-flex;
-    width: 80px;
-    height: 80px;
+    width: 85px;
+    height: 85px;
     margin-right: 5px;
     margin-top: 5px;
     vertical-align: top;
@@ -22,5 +23,12 @@
     .icon {
         margin-bottom: 5px;
         font-size: 24px;
+    }
+    .name {
+        padding: 0 5px;overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 }

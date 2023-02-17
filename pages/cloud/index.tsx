@@ -96,11 +96,11 @@ const MusicPlayer = () => {
                                     onClick={() => setParentId(item.folder_id)}
                                 >
                                     <FolderOutlined className={styles.icon} />
-                                    {item.name}
+                                    <span className={styles.name}>{item.name}</span>
                                 </div>
                             ))}
-                        <PreviewImages imagesList={imageList} />
-                        <PreviewFiles filesList={fileList} />
+                        <PreviewImages imagesList={imageList} style={{ width: 85, height: 85}} />
+                        <PreviewFiles filesList={fileList} style={{ width: 85, height: 85}} />
                         <UploadImageFile
                             type="cloud"
                             otherId={parent_id}

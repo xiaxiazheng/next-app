@@ -74,7 +74,7 @@ const UploadImageFile: React.FC<Props> = (props) => {
                 <PlusOutlined className={styles.addIcon} />
                 点击上传图片/文件
             </Upload>
-            <MyModal visible={!!name} showFooter={false} title={"上传图片"}>
+            <MyModal visible={!!name} showFooter={false} title={"上传图片/文件"}>
                 <div className={styles.progress}>
                     <div className={styles.name}>{name}</div>
                     <div>{handleSize(size || 0)}</div>
@@ -84,7 +84,7 @@ const UploadImageFile: React.FC<Props> = (props) => {
                             from: "#108ee9",
                             to: "#87d068",
                         }}
-                        percent={percent}
+                        percent={Number((percent || 0).toFixed(1))}
                         status="active"
                     />
                 </div>

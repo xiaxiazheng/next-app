@@ -56,7 +56,7 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
             {!url ? (
                 <Image width={80} height={80} src="/loading.svg" />
             ) : (
-                <img width={80} height={80} src={url} {...rest} />
+                <img width={80} height={80} src={url} style={{ objectFit: 'cover', ...style }} {...rest} />
             )}
         </div>
     );

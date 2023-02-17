@@ -4,7 +4,8 @@
 // }
 
 .fileBox {
-    display: inline-flex;
+    position: relative;
+    display: flex;
     width: 80px;
     height: 80px;
     margin-right: 5px;
@@ -22,4 +23,21 @@
     font-size: 12px;
     word-break: break-all;
     padding: 5px;
+    .background {
+        position: absolute;
+        top: calc(50% - 37px);
+        left: calc(50% - 26px);
+        font-size: 52px;
+        opacity: 0.2;
+        color: #00ffff;
+    }
+}
+
+.videoBox {
+    width: 100%;
+    > video {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+    }
 }
