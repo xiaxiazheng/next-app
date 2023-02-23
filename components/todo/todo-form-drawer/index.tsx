@@ -32,7 +32,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
     const isCopy = operatorType === "copy";
 
-    const handleDone = async () => {
+    const handleSave = async () => {
         await form.validateFields();
 
         const val = form.getFieldsValue();
@@ -61,9 +61,9 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     <span>{operatorMap[operatorType]} todo</span>
                     <span
                         style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }}
-                        onClick={() => handleDone()}
+                        onClick={() => handleSave()}
                     >
-                        done
+                        save
                     </span>
                 </div>
             }
