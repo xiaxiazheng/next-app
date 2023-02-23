@@ -67,7 +67,7 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                     <Input.TextArea
-                        autoSize={{ minRows: 2, maxRows: 2 }}
+                        autoSize={{ minRows: 1, maxRows: 2 }}
                         allowClear
                         placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                         // ref={function (input) {
