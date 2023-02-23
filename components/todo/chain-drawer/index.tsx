@@ -33,6 +33,14 @@ const ChainDrawer: React.FC<IProps> = (props) => {
         }
     }, [todoId, visible]);
 
+    const handleRefresh = (id: string) => {
+        if (id !== todoId) {
+            getTodoChain(id);
+        } else {
+            setTodoId(id);
+        }
+    };
+
     return (
         <DrawerWrapper title={"todo chain"} visible={visible} {...rest}>
             <Spin spinning={loading}>
@@ -43,7 +51,9 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                                 <h4>前置：</h4>
                                 <TodoItemList
                                     list={todoChainList.filter((item) => item.todo_id !== todoId) || []}
-                                    onRefresh={(item) => setTodoId(item.todo_id)}
+                                    onRefresh={(item) => {
+                                        handleRefresh(item.todo_id);
+                                    }}
                                     showTime={true}
                                 />
                                 <Divider style={{ margin: "12px 0" }} />
@@ -60,7 +70,9 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                         </h4>
                         <TodoItemList
                             list={todoChainList.filter((item) => item.todo_id === todoId) || []}
-                            onRefresh={(item) => setTodoId(item.todo_id)}
+                            onRefresh={(item) => {
+                                handleRefresh(item.todo_id);
+                            }}
                             showTime={true}
                         />
                         {todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list_length !== 0 && (
@@ -69,7 +81,9 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                                 <h4>后续：</h4>
                                 <TodoItemList
                                     list={todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list || []}
-                                    onRefresh={(item) => setTodoId(item.todo_id)}
+                                    onRefresh={(item) => {
+                                        handleRefresh(item.todo_id);
+                                    }}
                                     showTime={true}
                                 />
                             </>
