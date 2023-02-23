@@ -44,6 +44,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                                 <TodoItemList
                                     list={todoChainList.filter((item) => item.todo_id !== todoId) || []}
                                     onRefresh={(item) => setTodoId(item.todo_id)}
+                                    showTime={true}
                                 />
                                 <Divider style={{ margin: "12px 0" }} />
                             </>
@@ -60,6 +61,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                         <TodoItemList
                             list={todoChainList.filter((item) => item.todo_id === todoId) || []}
                             onRefresh={(item) => setTodoId(item.todo_id)}
+                            showTime={true}
                         />
                         {todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list_length !== 0 && (
                             <>
@@ -68,6 +70,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                                 <TodoItemList
                                     list={todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list || []}
                                     onRefresh={(item) => setTodoId(item.todo_id)}
+                                    showTime={true}
                                 />
                             </>
                         )}

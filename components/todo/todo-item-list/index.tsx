@@ -10,10 +10,11 @@ import DescriptionModal from "../description-drawer";
 interface IProps {
     list: TodoItemType[];
     onRefresh: Function;
+    showTime?: boolean;
 }
 
 const TodoItemList: React.FC<IProps> = (props) => {
-    const { list, onRefresh } = props;
+    const { list, onRefresh, showTime = false } = props;
 
     const Icon = ({ item }: { item: TodoItemType }) => {
         const isHasChild = item?.child_todo_list_length !== 0;
@@ -77,7 +78,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                                             : {}
                                     }
                                 >
-                                    {item.name}
+                                    {item.name} {showTime && `(${item.time})`}
                                 </span>
                             )}
                             {item.description && <QuestionCircleOutlined className={styles.icon} />}
