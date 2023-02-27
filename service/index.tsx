@@ -7,8 +7,8 @@ export * from "./note";
 export * from "./translate";
 export * from "./tree";
 
-// const serverUrl = "http://localhost:300/api";
-const serverUrl = "https://www.xiaxiazheng.cn/api";
+const serverUrl = "http://localhost:300/api";
+// const serverUrl = "https://www.xiaxiazheng.cn/api";
 // export const staticUrl = "https://www.xiaxiazheng.cn:2333";
 export const staticUrl = "https://www.xiaxiazheng.cn/static-server";
 

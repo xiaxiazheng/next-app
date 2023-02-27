@@ -6,15 +6,18 @@ import { AddTodoItem, EditTodoItem, GetTodoById, TodoStatus } from "../../../ser
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../drawer-wrapper";
 import { operatorMap, OperatorType, TodoItemType } from "../types";
+import TodoFormPunchTheClock from "../todo-form-punch-the-clock";
+import dayjs from "dayjs";
 
 interface IProps extends DrawerProps {
     todo_id?: string;
     operatorType: OperatorType;
     onSubmit?: (val: any) => void;
+    isPunchTheClock?: boolean; // 是否是打卡任务
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, visible, operatorType, onSubmit } = props;
+    const { todo_id, visible, operatorType, onSubmit, isPunchTheClock } = props;
 
     const [data, setData] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -35,7 +38,37 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
     const handleSave = async () => {
         await form.validateFields();
 
-        const val = form.getFieldsValue();
+        let val = form.getFieldsValue();
+        // 如果是打卡任务
+        if (isPunchTheClock) {
+            const { startTime, range, ...rest } = val;
+            const timeRange = JSON.stringify([
+                startTime,
+                range
+            ]);
+            if (data) {
+                // 编辑
+                val = {
+                    ...data,
+                    ...rest,
+                    timeRange,
+                };
+            } else {
+                // 新增
+                val = {
+                    doing: "0",
+                    isBookMark: "0",
+                    isNote: "0",
+                    isTarget: "1",
+                    other_id: "",
+                    status: 0,
+                    time: dayjs().format("YYYY-MM-DD"),
+                    ...rest,
+                    timeRange,
+                };
+            }
+        }
+
         setLoading(true);
         const res =
             data && !isCopy
@@ -59,10 +92,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             title={
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{operatorMap[operatorType]} todo</span>
-                    <span
-                        style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }}
-                        onClick={() => handleSave()}
-                    >
+                    <span style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }} onClick={() => handleSave()}>
                         save
                     </span>
                 </div>
@@ -70,16 +100,25 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             {...props}
         >
             <Spin spinning={loading}>
-                <TodoForm
-                    form={form}
-                    status={TodoStatus.todo}
-                    todo={data}
-                    operatorType={operatorType}
-                    onFieldsChange={() => {
-                        setIsEdit(true);
-                    }}
-                    visible={visible}
-                />
+                {isPunchTheClock ? (
+                    <TodoFormPunchTheClock
+                        form={form}
+                        todo={data}
+                        onFieldsChange={() => {
+                            setIsEdit(true);
+                        }}
+                    />
+                ) : (
+                    <TodoForm
+                        form={form}
+                        status={TodoStatus.todo}
+                        todo={data}
+                        operatorType={operatorType}
+                        onFieldsChange={() => {
+                            setIsEdit(true);
+                        }}
+                    />
+                )}
             </Spin>
         </DrawerWrapper>
     );

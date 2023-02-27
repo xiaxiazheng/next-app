@@ -34,7 +34,7 @@ export const renderDescription = (str: string, keyword: string = "") => {
 };
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
-const DescriptionModal: React.FC<IProps> = (props) => {
+const DescriptionDrawer: React.FC<IProps> = (props) => {
     const { activeTodo, visible, setVisible, onFinish } = props;
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -192,4 +192,4 @@ const DescriptionModal: React.FC<IProps> = (props) => {
     );
 };
 
-export default DescriptionModal;
+export default DescriptionDrawer;

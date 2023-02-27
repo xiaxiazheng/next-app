@@ -22,6 +22,7 @@ import {
     StarFilled,
     AimOutlined,
     VideoCameraOutlined,
+    ClockCircleOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
 import { TodoStatus } from "../service";
@@ -133,14 +134,14 @@ const Home = (props) => {
                     icon: <StarFilled />,
                 },
                 {
+                    name: "打卡",
+                    path: "todo-list-punch-the-clock",
+                    icon: <ClockCircleOutlined />,
+                },
+                {
                     name: "已完成",
                     path: "todo-list-done",
                     icon: <TrophyOutlined />,
-                },
-                {
-                    name: "todo list",
-                    path: "todo-list",
-                    icon: <OrderedListOutlined />,
                 },
                 {
                     name: "todo note",
@@ -151,6 +152,11 @@ const Home = (props) => {
                     name: "待办池",
                     path: "todo-list-pool",
                     icon: <ExperimentOutlined />,
+                },
+                {
+                    name: "todo list",
+                    path: "todo-list",
+                    icon: <OrderedListOutlined />,
                 },
                 {
                     name: "新建 todo",

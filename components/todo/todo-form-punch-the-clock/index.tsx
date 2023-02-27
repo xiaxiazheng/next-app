@@ -5,19 +5,15 @@ import dayjs from "dayjs";
 import { GetTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
-import InputList from "./input-list";
-import SwitchComp from "./switch";
-import SearchTodo from "./searchTodo";
+import InputList from "../todo-form/input-list";
 
 interface Props extends FormProps {
-    status: TodoStatus;
     todo?: TodoItemType;
     form?: FormInstance;
-    operatorType: OperatorType;
 }
 
-const TodoForm: React.FC<Props> = (props) => {
-    const { status, todo, operatorType, form, ...rest } = props;
+const TodoFormPunchTheClock: React.FC<Props> = (props) => {
+    const { todo, form, ...rest } = props;
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
@@ -32,27 +28,12 @@ const TodoForm: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (todo) {
-            if (operatorType === "progress") {
-                form.setFieldsValue({
-                    ...todo,
-                    status: Number(todo.status),
-                    other_id: todo.todo_id,
-                });
-            }
-            if (operatorType === "add-note") {
-                form.setFieldsValue({
-                    ...todo,
-                    status: Number(todo.status),
-                    isNote: "1",
-                });
-            } else {
-                form.setFieldsValue({
-                    ...todo,
-                    status: Number(todo.status),
-                });
-            }
+            form.setFieldsValue({
+                ...todo,
+                status: Number(todo.status),
+            });
         }
-    }, [todo, operatorType]);
+    }, [todo]);
 
     return (
         <main className={styles.edit_todo}>
@@ -77,8 +58,8 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item
-                    name="time"
-                    label="时间"
+                    name="startTime"
+                    label="打卡开始时间"
                     rules={[{ required: true }]}
                     initialValue={dayjs().format("YYYY-MM-DD")}
                 >
@@ -89,12 +70,8 @@ const TodoForm: React.FC<Props> = (props) => {
                         {todo && <Radio.Button value={todo.time}>{todo.time}</Radio.Button>}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="status" label="状态" rules={[{ required: true }]} initialValue={status}>
-                    <Radio.Group>
-                        <Radio.Button value={0}>待办</Radio.Button>
-                        <Radio.Button value={1}>已完成</Radio.Button>
-                        <Radio.Button value={2}>待办池</Radio.Button>
-                    </Radio.Group>
+                <Form.Item name="range" label="持续时间（天）" rules={[{ required: true }]} initialValue={7}>
+                    <Input />
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
                     <Radio.Group>
@@ -105,24 +82,9 @@ const TodoForm: React.FC<Props> = (props) => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="doing" label="现在处理" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isTarget" label="设为目标" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isBookMark" label="设为书签" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isNote" label="存档" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="other_id" label="前置 todo">
-                    <SearchTodo activeTodo={todo} />
-                </Form.Item>
             </Form>
         </main>
     );
 };
 
-export default TodoForm;
+export default TodoFormPunchTheClock;

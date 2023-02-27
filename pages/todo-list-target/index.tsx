@@ -15,7 +15,7 @@ const TodoPool = () => {
         setLoading(true);
         const res = await getTodoTarget();
         if (res) {
-            const list = res.data;
+            const list = res.data.list;
             setTodoList(list);
         }
         setLoading(false);
