@@ -2,28 +2,19 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { AddTodoItem, getTodoTarget } from "../../service";
-import { Button, Space, Spin, Calendar, DatePicker, TimePicker } from "antd";
+import { Button, message, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
-import moment from "moment";
+import dayjs from "dayjs";
 import DrawerWrapper from "../../components/drawer-wrapper";
+import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 
-// 计算时间相关
-const handleTimeRange = (timeRange: string) => {
-    const [startTime, range] = JSON.parse(timeRange);
-    return {
-        startTime,
-        endTime: moment(startTime)
-            .add(Number(range - 1), "d")
-            .format("YYYY-MM-DD"),
-        range,
-    };
-};
+dayjs.locale("zh-cn");
 
 // 判断今天是否已打卡
 const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
-    return item?.child_todo_list.map((item) => item.time).includes(moment().format("YYYY-MM-DD")) || false;
+    return item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD")) || false;
 };
 
 const TodoPool = () => {
@@ -64,11 +55,28 @@ const TodoPool = () => {
             isTarget: "0",
             other_id: active.todo_id,
             status: "1",
-            time: moment().format("YYYY-MM-DD"),
+            time: dayjs().format("YYYY-MM-DD"),
         };
-        const res = await AddTodoItem(val);
+        await AddTodoItem(val);
+        message.success("打卡成功");
         setActive(undefined);
         getData();
+    };
+
+    const renderDetail = (item: TodoItemType) => {
+        return (
+            <>
+                <div>
+                    打卡周期：{handleTimeRange(item.timeRange).startTime} ~ {handleTimeRange(item.timeRange).endTime}
+                </div>
+                <div>计划天数：{handleTimeRange(item.timeRange).range}</div>
+                <div>已打卡天数：{item.child_todo_list_length}</div>
+                <div>
+                    今日：
+                    {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
+                </div>
+            </>
+        );
     };
 
     return (
@@ -107,21 +115,13 @@ const TodoPool = () => {
                         todoList.map((item) => (
                             <div
                                 key={item.todo_id}
+                                style={{ borderColor: handleIsTodayPunchTheClock(item) ? 'green' : '#4096ff'}}
                                 onClick={() => {
                                     setActive(item);
                                 }}
                             >
                                 <div>{item.name}</div>
-                                <div>
-                                    打卡周期：{handleTimeRange(item.timeRange).startTime} ~{" "}
-                                    {handleTimeRange(item.timeRange).endTime}
-                                </div>
-                                <div>计划天数：{handleTimeRange(item.timeRange).range}</div>
-                                <div>已打卡天数：{item.child_todo_list_length}</div>
-                                <div>
-                                    今日：
-                                    {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
-                                </div>
+                                {renderDetail(item)}
                             </div>
                         ))}
                 </div>
@@ -148,7 +148,7 @@ const TodoPool = () => {
                                 修改打卡计划
                             </Button>
                             {handleIsTodayPunchTheClock(active) ? (
-                                <Button type="primary">今日已打卡</Button>
+                                <Button type="primary" style={{ background: 'green' }}>今日已打卡</Button>
                             ) : (
                                 <Button type="primary" onClick={() => punchTheClock(active)}>
                                     现在打卡
@@ -159,9 +159,8 @@ const TodoPool = () => {
                     open={!!active}
                     onClose={() => setActive(undefined)}
                 >
-                    <div className={styles.calendarWrapper}>
-                        <Calendar fullscreen={false} onPanelChange={() => {}} />
-                    </div>
+                    <PunchTheClockCalendar active={active} />
+                    {active && renderDetail(active)}
                 </DrawerWrapper>
             </main>
         </Spin>
