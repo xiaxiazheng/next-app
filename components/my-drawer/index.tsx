@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import { Button } from "antd";
 
 interface Props {
-    visible: boolean;
+    open: boolean;
     title?: any;
     onCancel?: Function;
     children?: any;
@@ -10,13 +10,13 @@ interface Props {
 }
 
 const MyDrawer: React.FC<Props> = (props) => {
-    const { title, visible, onCancel, placement = "bottom" } = props;
+    const { title, open, onCancel, placement = "bottom" } = props;
 
     return (
         <div
             className={styles.my_drawer}
             style={{
-                display: visible ? "flex" : "none",
+                display: open ? "flex" : "none",
                 alignItems: placement === "bottom" ? "flex-end" : "flex-start",
             }}
         >

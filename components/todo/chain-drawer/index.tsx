@@ -42,7 +42,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
     };
 
     return (
-        <DrawerWrapper title={"todo chain"} visible={visible} {...rest}>
+        <DrawerWrapper title={"todo chain"} open={visible} {...rest}>
             <Spin spinning={loading}>
                 {todoId && (
                     <>

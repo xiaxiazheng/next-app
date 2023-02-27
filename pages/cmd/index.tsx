@@ -138,7 +138,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 <TextArea className={styles.input} value={cmd} onChange={(e) => setCmd(e.target.value)} rows={6} />
                 {/* <div style={{ marginTop: 20 }}>结果：</div> */}
             </div>
-            <MyDrawer title="预设脚本" visible={visible} onCancel={() => setVisible(false)}>
+            <MyDrawer title="预设脚本" open={visible} onCancel={() => setVisible(false)}>
                 <div className={styles.script}>
                     {list?.map((item: any) => {
                         return (

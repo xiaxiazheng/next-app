@@ -87,7 +87,7 @@ const TodoPool = (props: IProps) => {
                 {todoList && <TodoItemList list={getShowList(todoList)} onRefresh={getData} />}
             </div>
             <TodoFormDrawer
-                visible={showAdd}
+                open={showAdd}
                 onClose={() => setShowAdd(false)}
                 operatorType={"add"}
                 onSubmit={() => {

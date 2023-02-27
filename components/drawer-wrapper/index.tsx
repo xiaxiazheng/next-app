@@ -1,12 +1,12 @@
 import styles from "./index.module.scss";
-import { Button, Drawer, DrawerProps } from "antd";
+import { Drawer, DrawerProps } from "antd";
 
 const DrawerWrapper: React.FC<DrawerProps> = (props) => {
-    const { title, visible, onClose, placement = "bottom", footer, height = '75vh' } = props;
+    const { title, open, onClose, placement = "bottom", footer, height = '75vh' } = props;
 
     return (
         <Drawer
-            visible={visible}
+            open={open}
             placement={placement}
             className={styles.drawer}
             onClose={onClose}

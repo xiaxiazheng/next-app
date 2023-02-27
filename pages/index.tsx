@@ -237,7 +237,7 @@ const Home = (props) => {
 
                 <TodoFormDrawer
                     operatorType="add"
-                    visible={showAddTodo}
+                    open={showAddTodo}
                     onClose={() => setShowAddTodo(false)}
                     onSubmit={(val) => {
                         const map = {

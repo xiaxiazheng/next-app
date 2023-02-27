@@ -129,7 +129,7 @@ const Note = () => {
                     icon={<ApartmentOutlined />}
                     onClick={() => setShowDrawer(true)}
                 />
-                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
+                <MyDrawer open={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <Collapse>
                         {treeList.map((tree) => {
                             return (

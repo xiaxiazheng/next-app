@@ -144,7 +144,7 @@ const TodoDone = () => {
                     onClick={() => setShowDrawer(true)}
                 />
                 {/* 分类弹窗 */}
-                <DrawerWrapper visible={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom" height="40vh">
+                <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom" height="40vh">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}

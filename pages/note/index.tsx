@@ -192,7 +192,7 @@ const Note = () => {
                     icon={<ApartmentOutlined />}
                     onClick={() => setShowDrawer(true)}
                 />
-                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
+                <MyDrawer open={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}

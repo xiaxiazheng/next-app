@@ -116,7 +116,7 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                         )}
                     </div>
                 }
-                visible={visible}
+                open={visible}
                 onClose={() => setVisible(false)}
                 footer={
                     <span
@@ -178,7 +178,7 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                 )}
             </DrawerWrapper>
             <TodoFormDrawer
-                visible={showEdit}
+                open={showEdit}
                 todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
                 operatorType={operatorType}
@@ -187,7 +187,7 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                     setShowEdit(false);
                 }}
             />
-            <ChainDrawer visible={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
+            <ChainDrawer open={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
         </>
     );
 };

@@ -132,7 +132,7 @@ const Todo = (props: IProps) => {
                 是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
             </MyModal>
             <TodoFormDrawer
-                visible={showAdd}
+                open={showAdd}
                 onClose={() => setShowAdd(false)}
                 operatorType={"add"}
                 onSubmit={() => {

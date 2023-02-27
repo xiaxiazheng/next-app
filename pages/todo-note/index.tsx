@@ -201,7 +201,7 @@ const Note = () => {
                     icon={<ApartmentOutlined />}
                     onClick={() => setShowDrawer(true)}
                 />
-                <MyDrawer visible={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
+                <MyDrawer open={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}
@@ -222,7 +222,7 @@ const Note = () => {
                     </Radio.Group>
                 </MyDrawer>
                 <DrawerWrapper
-                    visible={!!active}
+                    open={!!active}
                     onClose={() => setActive(undefined)}
                     placement="bottom"
                     title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} />}
@@ -256,7 +256,7 @@ const Note = () => {
                     </div>
                 </DrawerWrapper>
                 <TodoFormDrawer
-                    visible={showAdd}
+                    open={showAdd}
                     onClose={() => {
                         setOperatorType("add-note");
                         setShowAdd(false);

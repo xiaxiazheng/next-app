@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import styles from "./index.module.scss";
 import { AddTodoItem, getTodoTarget } from "../../service";
-import { Button, Space, Spin } from "antd";
+import { Button, Space, Spin, Calendar, DatePicker, TimePicker } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
-import MyDrawer from "../../components/my-drawer";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
-import dayjs from "dayjs";
+import moment from "moment";
 import DrawerWrapper from "../../components/drawer-wrapper";
 
 // 计算时间相关
@@ -15,7 +14,7 @@ const handleTimeRange = (timeRange: string) => {
     const [startTime, range] = JSON.parse(timeRange);
     return {
         startTime,
-        endTime: dayjs(startTime)
+        endTime: moment(startTime)
             .add(Number(range - 1), "d")
             .format("YYYY-MM-DD"),
         range,
@@ -24,7 +23,7 @@ const handleTimeRange = (timeRange: string) => {
 
 // 判断今天是否已打卡
 const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
-    return item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD")) || false;
+    return item?.child_todo_list.map((item) => item.time).includes(moment().format("YYYY-MM-DD")) || false;
 };
 
 const TodoPool = () => {
@@ -65,7 +64,7 @@ const TodoPool = () => {
             isTarget: "0",
             other_id: active.todo_id,
             status: "1",
-            time: dayjs().format("YYYY-MM-DD"),
+            time: moment().format("YYYY-MM-DD"),
         };
         const res = await AddTodoItem(val);
         setActive(undefined);
@@ -128,7 +127,7 @@ const TodoPool = () => {
                 </div>
                 <TodoFormDrawer
                     todo_id={active?.todo_id}
-                    visible={showAdd}
+                    open={showAdd}
                     onClose={() => setShowAdd(false)}
                     operatorType={active ? "edit" : "add"}
                     onSubmit={() => {
@@ -151,14 +150,18 @@ const TodoPool = () => {
                             {handleIsTodayPunchTheClock(active) ? (
                                 <Button type="primary">今日已打卡</Button>
                             ) : (
-                                <Button type="primary" onClick={() => punchTheClock(active)}>现在打卡</Button>
+                                <Button type="primary" onClick={() => punchTheClock(active)}>
+                                    现在打卡
+                                </Button>
                             )}
                         </Space>
                     }
-                    visible={!!active}
+                    open={!!active}
                     onClose={() => setActive(undefined)}
                 >
-                    打卡详情 开发中
+                    <div className={styles.calendarWrapper}>
+                        <Calendar fullscreen={false} onPanelChange={() => {}} />
+                    </div>
                 </DrawerWrapper>
             </main>
         </Spin>
