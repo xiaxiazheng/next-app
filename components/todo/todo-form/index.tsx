@@ -38,8 +38,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     status: Number(todo.status),
                     other_id: todo.todo_id,
                 });
-            }
-            if (operatorType === "add-note") {
+            } else if (operatorType === "add-note") {
                 form.setFieldsValue({
                     ...todo,
                     status: Number(todo.status),
