@@ -17,7 +17,7 @@ interface IProps extends DrawerProps {
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, visible, operatorType, onSubmit, isPunchTheClock } = props;
+    const { todo_id, open, operatorType, onSubmit, isPunchTheClock } = props;
 
     const [data, setData] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -30,8 +30,8 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
     };
 
     useEffect(() => {
-        todo_id && visible && getData();
-    }, [visible]);
+        todo_id && open && getData();
+    }, [open]);
 
     const isCopy = operatorType === "copy";
 
