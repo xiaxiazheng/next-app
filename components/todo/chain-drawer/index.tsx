@@ -10,7 +10,7 @@ interface IProps extends DrawerProps {
 }
 
 const ChainDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, visible, ...rest } = props;
+    const { todo_id, open, ...rest } = props;
 
     const [todoId, setTodoId] = useState<string>();
     useEffect(() => {
@@ -28,10 +28,10 @@ const ChainDrawer: React.FC<IProps> = (props) => {
     const [todoChainList, setTodoChainList] = useState<TodoItemType[]>([]);
 
     useEffect(() => {
-        if (todoId && visible) {
+        if (todoId && open) {
             getTodoChain(todoId);
         }
-    }, [todoId, visible]);
+    }, [todoId, open]);
 
     const handleRefresh = (id: string) => {
         if (id !== todoId) {
@@ -42,7 +42,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
     };
 
     return (
-        <DrawerWrapper title={"todo chain"} open={visible} {...rest}>
+        <DrawerWrapper title={"todo chain"} open={open} {...rest}>
             <Spin spinning={loading}>
                 {todoId && (
                     <>
