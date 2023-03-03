@@ -5,7 +5,7 @@ import { QuestionCircleOutlined, FileImageOutlined, AimOutlined, BookOutlined, S
 import Category from "../category";
 import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
-import DescriptionModal from "../description-drawer";
+import TodoDetailDrawer from "../todo-detail-drawer";
 
 interface IProps {
     list: TodoItemType[];
@@ -88,7 +88,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     </div>
                 ))}
             {/* 详情弹窗 */}
-            <DescriptionModal
+            <TodoDetailDrawer
                 visible={showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}

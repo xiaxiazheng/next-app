@@ -34,7 +34,7 @@ export const renderDescription = (str: string, keyword: string = "") => {
 };
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
-const DescriptionDrawer: React.FC<IProps> = (props) => {
+const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const { activeTodo, visible, setVisible, onFinish } = props;
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -108,7 +108,7 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                         {activeTodo?.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
                         {/* 书签 */}
                         {activeTodo?.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        
+
                         {activeTodo?.status === String(TodoStatus.done) ? (
                             <s className={styles.modalName}>{activeTodo?.name}</s>
                         ) : (
@@ -119,23 +119,30 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                 open={visible}
                 onClose={() => setVisible(false)}
                 footer={
-                    <span
+                    <div
                         style={{
                             display: "flex",
                             justifyContent: "space-between",
-                            paddingBottom: "10px",
-                            overflowX: "auto",
+                            flexWrap: "wrap",
+                            paddingBottom: "20px",
+                            borderTop: "1px solid white",
                         }}
                     >
-                        <Space>
+                        <Space style={{ flex: 1, paddingTop: "10px" }}>
                             {activeTodo?.status === String(TodoStatus.todo) && (
                                 <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
                                     完成Todo
                                 </Button>
                             )}
-                            <ChainButton />
                         </Space>
-                        <Space className={styles.operator} size={10}>
+                        <Space
+                            className={styles.operator}
+                            size={10}
+                            style={{
+                                paddingTop: "10px",
+                            }}
+                        >
+                            <ChainButton />
                             <Button
                                 type="primary"
                                 onClick={() => {
@@ -164,7 +171,7 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
                                 编辑
                             </Button>
                         </Space>
-                    </span>
+                    </div>
                 }
             >
                 <div style={{ fontSize: 14 }}>
@@ -192,4 +199,4 @@ const DescriptionDrawer: React.FC<IProps> = (props) => {
     );
 };
 
-export default DescriptionDrawer;
+export default TodoDetailDrawer;
