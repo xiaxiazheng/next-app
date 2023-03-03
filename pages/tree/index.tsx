@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { GetNoteList, GetNoteCategory, getAllTreeList, getNodeCont, modifyNodeContItem } from "../../service";
@@ -7,13 +7,13 @@ import { Input, Button, Pagination, Radio, Space, message, Tree, Collapse } from
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { NoteType } from "../../components/note/types";
 import Category from "../../components/todo/category";
-import MyDrawer from "../../components/my-drawer";
-import PreviewImages from "../../components/preview-images";
-import UploadImageFile from "../../components/upload-image-file";
+import MyDrawer from "../../components/common/my-drawer";
+import PreviewImages from "../../components/common/preview-images";
+import UploadImageFile from "../../components/common/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
-import AffixEdit from "../../components/affix/affix-edit";
-import PreviewFiles from "../../components/preview-files";
-import MyModal from "../../components/my-modal";
+import AffixEdit from "../../components/common/affix/affix-edit";
+import PreviewFiles from "../../components/common/preview-files";
+import MyModal from "../../components/common/my-modal";
 
 const { TextArea } = Input;
 

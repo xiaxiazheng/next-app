@@ -1,9 +1,9 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { getMediaList } from "../../service/folder";
 import { Modal, Spin } from "antd";
-import MyModal from "../../components/my-modal";
+import MyModal from "../../components/common/my-modal";
 
 export const cdnUrl = 'http://cdn.xiaxiazheng.cn';
 

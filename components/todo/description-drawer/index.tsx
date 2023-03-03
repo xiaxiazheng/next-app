@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import PreviewImages from "../../preview-images";
-import UploadImageFile from "../../upload-image-file";
+import PreviewImages from "../../common/preview-images";
+import UploadImageFile from "../../common/upload-image-file";
 import { OperatorType, TodoItemType } from "../types";
 import styles from "./index.module.scss";
 import { handleDesc } from "../utils";
 import { Button, message, Space } from "antd";
 import { DoneTodoItem, TodoStatus } from "../../../service";
-import DrawerWrapper from "../../drawer-wrapper";
+import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";

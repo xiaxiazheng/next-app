@@ -11,7 +11,7 @@ import { Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import { handleOnloadImage, base64ByBlob, blobToUrl } from "./utils";
 import MinImg from "./MinImg";
-import { ImgType } from "./";
+import { ImgType } from ".";
 
 interface IProps {
     image: ImgType;

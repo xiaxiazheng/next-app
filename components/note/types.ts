@@ -1,5 +1,5 @@
-import { FileType } from "../preview-files";
-import { ImgType } from "../preview-images";
+import { FileType } from "../common/preview-files";
+import { ImgType } from "../common/preview-images";
 
 export type NoteType = {
     cTime: string;

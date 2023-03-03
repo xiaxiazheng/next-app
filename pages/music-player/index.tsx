@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { GetMediaList } from "../../service";
 import { useEffect, useState } from "react";

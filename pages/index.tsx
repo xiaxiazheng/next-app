@@ -1,4 +1,4 @@
-import Header from "../components/header";
+import Header from "../components/common/header";
 import { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
@@ -26,6 +26,7 @@ import {
 } from "@ant-design/icons";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
 import { TodoStatus } from "../service";
+import HomeTips from "../components/common/home-tips";
 
 const Home = (props) => {
     const { setRouterLoading } = props;
@@ -201,6 +202,7 @@ const Home = (props) => {
             <Header title="XIAXIAZheng" />
             <main>
                 <div className={styles.main}>
+                    <HomeTips />
                     {routes.map((category) => {
                         return (
                             <div key={category.title}>

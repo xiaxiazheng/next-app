@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { getTodoDone, GetTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import TodoItemList from "../../components/todo/todo-item-list";
-import DrawerWrapper from "../../components/drawer-wrapper";
+import DrawerWrapper from "../../components/common/drawer-wrapper";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 
 const { Search } = Input;

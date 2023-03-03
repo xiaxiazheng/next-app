@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Button, Input, message, Space, Spin } from "antd";
 import { AddNote, GetNoteList } from "../../service";
 import useScrollToHook from "../../hooks/useScrollToHooks";
-import MyDrawer from "../../components/my-drawer";
+import MyDrawer from "../../components/common/my-drawer";
 
 const { TextArea } = Input;
 const placeholder = "-----------";

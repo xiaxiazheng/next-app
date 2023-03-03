@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
-import { staticUrl } from "../../service";
+import { staticUrl } from "../../../service";
 import MyModal from "../my-modal";
 import { Button, message, Space } from "antd";
 import { PlayCircleOutlined } from "@ant-design/icons";

@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { Form, message, Input, Button, Radio } from "antd";
 import styles from "./index.module.scss";
 import { AddNote, GetNoteCategory } from "../../service";
-import AffixBack from "../../components/affix/affix-back";
-import AffixSubmit from "../../components/affix/affix-submit";
-import AffixSaveProgress from "../../components/affix/affix-save-progress";
-import AffixFooter from "../../components/affix/affix-footer";
+import AffixBack from "../../components/common/affix/affix-back";
+import AffixSubmit from "../../components/common/affix/affix-submit";
+import AffixSaveProgress from "../../components/common/affix/affix-save-progress";
+import AffixFooter from "../../components/common/affix/affix-footer";
 
 const { TextArea } = Input;
 

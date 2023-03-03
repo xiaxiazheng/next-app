@@ -1,11 +1,11 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./blog_id.module.scss";
 import { GetBlogCont } from "../../service";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
-import AffixBack from "../../components/affix/affix-back";
-import AffixCopy from "../../components/affix/affix-copy";
+import AffixBack from "../../components/common/affix/affix-back";
+import AffixCopy from "../../components/common/affix/affix-copy";
 // 代码高亮
 import "highlight.js/styles/vs2015.css";
 

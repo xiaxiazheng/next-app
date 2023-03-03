@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import Link from "next/link";
 import styles from "./index.module.scss";
 import { GetMediaList } from "../../service";

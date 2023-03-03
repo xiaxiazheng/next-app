@@ -1,7 +1,7 @@
 import { Divider, DrawerProps, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { getTodoChainById } from "../../../service";
-import DrawerWrapper from "../../drawer-wrapper";
+import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoItemList from "../todo-item-list";
 import { TodoItemType } from "../types";
 

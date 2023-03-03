@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { Form, Input, Button } from "antd";
 import { login } from "../../service";

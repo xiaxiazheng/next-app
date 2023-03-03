@@ -3,7 +3,7 @@
  */
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { staticUrl } from "../../service";
+import { staticUrl } from "../../../service";
 import { PhotoProvider } from "react-photo-view";
 import "react-photo-view/dist/index.css";
 import PreviewImage from "./PreviewImage";

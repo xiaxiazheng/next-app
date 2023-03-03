@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 import "../styles/global.scss";
-import AffixHome from "../components/affix/affix-home";
+import AffixHome from "../components/common/affix/affix-home";
 import { useState } from "react";
 import { Spin } from "antd";
 

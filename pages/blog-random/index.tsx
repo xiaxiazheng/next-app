@@ -1,10 +1,10 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "../blog/blog_id.module.scss";
 import { GetBlogList, GetBlogCont } from "../../service";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
-import AffixRefresh from "../../components/affix/affix-refresh";
-import AffixCopy from "../../components/affix/affix-copy";
+import AffixRefresh from "../../components/common/affix/affix-refresh";
+import AffixCopy from "../../components/common/affix/affix-copy";
 // 代码高亮
 import "highlight.js/styles/vs2015.css";
 

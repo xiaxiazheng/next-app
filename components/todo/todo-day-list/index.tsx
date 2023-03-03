@@ -5,7 +5,7 @@ import { Button, message, Space } from "antd";
 import { PlusOutlined, VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import MyModal from "../../my-modal";
+import MyModal from "../../common/my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";

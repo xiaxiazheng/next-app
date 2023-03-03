@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { AddTodoItem, getTodoTarget } from "../../service";
 import { Button, message, Space, Spin } from "antd";
@@ -7,7 +7,7 @@ import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
-import DrawerWrapper from "../../components/drawer-wrapper";
+import DrawerWrapper from "../../components/common/drawer-wrapper";
 import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 
 dayjs.locale("zh-cn");

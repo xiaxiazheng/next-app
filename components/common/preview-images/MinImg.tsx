@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import "react-photo-view/dist/index.css";
 import { handleOnloadImage } from "./utils";
-import { ImgType } from "./";
+import { ImgType } from ".";
 import Image from "next/image";
 
 interface IProps {

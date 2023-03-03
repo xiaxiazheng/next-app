@@ -1,4 +1,5 @@
 import { getFetch, postFetch } from ".";
+import { TodoItemType } from "../components/todo/types";
 
 export enum TodoStatus {
     todo = 0,
@@ -6,7 +7,7 @@ export enum TodoStatus {
     pool = 2,
 }
 
-export const GetTodo = async () => {
+export const GetTodo = async (): Promise<{ data: TodoItemType[]} | false> => {
     const params = {
         status: TodoStatus.todo,
     };
@@ -19,7 +20,7 @@ export const GetTodo = async () => {
     }
 };
 
-export const GetTodoById = async (todo_id) => {
+export const GetTodoById = async (todo_id: string) => {
     const res: any = await getFetch(`/todo/getTodoById?todo_id=${todo_id}`);
     if (res) {
         const data = res.json();
@@ -83,7 +84,7 @@ export const getTodoBookMark = async () => {
     }
 }
 
-export const getTodoTarget = async () => {
+export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[], total: number }} | false> => {
     const params: any = {
         isTarget: "1",
         pageNo: 1,

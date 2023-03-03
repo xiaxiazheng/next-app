@@ -1,16 +1,16 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { Button } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 import { GetNoteList, GetNoteById } from "../../service";
 import { useEffect, useState } from "react";
-import AffixRefresh from "../../components/affix/affix-refresh";
+import AffixRefresh from "../../components/common/affix/affix-refresh";
 import { NoteType } from "../../components/note/types";
 import { useRouter } from "next/router";
 import Category from "../../components/todo/category";
-import PreviewImages from "../../components/preview-images";
+import PreviewImages from "../../components/common/preview-images";
 import { handleUrl } from "../../components/note/utils";
-import PreviewFiles from "../../components/preview-files";
+import PreviewFiles from "../../components/common/preview-files";
 
 const NoteRandom = () => {
     const router = useRouter();

@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { GetNoteList, GetNoteCategory } from "../../service";
@@ -7,12 +7,12 @@ import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import { NoteType } from "../../components/note/types";
 import Category from "../../components/todo/category";
-import MyDrawer from "../../components/my-drawer";
-import PreviewImages from "../../components/preview-images";
-import UploadImageFile from "../../components/upload-image-file";
+import MyDrawer from "../../components/common/my-drawer";
+import PreviewImages from "../../components/common/preview-images";
+import UploadImageFile from "../../components/common/upload-image-file";
 import { handleUrl, handleKeyword } from "../../components/note/utils";
-import PreviewFiles from "../../components/preview-files";
-import MyModal from "../../components/my-modal";
+import PreviewFiles from "../../components/common/preview-files";
+import MyModal from "../../components/common/my-modal";
 
 const { Search } = Input;
 
