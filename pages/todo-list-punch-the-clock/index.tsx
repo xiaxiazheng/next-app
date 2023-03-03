@@ -53,6 +53,7 @@ const TodoPool = () => {
             isBookMark: "0",
             isNote: "0",
             isTarget: "0",
+            doing: "0",
             other_id: active.todo_id,
             status: "1",
             time: dayjs().format("YYYY-MM-DD"),
