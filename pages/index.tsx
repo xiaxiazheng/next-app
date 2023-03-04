@@ -109,6 +109,11 @@ const Home = (props) => {
                     path: "cloud",
                     icon: <CloudOutlined />,
                 },
+                {
+                    name: "番茄时钟",
+                    path: "tomato-clock",
+                    icon: <CloudOutlined />,
+                },
             ].concat(
                 isMe
                     ? [
