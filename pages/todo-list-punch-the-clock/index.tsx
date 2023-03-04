@@ -116,7 +116,7 @@ const TodoPool = () => {
                         todoList.map((item) => (
                             <div
                                 key={item.todo_id}
-                                style={{ borderColor: handleIsTodayPunchTheClock(item) ? 'green' : '#4096ff'}}
+                                style={{ borderColor: handleIsTodayPunchTheClock(item) ? "green" : "#4096ff" }}
                                 onClick={() => {
                                     setActive(item);
                                 }}
@@ -149,7 +149,9 @@ const TodoPool = () => {
                                 修改打卡计划
                             </Button>
                             {handleIsTodayPunchTheClock(active) ? (
-                                <Button type="primary" style={{ background: 'green' }}>今日已打卡</Button>
+                                <Button type="primary" style={{ background: "green" }}>
+                                    今日已打卡
+                                </Button>
                             ) : (
                                 <Button type="primary" onClick={() => punchTheClock(active)}>
                                     现在打卡
