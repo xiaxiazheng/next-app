@@ -1,25 +1,11 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space } from "antd";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import useCountDown from "../../hooks/useCountDown";
+import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
 
-const { TextArea } = Input;
-
-const initialTime = 25 * 60 * 1000;
-
-const calculateTime = (time: number) => {
-    const s = time / 1000;
-    const second = s % 60;
-    const minute = Math.floor(s / 60) % 60;
-    const hour = Math.floor(s / 60 / 60);
-    return {
-        second,
-        minute,
-        hour,
-    };
-};
+const initialTime = 25;
 
 const renderTime = (time: number) => {
     const t = calculateTime(time);
@@ -44,16 +30,24 @@ const renderTime = (time: number) => {
 };
 
 const TomatoClock = () => {
-    const router = useRouter();
-
     const [during, setDuring] = useState<number>(initialTime);
 
     const [isStart, setIsStart] = useState<boolean>(false);
     const [isCounting, setIsCounting] = useState<boolean>(false);
 
-    const [timeLeft, { start, pause, resume, reset }] = useCountDown(during);
+    const [timeLeft, { start, pause, resume, reset }] = useCountDown(during * 60 * 1000);
 
     const [target, setTarget] = useState<string>("");
+
+    useEffect(() => {
+        // 倒计时结束
+        if (isStart && timeLeft === 0) {
+            playAudio();
+            message.success("倒计时结束啦~")
+            setIsStart(false);
+            setIsCounting(false);
+        }
+    }, [timeLeft]);
 
     return (
         <>
@@ -66,17 +60,17 @@ const TomatoClock = () => {
                                 prefix="倒计时时长："
                                 suffix="(分钟)"
                                 type="number"
-                                value={during / 1000 / 60}
-                                onChange={(e) => setDuring(Number(e.target.value) * 1000 * 60)}
+                                value={during}
+                                onChange={(e) => setDuring(Number(e.target.value))}
                             />
                             <Space className={styles.operator}>
-                                <Button type="primary" onClick={() => setDuring(25 * 60 * 1000)}>
+                                <Button type="primary" onClick={() => setDuring(25)}>
                                     25
                                 </Button>
-                                <Button type="primary" onClick={() => setDuring(60 * 60 * 1000)}>
+                                <Button type="primary" onClick={() => setDuring(60)}>
                                     60
                                 </Button>
-                                <Button type="primary" onClick={() => setDuring(120 * 60 * 1000)}>
+                                <Button type="primary" onClick={() => setDuring(120)}>
                                     120
                                 </Button>
                             </Space>
@@ -84,7 +78,7 @@ const TomatoClock = () => {
                         </Space>
                     )}
                     {target && <div className={styles.target}>{target}</div>}
-                    <div>{renderTime(timeLeft || during)}</div>
+                    <div>{renderTime(timeLeft || during * 60 * 1000)}</div>
                     <Space className={styles.operator}>
                         {!isStart && !isCounting && (
                             <Button
