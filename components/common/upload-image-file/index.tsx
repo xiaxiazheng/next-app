@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Upload, message, Progress } from "antd";
+import { Upload, message, Progress, UploadFile } from "antd";
 import { staticUrl } from "../../../service";
 import { PlusOutlined } from "@ant-design/icons";
 import MyModal from "../my-modal";
@@ -28,33 +28,31 @@ const UploadImageFile: React.FC<Props> = (props) => {
         setUsername(localStorage.getItem("username"));
     }, []);
 
-    const [name, setName] = useState<string>();
-    const [percent, setPercent] = useState<number>();
-    const [size, setSize] = useState<number>();
+    const [uploadFileList, setUploadFileList] = useState<UploadFile<any>[]>([]);
 
     const handleChange = (info: any) => {
-        // 上传中
-        if (info.file.status === "uploading") {
-            setPercent(info.file.percent);
+        setUploadFileList(info.fileList);
+        if (info.fileList.every((item: UploadFile<any>) => item.status === "done" || item.status === "error")) {
+            refreshImgList();
         }
         // 上传成功触发
         if (info.file.status === "done") {
             message.success("上传图片成功");
-            setName(undefined);
-            refreshImgList();
         }
+        // 上传失败触发
         if (info.file.status === "error") {
             message.error("上传图片失败");
+            refreshImgList();
         }
     };
 
     const beforeUpload = (info: any) => {
-        setName(info.name);
-        setPercent(0);
-        setSize(info.size);
-
         return true; // 为 false 就不会上传
     };
+
+    const getUploadingList = (list: UploadFile<any>[]) => {
+        return list.filter((item) => item.status !== "done" && item.status !== 'error')
+    }
 
     return (
         <div className={styles.upload_wrapper} onClick={(e) => e.stopPropagation()} style={style}>
@@ -70,24 +68,34 @@ const UploadImageFile: React.FC<Props> = (props) => {
                 beforeUpload={beforeUpload}
                 listType="picture-card"
                 onChange={handleChange}
+                multiple
             >
                 <PlusOutlined className={styles.addIcon} />
                 点击上传图片/文件
             </Upload>
-            <MyModal visible={!!name} showFooter={false} title={"上传图片/文件"}>
-                <div className={styles.progress}>
-                    <div className={styles.name}>{name}</div>
-                    <div>{handleSize(size || 0)}</div>
-                    <div>进度：{(percent || 0).toFixed(1)}%</div>
-                    <Progress
-                        strokeColor={{
-                            from: "#108ee9",
-                            to: "#87d068",
-                        }}
-                        percent={Number((percent || 0).toFixed(1))}
-                        status="active"
-                    />
-                </div>
+            <MyModal
+                visible={getUploadingList(uploadFileList).length !== 0}
+                showFooter={false}
+                title={"上传图片/文件"}
+            >
+                {getUploadingList(uploadFileList)
+                    .map((item, index) => {
+                        return (
+                            <div className={styles.progress} key={index}>
+                                <div className={styles.name}>{item.originFileObj.name}</div>
+                                <div>{handleSize(item.size || 0)}</div>
+                                <div>进度：{(item.percent || 0).toFixed(1)}%</div>
+                                <Progress
+                                    strokeColor={{
+                                        from: "#108ee9",
+                                        to: "#87d068",
+                                    }}
+                                    percent={Number((item.percent || 0).toFixed(1))}
+                                    status="active"
+                                />
+                            </div>
+                        );
+                    })}
             </MyModal>
         </div>
     );
