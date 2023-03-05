@@ -22,6 +22,41 @@ const { Search } = Input;
 
 const title = "todo note";
 
+const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolean; getData: Function }) => {
+    const { item, isActive, showTitle = true, getData } = props;
+    return (
+        <>
+            <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
+                {showTitle && <Title item={item} />}
+                <div>{renderDescription(item.description)}</div>
+            </div>
+            <div className={styles.imgFileList}>
+                <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
+                <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
+                {isActive && (
+                    <UploadImageFile
+                        type="todo"
+                        otherId={item.todo_id}
+                        refreshImgList={() => getData()}
+                        style={{ margin: 0 }}
+                    />
+                )}
+            </div>
+        </>
+    );
+};
+
+const Title = (props: { item?: TodoItemType }) => {
+    const { item } = props;
+
+    return (
+        <div>
+            {<Category style={{ verticalAlign: 1 }} category={item?.category} color={item?.color} />}
+            {item?.name}
+        </div>
+    );
+};
+
 const Note = () => {
     useEffect(() => {
         getCategory();
@@ -82,42 +117,6 @@ const Note = () => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
-    const Title = (props: { item?: TodoItemType }) => {
-        const { item } = props;
-
-        return (
-            <div>
-                {<Category style={{ verticalAlign: 1 }} category={item?.category} color={item?.color} />}
-                {item?.name}
-            </div>
-        );
-    };
-
-    const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolean }) => {
-        const { item, isActive, showTitle = true } = props;
-        if (!item) return null;
-        return (
-            <>
-                <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                    {showTitle && <Title item={item} />}
-                    <div>{renderDescription(item.description)}</div>
-                </div>
-                <div className={styles.imgFileList}>
-                    <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
-                    <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
-                    {isActive && (
-                        <UploadImageFile
-                            type="todo"
-                            otherId={item.todo_id}
-                            refreshImgList={() => getData()}
-                            style={{ margin: 0 }}
-                        />
-                    )}
-                </div>
-            </>
-        );
-    };
-
     // 复制内容
     const copyContent = (content: string) => {
         const input = document.createElement("textarea");
@@ -171,14 +170,9 @@ const Note = () => {
                 <div className={styles.content}>
                     <div className={styles.list}>
                         {list.map((item) => {
-                            const isActive = active?.todo_id === item.todo_id;
                             return (
-                                <div
-                                    key={item.todo_id}
-                                    className={`${styles.list_item} ${isActive ? styles.active : ""}`}
-                                    onClick={() => handleClick(item)}
-                                >
-                                    <Item item={item} isActive={false} />
+                                <div key={item.todo_id} className={styles.list_item} onClick={() => handleClick(item)}>
+                                    <Item item={item} isActive={false} getData={getData} />
                                 </div>
                             );
                         })}
@@ -227,7 +221,7 @@ const Note = () => {
                     placement="bottom"
                     title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} />}
                     footer={
-                        <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: '10px' }}>
+                        <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
                             <Button
                                 onClick={() => copyContent(`${active?.name}\n${active?.description}`)}
                                 type="primary"
@@ -248,11 +242,14 @@ const Note = () => {
                     }
                 >
                     <div className={styles.modalContent}>
-                        <Item
-                            item={list.find((item) => item.todo_id === active?.todo_id)}
-                            isActive={true}
-                            showTitle={false}
-                        />
+                        {list.find((item) => item.todo_id === active?.todo_id) && (
+                            <Item
+                                item={list.find((item) => item.todo_id === active?.todo_id)}
+                                isActive={true}
+                                showTitle={false}
+                                getData={getData}
+                            />
+                        )}
                     </div>
                 </DrawerWrapper>
                 <TodoFormDrawer
