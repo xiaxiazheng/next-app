@@ -1,6 +1,6 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { Button, Input, message, Space } from "antd";
+import { Button, Input, message, Progress, Space } from "antd";
 import { useEffect, useState } from "react";
 import useCountDown from "../../hooks/useCountDown";
 import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
@@ -10,7 +10,7 @@ const initialTime = 25;
 const renderTime = (time: number) => {
     const t = calculateTime(time);
     return (
-        <span className={styles.renderTime}>
+        <div className={styles.renderTime}>
             <span>
                 {t.hour < 10 && "0"}
                 {t.hour}
@@ -25,7 +25,7 @@ const renderTime = (time: number) => {
                 {t.second < 10 && "0"}
                 {t.second}
             </span>
-        </span>
+        </div>
     );
 };
 
@@ -43,7 +43,7 @@ const TomatoClock = () => {
         // 倒计时结束
         if (isStart && timeLeft === 0) {
             playAudio();
-            message.success("倒计时结束啦~")
+            message.success("倒计时结束啦~");
             setIsStart(false);
             setIsCounting(false);
         }
@@ -53,7 +53,7 @@ const TomatoClock = () => {
         <>
             <Header title={"番茄时钟"} />
             <main>
-                <div className={styles.content}>
+                <Space className={styles.content} direction="vertical" size={30}>
                     {!isCounting && (
                         <Space direction="vertical" className={styles.config}>
                             <Input
@@ -78,7 +78,13 @@ const TomatoClock = () => {
                         </Space>
                     )}
                     {target && <div className={styles.target}>{target}</div>}
-                    <div>{renderTime(timeLeft || during * 60 * 1000)}</div>
+                    {renderTime(timeLeft || during * 60 * 1000)}
+                    <Progress
+                        className={styles.progress}
+                        style={{ width: 290 }}
+                        percent={((during * 60 * 1000 - timeLeft) / (during * 60 * 1000)) * 100}
+                        showInfo={false}
+                    />
                     <Space className={styles.operator}>
                         {!isStart && !isCounting && (
                             <Button
@@ -100,7 +106,7 @@ const TomatoClock = () => {
                                     setIsStart(false);
                                     setIsCounting(true);
                                 }}
-                                style={{ opacity: 0.5 }}
+                                style={{ opacity: 0.2 }}
                             >
                                 暂停
                             </Button>
@@ -130,7 +136,7 @@ const TomatoClock = () => {
                             </Button>
                         )}
                     </Space>
-                </div>
+                </Space>
             </main>
         </>
     );

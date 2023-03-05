@@ -32,6 +32,7 @@
 
 .target {
     font-size: 20px;
+    text-align: center;
 }
 
 .renderTime {
@@ -39,10 +40,19 @@
     justify-content: center;
     font-size: 76px;
     font-weight: 600;
-    margin: 30px 0;
 }
 
 .operator {
     display: flex;
     justify-content: center;
+}
+
+.progress {
+    opacity: 0.5;
+    margin-inline-end: 0;
+    :global {
+        .ant-progress-inner {
+            background-color: #a6adb4;
+        }
+    }
 }

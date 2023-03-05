@@ -23,6 +23,7 @@ import {
     AimOutlined,
     VideoCameraOutlined,
     ClockCircleOutlined,
+    CheckSquareOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
 import { TodoStatus } from "../service";
@@ -112,7 +113,7 @@ const Home = (props) => {
                 {
                     name: "番茄时钟",
                     path: "tomato-clock",
-                    icon: <CloudOutlined />,
+                    icon: <ClockCircleOutlined />,
                 },
             ].concat(
                 isMe
@@ -142,7 +143,7 @@ const Home = (props) => {
                 {
                     name: "打卡",
                     path: "todo-list-punch-the-clock",
-                    icon: <ClockCircleOutlined />,
+                    icon: <CheckSquareOutlined />,
                 },
                 {
                     name: "已完成",
