@@ -33,8 +33,6 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         todo_id && open && getData();
     }, [open]);
 
-    const isCopy = operatorType === "copy";
-
     const handleSave = async () => {
         await form.validateFields();
 
@@ -71,7 +69,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
         setLoading(true);
         const res =
-            data && !isCopy
+            data && operatorType === 'edit'
                 ? await EditTodoItem({
                       ...val,
                       todo_id: data.todo_id,
