@@ -6,25 +6,12 @@ import { GetTodoCategory } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
 import { TodoItemType } from "../types";
 import InputList from "../todo-form/input-list";
+import { timeRangeParse } from "./utils";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
     form?: FormInstance;
 }
-
-interface TimeRange {
-    startTime: string;
-    range: number;
-    target: number;
-}
-
-export const timeRangeStringify = ({ startTime, range, target }: TimeRange): string => {
-    return JSON.stringify({ startTime, range, target });
-};
-
-export const timeRangeParse = (val: string): TimeRange => {
-    return JSON.parse(val);
-};
 
 const TodoFormPunchTheClock: React.FC<Props> = (props) => {
     const { todo, form, ...rest } = props;

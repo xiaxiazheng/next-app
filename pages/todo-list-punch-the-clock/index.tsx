@@ -8,22 +8,10 @@ import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons"
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
-import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
+import PunchTheClockCalendar from "./Calendar";
+import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/todo/todo-form-punch-the-clock/utils";
 
 dayjs.locale("zh-cn");
-
-// 判断今天是否已打卡
-export const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
-    if (!item?.timeRange) return false;
-
-    // 先判断今天是否在任务范围内
-    const { startTime, endTime } = handleTimeRange(item.timeRange);
-    const isHasToday = dayjs(startTime).isAfter(dayjs()) && dayjs(endTime).isBefore(dayjs());
-    // 如果在再判断子任务中包不包含今天的打卡时间
-    return (
-        (isHasToday && item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD"))) || false
-    );
-};
 
 const TodoListPunchTheClock = () => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();

@@ -5,7 +5,7 @@ import { TodoItemType } from "../../todo/types";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { Space } from "antd";
-import { handleIsTodayPunchTheClock } from "../../../pages/todo-list-punch-the-clock";
+import { handleIsTodayPunchTheClock } from "../../todo/todo-form-punch-the-clock/utils";
 
 interface MsgType {
     type: "todo-list" | "todo-list-punch-the-clock";
