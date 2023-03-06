@@ -7,6 +7,9 @@ import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
 import dayjs from "dayjs";
 import { AddTodoItem, getTodoList } from "../../service";
 import { TodoItemType } from "../../components/todo/types";
+import NoSleep from 'nosleep.js';
+
+let nosleep: any;
 
 const initialTime = 25;
 
@@ -52,6 +55,8 @@ const TomatoClock = () => {
     const [lastList, setLastList] = useState<string[]>([]);
     useEffect(() => {
         getLastThreeTomatoClock();
+
+        nosleep = new NoSleep();
     }, []);
     const getLastThreeTomatoClock = async () => {
         const params = {
@@ -154,6 +159,7 @@ const TomatoClock = () => {
                                     start();
                                     setIsStart(true);
                                     setIsCounting(true);
+                                    nosleep?.enable();
                                 }}
                                 size="large"
                                 type="primary"
@@ -167,6 +173,7 @@ const TomatoClock = () => {
                                     pause();
                                     setIsStart(false);
                                     setIsCounting(true);
+                                    nosleep?.disable();
                                 }}
                                 style={{ opacity: 0.2 }}
                             >
@@ -179,6 +186,7 @@ const TomatoClock = () => {
                                     resume();
                                     setIsStart(true);
                                     setIsCounting(true);
+                                    nosleep?.enable();
                                 }}
                                 type="primary"
                             >
