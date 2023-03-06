@@ -4,6 +4,9 @@ import { Button, Input, message, Progress, Space } from "antd";
 import { useEffect, useState } from "react";
 import useCountDown from "../../hooks/useCountDown";
 import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
+import dayjs from "dayjs";
+import { AddTodoItem, getTodoList } from "../../service";
+import { TodoItemType } from "../../components/todo/types";
 
 const initialTime = 25;
 
@@ -42,19 +45,63 @@ const TomatoClock = () => {
     useEffect(() => {
         // 倒计时结束
         if (isStart && timeLeft === 0) {
-            playAudio();
-            message.success("倒计时结束啦~");
-            setIsStart(false);
-            setIsCounting(false);
+            handleFinish();
         }
     }, [timeLeft]);
+
+    const [lastList, setLastList] = useState<string[]>([]);
+    useEffect(() => {
+        getLastThreeTomatoClock();
+    }, []);
+    const getLastThreeTomatoClock = async () => {
+        const params = {
+            keyword: "",
+            pageNo: 1,
+            pageSize: 3,
+            status: 1,
+            category: "时钟",
+        };
+        const res = await getTodoList(params);
+        try {
+            const list = res.data.list
+                .map((item: TodoItemType) => {
+                    const reg = new RegExp(/倒计时：(\S*)，时长/, "g");
+                    return reg.exec(item.name);
+                })
+                .map((match) => match?.[1]);
+            setLastList(list);
+        } catch (e) {
+            setLastList([]);
+        }
+    };
+
+    const handleFinish = async () => {
+        playAudio();
+        const val = {
+            category: "时钟",
+            color: "3",
+            description: "",
+            name: `倒计时：${target}，时长 ${during} 分钟`,
+            isBookMark: "0",
+            isNote: "0",
+            isTarget: "0",
+            doing: "0",
+            other_id: "",
+            status: "1",
+            time: dayjs().format("YYYY-MM-DD"),
+        };
+        await AddTodoItem(val);
+        message.success("倒计时结束啦~~，当前完成已同步到 todo");
+        setIsStart(false);
+        setIsCounting(false);
+    };
 
     return (
         <>
             <Header title={"番茄时钟"} />
             <main>
                 <Space className={styles.content} direction="vertical" size={30}>
-                    {!isCounting && (
+                    {!isCounting ? (
                         <Space direction="vertical" className={styles.config}>
                             <Input
                                 prefix="倒计时时长："
@@ -75,16 +122,31 @@ const TomatoClock = () => {
                                 </Button>
                             </Space>
                             <Input prefix="一句话目标：" value={target} onChange={(e) => setTarget(e.target.value)} />
+                            {lastList && lastList?.length !== 0 && (
+                                <div className={styles.history} style={{ display: "flex" }}>
+                                    <div>历史完成：</div>
+                                    <Space direction="vertical">
+                                        {lastList.map((item, index) => (
+                                            <Button key={index} onClick={() => setTarget(item)}>
+                                                {item}
+                                            </Button>
+                                        ))}
+                                    </Space>
+                                </div>
+                            )}
                         </Space>
+                    ) : (
+                        <>
+                            {target && <div className={styles.target}>{target}</div>}
+                            {renderTime(timeLeft || during * 60 * 1000)}
+                            <Progress
+                                className={styles.progress}
+                                style={{ width: 290 }}
+                                percent={((during * 60 * 1000 - timeLeft) / (during * 60 * 1000)) * 100}
+                                showInfo={false}
+                            />
+                        </>
                     )}
-                    {target && <div className={styles.target}>{target}</div>}
-                    {renderTime(timeLeft || during * 60 * 1000)}
-                    <Progress
-                        className={styles.progress}
-                        style={{ width: 290 }}
-                        percent={((during * 60 * 1000 - timeLeft) / (during * 60 * 1000)) * 100}
-                        showInfo={false}
-                    />
                     <Space className={styles.operator}>
                         {!isStart && !isCounting && (
                             <Button

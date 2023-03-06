@@ -7,7 +7,7 @@ export enum TodoStatus {
     pool = 2,
 }
 
-export const GetTodo = async (): Promise<{ data: TodoItemType[]} | false> => {
+export const GetTodo = async (): Promise<{ data: TodoItemType[] } | false> => {
     const params = {
         status: TodoStatus.todo,
     };
@@ -41,7 +41,7 @@ export async function getTodoChainById(todo_id: string): Promise<any> {
     }
 }
 
-export const getTodoList = async (params: any) => {
+export const getTodoList = async (params: any): Promise<any | false> => {
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -75,29 +75,29 @@ export const getTodoBookMark = async () => {
         pageNo: 1,
         pageSize: 100,
     };
-    const res = await postFetch(`/todo/getTodoList`, params);;
+    const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
         return data;
     } else {
         return false;
     }
-}
+};
 
-export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[], total: number }} | false> => {
+export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[]; total: number } } | false> => {
     const params: any = {
         isTarget: "1",
         pageNo: 1,
         pageSize: 100,
     };
-    const res = await postFetch(`/todo/getTodoList`, params);;
+    const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
         return data;
     } else {
         return false;
     }
-}
+};
 
 export const GetTodoPool = async () => {
     const params = {

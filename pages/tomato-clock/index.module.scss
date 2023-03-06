@@ -56,3 +56,18 @@
         }
     }
 }
+
+.history {
+    display: flex;
+    >div:first-child {
+        padding-top: 8px;
+    }
+    // :global {
+    //     .ant-btn {
+    //         color: #a6adb4;
+    //     }
+    //     .ant-btn-text:not(:disabled):hover {
+    //         color: #a6adb4;
+    //     }
+    // }
+}
