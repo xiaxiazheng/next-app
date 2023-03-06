@@ -4,6 +4,8 @@ import { GetTodo, getTodoTarget } from "../../../service";
 import { TodoItemType } from "../../todo/types";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { Space } from "antd";
+import { handleIsTodayPunchTheClock } from "../../../pages/todo-list-punch-the-clock";
 
 interface MsgType {
     type: "todo-list" | "todo-list-punch-the-clock";
@@ -27,10 +29,9 @@ const HomeTips: React.FC = (props) => {
         const res = await getTodoTarget();
         let list: TodoItemType[] = [];
         if (res) {
-            // 这个判断的功能还不完善，晚点再弄
             list = res.data.list
-                .filter((item) => item.timeRange)
-                .filter((item) => item.time === dayjs().format("YYYY-MM-DD"));
+                .filter(item => !!item.timeRange)
+                .filter((item) => !handleIsTodayPunchTheClock(item))
         }
 
         return {
@@ -49,7 +50,7 @@ const HomeTips: React.FC = (props) => {
     if (msgList.length === 0) return null;
 
     return (
-        <div className={`${styles.HomeTips} ScrollBar`}>
+        <Space direction="vertical" className={`${styles.HomeTips}`}>
             {msgList.map((item) => {
                 return (
                     <div key={item.type} onClick={() => router.push(item.type)}>
@@ -57,7 +58,7 @@ const HomeTips: React.FC = (props) => {
                     </div>
                 );
             })}
-        </div>
+        </Space>
     );
 };
 

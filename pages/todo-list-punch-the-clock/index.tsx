@@ -13,8 +13,16 @@ import PunchTheClockCalendar, { handleTimeRange } from "./Calendar";
 dayjs.locale("zh-cn");
 
 // 判断今天是否已打卡
-const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
-    return item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD")) || false;
+export const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
+    if (!item?.timeRange) return false;
+
+    // 先判断今天是否在任务范围内
+    const { startTime, endTime } = handleTimeRange(item.timeRange);
+    const isHasToday = dayjs(startTime).isAfter(dayjs()) && dayjs(endTime).isBefore(dayjs());
+    // 如果在再判断子任务中包不包含今天的打卡时间
+    return (
+        (isHasToday && item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD"))) || false
+    );
 };
 
 const TodoListPunchTheClock = () => {
@@ -26,10 +34,10 @@ const TodoListPunchTheClock = () => {
         setLoading(true);
         const res = await getTodoTarget();
         if (res) {
-            const list = res.data.list.filter((item: TodoItemType) => item.timeRange);
+            const list = res.data.list.filter((item: TodoItemType) => !!item.timeRange);
             setTodoList(list);
             if (active) {
-                setActive(list.find(item => item.todo_id === active.todo_id));
+                setActive(list.find((item) => item.todo_id === active.todo_id));
             }
         }
         setLoading(false);
