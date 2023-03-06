@@ -6,7 +6,7 @@ import { AddTodoItem, EditTodoItem, GetTodoById, TodoStatus } from "../../../ser
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType, TodoItemType } from "../types";
-import TodoFormPunchTheClock from "../todo-form-punch-the-clock";
+import TodoFormPunchTheClock, { timeRangeStringify } from "../todo-form-punch-the-clock";
 import dayjs from "dayjs";
 
 interface IProps extends DrawerProps {
@@ -30,7 +30,11 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
     };
 
     useEffect(() => {
-        todo_id && open && getData();
+        if (open) {
+            todo_id && getData();
+        } else {
+            form.resetFields();
+        }
     }, [open]);
 
     const handleSave = async () => {
@@ -39,11 +43,12 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         let val = form.getFieldsValue();
         // 如果是打卡任务
         if (isPunchTheClock) {
-            const { startTime, range, ...rest } = val;
-            const timeRange = JSON.stringify([
+            const { startTime, range, target, ...rest } = val;
+            const timeRange = timeRangeStringify({
                 startTime,
-                range
-            ]);
+                range,
+                target,
+            });
             if (data) {
                 // 编辑
                 val = {
@@ -69,7 +74,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
         setLoading(true);
         const res =
-            data && operatorType === 'edit'
+            data && operatorType === "edit"
                 ? await EditTodoItem({
                       ...val,
                       todo_id: data.todo_id,
@@ -95,6 +100,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     </span>
                 </div>
             }
+            destroyOnClose
             {...props}
         >
             <Spin spinning={loading}>

@@ -2,15 +2,29 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { GetTodoCategory, TodoStatus } from "../../../service";
+import { GetTodoCategory } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
-import { OperatorType, TodoItemType } from "../types";
+import { TodoItemType } from "../types";
 import InputList from "../todo-form/input-list";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
     form?: FormInstance;
 }
+
+interface TimeRange {
+    startTime: string;
+    range: number;
+    target: number;
+}
+
+export const timeRangeStringify = ({ startTime, range, target }: TimeRange): string => {
+    return JSON.stringify({ startTime, range, target });
+};
+
+export const timeRangeParse = (val: string): TimeRange => {
+    return JSON.parse(val);
+};
 
 const TodoFormPunchTheClock: React.FC<Props> = (props) => {
     const { todo, form, ...rest } = props;
@@ -28,8 +42,12 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (todo) {
+            const { startTime, range, target } = timeRangeParse(todo.timeRange);
             form.setFieldsValue({
                 ...todo,
+                startTime,
+                range,
+                target,
                 status: Number(todo.status),
             });
         }
@@ -70,7 +88,10 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
                         {todo && <Radio.Button value={todo.time}>{todo.time}</Radio.Button>}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="range" label="持续时间（天）" rules={[{ required: true }]} initialValue={7}>
+                <Form.Item name="range" label="持续天数" rules={[{ required: true }]} initialValue={7}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="target" label="达标天数" rules={[{ required: true }]} initialValue={7}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>

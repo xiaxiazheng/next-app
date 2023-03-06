@@ -1,4 +1,4 @@
-.edit_todo :global(.ant-form-item-label>label) {
+.edit_todo :global(.ant-form-item-label > label) {
     color: #a6adb4;
 }
 
@@ -28,6 +28,12 @@
 
 .edit_todo :global(.anticon.ant-input-clear-icon) {
     color: #a6adb4 !important;
+}
+
+.edit_todo :global(.ant-input) {
+    &::placeholder {
+        color: #a6adb4;
+    }
 }
 
 .searchTodo {

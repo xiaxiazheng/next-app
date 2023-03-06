@@ -4,16 +4,18 @@ import { Calendar } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { timeRangeParse } from "../../components/todo/todo-form-punch-the-clock";
 
 // 计算时间相关
 export const handleTimeRange = (timeRange: string) => {
-    const [startTime, range] = JSON.parse(timeRange);
+    const { startTime, range, target } = timeRangeParse(timeRange);
     return {
         startTime,
         endTime: dayjs(startTime)
             .add(Number(range - 1), "d")
             .format("YYYY-MM-DD"),
         range,
+        target,
     };
 };
 

@@ -17,7 +17,7 @@ const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
     return item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD")) || false;
 };
 
-const TodoPool = () => {
+const TodoListPunchTheClock = () => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,6 +28,9 @@ const TodoPool = () => {
         if (res) {
             const list = res.data.list.filter((item: TodoItemType) => item.timeRange);
             setTodoList(list);
+            if (active) {
+                setActive(list.find(item => item.todo_id === active.todo_id));
+            }
         }
         setLoading(false);
     };
@@ -65,12 +68,18 @@ const TodoPool = () => {
     };
 
     const renderDetail = (item: TodoItemType) => {
+        const { startTime, endTime, range, target } = handleTimeRange(item.timeRange);
         return (
             <>
                 <div>
-                    打卡周期：{handleTimeRange(item.timeRange).startTime} ~ {handleTimeRange(item.timeRange).endTime}
+                    打卡周期：{startTime} ~ {endTime}，共 {range} 天
                 </div>
-                <div>计划天数：{handleTimeRange(item.timeRange).range}</div>
+                <div>
+                    达标天数：{target}，
+                    {item.child_todo_list_length < target
+                        ? `还差 ${target - item.child_todo_list_length} 天`
+                        : `已达成目标`}
+                </div>
                 <div>已打卡天数：{item.child_todo_list_length}</div>
                 <div>
                     今日：
@@ -121,7 +130,7 @@ const TodoPool = () => {
                                     setActive(item);
                                 }}
                             >
-                                <div>{item.name}</div>
+                                <div className={styles.name}>{item.name}</div>
                                 {renderDetail(item)}
                             </div>
                         ))}
@@ -129,7 +138,9 @@ const TodoPool = () => {
                 <TodoFormDrawer
                     todo_id={active?.todo_id}
                     open={showAdd}
-                    onClose={() => setShowAdd(false)}
+                    onClose={() => {
+                        setShowAdd(false);
+                    }}
                     operatorType={active ? "edit" : "add"}
                     onSubmit={() => {
                         getData();
@@ -170,7 +181,7 @@ const TodoPool = () => {
     );
 };
 
-export default TodoPool;
+export default TodoListPunchTheClock;
 
 export async function getServerSideProps(context) {
     return {
