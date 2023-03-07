@@ -59,9 +59,6 @@ const CMD: React.FC<ICMD> = (props) => {
         }
         setLoading(false);
     };
-    useEffect(() => {
-        getScript();
-    }, []);
 
     const saveScript = async () => {
         const params = {
@@ -128,6 +125,7 @@ const CMD: React.FC<ICMD> = (props) => {
     }
 
     useEffect(() => {
+        getScript();
         connectWS();
 
         () => {
