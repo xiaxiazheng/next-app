@@ -97,7 +97,7 @@ const CMD: React.FC<ICMD> = (props) => {
         websocket.onclose = function () {
             pushResult(`websocket close`);
             setIsConnect(false);
-            stopHeartBear();
+            stopHeartBeat();
         };
         websocket.onmessage = function (e) {
             console.log(e);
@@ -118,7 +118,7 @@ const CMD: React.FC<ICMD> = (props) => {
             startHeartBeat();
         }, 30 * 1000)
     }
-    const stopHeartBear = () => {
+    const stopHeartBeat = () => {
         if (timer) {
             clearTimeout(timer);
         }
@@ -129,7 +129,7 @@ const CMD: React.FC<ICMD> = (props) => {
         connectWS();
 
         () => {
-            stopHeartBear();
+            stopHeartBeat();
         }
     }, []);
 
