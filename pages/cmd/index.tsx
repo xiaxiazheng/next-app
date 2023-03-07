@@ -7,6 +7,7 @@ import MyDrawer from "../../components/common/my-drawer";
 
 const { TextArea } = Input;
 const placeholder = "-----------";
+let timer: any;
 
 interface ICMD {}
 
@@ -27,7 +28,7 @@ const CMD: React.FC<ICMD> = (props) => {
         pushResult(`-> ${str}`);
 
         try {
-            ref?.current?.send(
+            sendMsg(
                 JSON.stringify({
                     event: "cmd",
                     data: str,
@@ -36,6 +37,10 @@ const CMD: React.FC<ICMD> = (props) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const sendMsg = (str: string) => {
+        ref?.current?.send(str);
     };
 
     const [list, setList] = useState<any>([]);
@@ -90,17 +95,37 @@ const CMD: React.FC<ICMD> = (props) => {
         websocket.onopen = function () {
             pushResult(`websocket open`);
             setIsConnect(true);
+            startHeartBeat();
         };
         websocket.onclose = function () {
             pushResult(`websocket close`);
             setIsConnect(false);
+            stopHeartBear();
         };
         websocket.onmessage = function (e) {
+            console.log(e);
             pushResult(
                 `${JSON.parse(e.data)?.data?.replaceAll(`\\n"`, "").replaceAll(`"`, "").replaceAll("\\n", "\n") || ""}`
             );
         };
     };
+
+    // 心跳保活，30s 发送一次
+    const startHeartBeat = () => {
+        pushResult(`-> heartbeat`);
+        sendMsg(JSON.stringify({
+            event: "hello",
+            data: "heartbeat",
+        }));
+        timer = setTimeout(() => {
+            startHeartBeat();
+        }, 30 * 1000)
+    }
+    const stopHeartBear = () => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+    }
 
     useEffect(() => {
         connectWS();
@@ -113,7 +138,7 @@ const CMD: React.FC<ICMD> = (props) => {
     return (
         <div className={styles.cmd}>
             <div>
-            <Spin spinning={loading}>
+                <Spin spinning={loading}>
                     <div className={styles.result} ref={resultRef}>
                         {result}
                     </div>
