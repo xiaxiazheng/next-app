@@ -129,6 +129,10 @@ const CMD: React.FC<ICMD> = (props) => {
 
     useEffect(() => {
         connectWS();
+
+        () => {
+            stopHeartBear();
+        }
     }, []);
 
     const [visible, setVisible] = useState<boolean>(false);
