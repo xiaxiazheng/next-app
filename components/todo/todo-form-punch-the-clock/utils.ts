@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
-import { TodoItemType } from '../types';
+import dayjs from "dayjs";
+import { TodoItemType } from "../types";
 
 interface TimeRange {
     startTime: string;
@@ -26,7 +26,8 @@ export const handleIsTodayPunchTheClock = (item: TodoItemType): boolean => {
 
     // 先判断今天是否在任务范围内
     const { startTime, endTime } = handleTimeRange(item.timeRange);
-    const isHasToday = dayjs(startTime).isAfter(dayjs()) && dayjs(endTime).isBefore(dayjs());
+
+    const isHasToday = dayjs(startTime).isBefore(dayjs()) && dayjs(endTime).isAfter(dayjs());
     // 如果在再判断子任务中包不包含今天的打卡时间
     return (
         (isHasToday && item?.child_todo_list.map((item) => item.time).includes(dayjs().format("YYYY-MM-DD"))) || false
