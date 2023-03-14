@@ -1,16 +1,15 @@
 import React from "react";
-import { Radio } from "antd";
+import { Button } from "antd";
 
-const SwitchComp = (props) => {
+const SwitchComp = (props: any) => {
+    const { value, onChange, children } = props;
     return (
-        <Radio.Group {...props}>
-            <Radio.Button key={"1"} value={"1"}>
-                是
-            </Radio.Button>
-            <Radio.Button key={"0"} value={"0"}>
-                否
-            </Radio.Button>
-        </Radio.Group>
+        <Button
+            type={value === "1" ? "primary" : "default"}
+            onClick={() => onChange(value === "0" ? "1" : "0")}
+        >
+            {children}
+        </Button>
     );
 };
 

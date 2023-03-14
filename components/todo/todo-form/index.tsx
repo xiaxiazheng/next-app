@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Form, Input, Radio, FormInstance, FormProps } from "antd";
+import { Form, Input, Radio, FormInstance, FormProps, Space } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { GetTodoCategory, TodoStatus } from "../../../service";
@@ -8,6 +8,11 @@ import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
+import {
+    AimOutlined,
+    BookOutlined,
+    StarFilled,
+} from "@ant-design/icons";
 
 interface Props extends FormProps {
     status: TodoStatus;
@@ -104,17 +109,35 @@ const TodoForm: React.FC<Props> = (props) => {
                         ))}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="doing" label="现在处理" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isTarget" label="设为目标" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isBookMark" label="设为书签" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
-                </Form.Item>
-                <Form.Item name="isNote" label="存档" rules={[{ required: true }]} initialValue={"0"}>
-                    <SwitchComp />
+                <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
+                    <Space>
+                        <Form.Item name="doing" rules={[{ required: true }]} initialValue={"0"}>
+                            <SwitchComp>
+                                <span style={{ color: "#ffeb3b" }}>现在处理</span>
+                            </SwitchComp>
+                        </Form.Item>
+                        <Form.Item name="isTarget" rules={[{ required: true }]} initialValue={"0"}>
+                            <SwitchComp>
+                                <span>
+                                    <AimOutlined style={{ color: "#ffeb3b" }} /> 目标
+                                </span>
+                            </SwitchComp>
+                        </Form.Item>
+                        <Form.Item name="isBookMark" rules={[{ required: true }]} initialValue={"0"}>
+                            <SwitchComp>
+                                <span>
+                                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /> 书签
+                                </span>
+                            </SwitchComp>
+                        </Form.Item>
+                        <Form.Item name="isNote" rules={[{ required: true }]} initialValue={"0"}>
+                            <SwitchComp>
+                                <span>
+                                    <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} /> 存档
+                                </span>
+                            </SwitchComp>
+                        </Form.Item>
+                    </Space>
                 </Form.Item>
                 <Form.Item name="other_id" label="前置 todo">
                     <SearchTodo activeTodo={todo} />
