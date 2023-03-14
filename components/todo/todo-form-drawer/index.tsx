@@ -83,9 +83,11 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
+            onSubmit?.(val);
+        } else {
+            message.error(`${operatorMap[operatorType]} Todo 失败，请重试`);
         }
         setLoading(false);
-        onSubmit?.(val);
     };
     const [form] = Form.useForm();
     const [isEdit, setIsEdit] = useState<boolean>(false);
