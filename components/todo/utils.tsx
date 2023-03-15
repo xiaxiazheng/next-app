@@ -4,6 +4,8 @@ import styles from './utils.module.scss';
 import { splitStr } from "./todo-form/input-list";
 
 export const renderDescription = (str: string) => {
+    if (str === '') return '';
+
     return (
         <div className={styles.descList}>
             {str.split(splitStr).map((i, index) => (

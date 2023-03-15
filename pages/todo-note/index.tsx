@@ -28,7 +28,7 @@ const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolea
         <>
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
                 {showTitle && <Title item={item} />}
-                <div>{renderDescription(item.description)}</div>
+                {item.description !== '' && <div>{renderDescription(item.description)}</div>}
             </div>
             <div className={styles.imgFileList}>
                 <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
@@ -46,13 +46,13 @@ const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolea
     );
 };
 
-const Title = (props: { item?: TodoItemType }) => {
-    const { item } = props;
+const Title = (props: { item?: TodoItemType; showTime?: boolean }) => {
+    const { item, showTime = false } = props;
 
     return (
         <div>
             {<Category style={{ verticalAlign: 1 }} category={item?.category} color={item?.color} />}
-            {item?.name}
+            {item?.name} {showTime && <>({item?.time})</>}
         </div>
     );
 };
@@ -195,6 +195,7 @@ const Note = () => {
                     icon={<ApartmentOutlined />}
                     onClick={() => setShowDrawer(true)}
                 />
+                {/* 类别抽屉 */}
                 <MyDrawer open={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
@@ -215,11 +216,12 @@ const Note = () => {
                         ))}
                     </Radio.Group>
                 </MyDrawer>
+                {/* 详情抽屉 */}
                 <DrawerWrapper
                     open={!!active}
                     onClose={() => setActive(undefined)}
                     placement="bottom"
-                    title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} />}
+                    title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} showTime={true} />}
                     footer={
                         <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
                             <Button
