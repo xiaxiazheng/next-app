@@ -144,7 +144,7 @@ const Note = () => {
                             type="primary"
                             onClick={() => setSortBy((prev) => (prev === "cTime" ? "mTime" : "cTime"))}
                         >
-                            {sortBy}
+                            {sortBy === "mTime" ? "修改时间倒序" : "创建时间倒序"}
                         </Button>
                         <Button
                             style={{ width: 50 }}

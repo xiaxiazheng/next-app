@@ -8,7 +8,7 @@ import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
-import { AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
+import { AimOutlined, BookOutlined, StarFilled, UpCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
 
 interface Props extends FormProps {
     status: TodoStatus;
@@ -68,7 +68,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Radio.Group>
                 <div className={styles.showAll}>
                     <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
-                        show all Categoty
+                        show all Category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
                     </Button>
                 </div>
             </>
