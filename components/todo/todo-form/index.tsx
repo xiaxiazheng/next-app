@@ -72,7 +72,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     <InputList />
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
-                    <Radio.Group>
+                    <Radio.Group buttonStyle="solid">
                         {["0", "1", "2", "3", "-1"].map((item) => (
                             <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
                                 {colorNameMap[item]}
@@ -86,7 +86,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     rules={[{ required: true }]}
                     initialValue={dayjs().format("YYYY-MM-DD")}
                 >
-                    <Radio.Group>
+                    <Radio.Group buttonStyle="solid">
                         <Radio.Button value={dayjs().format("YYYY-MM-DD")}>Today</Radio.Button>
                         <Radio.Button value={dayjs().add(1, "day").format("YYYY-MM-DD")}>Tomorrow</Radio.Button>
                         <Radio.Button value={dayjs().subtract(1, "day").format("YYYY-MM-DD")}>Yesterday</Radio.Button>
@@ -94,14 +94,14 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="status" label="状态" rules={[{ required: true }]} initialValue={status}>
-                    <Radio.Group>
+                    <Radio.Group buttonStyle="solid">
                         <Radio.Button value={0}>待办</Radio.Button>
                         <Radio.Button value={1}>已完成</Radio.Button>
                         <Radio.Button value={2}>待办池</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
-                    <Radio.Group>
+                    <Radio.Group buttonStyle="solid">
                         {category?.map((item) => (
                             <Radio.Button key={item.category} value={item.category}>
                                 {item.category} ({item.count})
