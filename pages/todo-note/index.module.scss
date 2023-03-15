@@ -15,8 +15,8 @@
 }
 
 .content {
-    padding-bottom: 20px;
     height: calc(100vh - 180px);
+    margin-bottom: 20px;
     overflow-y: auto;
     .list {
         column-count: 2;
@@ -27,7 +27,7 @@
             margin-bottom: 6px;
             padding: 5px 7px;
             font-size: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 4px;
             box-sizing: border-box;
             &.active {
@@ -35,6 +35,27 @@
             }
         }
     }
+}
+
+.category {
+    position: fixed;
+    bottom: 20px;
+    right: 70px;
+    opacity: 0.5;
+}
+
+.modalContent {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.imgFileList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 80px);
+    justify-content: flex-start;
+    grid-row-gap: 8px;
+    grid-column-gap: 7px;
+    margin: 7px 0 5px;
 }
 
 .note_cont {
@@ -107,25 +128,4 @@
 }
 .note :global(.ant-pagination-item-active) {
     background-color: #001529;
-}
-
-.category {
-    position: fixed;
-    bottom: 20px;
-    right: 70px;
-    opacity: 0.5;
-}
-
-.modalContent {
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
-}
-
-.imgFileList {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 80px);
-    justify-content: flex-start;
-    grid-row-gap: 8px;
-    grid-column-gap: 7px;
-    margin: 7px 0 5px;
 }
