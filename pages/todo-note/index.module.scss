@@ -23,6 +23,7 @@
         column-gap: 6px;
         width: 100%;
         .list_item {
+            -webkit-column-break-inside: avoid;
             width: 100%;
             margin-bottom: 6px;
             padding: 5px 7px;
