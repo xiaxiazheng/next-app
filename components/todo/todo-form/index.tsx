@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Form, Input, Radio, FormInstance, FormProps, Space } from "antd";
+import { Form, Input, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { GetTodoCategory, TodoStatus } from "../../../service";
@@ -8,11 +8,7 @@ import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
-import {
-    AimOutlined,
-    BookOutlined,
-    StarFilled,
-} from "@ant-design/icons";
+import { AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
 
 interface Props extends FormProps {
     status: TodoStatus;
@@ -58,6 +54,27 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
+    const CategoryOptions = ({ value, onChange }: any) => {
+        const [showAll, setShowAll] = useState<boolean>(false);
+
+        return (
+            <>
+                <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
+                    {(showAll ? category : category?.slice(0, 9))?.map((item) => (
+                        <Radio.Button key={item.category} value={item.category}>
+                            {item.category} ({item.count})
+                        </Radio.Button>
+                    ))}
+                </Radio.Group>
+                <div className={styles.showAll}>
+                    <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
+                        show all Categoty
+                    </Button>
+                </div>
+            </>
+        );
+    };
+
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
@@ -101,13 +118,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
-                    <Radio.Group buttonStyle="solid">
-                        {category?.map((item) => (
-                            <Radio.Button key={item.category} value={item.category}>
-                                {item.category} ({item.count})
-                            </Radio.Button>
-                        ))}
-                    </Radio.Group>
+                    <CategoryOptions />
                 </Form.Item>
                 <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
                     <Space>

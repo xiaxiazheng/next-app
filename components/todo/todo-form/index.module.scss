@@ -1,4 +1,4 @@
-.edit_todo :global(.ant-form-item-label>label) {
+.edit_todo :global(.ant-form-item-label > label) {
     color: #a6adb4;
 }
 
@@ -30,6 +30,17 @@
     :global {
         .ant-select-selector {
             width: unset !important;
+        }
+    }
+}
+
+.showAll {
+    display: flex;
+    justify-content: center;
+    :global {
+        .ant-btn-text,
+        .ant-btn-text:not(:disabled):hover {
+            color: #a6adb4;
         }
     }
 }
