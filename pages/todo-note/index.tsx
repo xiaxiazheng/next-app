@@ -22,16 +22,25 @@ const { Search } = Input;
 
 const title = "todo note";
 
-const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolean; getData: Function }) => {
-    const { item, isActive, showTitle = true, getData } = props;
+const Item = (props: {
+    item: TodoItemType;
+    isActive: boolean;
+    showTitle?: boolean;
+    getData: Function;
+    maxImgCount?: number;
+}) => {
+    const { item, isActive, showTitle = true, getData, maxImgCount = -1 } = props;
     return (
         <>
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
                 {showTitle && <Title item={item} />}
-                {item.description !== '' && <div>{renderDescription(item.description)}</div>}
+                {item.description !== "" && <div>{renderDescription(item.description)}</div>}
             </div>
             <div className={styles.imgFileList}>
-                <PreviewImages imagesList={item.imgList} style={{ margin: 0 }} />
+                <PreviewImages
+                    imagesList={maxImgCount !== -1 ? item.imgList.slice(0, maxImgCount) : item.imgList}
+                    style={{ margin: 0 }}
+                />
                 <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
                 {isActive && (
                     <UploadImageFile
@@ -40,6 +49,9 @@ const Item = (props: { item: TodoItemType; isActive: boolean; showTitle?: boolea
                         refreshImgList={() => getData()}
                         style={{ margin: 0 }}
                     />
+                )}
+                {maxImgCount !== -1 && item.imgList.length > maxImgCount && (
+                    <div style={{ opacity: 0.7 }}>还有 {item.imgList.length - maxImgCount} 张图</div>
                 )}
             </div>
         </>
@@ -172,7 +184,7 @@ const Note = () => {
                         {list.map((item) => {
                             return (
                                 <div key={item.todo_id} className={styles.list_item} onClick={() => handleClick(item)}>
-                                    <Item item={item} isActive={false} getData={getData} />
+                                    <Item item={item} isActive={false} getData={getData} maxImgCount={2} />
                                 </div>
                             );
                         })}
@@ -196,7 +208,7 @@ const Note = () => {
                     onClick={() => setShowDrawer(true)}
                 />
                 {/* 类别抽屉 */}
-                <MyDrawer open={showDrawer} onCancel={() => setShowDrawer(false)} placement="bottom">
+                <DrawerWrapper open={showDrawer} height="50vh" onClose={() => setShowDrawer(false)} placement="bottom">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}
@@ -215,7 +227,7 @@ const Note = () => {
                             </Radio>
                         ))}
                     </Radio.Group>
-                </MyDrawer>
+                </DrawerWrapper>
                 {/* 详情抽屉 */}
                 <DrawerWrapper
                     open={!!active}
