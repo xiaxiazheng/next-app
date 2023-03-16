@@ -121,7 +121,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     <CategoryOptions />
                 </Form.Item>
                 <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
-                    <Space>
+                    <Space size={3}>
                         <Form.Item name="doing" rules={[{ required: true }]} initialValue={"0"}>
                             <SwitchComp>
                                 <span style={{ color: "#ffeb3b" }}>现在处理</span>
