@@ -18,7 +18,7 @@ interface IProps extends DrawerProps {
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, open, operatorType, onSubmit, isPunchTheClock } = props;
+    const { todo_id, open, operatorType, onSubmit, isPunchTheClock, onClose } = props;
 
     const [data, setData] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -91,6 +91,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
     };
     const [form] = Form.useForm();
     const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [isClose, setIsClose] = useState<boolean>(false);
 
     return (
         <DrawerWrapper
@@ -105,6 +106,15 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             }
             destroyOnClose
             {...props}
+            onClose={(e) => {
+                if (isEdit && !isClose) {
+                    message.warning('还有编辑内容没保存，确定不要就再点一次');
+                    setIsClose(true);
+                } else {
+                    setIsClose(false);
+                    onClose(e);
+                }
+            }}
         >
             <Spin spinning={loading}>
                 {isPunchTheClock ? (
@@ -123,6 +133,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                         operatorType={operatorType}
                         onFieldsChange={() => {
                             setIsEdit(true);
+                            setIsClose(false);
                         }}
                     />
                 )}
