@@ -99,6 +99,23 @@ export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[]; t
     }
 };
 
+export const getTodoFootprint = async (): Promise<{ data: { list: TodoItemType[]; total: number } } | false> => {
+    const params: any = {
+        pageNo: 1,
+        pageSize: 30,
+        sortBy: [
+            ['mTime', 'DESC']
+        ]
+    };
+    const res = await postFetch(`/todo/getTodoList`, params);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+};
+
 export const GetTodoPool = async () => {
     const params = {
         status: TodoStatus.pool,

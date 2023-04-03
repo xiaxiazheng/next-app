@@ -24,6 +24,7 @@ import {
     VideoCameraOutlined,
     ClockCircleOutlined,
     CheckSquareOutlined,
+    HistoryOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../components/todo/todo-form-drawer";
 import { TodoStatus } from "../service";
@@ -164,6 +165,11 @@ const Home = (props) => {
                     name: "todo list",
                     path: "todo-list",
                     icon: <OrderedListOutlined />,
+                },
+                {
+                    name: "足迹",
+                    path: "todo-list-footprint",
+                    icon: <HistoryOutlined />,
                 },
                 {
                     name: "新建 todo",
