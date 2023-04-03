@@ -52,7 +52,6 @@ const TodoItemList: React.FC<IProps> = (props) => {
     return (
         <>
             {list
-                .sort((a, b) => (a.doing === "1" ? -1 : 0))
                 .map((item) => (
                     <div key={item.todo_id} style={{ marginBottom: 8 }}>
                         <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />

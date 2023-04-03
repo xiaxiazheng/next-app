@@ -36,7 +36,7 @@ const TodoPool = (props: IProps) => {
     const [keyword, setKeyword] = useState<string>();
     const getShowList = (list: TodoItemType[]) => {
         const l = !isSortTime
-            ? list
+            ? list.sort((a, b) => (a.doing === "1" ? -1 : 0))
             : [...list].sort(
                   // sort 会改变原数组
                   (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
