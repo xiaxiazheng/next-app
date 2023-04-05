@@ -104,6 +104,7 @@ const CMD: React.FC<ICMD> = (props) => {
             pushResult(
                 `${JSON.parse(e.data)?.data?.replaceAll(`\\n"`, "").replaceAll(`"`, "").replaceAll("\\n", "\n") || ""}`
             );
+            restartTimeout();
         };
     };
 
@@ -122,6 +123,12 @@ const CMD: React.FC<ICMD> = (props) => {
         if (timer) {
             clearTimeout(timer);
         }
+    }
+    const restartTimeout = () => {
+        stopHeartBeat();
+        timer = setTimeout(() => {
+            startHeartBeat();
+        }, 30 * 1000);
     }
 
     useEffect(() => {
