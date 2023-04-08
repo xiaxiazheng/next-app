@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "devLocal": "cross-env IS_LOCAL=YES next dev",
+        "devLocal": "cross-env NEXT_PUBLIC_IS_LOCAL=YES next dev",
+        "devLocalStatic": "cross-env NEXT_PUBLIC_IS_LOCAL_STATIC=YES next dev",
         "build": "next build",
         "start": "next start",
         "pm2": "pm2 start yarn --name 'next-app' --interpreter bash -- start",

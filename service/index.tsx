@@ -7,10 +7,12 @@ export * from "./note";
 export * from "./translate";
 export * from "./tree";
 
-// const serverUrl = "http://localhost:300/api";
-const serverUrl = "https://www.xiaxiazheng.cn/api";
-// export const staticUrl = "https://www.xiaxiazheng.cn:2333";
-export const staticUrl = "https://www.xiaxiazheng.cn/static-server";
+const serverUrl =
+    process.env.NEXT_PUBLIC_IS_LOCAL === "YES" ? "http://localhost:300/api" : "https://www.xiaxiazheng.cn/api";
+export const staticUrl =
+    process.env.NEXT_PUBLIC_IS_LOCAL_STATIC === "YES"
+        ? "https://www.xiaxiazheng.cn:2333"
+        : "https://www.xiaxiazheng.cn/static-server";
 
 export const getFetch = async (url) => {
     try {
@@ -38,7 +40,7 @@ export const getFetch = async (url) => {
         if (res.status === 200 || res.status === 201) {
             return res;
         }
-        
+
         message.warning(`${res.status}: ${res.statusText}`);
         return false;
     } catch (err) {
@@ -74,7 +76,7 @@ export const postFetch = async (url, params) => {
         if (res.status === 200 || res.status === 201) {
             return res;
         }
-        
+
         message.warning(`${res.status}: ${res.statusText}`);
         return false;
     } catch (err) {
