@@ -39,8 +39,12 @@ export const getTodo = async (): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoById = async (todo_id: string) => {
-    const res: any = await getFetch(`/todo/getTodoById?todo_id=${todo_id}`);
+export const getTodoById = async (todo_id: string, isFindAllLevelChild: boolean = false) => {
+    const res: any = await getFetch(
+        `/todo/getTodoById?todo_id=${todo_id}${
+            isFindAllLevelChild ? `&isFindAllLevelChild=${isFindAllLevelChild}` : ""
+        }`
+    );
     if (res) {
         const data = res.json();
         return data;
