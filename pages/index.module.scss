@@ -8,33 +8,3 @@
     border-bottom: 2px solid #a6adb4;
 }
 
-.index {
-    display: grid;
-    grid-template-columns: repeat(4, 72px);
-    row-gap: 18px;
-    justify-content: space-between;
-
-    .route_item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        font-weight: bold;
-        border: 2px solid #a6adb4;
-        border-radius: 8px;
-        padding: 7px 0;
-
-        .icon {
-            font-size: 34px;
-        }
-
-        &.active {
-            color: #1890ff;
-
-            .icon {
-                border-color: #1890ff;
-            }
-        }
-    }
-}
