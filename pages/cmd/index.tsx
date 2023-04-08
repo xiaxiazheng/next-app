@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space, Spin } from "antd";
-import { AddNote, GetNoteList } from "../../service";
+import { AddTodoItem, CreateTodoItemReq, getTodoList } from "../../service";
 import useScrollToHook from "../../hooks/useScrollToHooks";
 import MyDrawer from "../../components/common/my-drawer";
+import dayjs from "dayjs";
 
 const { TextArea } = Input;
 const placeholder = "-----------";
@@ -53,7 +54,7 @@ const CMD: React.FC<ICMD> = (props) => {
             category: "脚本",
             keyword: "",
         };
-        const res = await GetNoteList(params);
+        const res = await getTodoList(params);
         if (res) {
             setList(res?.data?.list || []);
         }
@@ -61,16 +62,26 @@ const CMD: React.FC<ICMD> = (props) => {
     };
 
     const saveScript = async () => {
-        const params = {
-            category: "脚本",
-            note: cmd,
-        };
-        const res = await AddNote(params);
-        if (res) {
-            message.success("保存脚本成功");
-            getScript();
-        } else {
-            message.error("保存脚本失败");
+        if (cmd && cmd !== "") {
+            const params: CreateTodoItemReq = {
+                category: "脚本",
+                name: cmd,
+                description: cmd,
+                status: 1,
+                color: "2",
+                doing: "0",
+                isNote: "0",
+                isTarget: "0",
+                isBookMark: "0",
+                time: dayjs().format("YYYY-MM-DD"),
+            };
+            const res = await AddTodoItem(params);
+            if (res) {
+                message.success("保存脚本成功");
+                getScript();
+            } else {
+                message.error("保存脚本失败");
+            }
         }
     };
 
@@ -100,7 +111,7 @@ const CMD: React.FC<ICMD> = (props) => {
             stopHeartBeat();
         };
         websocket.onmessage = function (e) {
-            console.log(e);
+            // console.log(e);
             pushResult(
                 `${JSON.parse(e.data)?.data?.replaceAll(`\\n"`, "").replaceAll(`"`, "").replaceAll("\\n", "\n") || ""}`
             );
@@ -111,25 +122,27 @@ const CMD: React.FC<ICMD> = (props) => {
     // 心跳保活，30s 发送一次
     const startHeartBeat = () => {
         pushResult(`-> heartbeat`);
-        sendMsg(JSON.stringify({
-            event: "hello",
-            data: "heartbeat",
-        }));
+        sendMsg(
+            JSON.stringify({
+                event: "hello",
+                data: "heartbeat",
+            })
+        );
         timer = setTimeout(() => {
             startHeartBeat();
-        }, 30 * 1000)
-    }
+        }, 30 * 1000);
+    };
     const stopHeartBeat = () => {
         if (timer) {
             clearTimeout(timer);
         }
-    }
+    };
     const restartTimeout = () => {
         stopHeartBeat();
         timer = setTimeout(() => {
             startHeartBeat();
         }, 30 * 1000);
-    }
+    };
 
     useEffect(() => {
         getScript();
@@ -137,7 +150,7 @@ const CMD: React.FC<ICMD> = (props) => {
 
         () => {
             stopHeartBeat();
-        }
+        };
     }, []);
 
     const [visible, setVisible] = useState<boolean>(false);
@@ -178,13 +191,14 @@ const CMD: React.FC<ICMD> = (props) => {
                         return (
                             <div
                                 className={styles.scriptItem}
-                                key={item.note_id}
+                                key={item.todo_id}
                                 onClick={() => {
-                                    setCmd(item.note);
+                                    setCmd(item.description);
                                     setVisible(false);
                                 }}
                             >
-                                {item.note}
+                                <div style={{ fontWeight: 600, paddingBottom: 5 }}>{item.name}</div>
+                                {item.description}
                             </div>
                         );
                     })}

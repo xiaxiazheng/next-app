@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useCountDown from "../../hooks/useCountDown";
 import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
 import dayjs from "dayjs";
-import { AddTodoItem, getTodoList } from "../../service";
+import { AddTodoItem, CreateTodoItemReq, getTodoList } from "../../service";
 import { TodoItemType } from "../../components/todo/types";
 // import NoSleep from 'nosleep.js';
 
@@ -86,7 +86,7 @@ const TomatoClock = () => {
 
     const handleFinish = async () => {
         playAudio();
-        const val = {
+        const val: CreateTodoItemReq = {
             category: "时钟",
             color: "3",
             description: "",

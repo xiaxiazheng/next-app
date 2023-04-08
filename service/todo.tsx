@@ -7,6 +7,21 @@ export enum TodoStatus {
     pool = 2,
 }
 
+export interface CreateTodoItemReq {
+    time: string;
+    description: string;
+    name: string;
+    status: number | string;
+    color: string;
+    category: string;
+    other_id?: string;
+    doing: "0" | "1";
+    isNote: "0" | "1";
+    isTarget: "0" | "1";
+    isBookMark: "0" | "1";
+    timeRange?: string;
+}
+
 export interface TodoRes {
     data: { list: TodoItemType[]; total: number };
 }
@@ -135,7 +150,7 @@ export const getTodoCategory = async (params?: { isNote?: string }) => {
     return await getFetch(`/todo/getTodoCategory${params?.isNote ? `?isNote=${params.isNote}` : ""}`);
 };
 
-export const AddTodoItem = async (params) => {
+export const AddTodoItem = async (params: CreateTodoItemReq) => {
     const res: any = await postFetch(`/todo/addTodoItem`, params);
     if (res) {
         const data = res.json();

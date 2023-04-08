@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, getTodoTarget } from "../../service";
+import { AddTodoItem, CreateTodoItemReq, getTodoTarget } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
@@ -44,7 +44,7 @@ const TodoListPunchTheClock = () => {
     const [active, setActive] = useState<TodoItemType>();
 
     const punchTheClock = async (active: TodoItemType) => {
-        const val = {
+        const val: CreateTodoItemReq = {
             category: active.category,
             color: active.color,
             description: active.description,
