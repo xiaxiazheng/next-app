@@ -203,7 +203,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
         onChange: () => setShowDrawer(true),
     });
 
-    const [active, setActive] = useState<string>();
+    const activePath = router.pathname;
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
 
     const handleClick = async (path: string) => {
@@ -212,7 +212,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             setShowAddTodo(true);
         } else {
             setRouterLoading(true);
-            setActive(path);
             await router.push(`/${path}`);
             setRouterLoading(false);
         }
@@ -230,7 +229,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                                     return (
                                         <div
                                             className={`${styles.route_item} ${
-                                                active === item.path ? styles.active : ""
+                                                activePath === item.path ? styles.active : ""
                                             }`}
                                             key={item.path}
                                             onClick={() => handleClick(item.path)}
