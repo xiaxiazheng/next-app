@@ -1,11 +1,12 @@
 import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { message } from "antd";
+import { message, Spin } from "antd";
 // import HomeTips from "../components/common/home-tips";
 import { useRouter } from "next/router";
 import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
+import HomeTips from "../components/common/home-tips";
 
 const Home = () => {
     const router = useRouter();
@@ -39,7 +40,10 @@ const Home = () => {
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.todo}>
-                <TodoDayList list={todoList} getData={getData} title="todo" isReverse={true} />
+                <Spin spinning={loading}>
+                    <TodoDayList list={todoList} getData={getData} title="todo" isReverse={true} />
+                </Spin>
+                <HomeTips />
             </main>
         </div>
     );

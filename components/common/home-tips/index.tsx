@@ -41,7 +41,7 @@ const HomeTips: React.FC = (props) => {
     };
 
     useEffect(() => {
-        Promise.all([getTodoTips(), getPunchTheClockTips()]).then((res) => {
+        Promise.all([getPunchTheClockTips()]).then((res) => {
             console.log(res);
             setMsgList(res.filter((item) => item.message !== ""));
         });
