@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { GetTodoCategory } from "../../../service";
+import { getTodoCategory } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
 import { TodoItemType } from "../types";
 import InputList from "../todo-form/input-list";
@@ -18,7 +18,7 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
-        const res: any = await GetTodoCategory();
+        const res: any = await getTodoCategory();
         const resData = await res.json();
         setCategory(resData.data);
     };

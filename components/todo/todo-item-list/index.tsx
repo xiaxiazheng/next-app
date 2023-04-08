@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { GetTodoById, TodoStatus } from "../../../service";
+import { getTodoById, TodoStatus } from "../../../service";
 import { QuestionCircleOutlined, FileImageOutlined, AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
@@ -43,8 +43,8 @@ const TodoItemList: React.FC<IProps> = (props) => {
     const [showDesc, setShowDesc] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
-    const getTodoById = async (todo_id: string) => {
-        const res = await GetTodoById(todo_id);
+    const GetTodoById = async (todo_id: string) => {
+        const res = await getTodoById(todo_id);
         setActiveTodo(res.data);
         onRefresh();
     };
@@ -91,7 +91,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                 visible={showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
-                onFinish={() => getTodoById(activeTodo.todo_id)}
+                onFinish={() => GetTodoById(activeTodo.todo_id)}
             />
         </>
     );

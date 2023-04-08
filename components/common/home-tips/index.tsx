@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import { GetTodo, getTodoTarget } from "../../../service";
+import { getTodo, getTodoTarget } from "../../../service";
 import { TodoItemType } from "../../todo/types";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -17,8 +17,8 @@ const HomeTips: React.FC = (props) => {
     const [msgList, setMsgList] = useState<MsgType[]>([]);
 
     const getTodoTips = async (): Promise<MsgType> => {
-        const res = await GetTodo();
-        const list = res && res.data.filter((item) => item.time === dayjs().format("YYYY-MM-DD")) || [];
+        const res = await getTodo();
+        const list = res && res.data.list.filter((item) => item.time === dayjs().format("YYYY-MM-DD")) || [];
         return {
             type: "todo-list",
             message: list.length !== 0 ? `今日还有 ${list.length} 条 todo 没完成，快去看看` : "",

@@ -7,7 +7,11 @@ export enum TodoStatus {
     pool = 2,
 }
 
-export const GetTodo = async (): Promise<{ data: TodoItemType[] } | false> => {
+export interface TodoRes {
+    data: { list: TodoItemType[]; total: number };
+}
+
+export const getTodo = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.todo,
     };
@@ -20,7 +24,7 @@ export const GetTodo = async (): Promise<{ data: TodoItemType[] } | false> => {
     }
 };
 
-export const GetTodoById = async (todo_id: string) => {
+export const getTodoById = async (todo_id: string) => {
     const res: any = await getFetch(`/todo/getTodoById?todo_id=${todo_id}`);
     if (res) {
         const data = res.json();
@@ -41,7 +45,7 @@ export async function getTodoChainById(todo_id: string): Promise<any> {
     }
 }
 
-export const getTodoList = async (params: any): Promise<any | false> => {
+export const getTodoList = async (params: any): Promise<TodoRes | false> => {
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -51,7 +55,7 @@ export const getTodoList = async (params: any): Promise<any | false> => {
     }
 };
 
-export const getTodoDone = async ({ keyword, pageNo, category }) => {
+export const getTodoDone = async ({ keyword, pageNo, category }): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.done,
         keyword,
@@ -69,7 +73,7 @@ export const getTodoDone = async ({ keyword, pageNo, category }) => {
     }
 };
 
-export const getTodoBookMark = async () => {
+export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
         isBookMark: "1",
         pageNo: 1,
@@ -84,7 +88,7 @@ export const getTodoBookMark = async () => {
     }
 };
 
-export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[]; total: number } } | false> => {
+export const getTodoTarget = async (): Promise<TodoRes | false> => {
     const params: any = {
         isTarget: "1",
         pageNo: 1,
@@ -99,13 +103,11 @@ export const getTodoTarget = async (): Promise<{ data: { list: TodoItemType[]; t
     }
 };
 
-export const getTodoFootprint = async (): Promise<{ data: { list: TodoItemType[]; total: number } } | false> => {
+export const getTodoFootprint = async (): Promise<TodoRes | false> => {
     const params: any = {
         pageNo: 1,
         pageSize: 30,
-        sortBy: [
-            ['mTime', 'DESC']
-        ]
+        sortBy: [["mTime", "DESC"]],
     };
     const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
@@ -116,7 +118,7 @@ export const getTodoFootprint = async (): Promise<{ data: { list: TodoItemType[]
     }
 };
 
-export const GetTodoPool = async () => {
+export const getTodoPool = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.pool,
     };
@@ -129,7 +131,7 @@ export const GetTodoPool = async () => {
     }
 };
 
-export const GetTodoCategory = async (params?: { isNote?: string }) => {
+export const getTodoCategory = async (params?: { isNote?: string }) => {
     return await getFetch(`/todo/getTodoCategory${params?.isNote ? `?isNote=${params.isNote}` : ""}`);
 };
 

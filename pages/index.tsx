@@ -34,11 +34,9 @@ const Home = (props) => {
     const { setRouterLoading } = props;
 
     const [isMe, setIsMe] = useState<boolean>();
-    const [isPP, setIsPP] = useState<boolean>();
     useEffect(() => {
         const username = localStorage.getItem("username");
         setIsMe(username === "zyb" ? true : false);
-        setIsPP(username === "hyp" ? true : false);
     }, []);
 
     const routes = [

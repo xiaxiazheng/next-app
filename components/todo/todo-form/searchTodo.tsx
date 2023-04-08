@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { message, Select, Tooltip } from "antd";
 import { debounce } from "lodash";
-import { GetTodoById, getTodoList } from "../../../service";
+import { getTodoById, getTodoList } from "../../../service";
 import { TodoItemType } from "../types";
 import styles from './index.module.scss';
 
@@ -13,7 +13,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
     useEffect(() => {
         // 如果本来就有关联的 todo，就初始化
         if (!options.find((item) => item.todo_id === value) && value) {
-            GetTodoById(value).then((res) => {
+            getTodoById(value).then((res) => {
                 if (res.data) {
                     setOptions((prev) => [res.data].concat(prev));
                 }

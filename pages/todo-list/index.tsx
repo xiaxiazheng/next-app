@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { GetTodo } from "../../service";
+import { getTodo } from "../../service";
 import { Spin } from "antd";
 import TodoDayList from "../../components/todo/todo-day-list";
 
@@ -12,9 +12,9 @@ const Todo = () => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await GetTodo();
+        const res = await getTodo();
         if (res) {
-            setTodoList(res.data.filter((item) => item.isTarget !== "1"));
+            setTodoList(res.data.list.filter((item) => item.isTarget !== "1"));
         }
         setLoading(false);
     };

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
-import { AddTodoItem, EditTodoItem, GetTodoById, TodoStatus } from "../../../service";
+import { AddTodoItem, EditTodoItem, getTodoById, TodoStatus } from "../../../service";
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType, TodoItemType } from "../types";
@@ -25,7 +25,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await GetTodoById(todo_id);
+        const res = await getTodoById(todo_id);
         setData(res.data);
         setLoading(false);
     };

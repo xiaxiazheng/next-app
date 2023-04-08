@@ -68,13 +68,17 @@ const TomatoClock = () => {
         };
         const res = await getTodoList(params);
         try {
-            const list = res.data.list
-                .map((item: TodoItemType) => {
-                    const reg = new RegExp(/倒计时：(\S*)，时长/, "g");
-                    return reg.exec(item.name);
-                })
-                .map((match) => match?.[1]);
-            setLastList(list);
+            if (res) {
+                const list = res.data.list
+                    .map((item: TodoItemType) => {
+                        const reg = new RegExp(/倒计时：(\S*)，时长/, "g");
+                        return reg.exec(item.name);
+                    })
+                    .map((match) => match?.[1]);
+                setLastList(list);
+            } else {
+                setLastList([]);
+            }
         } catch (e) {
             setLastList([]);
         }

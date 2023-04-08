@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Input, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { GetTodoCategory, TodoStatus } from "../../../service";
+import { getTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
@@ -22,7 +22,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
-        const res: any = await GetTodoCategory();
+        const res: any = await getTodoCategory();
         const resData = await res.json();
         setCategory(resData.data);
     };

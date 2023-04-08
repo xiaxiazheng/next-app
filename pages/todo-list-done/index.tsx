@@ -1,6 +1,6 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoDone, GetTodoCategory } from "../../service";
+import { getTodoDone, getTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
@@ -60,7 +60,7 @@ const TodoDone = () => {
     const [category, setCategory] = useState<any[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
     const getCategory = async () => {
-        const res: any = await GetTodoCategory();
+        const res: any = await getTodoCategory();
         const resData = await res.json();
         setCategory(resData.data);
     };

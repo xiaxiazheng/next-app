@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import { GetNoteList, GetNoteCategory, getTodoDone, getTodoList, GetTodoCategory } from "../../service";
+import { GetNoteList, GetNoteCategory, getTodoDone, getTodoList, getTodoCategory } from "../../service";
 import { useEffect, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message, Drawer } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
@@ -121,7 +121,7 @@ const Note = () => {
     const [category, setCategory] = useState<any[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
     const getCategory = async () => {
-        const res: any = await GetTodoCategory({ isNote: "1" });
+        const res: any = await getTodoCategory({ isNote: "1" });
         const resData = await res.json();
         setCategory(resData.data);
     };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { GetTodoPool } from "../../service";
+import { getTodoPool } from "../../service";
 import { Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import TodoAllList from "../../components/todo/todo-all-list";
@@ -13,9 +13,9 @@ const TodoPool = () => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await GetTodoPool();
+        const res = await getTodoPool();
         if (res) {
-            setTodoList(res.data);
+            setTodoList(res.data.list);
         }
         setLoading(false);
     };
