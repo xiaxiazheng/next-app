@@ -4,13 +4,18 @@ interface Params {
     spanX?: number;
     spanY?: number;
     onChange: Function;
+    isReverse?: boolean;
 }
 
-const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange }: Params) => {
+const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false }: Params) => {
     const handleJudge = (x: number, y: number) => {
-        if (ref.current.x - x >= spanX && Math.abs(ref.current.y - y) < spanY) {
+        if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
             onChange();
         }
+    };
+
+    const handleReverse = (num: number) => {
+        return isReverse ? num * -1 : num;
     };
 
     const ref = useRef<any>({
@@ -34,10 +39,10 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange }: Params) => 
         });
 
         document.addEventListener("touchmove", (e) => {
-            setX(ref.current.x - e.targetTouches?.[0].pageX);
+            setX(handleReverse(ref.current.x - e.targetTouches?.[0].pageX));
             setY(e.targetTouches?.[0].pageY - ref.current.y);
             if (isStart.current) {
-                ref.current.x - e.targetTouches?.[0].pageX > 100 ? setIsShow(true) : setIsShow(false);
+                handleReverse(ref.current.x - e.targetTouches?.[0].pageX) > 100 ? setIsShow(true) : setIsShow(false);
             }
         });
     }, []);

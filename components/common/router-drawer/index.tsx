@@ -199,12 +199,16 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     const router = useRouter();
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
-    const tips = useTouchRightToLeft({
+    const tips1 = useTouchRightToLeft({
+        isReverse: true,
         onChange: () => setShowDrawer(true),
     });
 
     const activePath = router.pathname;
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
+    const tips2 = useTouchRightToLeft({
+        onChange: () => setShowAddTodo(true),
+    });
 
     const handleClick = async (path: string) => {
         setShowDrawer(false);
@@ -219,7 +223,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="right" width="80vw">
+            <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="left" width="80vw">
                 {routes.map((category) => {
                     return (
                         <div key={category.title}>
@@ -245,6 +249,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 })}
             </DrawerWrapper>
             <TodoFormDrawer
+                placement="bottom"
                 operatorType="add"
                 open={showAddTodo}
                 onClose={() => setShowAddTodo(false)}
@@ -258,7 +263,8 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     setShowAddTodo(false);
                 }}
             />
-            {tips}
+            {tips1}
+            {tips2}
         </>
     );
 };
