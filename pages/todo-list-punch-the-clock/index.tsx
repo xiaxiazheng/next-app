@@ -147,7 +147,7 @@ const TodoListPunchTheClock = () => {
                 <DrawerWrapper
                     title={active?.name}
                     footer={
-                        <Space>
+                        <Space style={{ paddingBottom: 20 }}>
                             <Button
                                 onClick={() => {
                                     setShowAdd(true);
