@@ -205,6 +205,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     });
 
     const activePath = router.pathname;
+    console.log(`activePath: `, activePath);
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
     const tips2 = useTouchRightToLeft({
         onChange: () => setShowAddTodo(true),
@@ -233,7 +234,9 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                                     return (
                                         <div
                                             className={`${styles.route_item} ${
-                                                activePath === item.path ? styles.active : ""
+                                                activePath === item.path || activePath === `/${item.path}`
+                                                    ? styles.active
+                                                    : ""
                                             }`}
                                             key={item.path}
                                             onClick={() => handleClick(item.path)}
