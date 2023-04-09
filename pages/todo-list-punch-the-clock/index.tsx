@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, CreateTodoItemReq, getTodoById, getTodoTarget } from "../../service";
+import { AddTodoItem, CreateTodoItemReq, getTodoById, getTodoPunchTheClock } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
@@ -20,10 +20,9 @@ const TodoListPunchTheClock = () => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await getTodoTarget();
+        const res = await getTodoPunchTheClock();
         if (res) {
-            const list = res.data.list.filter((item: TodoItemType) => !!item.timeRange);
-            setTodoList(list);
+            setTodoList(res.data.list);
             // 这里是为了在打开详情，再打开编辑的时候，编辑完能把详情里的也刷新
             if (activeId) {
                 getActive(activeId);

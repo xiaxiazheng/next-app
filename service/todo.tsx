@@ -107,6 +107,21 @@ export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     }
 };
 
+export const getTodoPunchTheClock = async (): Promise<TodoRes | false> => {
+    const params: any = {
+        isPunchTheClock: "1",
+        pageNo: 1,
+        pageSize: 100,
+    };
+    const res = await postFetch(`/todo/getTodoList`, params);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+};
+
 export const getTodoTarget = async (): Promise<TodoRes | false> => {
     const params: any = {
         isTarget: "1",
