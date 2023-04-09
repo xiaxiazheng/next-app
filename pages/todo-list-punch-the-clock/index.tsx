@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, CreateTodoItemReq, getTodoById, getTodoPunchTheClock } from "../../service";
+import { AddTodoItem, CreateTodoItemReq, getTodoPunchTheClock } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
@@ -22,10 +22,10 @@ const TodoListPunchTheClock = () => {
         setLoading(true);
         const res = await getTodoPunchTheClock();
         if (res) {
-            setTodoList(res.data.list);
-            // 这里是为了在打开详情，再打开编辑的时候，编辑完能把详情里的也刷新
-            if (activeId) {
-                getActive(activeId);
+            const list = res.data.list.filter((item: TodoItemType) => !!item.timeRange);
+            setTodoList(list);
+            if (active) {
+                setActive(list.find((item) => item.todo_id === active.todo_id));
             }
         }
         setLoading(false);
@@ -41,21 +41,7 @@ const TodoListPunchTheClock = () => {
         setShowAdd(true);
     };
 
-    const [activeId, setActiveId] = useState<string>();
     const [active, setActive] = useState<TodoItemType>();
-    useEffect(() => {
-        if (activeId) {
-            getActive(activeId);
-        } else {
-            setActive(undefined);
-        }
-    }, [activeId]);
-    const getActive = async (id: string) => {
-        const res = await getTodoById(id, true);
-        if (res) {
-            setActive(res.data);
-        }
-    };
 
     const punchTheClock = async (active: TodoItemType) => {
         const val: CreateTodoItemReq = {
@@ -74,7 +60,6 @@ const TodoListPunchTheClock = () => {
         await AddTodoItem(val);
         message.success("打卡成功");
         setActive(undefined);
-        setActiveId(undefined);
         getData();
     };
 
@@ -138,7 +123,7 @@ const TodoListPunchTheClock = () => {
                                 key={item.todo_id}
                                 style={{ borderColor: handleIsTodayPunchTheClock(item) ? "green" : "#4096ff" }}
                                 onClick={() => {
-                                    setActiveId(item.todo_id);
+                                    setActive(item);
                                 }}
                             >
                                 <div className={styles.name}>{item.name}</div>
@@ -147,12 +132,12 @@ const TodoListPunchTheClock = () => {
                         ))}
                 </div>
                 <TodoFormDrawer
-                    todo_id={activeId}
+                    todo_id={active?.todo_id}
                     open={showAdd}
                     onClose={() => {
                         setShowAdd(false);
                     }}
-                    operatorType={activeId ? "edit" : "add"}
+                    operatorType={active ? "edit" : "add"}
                     onSubmit={() => {
                         getData();
                         setShowAdd(false);
@@ -181,10 +166,10 @@ const TodoListPunchTheClock = () => {
                             )}
                         </Space>
                     }
-                    open={!!activeId}
-                    onClose={() => setActiveId(undefined)}
+                    open={!!active}
+                    onClose={() => setActive(undefined)}
                 >
-                    {active && <PunchTheClockCalendar active={active} />}
+                    <PunchTheClockCalendar active={active} />
                     {active && renderDetail(active)}
                 </DrawerWrapper>
             </main>
