@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoFootprint, getTodoTarget } from "../../service";
-import { Spin } from "antd";
+import { getTodoFootprint } from "../../service";
+import { Button, Space, Spin } from "antd";
+import { SyncOutlined } from "@ant-design/icons";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "../../components/todo/types";
+import dayjs from "dayjs";
+import TodoItemList from "../../components/todo/todo-item-list";
+
+// 如果是今天的，就不展示日期，只展示时间
+const handleTime = (time: string) => {
+    return dayjs(time).isSame(dayjs(), "d") ? time.split(" ")?.[1] : time;
+};
+
+interface NewTodoItemType extends TodoItemType {
+    edit_time: string;
+}
 
 const TodoFootprint = () => {
-    const [todoList, setTodoList] = useState<TodoItemType[]>();
+    const [todoList, setTodoList] = useState<NewTodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -16,7 +28,14 @@ const TodoFootprint = () => {
         const res = await getTodoFootprint();
         if (res) {
             const list = res.data.list;
-            setTodoList(list);
+            setTodoList(
+                list.map((item: TodoItemType) => {
+                    return {
+                        ...item,
+                        edit_time: item.mTime,
+                    };
+                })
+            );
         }
         setLoading(false);
     };
@@ -29,7 +48,28 @@ const TodoFootprint = () => {
         <Spin spinning={loading}>
             <Header title="足迹" />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title="足迹" />
+                <h2 className={styles.h2}>
+                    <span>足迹({todoList?.length})</span>
+                    <Space size={8}>
+                        {/* 刷新列表 */}
+                        <Button
+                            style={{ width: 50 }}
+                            icon={<SyncOutlined />}
+                            onClick={() => getData()}
+                            type="default"
+                        />
+                    </Space>
+                </h2>
+                <Space className={`${styles.content} ScrollBar`} direction="vertical" size={5}>
+                    {todoList?.map((item) => {
+                        return (
+                            <div key={item.todo_id} className={styles.item}>
+                                <div className={styles.time}>{handleTime(item.edit_time)}</div>
+                                <TodoItemList list={[item]} onRefresh={getData} />
+                            </div>
+                        );
+                    })}
+                </Space>
             </main>
         </Spin>
     );

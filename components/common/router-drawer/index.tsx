@@ -205,7 +205,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     });
 
     const activePath = router.pathname;
-    console.log(`activePath: `, activePath);
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
     const tips2 = useTouchRightToLeft({
         onChange: () => setShowAddTodo(true),
