@@ -113,19 +113,19 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             title: "todo",
             children: [
                 {
-                    name: "目标",
-                    path: "todo-list-target",
-                    icon: <AimOutlined />,
-                },
-                {
-                    name: "书签",
-                    path: "todo-list-bookmark",
-                    icon: <StarFilled />,
+                    name: "todo list",
+                    path: "/",
+                    icon: <OrderedListOutlined />,
                 },
                 {
                     name: "打卡",
                     path: "todo-list-punch-the-clock",
                     icon: <CheckSquareOutlined />,
+                },
+                {
+                    name: "新建 todo",
+                    path: "todo-add",
+                    icon: <PlusOutlined />,
                 },
                 {
                     name: "已完成",
@@ -143,19 +143,19 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <ExperimentOutlined />,
                 },
                 {
-                    name: "todo list",
-                    path: "/",
-                    icon: <OrderedListOutlined />,
+                    name: "目标",
+                    path: "todo-list-target",
+                    icon: <AimOutlined />,
+                },
+                {
+                    name: "书签",
+                    path: "todo-list-bookmark",
+                    icon: <StarFilled />,
                 },
                 {
                     name: "足迹",
                     path: "todo-list-footprint",
                     icon: <HistoryOutlined />,
-                },
-                {
-                    name: "新建 todo",
-                    path: "todo-add",
-                    icon: <PlusOutlined />,
                 },
             ],
         },
