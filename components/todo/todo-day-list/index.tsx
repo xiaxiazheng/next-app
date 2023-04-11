@@ -4,7 +4,6 @@ import { EditTodoItem } from "../../../service";
 import { Button, message, Space } from "antd";
 import { PlusOutlined, VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 import MyModal from "../../common/my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
@@ -18,7 +17,7 @@ interface IProps {
     isReverse?: boolean;
 }
 
-const Todo = (props: IProps) => {
+const TodoDayList = (props: IProps) => {
     const { list, getData, title, isReverse = false } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
@@ -62,7 +61,7 @@ const Todo = (props: IProps) => {
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const getShowList = (list: TodoItemType[]) => {
         return !isSortTime
-            ? list
+            ? list.sort((a, b) => (a.doing === "1" ? -1 : 0))
             : [...list].sort(
                   // sort 会改变原数组
                   (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
@@ -144,7 +143,7 @@ const Todo = (props: IProps) => {
     );
 };
 
-export default Todo;
+export default TodoDayList;
 
 export async function getServerSideProps(context) {
     return {

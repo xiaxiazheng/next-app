@@ -15,7 +15,7 @@ interface IProps {
     title: string;
 }
 
-const TodoPool = (props: IProps) => {
+const TodoAllList = (props: IProps) => {
     const { list, getData, title } = props;
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const TodoPool = (props: IProps) => {
     const [keyword, setKeyword] = useState<string>();
     const getShowList = (list: TodoItemType[]) => {
         const l = !isSortTime
-            ? list.sort((a, b) => (a.doing === "1" ? -1 : 0))
+            ? list
             : [...list].sort(
                   // sort 会改变原数组
                   (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
@@ -99,7 +99,7 @@ const TodoPool = (props: IProps) => {
     );
 };
 
-export default TodoPool;
+export default TodoAllList;
 
 export async function getServerSideProps(context) {
     return {

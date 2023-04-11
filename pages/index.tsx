@@ -2,7 +2,6 @@ import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Spin } from "antd";
-// import HomeTips from "../components/common/home-tips";
 import { useRouter } from "next/router";
 import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
