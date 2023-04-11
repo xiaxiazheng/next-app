@@ -29,6 +29,7 @@ export interface TodoRes {
 export const getTodo = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.todo,
+        pageSie: 100,
     };
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
@@ -155,6 +156,7 @@ export const getTodoFootprint = async (): Promise<TodoRes | false> => {
 export const getTodoPool = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.pool,
+        pageSize: 200,
     };
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
