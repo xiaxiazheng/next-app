@@ -55,7 +55,7 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
-                        {["0", "1", "2", "3", "-1"].map((item) => (
+                        {["0", "1", "2", "3"].map((item) => (
                             <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
                                 {colorNameMap[item]}
                             </Radio.Button>

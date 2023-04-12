@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space, Spin } from "antd";
-import { AddTodoItem, CreateTodoItemReq, getTodoList } from "../../service";
+import { AddTodoItem, getTodoList } from "../../service";
 import useScrollToHook from "../../hooks/useScrollToHooks";
 import MyDrawer from "../../components/common/my-drawer";
 import dayjs from "dayjs";
+import { CreateTodoItemReq } from "../../components/todo/types";
 
 const { TextArea } = Input;
 const placeholder = "-----------";
@@ -73,6 +74,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 isNote: "0",
                 isTarget: "0",
                 isBookMark: "0",
+                isWork: "0",
                 time: dayjs().format("YYYY-MM-DD"),
             };
             const res = await AddTodoItem(params);

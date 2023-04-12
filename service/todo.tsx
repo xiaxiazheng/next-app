@@ -1,25 +1,10 @@
 import { getFetch, postFetch } from ".";
-import { TodoItemType } from "../components/todo/types";
+import { CreateTodoItemReq, TodoItemType } from "../components/todo/types";
 
 export enum TodoStatus {
     todo = 0,
     done = 1,
     pool = 2,
-}
-
-export interface CreateTodoItemReq {
-    time: string;
-    description: string;
-    name: string;
-    status: number | string;
-    color: string;
-    category: string;
-    other_id?: string;
-    doing: "0" | "1";
-    isNote: "0" | "1";
-    isTarget: "0" | "1";
-    isBookMark: "0" | "1";
-    timeRange?: string;
 }
 
 export interface TodoRes {

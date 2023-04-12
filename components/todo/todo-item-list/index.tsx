@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { getTodoById, TodoStatus } from "../../../service";
-import { QuestionCircleOutlined, FileImageOutlined, AimOutlined, BookOutlined, StarFilled } from "@ant-design/icons";
+import {
+    QuestionCircleOutlined,
+    FileImageOutlined,
+    AimOutlined,
+    BookOutlined,
+    StarFilled,
+    AppleFilled,
+} from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
@@ -51,41 +58,42 @@ const TodoItemList: React.FC<IProps> = (props) => {
 
     return (
         <>
-            {list
-                .map((item) => (
-                    <div key={item.todo_id} style={{ marginBottom: 8 }}>
-                        <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
-                        {/* 目标 */}
-                        {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        {/* 存档 */}
-                        {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        {/* 书签 */}
-                        {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        <span
-                            onClick={() => {
-                                setActiveTodo(item);
-                                setShowDesc(true);
-                            }}
-                        >
-                            {item.status === String(TodoStatus.done) ? (
-                                <s>{item.name}</s>
-                            ) : (
-                                <span
-                                    style={
-                                        item.status === String(TodoStatus.todo) && item.doing === "1"
-                                            ? { color: "#ffeb3b" }
-                                            : {}
-                                    }
-                                >
-                                    {item.name} {showTime && `(${item.time})`}
-                                </span>
-                            )}
-                            {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                            {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
-                            <Icon item={item} />
-                        </span>
-                    </div>
-                ))}
+            {list.map((item) => (
+                <div key={item.todo_id} style={{ marginBottom: 8 }}>
+                    <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
+                    {/* 公司 */}
+                    {item.isWork === "1" && <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />}
+                    {/* 目标 */}
+                    {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                    {/* 存档 */}
+                    {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                    {/* 书签 */}
+                    {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
+                    <span
+                        onClick={() => {
+                            setActiveTodo(item);
+                            setShowDesc(true);
+                        }}
+                    >
+                        {item.status === String(TodoStatus.done) ? (
+                            <s>{item.name}</s>
+                        ) : (
+                            <span
+                                style={
+                                    item.status === String(TodoStatus.todo) && item.doing === "1"
+                                        ? { color: "#ffeb3b" }
+                                        : {}
+                                }
+                            >
+                                {item.name} {showTime && `(${item.time})`}
+                            </span>
+                        )}
+                        {item.description && <QuestionCircleOutlined className={styles.icon} />}
+                        {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                        <Icon item={item} />
+                    </span>
+                </div>
+            ))}
             {/* 详情弹窗 */}
             <TodoDetailDrawer
                 visible={showDesc}

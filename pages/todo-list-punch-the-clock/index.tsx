@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, CreateTodoItemReq, getTodoPunchTheClock } from "../../service";
+import { AddTodoItem, getTodoPunchTheClock } from "../../service";
 import { Button, message, Space, Spin } from "antd";
-import { TodoItemType } from "../../components/todo/types";
+import { CreateTodoItemReq, TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
@@ -55,6 +55,7 @@ const TodoListPunchTheClock = () => {
             doing: "0",
             other_id: active.todo_id,
             status: "1",
+            isWork: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await AddTodoItem(val);

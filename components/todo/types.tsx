@@ -36,6 +36,7 @@ export interface TodoItemType {
     isNote?: "0" | "1";
     isTarget?: "0" | "1";
     isBookMark?: "0" | "1";
+    isWork?: "0" | "1";
     timeRange?: string;
 
     imgList: ImageType[];
@@ -46,15 +47,19 @@ export interface TodoItemType {
 }
 
 export interface CreateTodoItemReq {
-    time: string;
-    description: string;
-    name: string;
-    status: number | string;
-    color: string;
-    category: string;
-    other_id?: string;
-    doing: "0" | "1";
-    isNote: "0" | "1";
+  time: string;
+  description: string;
+  name: string;
+  status: number | string;
+  color: string;
+  category: string;
+  other_id?: string;
+  doing: "0" | "1";
+  isNote: "0" | "1";
+  isTarget: "0" | "1";
+  isBookMark: "0" | "1";
+  isWork: "0" | "1";
+  timeRange?: string;
 }
 
 export interface EditTodoItemReq extends CreateTodoItemReq {

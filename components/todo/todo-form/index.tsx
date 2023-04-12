@@ -90,7 +90,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group buttonStyle="solid">
-                        {["0", "1", "2", "3", "-1"].map((item) => (
+                        {["0", "1", "2", "3"].map((item) => (
                             <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
                                 {colorNameMap[item]}
                             </Radio.Button>
@@ -121,27 +121,57 @@ const TodoForm: React.FC<Props> = (props) => {
                     <CategoryOptions />
                 </Form.Item>
                 <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
-                    <Space size={3}>
-                        <Form.Item name="doing" rules={[{ required: true }]} initialValue={"0"}>
+                    <Space size={6} style={{ flexWrap: "wrap" }}>
+                        <Form.Item
+                            name="isWork"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
+                            <SwitchComp>
+                                <span style={{ color: "#00d4d8" }}>工作</span>
+                            </SwitchComp>
+                        </Form.Item>
+                        <Form.Item
+                            name="doing"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
                             <SwitchComp>
                                 <span style={{ color: "#ffeb3b" }}>现在处理</span>
                             </SwitchComp>
                         </Form.Item>
-                        <Form.Item name="isTarget" rules={[{ required: true }]} initialValue={"0"}>
+                        <Form.Item
+                            name="isTarget"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
                             <SwitchComp>
                                 <span>
                                     <AimOutlined style={{ color: "#ffeb3b" }} /> 目标
                                 </span>
                             </SwitchComp>
                         </Form.Item>
-                        <Form.Item name="isBookMark" rules={[{ required: true }]} initialValue={"0"}>
+                        <Form.Item
+                            name="isBookMark"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
                             <SwitchComp>
                                 <span>
                                     <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /> 书签
                                 </span>
                             </SwitchComp>
                         </Form.Item>
-                        <Form.Item name="isNote" rules={[{ required: true }]} initialValue={"0"}>
+                        <Form.Item
+                            name="isNote"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
                             <SwitchComp>
                                 <span>
                                     <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} /> 存档
