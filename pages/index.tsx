@@ -26,7 +26,7 @@ const Home = () => {
         setLoading(true);
         const res = await getTodo();
         if (res) {
-            setTodoList(res.data.list.filter((item) => item.isTarget !== "1"));
+            setTodoList(res.data.list);
         }
         setLoading(false);
     };

@@ -14,7 +14,8 @@ export interface TodoRes {
 export const getTodo = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.todo,
-        pageSie: 100,
+        isTarget: '0',
+        pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
     const res: any = await postFetch(`/todo/getTodoList`, params);
