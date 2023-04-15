@@ -80,7 +80,7 @@ const TodoForm: React.FC<Props> = (props) => {
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
                 <Form.Item name="name" label="名称" rules={[{ required: true }]}>
                     <Input.TextArea
-                        autoSize={{ minRows: 1, maxRows: 2 }}
+                        autoSize={{ minRows: 1, maxRows: 5 }}
                         allowClear
                         placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
                     />
@@ -88,7 +88,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Form.Item name="description" label="详细描述">
                     <InputList />
                 </Form.Item>
-                <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"0"}>
+                <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"2"}>
                     <Radio.Group buttonStyle="solid">
                         {["0", "1", "2", "3"].map((item) => (
                             <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>

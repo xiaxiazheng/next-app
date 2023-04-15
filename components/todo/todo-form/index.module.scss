@@ -2,6 +2,10 @@
     overflow-x: hidden;
 }
 
+.edit_todo :global(.ant-form-item) {
+    margin-bottom: 10px;
+}
+
 .edit_todo :global(.ant-form-item-label > label) {
     color: #a6adb4;
 }
