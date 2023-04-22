@@ -36,7 +36,8 @@ const TodoForm: React.FC<Props> = (props) => {
             if (operatorType === "progress") {
                 form.setFieldsValue({
                     ...todo,
-                    status: Number(todo.status),
+                    status: TodoStatus.todo,
+                    time: dayjs().format('YYYY-MM-DD'),
                     other_id: todo.todo_id,
                 });
             } else if (operatorType === "add-note") {
