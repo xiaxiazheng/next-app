@@ -31,10 +31,11 @@ import styles from "./index.module.scss";
 
 interface IProps {
     setRouterLoading: Function;
+    refresh: () => void;
 }
 
 const RouterDrawer: React.FC<IProps> = (props) => {
-    const { setRouterLoading } = props;
+    const { setRouterLoading, refresh } = props;
 
     const [isMe, setIsMe] = useState<boolean>();
     useEffect(() => {
@@ -256,13 +257,14 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 open={showAddTodo}
                 onClose={() => setShowAddTodo(false)}
                 onSubmit={(val) => {
-                    const map = {
-                        [TodoStatus.todo]: "/todo-list",
-                        [TodoStatus.done]: "/todo-list-done",
-                        [TodoStatus.pool]: "/todo-list-pool",
-                    };
-                    router.push(map[val.status]);
+                    // const map = {
+                    //     [TodoStatus.todo]: "/",
+                    //     [TodoStatus.done]: "/todo-list-done",
+                    //     [TodoStatus.pool]: "/todo-list-pool",
+                    // };
+                    // router.push(map[val.status]);
                     setShowAddTodo(false);
+                    refresh();
                 }}
             />
             {tips1}

@@ -13,7 +13,11 @@ import DrawerWrapper from "../../components/common/drawer-wrapper";
 
 const { Search } = Input;
 
-const TodoDone = () => {
+interface IProps {
+    refreshFlag: number;
+}
+
+const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
@@ -40,7 +44,7 @@ const TodoDone = () => {
     useEffect(() => {
         getData();
         getCategory();
-    }, [pageNo]);
+    }, [pageNo, refreshFlag]);
 
     const today = dayjs().format("YYYY-MM-DD");
 

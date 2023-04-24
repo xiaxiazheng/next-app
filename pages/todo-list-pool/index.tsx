@@ -6,7 +6,11 @@ import { Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import TodoAllList from "../../components/todo/todo-all-list";
 
-const TodoPool = () => {
+interface IProps {
+    refreshFlag: number;
+}
+
+const TodoPool: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +26,7 @@ const TodoPool = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshFlag]);
 
     return (
         <Spin spinning={loading}>

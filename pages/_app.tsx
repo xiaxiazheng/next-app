@@ -1,18 +1,23 @@
 import { AppProps } from "next/app";
 import "../styles/global.scss";
 import AffixHome from "../components/common/affix/affix-home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spin } from "antd";
 import RouterDrawer from "../components/common/router-drawer";
 
 function App({ Component, pageProps }: any) {
     const [loading, setLoading] = useState<boolean>(false);
 
+    const [flag, setFlag] = useState<number>();
+    const refresh = () => {
+        setFlag(Math.random());
+    };
+
     return (
         <Spin spinning={loading} style={{ overflow: "hidden" }}>
-            <Component {...pageProps} setRouterLoading={setLoading} />
+            <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} />
             <AffixHome />
-            <RouterDrawer setRouterLoading={setLoading} />
+            <RouterDrawer setRouterLoading={setLoading} refresh={refresh} />
         </Spin>
     );
 }

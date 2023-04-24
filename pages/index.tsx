@@ -7,7 +7,11 @@ import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import HomeTips from "../components/common/home-tips";
 
-const Home = () => {
+interface IProps {
+    refreshFlag: number;
+}
+
+const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
 
     useEffect(() => {
@@ -33,7 +37,7 @@ const Home = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshFlag]);
 
     return (
         <div>

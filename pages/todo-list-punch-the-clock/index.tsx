@@ -13,7 +13,12 @@ import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/to
 
 dayjs.locale("zh-cn");
 
-const TodoListPunchTheClock = () => {
+
+interface IProps {
+    refreshFlag: number;
+}
+
+const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +38,7 @@ const TodoListPunchTheClock = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshFlag]);
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const [showAdd, setShowAdd] = useState<boolean>(false);

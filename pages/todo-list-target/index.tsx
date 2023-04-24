@@ -6,7 +6,11 @@ import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "../../components/todo/types";
 
-const TodoPool = () => {
+interface IProps {
+    refreshFlag: number;
+}
+
+const TodoListTarget: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -23,7 +27,7 @@ const TodoPool = () => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshFlag]);
 
     return (
         <Spin spinning={loading}>
@@ -35,7 +39,7 @@ const TodoPool = () => {
     );
 };
 
-export default TodoPool;
+export default TodoListTarget;
 
 export async function getServerSideProps(context) {
     return {
