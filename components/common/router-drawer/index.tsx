@@ -24,7 +24,6 @@ import {
     HistoryOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
-import { TodoStatus } from "../../../service";
 import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
 import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
@@ -119,6 +118,16 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <OrderedListOutlined />,
                 },
                 {
+                    name: "已完成",
+                    path: "todo-list-done",
+                    icon: <TrophyOutlined />,
+                },
+                {
+                    name: "待办池",
+                    path: "todo-list-pool",
+                    icon: <ExperimentOutlined />,
+                },
+                {
                     name: "打卡",
                     path: "todo-list-punch-the-clock",
                     icon: <CheckSquareOutlined />,
@@ -129,19 +138,9 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <PlusOutlined />,
                 },
                 {
-                    name: "已完成",
-                    path: "todo-list-done",
-                    icon: <TrophyOutlined />,
-                },
-                {
                     name: "todo note",
                     path: "todo-note",
                     icon: <FileTextOutlined />,
-                },
-                {
-                    name: "待办池",
-                    path: "todo-list-pool",
-                    icon: <ExperimentOutlined />,
                 },
                 {
                     name: "目标",

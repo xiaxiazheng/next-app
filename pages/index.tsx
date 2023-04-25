@@ -1,7 +1,8 @@
 import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { message, Spin } from "antd";
+import { Button, message, Spin } from "antd";
+import { TrophyOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
@@ -44,7 +45,13 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             <Header title="XIAXIAZheng" />
             <main className={styles.todo}>
                 <Spin spinning={loading}>
-                    <TodoDayList list={todoList} getData={getData} title="todo" isReverse={true} />
+                    <TodoDayList
+                        list={todoList}
+                        getData={getData}
+                        title="todo"
+                        isReverse={true}
+                        btn={<Button style={{ width: 50 }} type="primary" onClick={() => router.push("/todo-list-done")} icon={<TrophyOutlined />} />}
+                    />
                 </Spin>
                 <HomeTips />
             </main>
@@ -53,3 +60,11 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            // props for your component
+        },
+    };
+}

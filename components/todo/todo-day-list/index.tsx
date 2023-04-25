@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { EditTodoItem } from "../../../service";
 import { Button, message, Space } from "antd";
-import { PlusOutlined, VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
+import { VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import MyModal from "../../common/my-modal";
 import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";
-import TodoFormDrawer from "../todo-form-drawer";
 
 interface IProps {
     list: any[];
     getData: Function;
     title: string;
     isReverse?: boolean;
+    btn?: any;
 }
 
 const TodoDayList = (props: IProps) => {
-    const { list, getData, title, isReverse = false } = props;
+    const { list, getData, title, isReverse = false, btn } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
@@ -31,10 +31,6 @@ const TodoDayList = (props: IProps) => {
     }, [list]);
 
     const today = dayjs().format("YYYY-MM-DD");
-
-    const handleAdd = () => {
-        setShowAdd(true);
-    };
 
     // 把过期任务的日期调整成今天
     const [showChangeExpire, setShowChangeExpire] = useState<boolean>(false);
@@ -68,8 +64,6 @@ const TodoDayList = (props: IProps) => {
               );
     };
 
-    const [showAdd, setShowAdd] = useState<boolean>(false);
-
     return (
         <>
             <h2 className={styles.h2}>
@@ -86,8 +80,7 @@ const TodoDayList = (props: IProps) => {
                     />
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
-                    {/* 新增待办 */}
-                    <Button style={{ width: 50 }} icon={<PlusOutlined />} onClick={() => handleAdd()} type="primary" />
+                    {btn}
                 </Space>
             </h2>
             <div className={styles.list}>
@@ -130,15 +123,6 @@ const TodoDayList = (props: IProps) => {
             >
                 是否将 {changeExpireList?.[0].time} 的 Todo 日期调整成今天
             </MyModal>
-            <TodoFormDrawer
-                open={showAdd}
-                onClose={() => setShowAdd(false)}
-                operatorType={"add"}
-                onSubmit={() => {
-                    getData();
-                    setShowAdd(false);
-                }}
-            />
         </>
     );
 };

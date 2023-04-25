@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, Space } from "antd";
-import { PlusOutlined, SyncOutlined } from "@ant-design/icons";
+import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../../components/todo/types";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoItemList from "../todo-item-list";
-import TodoFormDrawer from "../todo-form-drawer";
 
 const { Search } = Input;
 
@@ -28,10 +27,6 @@ const TodoAllList = (props: IProps) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState(0);
 
-    const handleAdd = () => {
-        setShowAdd(true);
-    };
-
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
     const getShowList = (list: TodoItemType[]) => {
@@ -46,8 +41,6 @@ const TodoAllList = (props: IProps) => {
             ? l
             : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
     };
-
-    const [showAdd, setShowAdd] = useState<boolean>(false);
 
     return (
         <>
@@ -65,8 +58,6 @@ const TodoAllList = (props: IProps) => {
                     />
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
-                    {/* 新建待办 */}
-                    <Button style={{ width: 50 }} icon={<PlusOutlined />} onClick={() => handleAdd()} type="primary" />
                 </Space>
             </h2>
             <div>
@@ -86,15 +77,6 @@ const TodoAllList = (props: IProps) => {
             <div className={styles.list}>
                 {todoList && <TodoItemList list={getShowList(todoList)} onRefresh={getData} />}
             </div>
-            <TodoFormDrawer
-                open={showAdd}
-                onClose={() => setShowAdd(false)}
-                operatorType={"add"}
-                onSubmit={() => {
-                    getData();
-                    setShowAdd(false);
-                }}
-            />
         </>
     );
 };
