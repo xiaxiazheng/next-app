@@ -3,7 +3,7 @@ import { Form, Input, Radio, FormInstance, FormProps, Space, Button } from "antd
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { getTodoCategory, TodoStatus } from "../../../service";
-import { colorMap, colorNameMap } from "../constant";
+import { colorMap, colorNameMap, colorTitle } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
@@ -89,7 +89,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Form.Item name="description" label="详细描述">
                     <InputList />
                 </Form.Item>
-                <Form.Item name="color" label="轻重" rules={[{ required: true }]} initialValue={"2"}>
+                <Form.Item name="color" label={colorTitle} rules={[{ required: true }]} initialValue={"2"}>
                     <Radio.Group buttonStyle="solid">
                         {["0", "1", "2", "3"].map((item) => (
                             <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
