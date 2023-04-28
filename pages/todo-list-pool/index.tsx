@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { getTodoPool } from "../../service";
 import { Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
-import TodoAllList from "../../components/todo/todo-all-list";
+import TodoAllList from "../../components/todo/todo-split-time-range-list";
 
 interface IProps {
     refreshFlag: number;
