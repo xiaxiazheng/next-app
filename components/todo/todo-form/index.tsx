@@ -163,7 +163,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /> 书签
+                                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /> 公告
                                 </span>
                             </SwitchComp>
                         </Form.Item>

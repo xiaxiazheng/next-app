@@ -75,7 +75,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                             setShowDesc(true);
                         }}
                     >
-                        {item.status === String(TodoStatus.done) ? (
+                        {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                             <s>{item.name}</s>
                         ) : (
                             <span

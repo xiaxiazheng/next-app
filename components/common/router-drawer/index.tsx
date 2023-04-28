@@ -148,7 +148,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <AimOutlined />,
                 },
                 {
-                    name: "书签",
+                    name: "公告",
                     path: "todo-list-bookmark",
                     icon: <StarFilled />,
                 },

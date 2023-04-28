@@ -30,9 +30,9 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="书签" />
+            <Header title="公告" />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title={"书签"} />
+                <TodoAllList list={todoList} getData={getData} title={"公告"} />
             </main>
         </Spin>
     );

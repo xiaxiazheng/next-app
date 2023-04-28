@@ -15,6 +15,7 @@ export const getTodo = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.todo,
         isTarget: '0',
+        isBookMark: '0',
         pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
