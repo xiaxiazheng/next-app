@@ -13,15 +13,17 @@ import Category from "../category";
 import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 import TodoDetailDrawer from "../todo-detail-drawer";
+import { handleHighlight, renderDescription } from "../utils";
 
 interface IProps {
     list: TodoItemType[];
     onRefresh: Function;
     showTime?: boolean;
+    keyword?: string;
 }
 
 const TodoItemList: React.FC<IProps> = (props) => {
-    const { list, onRefresh, showTime = false } = props;
+    const { list, onRefresh, showTime = false, keyword } = props;
 
     const Icon = ({ item }: { item: TodoItemType }) => {
         const isHasChild = item?.child_todo_list_length !== 0;
@@ -76,7 +78,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                         }}
                     >
                         {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
-                            <s>{item.name}</s>
+                            <s>{handleHighlight(item.name, keyword)}</s>
                         ) : (
                             <span
                                 style={
@@ -85,7 +87,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                                         : {}
                                 }
                             >
-                                {item.name} {showTime && `(${item.time})`}
+                                {handleHighlight(item.name, keyword)} {showTime && `(${item.time})`}
                             </span>
                         )}
                         {item.description && <QuestionCircleOutlined className={styles.icon} />}
@@ -100,6 +102,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
                 onFinish={() => GetTodoById(activeTodo.todo_id)}
+                keyword={keyword}
             />
         </>
     );

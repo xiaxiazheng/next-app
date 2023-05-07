@@ -3,7 +3,7 @@ import { message, Select, Tooltip } from "antd";
 import { debounce } from "lodash";
 import { getTodoById, getTodoList } from "../../../service";
 import { TodoItemType } from "../types";
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {
     const [options, setOptions] = useState<TodoItemType[]>([]);
@@ -33,11 +33,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         const res = await getTodoList(req);
         if (res) {
             // 前置 todo 不能是自己
-            setOptions(
-                res.data.list.filter(
-                    (item: TodoItemType) => item.todo_id !== activeTodo?.todo_id
-                )
-            );
+            setOptions(res.data.list.filter((item: TodoItemType) => item.todo_id !== activeTodo?.todo_id));
             setLoading(false);
         } else {
             message.error("获取 todolist 失败");
@@ -59,7 +55,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         } else {
             message.error("获取 todolist 失败");
         }
-    }
+    };
 
     const Name = ({ item }: { item: TodoItemType }) => {
         return (
@@ -91,11 +87,7 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
         >
             {options?.map((item) => {
                 return (
-                    <Select.Option
-                        key={item.todo_id}
-                        label={item.name}
-                        value={item.todo_id}
-                    >
+                    <Select.Option key={item.todo_id} label={item.name} value={item.todo_id}>
                         {item.description ? (
                             <Tooltip
                                 placement="left"
@@ -103,20 +95,11 @@ const SearchTodo = ({ value, onChange, activeTodo }: any) => {
                                 title={
                                     <div>
                                         <Name item={item} />
-                                        {/* <Divider
-                                            style={{
-                                                margin: "6px 0",
-                                                backgroundColor: "white",
-                                            }}
-                                        />
-                                        {renderDescription(item.description)} */}
                                     </div>
                                 }
                             >
                                 <Name item={item} />
-                                <span style={{ fontSize: 12, color: "#ccc" }}>
-                                    {item.description}
-                                </span>
+                                <span style={{ fontSize: 12, color: "#ccc" }}>{item.description}</span>
                             </Tooltip>
                         ) : (
                             <Name item={item} />

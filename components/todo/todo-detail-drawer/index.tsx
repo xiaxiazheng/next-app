@@ -3,7 +3,7 @@ import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import { OperatorType, TodoItemType } from "../types";
 import styles from "./index.module.scss";
-import { handleDesc } from "../utils";
+import { renderDescription } from "../utils";
 import { Button, message, Space } from "antd";
 import { DoneTodoItem, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
@@ -18,24 +18,14 @@ interface IProps {
     visible: boolean;
     setVisible: Function;
     onFinish: Function;
+    keyword?: string;
 }
 
 export const splitStr = "<#####>";
-export const renderDescription = (str: string, keyword: string = "") => {
-    return (
-        <div className={styles.descList}>
-            {str.split(splitStr).map((i, index) => (
-                <div className={styles.desc} key={index}>
-                    {handleDesc(i, keyword)}
-                </div>
-            ))}
-        </div>
-    );
-};
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
-    const { activeTodo, visible, setVisible, onFinish } = props;
+    const { activeTodo, visible, setVisible, onFinish, keyword } = props;
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleDone = async () => {
@@ -110,9 +100,9 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                         {activeTodo?.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
 
                         {activeTodo?.status === String(TodoStatus.done) ? (
-                            <s className={styles.modalName}>{activeTodo?.name}</s>
+                            <s className={styles.modalName}>{renderDescription(activeTodo?.name || '', keyword)}</s>
                         ) : (
-                            <span className={styles.modalName}>{activeTodo?.name}</span>
+                            <span className={styles.modalName}>{renderDescription(activeTodo?.name || '', keyword)}</span>
                         )}
                     </div>
                 }
@@ -175,7 +165,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 }
             >
                 <div style={{ fontSize: 14 }}>
-                    {activeTodo?.description && renderDescription(activeTodo.description)}
+                    {activeTodo?.description && renderDescription(activeTodo.description, keyword)}
                 </div>
                 {activeTodo?.imgList && (
                     <div style={{ marginTop: 10 }}>

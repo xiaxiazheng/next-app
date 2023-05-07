@@ -70,6 +70,8 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
+    const [pastKeyword, setPastKeyword] = useState<string>();
+
     return (
         <Spin spinning={loading}>
             <Header title="已完成 todo" />
@@ -104,6 +106,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         allowClear
                         onSearch={() => {
                             getData();
+                            setPastKeyword(keyword);
                         }}
                     />
                 </div>
@@ -123,6 +126,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                 <TodoItemList
                                     list={getShowList(todoMap[time])}
                                     onRefresh={getData}
+                                    keyword={pastKeyword}
                                 />
                             </div>
                         </div>
