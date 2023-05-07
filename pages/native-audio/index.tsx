@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { GetMediaList } from "../../service";
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import MusicPlayerComp from "../../components/music-player";
+// import MusicPlayerComp from "../../components/music-player";
 
 const obj = {
     key: "杨宗纬 - 我离开我自己 (Live).flac",
@@ -23,7 +23,7 @@ const hCdnUrl = "http://hcdn.xiaxiazheng.cn";
 
 let p = null;
 
-const MusicPlayer = () => {
+const NativeAudio = () => {
     const [list, setList] = useState<MusicListType[]>([]);
 
     const getData = async () => {
@@ -91,7 +91,7 @@ const MusicPlayer = () => {
     );
 };
 
-export default MusicPlayer;
+export default NativeAudio;
 
 export async function getServerSideProps(context) {
     return {

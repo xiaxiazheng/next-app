@@ -13,7 +13,6 @@ import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/to
 
 dayjs.locale("zh-cn");
 
-
 interface IProps {
     refreshFlag: number;
 }
@@ -70,11 +69,11 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     };
 
     const renderDetail = (item: TodoItemType) => {
-        const { startTime, endTime, range, target } = handleTimeRange(item.timeRange);
+        const { startTime, endTime, target } = handleTimeRange(item.timeRange);
         return (
             <>
                 <div>
-                    打卡周期：{startTime} ~ {endTime}，共 {range} 天
+                    打卡开始日期：{startTime}，已经进行 {dayjs(endTime).diff(dayjs(startTime), "d")} 天
                 </div>
                 <div>
                     达标天数：{target}，

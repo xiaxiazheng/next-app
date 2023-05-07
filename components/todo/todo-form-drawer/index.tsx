@@ -47,7 +47,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             const { startTime, range, target, ...rest } = val;
             const timeRange = timeRangeStringify({
                 startTime,
-                range,
+                // range,
                 target,
             });
             if (data) {

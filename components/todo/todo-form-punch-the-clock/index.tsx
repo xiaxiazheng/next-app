@@ -29,11 +29,11 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (todo) {
-            const { startTime, range, target } = timeRangeParse(todo.timeRange);
+            const { startTime, target } = timeRangeParse(todo.timeRange);
             form.setFieldsValue({
                 ...todo,
                 startTime,
-                range,
+                // range,
                 target,
                 status: Number(todo.status),
             });
@@ -75,9 +75,9 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
                         {todo && <Radio.Button value={todo.time}>{todo.time}</Radio.Button>}
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item name="range" label="持续天数" rules={[{ required: true }]} initialValue={7}>
+                {/* <Form.Item name="range" label="持续天数" rules={[{ required: true }]} initialValue={7}>
                     <Input />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item name="target" label="达标天数" rules={[{ required: true }]} initialValue={7}>
                     <Input />
                 </Form.Item>

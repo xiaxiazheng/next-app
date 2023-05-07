@@ -13,6 +13,31 @@ interface IProps {
     btn?: any;
 }
 
+const getTimeRange = (start: number, end: number, type: ManipulateType = "day") => {
+    return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
+};
+
+export const handleSplitListByTimeRange = (list: TodoItemType[], isSortTime = false): Record<string, TodoItemType[]> => {
+    const timeRange: Record<string, dayjs.Dayjs[]> = {
+        三天内: getTimeRange(0, 3),
+        七天内: getTimeRange(3, 7),
+        一月内: getTimeRange(7, 30),
+        三月内: getTimeRange(1, 3, "month"),
+        半年内: getTimeRange(3, 6, "month"),
+        一年内: getTimeRange(6, 12, "month"),
+        一年前: getTimeRange(1, 10, "year"),
+    };
+    return Object.keys(timeRange).reduce((prev, cur) => {
+        const range = timeRange[cur];
+        const l = list.filter((item) => {
+            const time = dayjs((isSortTime ? item.cTime : item.mTime) || "2018-01-01");
+            return time.isBefore(range[0]) && time.isAfter(range[1]);
+        });
+        prev[cur] = l;
+        return prev;
+    }, {} as Record<string, TodoItemType[]>);
+};
+
 const TodoDayList = (props: IProps) => {
     const { list, getData, title, btn } = props;
 
@@ -21,37 +46,12 @@ const TodoDayList = (props: IProps) => {
     useEffect(() => {
         if (list) {
             console.log(`list: `, list);
-            setMapList(handleSplitListByTimeRange(list || []));
+            setMapList(handleSplitListByTimeRange(list || [], isSortTime));
             setTotal(list.length);
         }
     }, [list]);
 
     const today = dayjs().format("YYYY-MM-DD");
-
-    const getTimeRange = (start: number, end: number, type: ManipulateType = "day") => {
-        return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
-    };
-
-    const handleSplitListByTimeRange = (list: TodoItemType[]): Record<string, TodoItemType[]> => {
-        const timeRange: Record<string, dayjs.Dayjs[]> = {
-            三天内: getTimeRange(0, 3),
-            七天内: getTimeRange(3, 7),
-            一月内: getTimeRange(7, 30),
-            三月内: getTimeRange(1, 3, "month"),
-            半年内: getTimeRange(3, 6, "month"),
-            一年内: getTimeRange(6, 12, "month"),
-            一年前: getTimeRange(1, 10, "year"),
-        };
-        return Object.keys(timeRange).reduce((prev, cur) => {
-            const range = timeRange[cur];
-            const l = list.filter((item) => {
-                const time = dayjs((isSortTime ? item.cTime : item.mTime) || "2018-01-01");
-                return time.isBefore(range[0]) && time.isAfter(range[1]);
-            });
-            prev[cur] = l;
-            return prev;
-        }, {} as Record<string, TodoItemType[]>);
-    };
 
     const [mapList, setMapList] = useState<Record<string, TodoItemType[]>>({});
 
