@@ -62,7 +62,7 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
                     color: "white",
                     background: x >= spanX && Math.abs(y) < spanY ? "#1bbb1b" : "#d9363e",
                     borderRadius: 8,
-                    zIndex: 100,
+                    zIndex: 1000,
                     padding: "5px 10px",
                 }}
             >

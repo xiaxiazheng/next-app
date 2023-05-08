@@ -200,14 +200,28 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const tips1 = useTouchRightToLeft({
+        spanX: 150,
         isReverse: true,
-        onChange: () => setShowDrawer(true),
+        onChange: () => {
+            if (showAddTodo) {
+                setShowAddTodo(false);
+            } else {
+                setShowDrawer(true);
+            }
+        },
     });
 
     const activePath = router.pathname;
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
     const tips2 = useTouchRightToLeft({
-        onChange: () => setShowAddTodo(true),
+        spanX: 150,
+        onChange: () => {
+            if (showDrawer) {
+                setShowDrawer(false);
+            } else {
+                setShowAddTodo(true);
+            }
+        },
     });
 
     const handleClick = async (path: string) => {
