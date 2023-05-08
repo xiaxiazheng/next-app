@@ -27,6 +27,7 @@ import TodoFormDrawer from "../../todo/todo-form-drawer";
 import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
 import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
+import { TodoStatus } from "../../../service";
 
 interface IProps {
     setRouterLoading: Function;
@@ -270,14 +271,17 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 open={showAddTodo}
                 onClose={() => setShowAddTodo(false)}
                 onSubmit={(val) => {
-                    // const map = {
-                    //     [TodoStatus.todo]: "/",
-                    //     [TodoStatus.done]: "/todo-list-done",
-                    //     [TodoStatus.pool]: "/todo-list-pool",
-                    // };
-                    // router.push(map[val.status]);
+                    const map = {
+                        [TodoStatus.todo]: "/",
+                        [TodoStatus.done]: "/todo-list-done",
+                        [TodoStatus.pool]: "/todo-list-pool",
+                    };
                     setShowAddTodo(false);
-                    refresh();
+                    if (router.route === map[val.status]) {
+                        refresh();
+                    } else {
+                        router.push(map[val.status]);
+                    }
                 }}
             />
             {tips1}
