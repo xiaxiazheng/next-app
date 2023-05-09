@@ -140,7 +140,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             style={{ marginBottom: 3 }}
                         >
                             <SwitchComp>
-                                <span style={{ color: "#ffeb3b" }}>现在处理</span>
+                                <span style={{ color: "#ffeb3b" }}>加急</span>
                             </SwitchComp>
                         </Form.Item>
                         <Form.Item
