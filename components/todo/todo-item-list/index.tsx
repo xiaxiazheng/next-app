@@ -8,12 +8,13 @@ import {
     BookOutlined,
     StarFilled,
     AppleFilled,
+    ThunderboltOutlined,
 } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 import TodoDetailDrawer from "../todo-detail-drawer";
-import { handleHighlight, renderDescription } from "../utils";
+import { handleHighlight } from "../utils";
 
 interface IProps {
     list: TodoItemType[];
@@ -65,6 +66,8 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
                     {/* 公司 */}
                     {item.isWork === "1" && <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />}
+                    {/* 加急 */}
+                    {item.doing === "1" && <ThunderboltOutlined style={{ marginRight: 5, color: "red" }} />}
                     {/* 目标 */}
                     {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
                     {/* 存档 */}

@@ -8,7 +8,14 @@ import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
-import { AimOutlined, BookOutlined, StarFilled, UpCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
+import {
+    AimOutlined,
+    BookOutlined,
+    StarFilled,
+    UpCircleOutlined,
+    DownCircleOutlined,
+    ThunderboltOutlined,
+} from "@ant-design/icons";
 
 interface Props extends FormProps {
     status: TodoStatus;
@@ -37,7 +44,7 @@ const TodoForm: React.FC<Props> = (props) => {
                 form.setFieldsValue({
                     ...todo,
                     status: TodoStatus.todo,
-                    time: dayjs().format('YYYY-MM-DD'),
+                    time: dayjs().format("YYYY-MM-DD"),
                     other_id: todo.todo_id,
                 });
             } else if (operatorType === "add-note") {
@@ -140,7 +147,9 @@ const TodoForm: React.FC<Props> = (props) => {
                             style={{ marginBottom: 3 }}
                         >
                             <SwitchComp>
-                                <span style={{ color: "#ffeb3b" }}>加急</span>
+                                <span>
+                                    <ThunderboltOutlined style={{ color: "red" }} /> 加急
+                                </span>
                             </SwitchComp>
                         </Form.Item>
                         <Form.Item
