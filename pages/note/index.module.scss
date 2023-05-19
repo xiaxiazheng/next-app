@@ -19,7 +19,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 16px - 180px);
     overflow-y: auto;
     box-sizing: border-box;
 }
@@ -116,7 +116,7 @@
 }
 
 .modalContent {
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 16px - 200px);
     overflow-y: auto;
 }
 

@@ -14,7 +14,7 @@
 .list {
     display: inline-block;
     width: 100%;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 16px - 150px);
     overflow-y: auto;
     box-sizing: border-box;
 }

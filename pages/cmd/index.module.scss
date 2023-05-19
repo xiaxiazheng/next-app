@@ -4,7 +4,7 @@
     font-size: 16px;
     text-align: left;
     .result {
-        height: calc(100vh - 280px);
+        height: calc(100vh - 16px - 280px);
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;

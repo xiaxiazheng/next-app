@@ -46,7 +46,7 @@
 .content {
     .list {
         width: 100%;
-        height: calc(100vh - 140px);
+        height: calc(100vh - 16px - 140px);
         overflow-y: auto;
         box-sizing: border-box;
         .listItem {
