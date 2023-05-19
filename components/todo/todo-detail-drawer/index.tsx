@@ -3,15 +3,14 @@ import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import { OperatorType, TodoItemType } from "../types";
 import styles from "./index.module.scss";
-import { handleKeywordHighlight, renderDescription } from "../utils";
+import { renderDescription } from "../utils";
 import { Button, message, Space } from "antd";
 import { DoneTodoItem, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
-import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
-import Category from "../category";
-import { AimOutlined, BookOutlined, StarFilled, ThunderboltFilled } from "@ant-design/icons";
+import TodoItemTitle from "../todo-item-list/todo-item-title";
+import TodoChainIcon from "../todo-item-list/todo-chain-icon";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -48,69 +47,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
 
     const [showChain, setShowChain] = useState<boolean>(false);
 
-    const ChainButton = () => {
-        const item = activeTodo;
-
-        const isHasChild = item?.child_todo_list_length !== 0;
-
-        // 在 todo 链路的展示中，前置的就不看了（因为已经找全了）
-        const isUp = item?.other_id;
-        // 非后续的任务，如果少于一条也不看了，因为也已经找全了；后续任务有后续的还是得看的
-        const isDown = isHasChild;
-
-        if (!isUp && !isDown) {
-            return null;
-        }
-        let Comp: any;
-
-        if (isUp && isDown) {
-            Comp = SwapOutlined;
-        } else if (isUp) {
-            Comp = SwapLeftOutlined;
-        } else {
-            Comp = SwapRightOutlined;
-        }
-
-        return (
-            <Button
-                onClick={() => {
-                    setShowChain(true);
-                }}
-            >
-                chain <Comp />
-            </Button>
-        );
-    };
-
     return (
         <>
             <DrawerWrapper
-                title={
-                    <div>
-                        <Category
-                            color={activeTodo?.color || ""}
-                            category={activeTodo?.category || ""}
-                            style={{ verticalAlign: "1px" }}
-                        />
-                        {/* 加急 */}
-                        {activeTodo?.doing === "1" && <ThunderboltFilled style={{ marginRight: 5, color: "red" }} />}
-                        {/* 目标 */}
-                        {activeTodo?.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        {/* 存档 */}
-                        {activeTodo?.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        {/* 书签 */}
-                        {activeTodo?.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-                        {activeTodo?.status === String(TodoStatus.done) ? (
-                            <s className={styles.modalName}>
-                                {handleKeywordHighlight(activeTodo?.name || "", keyword)}
-                            </s>
-                        ) : (
-                            <span className={styles.modalName}>
-                                {handleKeywordHighlight(activeTodo?.name || "", keyword)}
-                            </span>
-                        )}
-                    </div>
-                }
+                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} />}
                 open={visible}
                 onClose={() => setVisible(false)}
                 footer={
@@ -137,7 +77,13 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 paddingTop: "10px",
                             }}
                         >
-                            <ChainButton />
+                            <Button
+                                onClick={() => {
+                                    setShowChain(true);
+                                }}
+                            >
+                                chain <TodoChainIcon item={activeTodo} />
+                            </Button>
                             <Button
                                 type="primary"
                                 onClick={() => {
