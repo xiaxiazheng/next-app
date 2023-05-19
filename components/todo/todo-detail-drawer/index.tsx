@@ -11,7 +11,7 @@ import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 import Category from "../category";
-import { AimOutlined, BookOutlined, StarFilled, ThunderboltOutlined } from "@ant-design/icons";
+import { AimOutlined, BookOutlined, StarFilled, ThunderboltFilled } from "@ant-design/icons";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -93,7 +93,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             style={{ verticalAlign: "1px" }}
                         />
                         {/* 加急 */}
-                        {activeTodo.doing === "1" && <ThunderboltOutlined style={{ marginRight: 5, color: "red" }} />}
+                        {activeTodo?.doing === "1" && <ThunderboltFilled style={{ marginRight: 5, color: "red" }} />}
                         {/* 目标 */}
                         {activeTodo?.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
                         {/* 存档 */}

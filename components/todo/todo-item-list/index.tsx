@@ -8,7 +8,7 @@ import {
     BookOutlined,
     StarFilled,
     AppleFilled,
-    ThunderboltOutlined,
+    ThunderboltFilled,
 } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
@@ -67,7 +67,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     {/* 公司 */}
                     {item.isWork === "1" && <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />}
                     {/* 加急 */}
-                    {item.doing === "1" && <ThunderboltOutlined style={{ marginRight: 5, color: "red" }} />}
+                    {item.doing === "1" && <ThunderboltFilled style={{ marginRight: 5, color: "red" }} />}
                     {/* 目标 */}
                     {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
                     {/* 存档 */}

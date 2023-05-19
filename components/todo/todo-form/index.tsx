@@ -14,7 +14,7 @@ import {
     StarFilled,
     UpCircleOutlined,
     DownCircleOutlined,
-    ThunderboltOutlined,
+    ThunderboltFilled,
 } from "@ant-design/icons";
 
 interface Props extends FormProps {
@@ -148,7 +148,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <ThunderboltOutlined style={{ color: "red" }} /> 加急
+                                    <ThunderboltFilled style={{ color: "red" }} /> 加急
                                 </span>
                             </SwitchComp>
                         </Form.Item>
