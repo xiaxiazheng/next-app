@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
-import { CalendarOutlined, ApartmentOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ApartmentOutlined, ClearOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import { useRouter } from "next/router";
@@ -92,6 +92,20 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 <h2 className={styles.h2}>
                     <span>已完成 todo ({total})</span>
                     <Space size={8}>
+                        {pastKeyword && pastKeyword !== "" && (
+                            <Button
+                                style={{ width: 50 }}
+                                icon={<ClearOutlined />}
+                                onClick={() => {
+                                    keyword.current = "";
+                                    setPastKeyword("");
+                                    forceUpdate();
+                                    getData();
+                                }}
+                                type={"primary"}
+                                danger
+                            />
+                        )}
                         {/* 排序方式 */}
                         <Button
                             style={{ width: 50 }}
