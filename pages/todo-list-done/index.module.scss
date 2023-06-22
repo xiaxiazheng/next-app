@@ -71,6 +71,10 @@
     color: #a6adb4;
     background-color: #001529;
 }
+.done :global(.ant-input::placeholder) {
+    color: #a6adb4;
+    background-color: #001529;
+}
 .done :global(.ant-input-affix-wrapper) {
     color: #a6adb4;
     background-color: #001529;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { EditTodoItem } from "../../../service";
 import { Button, message, Space } from "antd";
@@ -14,11 +14,12 @@ interface IProps {
     getData: Function;
     title: string;
     isReverse?: boolean;
-    btn?: any;
+    btn?: ReactNode;
+    search?: ReactNode;
 }
 
 const TodoDayList = (props: IProps) => {
-    const { list, getData, title, isReverse = false, btn } = props;
+    const { list, getData, title, isReverse = false, btn, search } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
@@ -83,6 +84,7 @@ const TodoDayList = (props: IProps) => {
                     {btn}
                 </Space>
             </h2>
+            {search}
             <div className={styles.list}>
                 {(isReverse ? Object.keys(todoMap).sort() : Object.keys(todoMap).sort().reverse()).map((time) => (
                     <div key={time}>

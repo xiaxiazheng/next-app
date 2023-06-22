@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { getTodoDone, getTodoCategory } from "../../service";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
@@ -10,6 +10,7 @@ import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
+import { useRouter } from "next/router";
 
 const { Search } = Input;
 
@@ -21,15 +22,18 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
     const [total, setTotal] = useState(0);
 
-    const [keyword, setKeyword] = useState<string>("");
+    const keyword = useRef<string>("");
+    const [, forceUpdate] = useReducer((prev) => {
+        return prev + 1;
+    }, 0);
     const [pageNo, setPageNo] = useState<number>(1);
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const getData = async () => {
+    const getData = async (key?: string) => {
         setLoading(true);
         const params = {
-            keyword,
+            keyword: key || keyword.current,
             pageNo,
             category: activeCategory === "所有" ? "" : activeCategory,
         };
@@ -41,8 +45,16 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
         setLoading(false);
     };
 
+    const router = useRouter();
+
     useEffect(() => {
-        getData();
+        if (router?.query?.keyword) {
+            keyword.current = router.query.keyword as string;
+        }
+    }, []);
+
+    useEffect(() => {
+        refreshFlag && getData();
         getCategory();
     }, [pageNo, refreshFlag]);
 
@@ -70,6 +82,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
 
+    // 传给子组件的 keyword
     const [pastKeyword, setPastKeyword] = useState<string>();
 
     return (
@@ -100,13 +113,16 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                     <Search
                         className={styles.search}
                         placeholder="输入搜索"
-                        value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
+                        value={keyword.current}
+                        onChange={(e) => {
+                            keyword.current = e.target.value;
+                            forceUpdate();
+                        }}
                         enterButton
                         allowClear
                         onSearch={() => {
                             getData();
-                            setPastKeyword(keyword);
+                            setPastKeyword(keyword.current);
                         }}
                     />
                 </div>

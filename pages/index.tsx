@@ -1,8 +1,7 @@
 import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Button, message, Spin } from "antd";
-import { TrophyOutlined } from "@ant-design/icons";
+import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
 import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
@@ -40,6 +39,11 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         getData();
     }, [refreshFlag]);
 
+    const [keyword, setKeyword] = useState<string>("");
+    const search = () => {
+        router.push(`/todo-list-done?keyword=${keyword}`);
+    };
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
@@ -50,7 +54,19 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         getData={getData}
                         title="todo"
                         isReverse={true}
-                        btn={<Button style={{ width: 50 }} type="primary" onClick={() => router.push("/todo-list-done")} icon={<TrophyOutlined />} />}
+                        search={
+                            <Input.Search
+                                className={styles.search}
+                                placeholder="输入搜索已完成 todo"
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                enterButton
+                                allowClear
+                                onSearch={() => {
+                                    search();
+                                }}
+                            />
+                        }
                     />
                 </Spin>
                 <HomeTips />
