@@ -17,7 +17,10 @@ const getTimeRange = (start: number, end: number, type: ManipulateType = "day") 
     return [dayjs().subtract(start, type), dayjs().subtract(end, type)];
 };
 
-export const handleSplitListByTimeRange = (list: TodoItemType[], isSortTime = false): Record<string, TodoItemType[]> => {
+export const handleSplitListByTimeRange = (
+    list: TodoItemType[],
+    isSortTime = false
+): Record<string, TodoItemType[]> => {
     const timeRange: Record<string, dayjs.Dayjs[]> = {
         三天内: getTimeRange(0, 3),
         七天内: getTimeRange(3, 7),
@@ -85,22 +88,26 @@ const TodoDayList = (props: IProps) => {
                 </Space>
             </h2>
             <div className={styles.list}>
-                {Object.keys(mapList).map((time) => (
-                    <div key={time}>
-                        {/* 日期 */}
-                        <div
-                            className={`${styles.time} ${
-                                time === today ? styles.today : time < today ? styles.previously : styles.future
-                            }`}
-                        >
-                            {time}
+                {Object.keys(mapList).map((time) => {
+                    const list = getShowList(mapList[time]);
+                    if (list.length === 0) return null;
+                    return (
+                        <div key={time}>
+                            {/* 日期 */}
+                            <div
+                                className={`${styles.time} ${
+                                    time === today ? styles.today : time < today ? styles.previously : styles.future
+                                }`}
+                            >
+                                {time}
+                            </div>
+                            {/* 当日 todo */}
+                            <div className={styles.one_day}>
+                                <TodoItemList list={list} onRefresh={getData} />
+                            </div>
                         </div>
-                        {/* 当日 todo */}
-                        <div className={styles.one_day}>
-                            <TodoItemList list={getShowList(mapList[time])} onRefresh={getData} />
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </>
     );
