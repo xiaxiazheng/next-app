@@ -11,14 +11,25 @@ export interface TodoRes {
     data: { list: TodoItemType[]; total: number };
 }
 
+const getIsWork = () => {
+    if (localStorage.getItem("WorkOrLife")) {
+        return localStorage.getItem("WorkOrLife");
+    }
+    return "";
+};
+
 export const getTodo = async (): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.todo,
-        isTarget: '0',
-        isBookMark: '0',
+        isTarget: "0",
+        isBookMark: "0",
         pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -54,6 +65,10 @@ export async function getTodoChainById(todo_id: string): Promise<any> {
 }
 
 export const getTodoList = async (params: any): Promise<TodoRes | false> => {
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -71,6 +86,10 @@ export const getTodoDone = async ({ keyword, pageNo, category }): Promise<TodoRe
     };
     if (category) {
         params["category"] = category;
+    }
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
     }
     const res: any = await postFetch(`/todo/getTodoList`, params);
     if (res) {
@@ -118,6 +137,10 @@ export const getTodoTarget = async (): Promise<TodoRes | false> => {
         pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
     const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();

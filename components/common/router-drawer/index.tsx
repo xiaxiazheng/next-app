@@ -22,12 +22,14 @@ import {
     ClockCircleOutlined,
     CheckSquareOutlined,
     HistoryOutlined,
+    AppleFilled,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
 import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
 import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
 import { TodoStatus } from "../../../service";
+import { Button, Space } from "antd";
 
 interface IProps {
     setRouterLoading: Function;
@@ -236,9 +238,53 @@ const RouterDrawer: React.FC<IProps> = (props) => {
         }
     };
 
+    const [isWork, setIsWork] = useState("");
+    useEffect(() => {
+        setIsWork(localStorage.getItem("WorkOrLife") || "");
+    }, []);
+    useEffect(() => {
+        localStorage.setItem("WorkOrLife", isWork);
+        refresh();
+        setShowDrawer(false);
+    }, [isWork]);
+
     return (
         <>
             <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="left" width="80vw">
+                <Space size={10}>
+                    <Button
+                        className={styles.btn}
+                        type="text"
+                        onClick={() => setIsWork(isWork === "1" ? "" : "1")}
+                        icon={<AppleFilled />}
+                        style={
+                            isWork === "1"
+                                ? {
+                                      borderColor: "#00d4d8",
+                                      background: "#00d4d8",
+                                  }
+                                : { borderColor: "#00d4d8", color: "#00d4d8" }
+                        }
+                    >
+                        Work
+                    </Button>
+                    <Button
+                        className={styles.btn}
+                        type="text"
+                        onClick={() => setIsWork(isWork === "0" ? "" : "0")}
+                        icon={<CoffeeOutlined />}
+                        style={
+                            isWork === "0"
+                                ? {
+                                      borderColor: "#00d4d8",
+                                      background: "#00d4d8",
+                                  }
+                                : { borderColor: "#00d4d8", color: "#00d4d8" }
+                        }
+                    >
+                        Life
+                    </Button>
+                </Space>
                 {routes.map((category) => {
                     return (
                         <div key={category.title}>

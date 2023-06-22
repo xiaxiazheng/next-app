@@ -4,6 +4,11 @@
   border-bottom: 2px solid #a6adb4;
 }
 
+.btn {
+  display: flex;
+  align-items: center;
+}
+
 .index {
   display: grid;
   grid-template-columns: repeat(3, 72px);
