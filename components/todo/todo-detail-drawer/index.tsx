@@ -10,7 +10,7 @@ import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
 import TodoItemTitle from "../todo-item-list/todo-item-title";
-import TodoChainIcon from "../todo-item-list/todo-chain-icon";
+import TodoChainIcon, { hasChainIcon } from "../todo-item-list/todo-chain-icon";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -50,7 +50,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     return (
         <>
             <DrawerWrapper
-                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} />}
+                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} />}
                 open={visible}
                 onClose={() => setVisible(false)}
                 footer={
@@ -77,13 +77,15 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 paddingTop: "10px",
                             }}
                         >
-                            <Button
-                                onClick={() => {
-                                    setShowChain(true);
-                                }}
-                            >
-                                chain <TodoChainIcon item={activeTodo} />
-                            </Button>
+                            {hasChainIcon(activeTodo).hasChain && (
+                                <Button
+                                    onClick={() => {
+                                        setShowChain(true);
+                                    }}
+                                >
+                                    chain <TodoChainIcon item={activeTodo} />
+                                </Button>
+                            )}
                             <Button
                                 type="primary"
                                 onClick={() => {
