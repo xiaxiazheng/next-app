@@ -34,15 +34,13 @@ const InputList = ({ value = "", onChange }: any) => {
                         value={item}
                         onChange={(e) => handleChange(e.target.value, index)}
                     />
-                    {l.length > 1 && (
-                        <div className={styles.iconWrapper}>
-                            <DeleteOutlined
-                                className={styles.deleteIcon}
-                                style={{ color: "red" }}
-                                onClick={() => handleDelete(index)}
-                            />
-                        </div>
-                    )}
+                    <div className={styles.iconWrapper}>
+                        <DeleteOutlined
+                            className={styles.deleteIcon}
+                            style={{ color: "red" }}
+                            onClick={() => handleDelete(index)}
+                        />
+                    </div>
                 </div>
             ))}
         </Space>
