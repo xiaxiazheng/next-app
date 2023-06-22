@@ -29,9 +29,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
         <div style={{ marginBottom: 8 }}>
             <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
             {/* 公司 */}
-            {item.status === String(TodoStatus.todo) && item.isWork === "1" && (
-                <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />
-            )}
+            {item.isWork === "1" && <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />}
             {/* 加急 */}
             {item.doing === "1" && (
                 <ThunderboltFilled style={{ marginRight: 5, color: "red", verticalAlign: "middle" }} />
