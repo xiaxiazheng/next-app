@@ -5,7 +5,7 @@ import { Button, message, Space } from "antd";
 import { VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import MyModal from "../../common/my-modal";
-import { formatArrayToTimeMap, getWeek } from "../../todo/utils";
+import { formatArrayToTimeMap, getShowList, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";
 
@@ -18,7 +18,7 @@ interface IProps {
     search?: ReactNode;
 }
 
-const TodoDayList = (props: IProps) => {
+const TodoDayList: React.FC<IProps> = (props) => {
     const { list, getData, title, isReverse = false, btn, search } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
@@ -56,14 +56,6 @@ const TodoDayList = (props: IProps) => {
     };
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const getShowList = (list: TodoItemType[]) => {
-        return !isSortTime
-            ? list.sort((a, b) => (a.doing === "1" ? -1 : 0))
-            : [...list].sort(
-                  // sort 会改变原数组
-                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
-    };
 
     return (
         <>
@@ -109,7 +101,7 @@ const TodoDayList = (props: IProps) => {
                         </div>
                         {/* 当日 todo */}
                         <div className={styles.one_day}>
-                            <TodoItemList list={getShowList(todoMap[time])} onRefresh={getData} />
+                            <TodoItemList list={getShowList(todoMap[time], { isSortTime })} onRefresh={getData} />
                         </div>
                     </div>
                 ))}

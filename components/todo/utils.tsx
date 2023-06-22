@@ -1,6 +1,6 @@
 import { TodoItemType } from "./types";
-import dayjs from 'dayjs';
-import styles from './utils.module.scss';
+import dayjs from "dayjs";
+import styles from "./utils.module.scss";
 import { splitStr } from "./todo-form/input-list";
 
 export const renderDescription = (str: string, keyword: string = "") => {
@@ -21,7 +21,7 @@ export const handleHighlight = (string: string, keyword: string = "") => {
 };
 
 // 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理
-export const handleUrlHighlight = (str: string, keyword: string = '') => {
+export const handleUrlHighlight = (str: string, keyword: string = "") => {
     const re = /http[s]?:\/\/[^\s|,|，|:|：]*/g;
     let match;
     const urlList: string[] = [];
@@ -41,12 +41,7 @@ export const handleUrlHighlight = (str: string, keyword: string = '') => {
                     <span key={index}>
                         {handleKeywordHighlight(item, keyword)}
                         {urlList[index] && (
-                            <a
-                                style={{ color: "#40a9ff" }}
-                                href={urlList[index]}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a style={{ color: "#40a9ff" }} href={urlList[index]} target="_blank" rel="noreferrer">
                                 {handleKeywordHighlight(urlList[index], keyword)}
                             </a>
                         )}
@@ -60,14 +55,14 @@ export const handleUrlHighlight = (str: string, keyword: string = '') => {
 const colorList = ["yellow", "#32e332", "#40a9ff", "red"];
 
 // 根据关键字高亮
-export const handleKeywordHighlight = (str: string, originKeyword: string = '') => {
+export const handleKeywordHighlight = (str: string, originKeyword: string = "") => {
     const keyword = originKeyword.trim(); // 去掉左右的空格
-    if (!keyword || keyword === '') {
+    if (!keyword || keyword === "") {
         return str;
     }
 
     // 用空格分隔关键字
-    const keys = keyword.split(" ").filter(item => !!item);
+    const keys = keyword.split(" ").filter((item) => !!item);
 
     // demo 代码：
     // var str = "31331231";
@@ -79,9 +74,7 @@ export const handleKeywordHighlight = (str: string, originKeyword: string = '') 
     try {
         const key = keys.map((item) => `(${item})`).join("|");
         const reg = new RegExp(key, "gim");
-        const list = str
-            .split(reg)
-            .filter((item) => typeof item !== "undefined" && item !== "");
+        const list = str.split(reg).filter((item) => typeof item !== "undefined" && item !== "");
 
         const map = keys.reduce((prev, cur, index) => {
             prev[cur.toLowerCase()] = index;
@@ -95,9 +88,7 @@ export const handleKeywordHighlight = (str: string, originKeyword: string = '') 
                         key={index}
                         style={{
                             color: "#908080",
-                            background:
-                                colorList?.[map[item.toLowerCase()]] ||
-                                "yellow",
+                            background: colorList?.[map[item.toLowerCase()]] || "yellow",
                             margin: "0 3px",
                             padding: "0 3px",
                             fontSize: "14px",
@@ -130,3 +121,20 @@ export const getWeek = (time: string) => {
     return `周${weekList[dayjs(time).day()]}`;
 };
 
+// 用于获取单日的 todo 列表的排序
+export const getShowList = (list: TodoItemType[], params: { isSortTime: boolean; keyword?: string }) => {
+    const { isSortTime, keyword } = params;
+    let l = !isSortTime
+        ? list
+        : [...list].sort(
+              // sort 会改变原数组
+              (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
+          );
+
+    // 加急的始终放前面
+    l = l.filter((item) => item.doing === "1").concat(l.filter((item) => item.doing !== "1")); // 这里不用 sort 因为用 sort 会打乱上面排好的顺序
+
+    return !keyword
+        ? l
+        : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
+};

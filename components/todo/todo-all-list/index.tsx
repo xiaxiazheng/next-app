@@ -5,6 +5,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../../components/todo/types";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoItemList from "../todo-item-list";
+import { getShowList } from "../utils";
 
 const { Search } = Input;
 
@@ -29,18 +30,6 @@ const TodoAllList = (props: IProps) => {
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const [keyword, setKeyword] = useState<string>();
-    const getShowList = (list: TodoItemType[]) => {
-        const l = !isSortTime
-            ? list
-            : [...list].sort(
-                  // sort 会改变原数组
-                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
-
-        return !keyword
-            ? l
-            : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
-    };
 
     return (
         <>
@@ -75,7 +64,7 @@ const TodoAllList = (props: IProps) => {
             </div>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList && <TodoItemList list={getShowList(todoList)} onRefresh={getData} />}
+                {todoList && <TodoItemList list={getShowList(todoList, { isSortTime, keyword })} onRefresh={getData} />}
             </div>
         </>
     );

@@ -6,7 +6,7 @@ import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { formatArrayToTimeMap, getWeek } from "../../components/todo/utils";
+import { formatArrayToTimeMap, getShowList, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined, ClearOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
@@ -62,14 +62,6 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     const today = dayjs().format("YYYY-MM-DD");
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const getShowList = (list: TodoItemType[]) => {
-        return !isSortTime
-            ? list
-            : [...list].sort(
-                  // sort 会改变原数组
-                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
-    };
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [category, setCategory] = useState<any[]>([]);
@@ -155,7 +147,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>
                                 <TodoItemList
-                                    list={getShowList(todoMap[time])}
+                                    list={getShowList(todoMap[time], { isSortTime })}
                                     onRefresh={getData}
                                     keyword={pastKeyword}
                                 />

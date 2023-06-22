@@ -5,6 +5,7 @@ import { SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs, { ManipulateType } from "dayjs";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";
+import { getShowList } from "../utils";
 
 interface IProps {
     list: any[];
@@ -59,14 +60,6 @@ const TodoDayList = (props: IProps) => {
     const [mapList, setMapList] = useState<Record<string, TodoItemType[]>>({});
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const getShowList = (list: TodoItemType[]) => {
-        return !isSortTime
-            ? list.sort((a, b) => (a.doing === "1" ? -1 : 0))
-            : [...list].sort(
-                  // sort 会改变原数组
-                  (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
-              );
-    };
 
     return (
         <>
@@ -89,7 +82,7 @@ const TodoDayList = (props: IProps) => {
             </h2>
             <div className={styles.list}>
                 {Object.keys(mapList).map((time) => {
-                    const list = getShowList(mapList[time]);
+                    const list = getShowList(mapList[time], { isSortTime });
                     if (list.length === 0) return null;
                     return (
                         <div key={time}>
