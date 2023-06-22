@@ -50,6 +50,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     useEffect(() => {
         if (router?.query?.keyword) {
             keyword.current = router.query.keyword as string;
+            setPastKeyword(router.query.keyword as string);
         }
     }, []);
 
