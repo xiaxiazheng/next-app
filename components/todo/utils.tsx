@@ -132,7 +132,7 @@ export const getDayjs = (day: dayjs.Dayjs | string) => {
 };
 
 export const getRangeFormToday = (time: string | undefined) => {
-    if (!time) return '';
+    if (!time) return "";
     const day = getDayjs(time).diff(getDayjs(dayjs()), "d");
     if (day === 0) return "今天";
     return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
@@ -142,14 +142,11 @@ export const getRangeFormToday = (time: string | undefined) => {
 export const getShowList = (list: TodoItemType[], params: { isSortTime: boolean; keyword?: string }) => {
     const { isSortTime, keyword } = params;
     let l = !isSortTime
-        ? list
+        ? list.filter((item) => item.doing === "1").concat(list.filter((item) => item.doing !== "1")) // 这里不用 sort 因为用 sort 会打乱顺序
         : [...list].sort(
               // sort 会改变原数组
               (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
           );
-
-    // 加急的始终放前面
-    l = l.filter((item) => item.doing === "1").concat(l.filter((item) => item.doing !== "1")); // 这里不用 sort 因为用 sort 会打乱上面排好的顺序
 
     return !keyword
         ? l
