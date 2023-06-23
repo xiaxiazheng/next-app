@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { Form, Input, Radio, FormInstance, FormProps, Space, Button } from "antd";
+import { Form, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { getTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap, colorTitle } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
+import NameTextArea from "./nameTextArea";
 import SwitchComp from "./switch";
 import SearchTodo from "./searchTodo";
 import {
@@ -15,7 +16,6 @@ import {
     UpCircleOutlined,
     DownCircleOutlined,
     ThunderboltFilled,
-    DeleteOutlined,
 } from "@ant-design/icons";
 
 interface Props extends FormProps {
@@ -84,30 +84,11 @@ const TodoForm: React.FC<Props> = (props) => {
         );
     };
 
-    const NameTextArea = ({ value, onChange }: any) => {
-        return (
-            <div className={styles.nameTextArea}>
-                <Input.TextArea
-                    value={value}
-                    onChange={onChange}
-                    autoSize={{ minRows: 1, maxRows: 5 }}
-                    allowClear
-                    placeholder="尽量的量化，有具体的完成指标，任务尽量细致且易完成"
-                />
-                <DeleteOutlined
-                    className={styles.deleteIcon}
-                    style={{ color: "red" }}
-                    onClick={() => form.setFieldValue("name", "")}
-                />
-            </div>
-        );
-    };
-
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
                 <Form.Item name="name" label="名称" style={{ width: "100%" }} rules={[{ required: true }]}>
-                    <NameTextArea />
+                    <NameTextArea handleDelete={() => form.setFieldValue("name", "")} />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
                     <InputList />
