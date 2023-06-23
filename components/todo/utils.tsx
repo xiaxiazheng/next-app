@@ -121,6 +121,23 @@ export const getWeek = (time: string) => {
     return `周${weekList[dayjs(time).day()]}`;
 };
 
+export const getDayjs = (day: dayjs.Dayjs | string) => {
+    if (typeof day === "string") {
+        day = dayjs(day);
+    }
+    const year = day.get("year");
+    const month = day.get("month") + 1;
+    const date = day.get("date");
+    return dayjs(`${year}-${month}-${date}`);
+};
+
+export const getRangeFormToday = (time: string | undefined) => {
+    if (!time) return '';
+    const day = getDayjs(time).diff(getDayjs(dayjs()), "d");
+    if (day === 0) return "今天";
+    return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
+};
+
 // 用于获取单日的 todo 列表的排序
 export const getShowList = (list: TodoItemType[], params: { isSortTime: boolean; keyword?: string }) => {
     const { isSortTime, keyword } = params;

@@ -6,7 +6,7 @@ import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { formatArrayToTimeMap, getShowList, getWeek } from "../../components/todo/utils";
+import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ApartmentOutlined, ClearOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
@@ -142,7 +142,8 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                     time === today ? styles.today : time < today ? "" : styles.future
                                 }`}
                             >
-                                {time} ({getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
+                                {time} ({getWeek(time)}，{getRangeFormToday(time)})&nbsp;
+                                {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
                             </div>
                             {/* 当日的 todo */}
                             <div className={styles.one_day}>

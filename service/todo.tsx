@@ -100,12 +100,35 @@ export const getTodoDone = async ({ keyword, pageNo, category }): Promise<TodoRe
     }
 };
 
+export const getTodoPool = async (): Promise<TodoRes | false> => {
+    const params = {
+        status: TodoStatus.pool,
+        pageSize: 200,
+        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+    };
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
+    const res: any = await postFetch(`/todo/getTodoList`, params);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+};
+
 export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
         isBookMark: "1",
         pageNo: 1,
         pageSize: 100,
     };
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
     const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -156,22 +179,11 @@ export const getTodoFootprint = async (): Promise<TodoRes | false> => {
         pageSize: 30,
         sortBy: [["mTime", "DESC"]],
     };
-    const res = await postFetch(`/todo/getTodoList`, params);
-    if (res) {
-        const data = res.json();
-        return data;
-    } else {
-        return false;
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
     }
-};
-
-export const getTodoPool = async (): Promise<TodoRes | false> => {
-    const params = {
-        status: TodoStatus.pool,
-        pageSize: 200,
-        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
-    };
-    const res: any = await postFetch(`/todo/getTodoList`, params);
+    const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
         return data;
