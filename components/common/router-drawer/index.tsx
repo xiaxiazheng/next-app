@@ -250,7 +250,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     return (
         <>
             <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="left" width="80vw">
-                <Space size={10}>
+                <Space size={10} style={{ paddingTop: "20px" }}>
                     <Button
                         className={styles.btn}
                         type="text"

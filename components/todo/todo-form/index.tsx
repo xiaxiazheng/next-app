@@ -19,6 +19,29 @@ import {
     AppleFilled,
 } from "@ant-design/icons";
 
+const CategoryOptions = ({ value, onChange, category }: any) => {
+    const [showAll, setShowAll] = useState<boolean>(false);
+
+    return (
+        <>
+            <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
+                {(showAll ? category : category?.slice(0, 9))?.map((item) => (
+                    <Radio.Button key={item.category} value={item.category}>
+                        {item.category} ({item.count})
+                    </Radio.Button>
+                ))}
+            </Radio.Group>
+            {!showAll && (
+                <div className={styles.showAll}>
+                    <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
+                        show all Category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
+                    </Button>
+                </div>
+            )}
+        </>
+    );
+};
+
 interface Props extends FormProps {
     status: TodoStatus;
     todo?: TodoItemType;
@@ -64,27 +87,6 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
-    const CategoryOptions = ({ value, onChange }: any) => {
-        const [showAll, setShowAll] = useState<boolean>(false);
-
-        return (
-            <>
-                <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
-                    {(showAll ? category : category?.slice(0, 9))?.map((item) => (
-                        <Radio.Button key={item.category} value={item.category}>
-                            {item.category} ({item.count})
-                        </Radio.Button>
-                    ))}
-                </Radio.Group>
-                <div className={styles.showAll}>
-                    <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
-                        show all Category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
-                    </Button>
-                </div>
-            </>
-        );
-    };
-
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
@@ -124,7 +126,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item name="category" label="类别" rules={[{ required: true }]} initialValue={"个人"}>
-                    <CategoryOptions />
+                    <CategoryOptions category={category} />
                 </Form.Item>
                 <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
                     <Space size={6} style={{ flexWrap: "wrap" }}>
