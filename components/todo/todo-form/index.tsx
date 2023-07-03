@@ -22,6 +22,20 @@ import {
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (
+            category.length !== 0 &&
+            !category
+                ?.slice(0, 9)
+                .map((item) => item.category)
+                .includes(value)
+        ) {
+            setShowAll(true);
+        } else {
+            setShowAll(false);
+        }
+    }, [value, category]);
+
     return (
         <>
             <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
