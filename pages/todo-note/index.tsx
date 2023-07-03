@@ -264,6 +264,7 @@ const Note = () => {
                 </DrawerWrapper>
                 <TodoFormDrawer
                     open={showAdd}
+                    todo_id={active?.todo_id}
                     onClose={() => {
                         setOperatorType("add-note");
                         setShowAdd(false);
