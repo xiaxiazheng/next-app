@@ -7,7 +7,7 @@ interface Params {
     isReverse?: boolean;
 }
 
-const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false }: Params) => {
+const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false }: Params, listener: any[]) => {
     const handleJudge = (x: number, y: number) => {
         if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
             onChange();
@@ -24,28 +24,39 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
     });
     const isStart = useRef<any>(false);
 
-    useEffect(() => {
-        document.addEventListener("touchstart", (e) => {
-            ref.current = {
-                x: e.targetTouches?.[0].pageX,
-                y: e.targetTouches?.[0].pageY,
-            };
-            isStart.current = true;
-        });
-        document.addEventListener("touchend", (e) => {
-            handleJudge(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
-            isStart.current = false;
-            setIsShow(false);
-        });
+    const handleStart = (e: TouchEvent) => {
+        ref.current = {
+            x: e.targetTouches?.[0].pageX,
+            y: e.targetTouches?.[0].pageY,
+        };
+        isStart.current = true;
+    };
 
-        document.addEventListener("touchmove", (e) => {
-            setX(handleReverse(ref.current.x - e.targetTouches?.[0].pageX));
-            setY(e.targetTouches?.[0].pageY - ref.current.y);
-            if (isStart.current) {
-                handleReverse(ref.current.x - e.targetTouches?.[0].pageX) > 100 ? setIsShow(true) : setIsShow(false);
-            }
-        });
-    }, []);
+    const handleEnd = (e: TouchEvent) => {
+        handleJudge(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
+        isStart.current = false;
+        setIsShow(false);
+    };
+
+    const handleMove = (e: TouchEvent) => {
+        setX(handleReverse(ref.current.x - e.targetTouches?.[0].pageX));
+        setY(e.targetTouches?.[0].pageY - ref.current.y);
+        if (isStart.current) {
+            handleReverse(ref.current.x - e.targetTouches?.[0].pageX) > 100 ? setIsShow(true) : setIsShow(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("touchstart", handleStart);
+        document.addEventListener("touchend", handleEnd);
+        document.addEventListener("touchmove", handleMove);
+
+        return () => {
+            document.removeEventListener("touchstart", handleStart);
+            document.removeEventListener("touchend", handleEnd);
+            document.removeEventListener("touchmove", handleMove);
+        };
+    }, [...listener]);
 
     const [isShow, setIsShow] = useState<boolean>(false);
     const [x, setX] = useState<number>(0);

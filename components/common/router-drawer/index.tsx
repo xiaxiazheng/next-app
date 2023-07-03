@@ -200,32 +200,31 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     ];
 
     const router = useRouter();
+    const activePath = router.pathname;
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
-    const tips1 = useTouchRightToLeft({
-        spanX: 150,
-        isReverse: true,
-        onChange: () => {
-            if (showAddTodo) {
-                setShowAddTodo(false);
-            } else {
-                setShowDrawer(true);
-            }
-        },
-    });
-
-    const activePath = router.pathname;
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
-    const tips2 = useTouchRightToLeft({
-        spanX: 150,
-        onChange: () => {
-            if (showDrawer) {
-                setShowDrawer(false);
-            } else {
-                setShowAddTodo(true);
-            }
+    // 从左往右
+    const tips1 = useTouchRightToLeft(
+        {
+            spanX: 150,
+            isReverse: true,
+            onChange: () => {
+                !showAddTodo && setShowDrawer(true);
+            },
         },
-    });
+        [showAddTodo]
+    );
+    // 从右往左，打开添加 todo
+    const tips2 = useTouchRightToLeft(
+        {
+            spanX: 150,
+            onChange: () => {
+                !showDrawer && setShowAddTodo(true);
+            },
+        },
+        [showDrawer]
+    );
 
     const handleClick = async (path: string) => {
         setShowDrawer(false);
@@ -330,8 +329,12 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     }
                 }}
             />
-            {tips1}
-            {tips2}
+            {!showDrawer && !showAddTodo && (
+                <>
+                    {tips1}
+                    {tips2}
+                </>
+            )}
         </>
     );
 };
