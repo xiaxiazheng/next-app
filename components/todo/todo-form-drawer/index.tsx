@@ -83,7 +83,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                 : await AddTodoItem(val);
         if (res) {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
-            onSubmit?.(val);
+            onSubmit?.(operatorType === "edit" ? val : res.data.newTodoItem);
             setIsEdit(false);
         } else {
             message.error(`${operatorMap[operatorType]} Todo 失败，请重试`);
@@ -109,7 +109,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             {...props}
             onClose={(e) => {
                 if (isEdit && !isClose) {
-                    message.warning('还有编辑内容没保存，确定不要就再点一次');
+                    message.warning("还有编辑内容没保存，确定不要就再点一次");
                     setIsClose(true);
                 } else {
                     setIsEdit(false);

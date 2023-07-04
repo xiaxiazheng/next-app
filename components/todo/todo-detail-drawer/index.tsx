@@ -5,7 +5,7 @@ import { OperatorType, TodoItemType } from "../types";
 import styles from "./index.module.scss";
 import { renderDescription } from "../utils";
 import { Button, message, Space } from "antd";
-import { DoneTodoItem, TodoStatus } from "../../../service";
+import { DoneTodoItem, getTodoById, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
@@ -46,6 +46,23 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const [operatorType, setOperatorType] = useState<OperatorType>("edit");
 
     const [showChain, setShowChain] = useState<boolean>(false);
+
+    const [activeTodo2, setActiveTodo2] = useState<TodoItemType>();
+    const [visible2, setVisible2] = useState<boolean>(false);
+
+    const GetTodoById = async (todo_id: string) => {
+        return await getTodoById(todo_id);
+    };
+
+    const onSubmit = async (val: TodoItemType) => {
+        if (operatorType !== "edit") {
+            const res = await GetTodoById(val.todo_id);
+            setActiveTodo2(res.data);
+            setVisible2(true);
+        }
+        onFinish();
+        setShowEdit(false);
+    };
 
     return (
         <>
@@ -132,12 +149,18 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
                 operatorType={operatorType}
-                onSubmit={() => {
-                    onFinish();
-                    setShowEdit(false);
-                }}
+                onSubmit={onSubmit}
             />
             <ChainDrawer open={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
+            {activeTodo && (
+                <TodoDetailDrawer
+                    activeTodo={activeTodo2}
+                    visible={visible2}
+                    setVisible={setVisible2}
+                    keyword={keyword}
+                    onFinish={onFinish}
+                />
+            )}
         </>
     );
 };
