@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../components/todo/utils";
-import { CalendarOutlined, ApartmentOutlined, ClearOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ApartmentOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import { useRouter } from "next/router";
@@ -30,6 +30,8 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
+    const [startTime, setStartTime] = useState<string>("");
+
     const getData = async (key?: string) => {
         setLoading(true);
         const params = {
@@ -37,6 +39,11 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
             pageNo,
             category: activeCategory === "所有" ? "" : activeCategory,
         };
+
+        if (startTime !== "") {
+            params["startTime"] = startTime;
+            params["endTime"] = startTime;
+        }
         const res = await getTodoDone(params);
         if (res) {
             setTotal(res.data.total);
@@ -73,7 +80,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     };
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
-    }, [activeCategory]);
+    }, [activeCategory, startTime]);
 
     // 传给子组件的 keyword
     const [pastKeyword, setPastKeyword] = useState<string>();
@@ -85,7 +92,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 <h2 className={styles.h2}>
                     <span>已完成 todo ({total})</span>
                     <Space size={8}>
-                        {pastKeyword && pastKeyword !== "" && (
+                        {((pastKeyword && pastKeyword !== "") || startTime !== "") && (
                             <Button
                                 style={{ width: 50 }}
                                 icon={<ClearOutlined />}
@@ -93,7 +100,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                     keyword.current = "";
                                     setPastKeyword("");
                                     forceUpdate();
-                                    getData();
+                                    startTime === "" ? getData() : setStartTime("");
                                 }}
                                 type={"primary"}
                                 danger
@@ -133,6 +140,19 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         }}
                     />
                 </div>
+                {startTime && (
+                    <Space size={16} className={styles.timeControl}>
+                        <Button
+                            icon={<MinusOutlined />}
+                            onClick={() => setStartTime(dayjs(startTime).subtract(1, "d").format("YYYY-MM-DD"))}
+                        />
+                        {startTime}
+                        <Button
+                            icon={<PlusOutlined />}
+                            onClick={() => setStartTime(dayjs(startTime).add(1, "d").format("YYYY-MM-DD"))}
+                        />
+                    </Space>
+                )}
                 <div className={styles.list}>
                     {Object.keys(todoMap).map((time) => (
                         <div key={time}>
@@ -141,6 +161,11 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                 className={`${styles.time} ${
                                     time === today ? styles.today : time < today ? "" : styles.future
                                 }`}
+                                onClick={() => {
+                                    const date = dayjs(time).format("YYYY-MM-DD");
+                                    setStartTime(date);
+                                    keyword.current = "";
+                                }}
                             >
                                 {time} ({getWeek(time)}，{getRangeFormToday(time)})&nbsp;
                                 {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}

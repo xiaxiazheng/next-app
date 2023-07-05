@@ -78,11 +78,12 @@ export const getTodoList = async (params: any): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoDone = async ({ keyword, pageNo, category }): Promise<TodoRes | false> => {
+export const getTodoDone = async ({ keyword, pageNo, category, ...rest }): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.done,
         keyword,
         pageNo,
+        ...rest
     };
     if (category) {
         params["category"] = category;
