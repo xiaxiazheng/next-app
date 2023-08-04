@@ -152,16 +152,6 @@ const Music: React.FC<PropsType> = (props) => {
 
     return (
         <div className={`${styles.music} ScrollBar`}>
-            <div className={styles.search}>
-                <Input
-                    style={{
-                        width: "calc(100% - 22px)",
-                    }}
-                    value={keyword}
-                    onChange={(val) => setKeyword(val.target.value)}
-                    allowClear
-                />
-            </div>
             {/* 列表 */}
             <div className={`${styles.musicList}`}>
                 {showList?.map((item) => (
@@ -175,6 +165,16 @@ const Music: React.FC<PropsType> = (props) => {
                 ))}
             </div>
             <div className={styles.box}>
+                <div className={styles.search}>
+                    <Input
+                        style={{
+                            width: "calc(100% - 22px)",
+                        }}
+                        value={keyword}
+                        onChange={(val) => setKeyword(val.target.value)}
+                        allowClear
+                    />
+                </div>
                 {/* 播放 */}
                 <div className={styles.musicBox} ref={musicBox}>
                     <audio controls>

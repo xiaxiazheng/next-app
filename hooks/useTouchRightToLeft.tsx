@@ -77,8 +77,8 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
                     padding: "5px 10px",
                 }}
             >
-                <div>x: {x}</div>
-                <div>y: {y}</div>
+                <div>x: {x.toFixed(0)}</div>
+                <div>y: {y.toFixed(0)}</div>
             </div>
         )
     );

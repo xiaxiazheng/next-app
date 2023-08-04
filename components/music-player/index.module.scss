@@ -1,15 +1,6 @@
 .music {
     position: relative;
-    padding: 40px 0 130px;
-    .search {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 8px 10px;
-        background-color: #001529;
-        z-index: 2;
-    }
+    padding: 8px 0 170px;
     .musicList {
         bottom: 2px;
         border-radius: 4px;
@@ -31,12 +22,16 @@
             }
         }
     }
+    .search {
+        padding: 8px 0;
+        background-color: #001529;
+    }
     .box {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #333d45;
+        background-color: #1b3c57;
         // z-index: 2;
         text-align: center;
         padding-bottom: 20px;
