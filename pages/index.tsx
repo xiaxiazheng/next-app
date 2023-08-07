@@ -69,6 +69,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         }
                     />
                 </Spin>
+                <div className={styles.beforeToday} onClick={() => { router.push('/today-before-years')}}>看看往年今天?</div>
                 {/* <HomeTips /> */}
             </main>
         </div>

@@ -23,6 +23,7 @@ import {
     CheckSquareOutlined,
     HistoryOutlined,
     AppleFilled,
+    FieldTimeOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
 import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
@@ -159,6 +160,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     name: "足迹",
                     path: "todo-list-footprint",
                     icon: <HistoryOutlined />,
+                },
+                {
+                    name: "往年今日",
+                    path: "today-before-years",
+                    icon: <FieldTimeOutlined />,
                 },
             ],
         },
