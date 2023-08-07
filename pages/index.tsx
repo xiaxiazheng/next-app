@@ -5,7 +5,7 @@ import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
 import { getTodo } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
-import HomeTips from "../components/common/home-tips";
+// import HomeTips from "../components/common/home-tips";
 
 interface IProps {
     refreshFlag: number;
@@ -69,7 +69,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         }
                     />
                 </Spin>
-                <HomeTips />
+                {/* <HomeTips /> */}
             </main>
         </div>
     );
