@@ -41,7 +41,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [keyword, setKeyword] = useState<string>("");
     const search = () => {
-        router.push(`/todo-list-done?keyword=${keyword}`);
+        router.push(`/todo-list-search?keyword=${keyword}`);
     };
 
     return (

@@ -1,6 +1,6 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoDone, getTodoCategory } from "../../service";
+import { getTodoDone, getTodoCategory, TodoStatus } from "../../service";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
@@ -32,14 +32,18 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [startTime, setStartTime] = useState<string>("");
 
+    const [todoType, setTodoType] = useState<"done" | "all">("done");
+
     const getData = async (key?: string) => {
         setLoading(true);
-        const params = {
+        const params: any = {
             keyword: key || keyword.current,
             pageNo,
             category: activeCategory === "所有" ? "" : activeCategory,
         };
-
+        if (todoType === "done") {
+            params["status"] = TodoStatus.done;
+        }
         if (startTime !== "") {
             params["startTime"] = startTime;
             params["endTime"] = startTime;
@@ -80,17 +84,17 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     };
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
-    }, [activeCategory, startTime]);
+    }, [activeCategory, startTime, todoType]);
 
     // 传给子组件的 keyword
     const [pastKeyword, setPastKeyword] = useState<string>();
 
     return (
         <Spin spinning={loading}>
-            <Header title="已完成 todo" />
+            <Header title="搜索结果" />
             <main className={styles.done}>
                 <h2 className={styles.h2}>
-                    <span>已完成 todo ({total})</span>
+                    <span>搜索结果 ({total})</span>
                     <Space size={8}>
                         {((pastKeyword && pastKeyword !== "") || startTime !== "") && (
                             <Button
@@ -106,6 +110,13 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                 danger
                             />
                         )}
+                        {/* todo 状态 */}
+                        <Button
+                            onClick={() => setTodoType((prev) => (prev === "done" ? "all" : "done"))}
+                            type={isSortTime ? "primary" : "default"}
+                        >
+                            {todoType}
+                        </Button>
                         {/* 排序方式 */}
                         <Button
                             style={{ width: 50 }}
@@ -135,7 +146,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         enterButton
                         allowClear
                         onSearch={() => {
-                            getData();
+                            pageNo === 1 ? getData() : setPageNo(1);
                             setPastKeyword(keyword.current);
                         }}
                     />

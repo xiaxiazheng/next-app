@@ -123,7 +123,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 },
                 {
                     name: "已完成",
-                    path: "todo-list-done",
+                    path: "todo-list-search",
                     icon: <TrophyOutlined />,
                 },
                 {
