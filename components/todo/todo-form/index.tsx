@@ -19,6 +19,8 @@ import {
     AppleFilled,
 } from "@ant-design/icons";
 
+const minCategory = 6;
+
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
 
@@ -26,7 +28,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
         if (
             category.length !== 0 &&
             !category
-                ?.slice(0, 9)
+                ?.slice(0, minCategory)
                 .map((item) => item.category)
                 .includes(value)
         ) {
@@ -39,7 +41,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
     return (
         <>
             <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
-                {(showAll ? category : category?.slice(0, 9))?.map((item) => (
+                {(showAll ? category : category?.slice(0, minCategory))?.map((item) => (
                     <Radio.Button key={item.category} value={item.category}>
                         {item.category} ({item.count})
                     </Radio.Button>
