@@ -242,9 +242,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
         setIsWork(localStorage.getItem("WorkOrLife") || "");
     }, []);
     useEffect(() => {
-        localStorage.setItem("WorkOrLife", isWork);
-        refresh();
-        setShowDrawer(false);
+        if (isWork && isWork !== localStorage.getItem("WorkOrLife")) {
+            localStorage.setItem("WorkOrLife", isWork);
+            refresh();
+            setShowDrawer(false);            
+        }
     }, [isWork]);
 
     return (
