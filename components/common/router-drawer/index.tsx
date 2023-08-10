@@ -326,7 +326,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 onSubmit={(val) => {
                     const map = {
                         [TodoStatus.todo]: "/",
-                        [TodoStatus.done]: "/todo-list-done",
+                        [TodoStatus.done]: "/todo-list-search",
                         [TodoStatus.pool]: "/todo-list-pool",
                     };
                     setShowAddTodo(false);
