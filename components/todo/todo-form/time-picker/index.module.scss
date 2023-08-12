@@ -1,0 +1,16 @@
+.timepicker {
+    .time {
+        color: #a6adb4;
+        padding: 0 20px;
+    }
+    button {
+        &:hover, &:active {
+            color: #a6adb4 !important;
+            border-color: #d9d9d9 !important;
+        }
+    }
+    .active {
+        color: #4096ff !important;
+        border-color: #4096ff !important;
+    }
+}

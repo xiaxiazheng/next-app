@@ -18,6 +18,7 @@ import {
     ThunderboltFilled,
     AppleFilled,
 } from "@ant-design/icons";
+import TimePicker from "./time-picker";
 
 const minCategory = 6;
 
@@ -127,12 +128,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     rules={[{ required: true }]}
                     initialValue={dayjs().format("YYYY-MM-DD")}
                 >
-                    <Radio.Group buttonStyle="solid">
-                        <Radio.Button value={dayjs().format("YYYY-MM-DD")}>Today</Radio.Button>
-                        <Radio.Button value={dayjs().add(1, "day").format("YYYY-MM-DD")}>Tomorrow</Radio.Button>
-                        <Radio.Button value={dayjs().subtract(1, "day").format("YYYY-MM-DD")}>Yesterday</Radio.Button>
-                        {todo && <Radio.Button value={todo.time}>{todo.time}</Radio.Button>}
-                    </Radio.Group>
+                    <TimePicker time={todo?.time} />
                 </Form.Item>
                 <Form.Item name="status" label="状态" rules={[{ required: true }]} initialValue={status}>
                     <Radio.Group buttonStyle="solid">

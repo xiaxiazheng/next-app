@@ -66,3 +66,14 @@
         cursor: pointer;
     }
 }
+
+.timepicker {
+    .time {
+        color: #a6adb4;
+        padding: 0 20px;
+    }    
+    .active {
+        color: #4096ff;
+        border-color: #4096ff;
+    }
+}

@@ -1,0 +1,35 @@
+import { useState, useEffect, useRef } from "react";
+import { Space, Button } from "antd";
+import styles from "./index.module.scss";
+import dayjs from "dayjs";
+import { getRangeFormToday } from "./utils";
+
+const btnList = [
+    { label: "Yesterday", value: dayjs().subtract(1, "day").format("YYYY-MM-DD") },
+    { label: "Today", value: dayjs().format("YYYY-MM-DD") },
+    { label: "Tomorrow", value: dayjs().add(1, "day").format("YYYY-MM-DD") },
+];
+
+const TimePicker = ({ value, onChange, time }: any) => {
+    return (
+        <Space className={styles.timepicker} wrap>
+            <Button onClick={() => onChange(dayjs(value).subtract(1, "day").format("YYYY-MM-DD"))}>减一天</Button>
+            <span className={styles.time}>
+                {value}, {getRangeFormToday(value)}
+            </span>
+            <Button onClick={() => onChange(dayjs(value).add(1, "day").format("YYYY-MM-DD"))}>加一天</Button>
+            {btnList.map((item) => (
+                <Button
+                    key={item.label}
+                    className={`${value === item.value ? styles.active : ""}`}
+                    onClick={() => onChange(item.value)}
+                >
+                    {item.label}
+                </Button>
+            ))}
+            {time && <Button onClick={() => onChange(time)}>{time}</Button>}
+        </Space>
+    );
+};
+
+export default TimePicker;
