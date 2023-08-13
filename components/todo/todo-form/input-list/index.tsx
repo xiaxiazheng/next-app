@@ -28,7 +28,7 @@ const InputList = ({ value = "", onChange }: any) => {
                 <div key={index} className={styles.inputItem}>
                     <TextArea
                         placeholder="补充以及具体描述"
-                        autoSize={{ minRows: 2, maxRows: 10 }}
+                        autoSize={{ minRows: 3, maxRows: 10 }}
                         style={{ wordBreak: "break-all" }}
                         allowClear
                         value={item}

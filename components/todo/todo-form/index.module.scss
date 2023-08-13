@@ -56,24 +56,3 @@
     }
 }
 
-.nameTextArea {
-    position: relative;
-    .deleteIcon {
-        position: absolute;
-        bottom: -24px;
-        right: 0;
-        font-size: 16px;
-        cursor: pointer;
-    }
-}
-
-.timepicker {
-    .time {
-        color: #a6adb4;
-        padding: 0 20px;
-    }    
-    .active {
-        color: #4096ff;
-        border-color: #4096ff;
-    }
-}

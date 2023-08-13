@@ -6,9 +6,9 @@ import { getTodoCategory, TodoStatus } from "../../../service";
 import { colorMap, colorNameMap, colorTitle } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
-import NameTextArea from "./nameTextArea";
+import NameTextArea from "./name-textarea";
 import SwitchComp from "./switch";
-import SearchTodo from "./searchTodo";
+import SelectBeforeTodo from "./select-before-todo";
 import {
     AimOutlined,
     BookOutlined,
@@ -205,7 +205,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     </Space>
                 </Form.Item>
                 <Form.Item name="other_id" label="前置 todo">
-                    <SearchTodo activeTodo={todo} />
+                    <SelectBeforeTodo activeTodo={todo} />
                 </Form.Item>
             </Form>
         </main>
