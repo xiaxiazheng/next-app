@@ -49,7 +49,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                     </span>
                 )}
                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
-                {item.imgList.length !== 0 && <FileImageOutlined className={styles.icon} />}
+                {item?.imgList && item.imgList?.length !== 0 && <FileImageOutlined className={styles.icon} />}
                 <TodoChainIcon item={item} />
             </span>
         </div>

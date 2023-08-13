@@ -17,12 +17,6 @@ const TodoItemList: React.FC<IProps> = (props) => {
     const [showDesc, setShowDesc] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
-    const GetTodoById = async (todo_id: string) => {
-        const res = await getTodoById(todo_id);
-        setActiveTodo(res.data);
-        onRefresh();
-    };
-
     return (
         <>
             {list.map((item) => (
@@ -42,7 +36,8 @@ const TodoItemList: React.FC<IProps> = (props) => {
                 visible={showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
-                onFinish={() => GetTodoById(activeTodo.todo_id)}
+                setActiveTodo={setActiveTodo}
+                onRefresh={onRefresh}
                 keyword={keyword}
             />
         </>

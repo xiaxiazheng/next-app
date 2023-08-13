@@ -31,6 +31,8 @@ import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
 import { TodoStatus } from "../../../service";
 import { Button, Space } from "antd";
+import TodoDetailDrawer from "../../todo/todo-detail-drawer";
+import { TodoItemType } from "../../todo/types";
 
 interface IProps {
     setRouterLoading: Function;
@@ -251,9 +253,27 @@ const RouterDrawer: React.FC<IProps> = (props) => {
         if (isWork && isWork !== localStorage.getItem("WorkOrLife")) {
             localStorage.setItem("WorkOrLife", isWork);
             refresh();
-            setShowDrawer(false);            
+            setShowDrawer(false);
         }
     }, [isWork]);
+
+    const [newTodo, setNewTodo] = useState<TodoItemType>();
+    const [visible2, setVisible2] = useState<boolean>(false);
+
+    const handleCloseAdd = () => {
+        const map = {
+            [TodoStatus.todo]: "/",
+            [TodoStatus.done]: "/todo-list-search",
+            [TodoStatus.pool]: "/todo-list-pool",
+        };
+        setShowAddTodo(false);
+        if (router.route === map[newTodo.status]) {
+            refresh();
+            setNewTodo(undefined);
+        } else {
+            router.push(map[newTodo.status]);
+        }
+    };
 
     return (
         <>
@@ -324,19 +344,24 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 open={showAddTodo}
                 onClose={() => setShowAddTodo(false)}
                 onSubmit={(val) => {
-                    const map = {
-                        [TodoStatus.todo]: "/",
-                        [TodoStatus.done]: "/todo-list-search",
-                        [TodoStatus.pool]: "/todo-list-pool",
-                    };
+                    setNewTodo(val);
+                    setVisible2(true);
                     setShowAddTodo(false);
-                    if (router.route === map[val.status]) {
-                        refresh();
-                    } else {
-                        router.push(map[val.status]);
-                    }
                 }}
             />
+            {newTodo && (
+                <TodoDetailDrawer
+                    activeTodo={newTodo}
+                    setActiveTodo={setNewTodo}
+                    visible={visible2}
+                    setVisible={setVisible2}
+                    keyword={""}
+                    onRefresh={refresh}
+                    onClose={() => {
+                        handleCloseAdd();
+                    }}
+                />
+            )}
             {!showDrawer && !showAddTodo && (
                 <>
                     {tips1}

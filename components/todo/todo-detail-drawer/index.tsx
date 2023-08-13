@@ -14,9 +14,11 @@ import TodoChainIcon, { hasChainIcon } from "../todo-item-list/todo-chain-icon";
 
 interface IProps {
     activeTodo: TodoItemType;
+    setActiveTodo: (item: TodoItemType) => void; // 用于刷新 activeTodo
     visible: boolean;
     setVisible: Function;
-    onFinish: Function;
+    onRefresh: Function; // 触发刷新外部列表
+    onClose?: Function; // 关闭弹窗时触发
     keyword?: string;
 }
 
@@ -24,7 +26,7 @@ export const splitStr = "<#####>";
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
-    const { activeTodo, visible, setVisible, onFinish, keyword } = props;
+    const { activeTodo, setActiveTodo, visible, setVisible, onRefresh, onClose, keyword } = props;
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleDone = async () => {
@@ -36,10 +38,15 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         const res = await DoneTodoItem(params);
         if (res) {
             message.success(res.message);
-            setVisible(false);
-            onFinish();
+            handleClose();
+            onRefresh();
         }
         setLoading(false);
+    };
+
+    const handleClose = () => {
+        setVisible(false);
+        onClose?.();
     };
 
     const [showEdit, setShowEdit] = useState<boolean>(false);
@@ -60,16 +67,21 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             setActiveTodo2(res.data);
             setVisible2(true);
         }
-        onFinish();
+        onRefresh();
         setShowEdit(false);
     };
+
+    const handleUpload = async () => {
+        const res = await GetTodoById(activeTodo.todo_id);
+        setActiveTodo(res.data);
+    }
 
     return (
         <>
             <DrawerWrapper
                 title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} />}
                 open={visible}
-                onClose={() => setVisible(false)}
+                onClose={handleClose}
                 footer={
                     <div
                         style={{
@@ -137,10 +149,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 <div style={{ fontSize: 14 }}>
                     {activeTodo?.description && renderDescription(activeTodo.description, keyword)}
                 </div>
-                {activeTodo?.imgList && (
+                {activeTodo?.todo_id && (
                     <div style={{ marginTop: 10 }}>
-                        <UploadImageFile type="todo" otherId={activeTodo.todo_id} refreshImgList={onFinish} />
-                        <PreviewImages imagesList={activeTodo.imgList} />
+                        <UploadImageFile type="todo" otherId={activeTodo.todo_id} refreshImgList={handleUpload} />
+                        {activeTodo?.imgList && <PreviewImages imagesList={activeTodo.imgList} />}
                     </div>
                 )}
             </DrawerWrapper>
@@ -155,10 +167,11 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             {activeTodo && (
                 <TodoDetailDrawer
                     activeTodo={activeTodo2}
+                    setActiveTodo={setActiveTodo2}
                     visible={visible2}
                     setVisible={setVisible2}
                     keyword={keyword}
-                    onFinish={onFinish}
+                    onRefresh={onRefresh}
                 />
             )}
         </>
