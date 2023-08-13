@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
-import { handleHighlight } from "../utils";
+import { getFootPrintList, handleHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
 
 interface IProps {
@@ -40,7 +40,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 书签 */}
             {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-            <span onClick={() => onClick && onClick(item)}>
+            <span onClick={() => onClick && onClick(item)} style={{ ...judgeIsLastModify(item.todo_id) }}>
                 {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                     <s>{handleHighlight(item.name, keyword)}</s>
                 ) : (

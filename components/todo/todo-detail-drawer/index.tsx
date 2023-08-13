@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import { OperatorType, TodoItemType } from "../types";
 import styles from "./index.module.scss";
-import { renderDescription } from "../utils";
+import { renderDescription, setFootPrintList } from "../utils";
 import { Button, message, Space } from "antd";
 import { DoneTodoItem, getTodoById, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
@@ -27,6 +27,12 @@ export const splitStr = "<#####>";
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const { activeTodo, setActiveTodo, visible, setVisible, onRefresh, onClose, keyword } = props;
+
+    useEffect(() => {
+        if (activeTodo) {
+            setFootPrintList(activeTodo?.todo_id);
+        }
+    }, [activeTodo]);
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleDone = async () => {
@@ -63,9 +69,13 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
 
     const onSubmit = async (val: TodoItemType) => {
         if (operatorType !== "edit") {
+            // 如果不是编辑，说明是新增，需要在 activeTodo2 的详情弹窗展示新增的
             const res = await GetTodoById(val.todo_id);
             setActiveTodo2(res.data);
             setVisible2(true);
+        } else {
+            // 如果是编辑，就要更新当前这个 activeTodo
+            setActiveTodo({ ...activeTodo, ...val });
         }
         onRefresh();
         setShowEdit(false);
@@ -74,7 +84,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const handleUpload = async () => {
         const res = await GetTodoById(activeTodo.todo_id);
         setActiveTodo(res.data);
-    }
+    };
 
     return (
         <>

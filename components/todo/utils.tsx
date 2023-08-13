@@ -152,3 +152,44 @@ export const getShowList = (list: TodoItemType[], params: { isSortTime: boolean;
         ? l
         : l.filter((item) => item.name.indexOf(keyword) !== -1 || item.description.indexOf(keyword) !== -1);
 };
+
+interface FootprintType {
+    todo_id: string;
+    edit_time: string;
+}
+const key = "todo_footprint_id_list";
+const maxLength = 5;
+
+export const getFootPrintList = (): FootprintType[] => {
+    const str = localStorage.getItem(key);
+    return str ? JSON.parse(str) : [];
+};
+
+export const setFootPrintList = (todo_id: string) => {
+    const list = getFootPrintList();
+    const l = [
+        {
+            todo_id,
+            edit_time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        },
+    ]
+        .concat(list.filter((item) => item.todo_id !== todo_id))
+        .slice(0, maxLength);
+    localStorage.setItem(key, JSON.stringify(l));
+};
+
+// 判断是否是最后几次操作的 todo
+const latestColorList = [
+    "rgba(175, 226, 177, 0.45)",
+    "rgba(175, 226, 177, 0.2)",
+    "rgba(175, 226, 177, 0.1)",
+];
+export const judgeIsLastModify = (todo_id: string) => {
+    const index = getFootPrintList()
+        .slice(0, 3)
+        .map((item) => item.todo_id)
+        .indexOf(todo_id);
+    return index !== -1
+        ? { backgroundColor: latestColorList[index], display: "inline" }
+        : {};
+};
