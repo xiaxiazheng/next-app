@@ -156,13 +156,17 @@ export const getTodoPunchTheClock = async (): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoTarget = async (): Promise<TodoRes | false> => {
+export const getTodoTarget = async (obj: any = {}): Promise<TodoRes | false> => {
     const params: any = {
         isTarget: "1",
         pageNo: 1,
         pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
+    const { status } = obj;
+    if (typeof status === 'number') {
+        params['status'] = status;
+    }
     const isWork = getIsWork();
     if (isWork !== "") {
         params["isWork"] = isWork;

@@ -14,6 +14,7 @@ import Category from "../category";
 import { TodoItemType } from "../types";
 import { getFootPrintList, handleHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
+import { handleIsTodayPunchTheClock } from "../todo-form-punch-the-clock/utils";
 
 interface IProps {
     item: TodoItemType;
@@ -21,6 +22,16 @@ interface IProps {
     keyword: string;
     showTime?: boolean;
 }
+
+const judgeIsPunchTheClock = (item: TodoItemType) => {
+    if (!item.timeRange) return {};
+
+    if (handleIsTodayPunchTheClock(item)) {
+        return { color: "#6bb167" };
+    } else {
+        return { color: "#c15b5b" };
+    }
+};
 
 const TodoItemTitle: React.FC<IProps> = (props) => {
     const { item, onClick, keyword, showTime = false } = props;
@@ -40,7 +51,10 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 书签 */}
             {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-            <span onClick={() => onClick && onClick(item)} style={{ ...judgeIsLastModify(item.todo_id) }}>
+            <span
+                onClick={() => onClick && onClick(item)}
+                style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
+            >
                 {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                     <s>{handleHighlight(item.name, keyword)}</s>
                 ) : (
