@@ -56,7 +56,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                 style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
             >
                 {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
-                    <s>{handleHighlight(item.name, keyword)}</s>
+                    <s>{handleHighlight(item.name, keyword)} {showTime && `(${item.time})`}</s>
                 ) : (
                     <span>
                         {handleHighlight(item.name, keyword)} {showTime && `(${item.time})`}
