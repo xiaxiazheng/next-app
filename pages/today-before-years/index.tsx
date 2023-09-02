@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoList } from "../../service";
+import { getTodo, getTodoList, TodoStatus } from "../../service";
 import TodoDayList from "../../components/todo/todo-day-list";
 import dayjs from "dayjs";
 
@@ -23,6 +23,7 @@ const TodayBeforeYears: React.FC<IProps> = ({ refreshFlag }) => {
             pageSize: 100,
             startTime: time,
             endTime: time,
+            status: TodoStatus.done,
         });
         if (res) {
             setTodoList(prev => prev.concat(res.data.list));
