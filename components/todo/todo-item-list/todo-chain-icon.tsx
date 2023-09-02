@@ -4,7 +4,7 @@ import { TodoItemType } from "../types";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 
 export const hasChainIcon = (item: TodoItemType) => {
-    const isHasChild = item?.child_todo_list_length !== 0;
+    const isHasChild = item?.child_todo_list_length && item?.child_todo_list_length !== 0;
     const isUp = item?.other_id;
     const isDown = isHasChild;
 
