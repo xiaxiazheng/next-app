@@ -86,8 +86,6 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         setActiveTodo(res.data);
     };
 
-    console.log('activeTodo', activeTodo);
-
     return (
         <>
             <DrawerWrapper
