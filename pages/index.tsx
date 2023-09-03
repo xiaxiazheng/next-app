@@ -91,7 +91,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                 <Spin spinning={loading}>
                     <TodoDayList
                         list={todoList}
-                        getData={getTodo}
+                        getData={getData}
                         title="todo"
                         isReverse={true}
                         search={
