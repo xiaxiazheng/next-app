@@ -134,8 +134,8 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <ExperimentOutlined />,
                 },
                 {
-                    name: "打卡",
-                    path: "todo-list-punch-the-clock",
+                    name: "习惯",
+                    path: "todo-list-habit",
                     icon: <CheckSquareOutlined />,
                 },
                 {

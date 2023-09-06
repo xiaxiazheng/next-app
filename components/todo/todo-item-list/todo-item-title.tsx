@@ -14,7 +14,7 @@ import Category from "../category";
 import { TodoItemType } from "../types";
 import { getFootPrintList, handleHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
-import { handleIsTodayPunchTheClock } from "../todo-form-punch-the-clock/utils";
+import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 
 interface IProps {
     item: TodoItemType;

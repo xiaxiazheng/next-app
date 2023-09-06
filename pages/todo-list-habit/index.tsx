@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, getTodoPunchTheClock } from "../../service";
+import { AddTodoItem, getTodoHabit } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import { CreateTodoItemReq, TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import PunchTheClockCalendar from "./Calendar";
-import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/todo/todo-form-punch-the-clock/utils";
+import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/todo/todo-form-habit/utils";
 
 dayjs.locale("zh-cn");
 
@@ -24,7 +24,7 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await getTodoPunchTheClock();
+        const res = await getTodoHabit();
         if (res) {
             const list = res.data.list.filter((item: TodoItemType) => !!item.timeRange);
             setTodoList(list);

@@ -4,7 +4,7 @@ import { Calendar } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { handleTimeRange } from "../../components/todo/todo-form-punch-the-clock/utils";
+import { handleTimeRange } from "../../components/todo/todo-form-habit/utils";
 
 interface IProps {
     active: TodoItemType | undefined;

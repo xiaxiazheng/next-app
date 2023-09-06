@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoDone, getTodoTarget, TodoStatus } from "../service";
+import { getTodo, getTodoDone, getTodoHabit, TodoStatus } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
@@ -26,7 +26,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [todoList, setTodoList] = useState([]);
     const [doneList, setDoneList] = useState([]);
-    const [targetList, setTargetList] = useState([]);
+    const [habitList, setHabitList] = useState([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -35,7 +35,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         setLoading(true);
         const res = await getTodo();
         if (res) {
-            setTodoList(res.data.list);
+            setTodoList(res.data.list.filter(item => !item.timeRange));
         }
         setLoading(false);
     };
@@ -59,11 +59,11 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     // 获取打卡情况
     const getTodoHabitTodoList = async () => {
         setLoading(true);
-        const res = await getTodoTarget({
+        const res = await getTodoHabit({
             status: TodoStatus.todo
         });
         if (res) {
-            setTargetList(res.data.list);
+            setHabitList(res.data.list);
         }
         setLoading(false);
     };
@@ -110,8 +110,8 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     />
                     <div className={styles.time}>今日已完成 ({doneList?.length})</div>
                     <TodoItemList list={doneList} onRefresh={getTodoDone} />
-                    <div className={styles.time}>想养成的习惯 ({targetList?.length})</div>
-                    <TodoItemList list={targetList} onRefresh={getTodoHabitTodoList} />
+                    <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
+                    <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
                 </Spin>
                 <div
                     className={styles.beforeToday}

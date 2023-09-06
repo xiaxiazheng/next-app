@@ -141,12 +141,20 @@ export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoPunchTheClock = async (): Promise<TodoRes | false> => {
+export const getTodoHabit = async (obj: any = {}): Promise<TodoRes | false> => {
     const params: any = {
         isPunchTheClock: "1",
         pageNo: 1,
-        pageSize: 100,
+        pageSize: 60,
     };
+    const { status } = obj;
+    if (typeof status === 'number') {
+        params['status'] = status;
+    }
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
     const res = await postFetch(`/todo/getTodoList`, params);
     if (res) {
         const data = res.json();
@@ -160,7 +168,7 @@ export const getTodoTarget = async (obj: any = {}): Promise<TodoRes | false> => 
     const params: any = {
         isTarget: "1",
         pageNo: 1,
-        pageSize: 100,
+        pageSize: 60,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
     const { status } = obj;

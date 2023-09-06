@@ -6,9 +6,9 @@ import { AddTodoItem, EditTodoItem, getTodoById, TodoStatus } from "../../../ser
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType, TodoItemType } from "../types";
-import TodoFormPunchTheClock from "../todo-form-punch-the-clock";
+import TodoFormPunchTheClock from "../todo-form-habit";
 import dayjs from "dayjs";
-import { timeRangeStringify } from "../todo-form-punch-the-clock/utils";
+import { timeRangeStringify } from "../todo-form-habit/utils";
 
 interface IProps extends DrawerProps {
     todo_id?: string;

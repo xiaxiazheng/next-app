@@ -5,10 +5,10 @@ import { TodoItemType } from "../../todo/types";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { Space } from "antd";
-import { handleIsTodayPunchTheClock } from "../../todo/todo-form-punch-the-clock/utils";
+import { handleIsTodayPunchTheClock } from "../../todo/todo-form-habit/utils";
 
 interface MsgType {
-    type: "todo-list" | "todo-list-punch-the-clock";
+    type: "todo-list" | "todo-list-habit";
     message: string;
 }
 
@@ -35,7 +35,7 @@ const HomeTips: React.FC = (props) => {
         }
 
         return {
-            type: "todo-list-punch-the-clock",
+            type: "todo-list-habit",
             message: res && list.length !== 0 ? `今日还有 ${list.length} 条任务没有打卡` : "",
         };
     };
