@@ -31,15 +31,18 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     showTime={showTime}
                 />
             ))}
-            {/* 详情弹窗 */}
+            // 普通详情弹窗
             <TodoDetailDrawer
                 visible={showDesc}
+                // visible={!activeTodo?.timeRange && showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
                 setActiveTodo={setActiveTodo}
                 onRefresh={onRefresh}
                 keyword={keyword}
             />
+            // 打卡详情弹窗
+            // todo，得把 todo-list-habit 里分离出来才行
         </>
     );
 };
