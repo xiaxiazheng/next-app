@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Calendar } from "antd";
-import { TodoItemType } from "../../components/todo/types";
+import { TodoItemType } from "../types";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { handleTimeRange } from "../../components/todo/todo-form-habit/utils";
+import { handleTimeRange } from "../todo-form-habit/utils";
 
 interface IProps {
     active: TodoItemType | undefined;
 }
 
-const PunchTheClockCalendar: React.FC<IProps> = (props) => {
+const HabitCalendar: React.FC<IProps> = (props) => {
     const { active } = props;
 
     const childDateList = active?.child_todo_list?.map((item) => item.time) || [];
@@ -98,4 +98,4 @@ const PunchTheClockCalendar: React.FC<IProps> = (props) => {
     );
 };
 
-export default PunchTheClockCalendar;
+export default HabitCalendar;

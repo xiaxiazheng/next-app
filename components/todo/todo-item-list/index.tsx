@@ -3,6 +3,7 @@ import { getTodoById, TodoStatus } from "../../../service";
 import { TodoItemType } from "../types";
 import TodoDetailDrawer from "../todo-detail-drawer";
 import TodoItemTitle from "./todo-item-title";
+import TodoHabitDrawer from "../todo-habit-drawer";
 
 interface IProps {
     list: TodoItemType[];
@@ -15,6 +16,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
     const { list, onRefresh, showTime = false, keyword } = props;
 
     const [showDesc, setShowDesc] = useState<boolean>(false);
+    const [showHabit, setShowHabit] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
 
     return (
@@ -25,24 +27,31 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     item={item}
                     onClick={(item) => {
                         setActiveTodo(item);
-                        setShowDesc(true);
+                        if (item?.timeRange) {
+                            setShowHabit(true);
+                        } else {
+                            setShowDesc(true);
+                        }
                     }}
                     keyword={keyword}
                     showTime={showTime}
                 />
             ))}
-            // 普通详情弹窗
+            {/* 普通详情弹窗 */}
             <TodoDetailDrawer
                 visible={showDesc}
-                // visible={!activeTodo?.timeRange && showDesc}
                 setVisible={setShowDesc}
                 activeTodo={activeTodo}
                 setActiveTodo={setActiveTodo}
                 onRefresh={onRefresh}
                 keyword={keyword}
             />
-            // 打卡详情弹窗
-            // todo，得把 todo-list-habit 里分离出来才行
+            {/* 打卡详情弹窗 */}
+            <TodoHabitDrawer
+                active={showHabit && activeTodo}
+                handleClose={() => setActiveTodo(undefined)}
+                onRefresh={onRefresh}
+            />
         </>
     );
 };

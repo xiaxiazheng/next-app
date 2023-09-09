@@ -3,13 +3,12 @@ import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { AddTodoItem, getTodoHabit } from "../../service";
 import { Button, message, Space, Spin } from "antd";
-import { CreateTodoItemReq, TodoItemType } from "../../components/todo/types";
+import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
-import DrawerWrapper from "../../components/common/drawer-wrapper";
-import PunchTheClockCalendar from "./Calendar";
 import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/todo/todo-form-habit/utils";
+import TodoHabitDrawer, { renderHabitDetail } from "../../components/todo/todo-habit-drawer";
 
 dayjs.locale("zh-cn");
 
@@ -46,49 +45,6 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     };
 
     const [active, setActive] = useState<TodoItemType>();
-
-    const punchTheClock = async (active: TodoItemType) => {
-        const val: CreateTodoItemReq = {
-            category: active.category,
-            color: active.color,
-            description: active.description,
-            name: `打卡：${active.name}`,
-            isBookMark: "0",
-            isNote: "0",
-            isTarget: "0",
-            doing: "0",
-            other_id: active.todo_id,
-            status: "1",
-            isWork: "0",
-            time: dayjs().format("YYYY-MM-DD"),
-        };
-        await AddTodoItem(val);
-        message.success("打卡成功");
-        setActive(undefined);
-        getData();
-    };
-
-    const renderDetail = (item: TodoItemType) => {
-        const { startTime, endTime, target } = handleTimeRange(item.timeRange);
-        return (
-            <>
-                <div>
-                    打卡开始日期：{startTime}，已经进行 {dayjs(endTime).diff(dayjs(startTime), "d")} 天
-                </div>
-                <div>
-                    达标天数：{target}，
-                    {item.child_todo_list_length < target
-                        ? `还差 ${target - item.child_todo_list_length} 天`
-                        : `已达成目标`}
-                </div>
-                <div>已打卡天数：{item.child_todo_list_length}</div>
-                <div>
-                    今日：
-                    {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
-                </div>
-            </>
-        );
-    };
 
     return (
         <Spin spinning={loading}>
@@ -132,7 +88,7 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
                                 }}
                             >
                                 <div className={styles.name}>{item.name}</div>
-                                {renderDetail(item)}
+                                {renderHabitDetail(item)}
                             </div>
                         ))}
                 </div>
@@ -142,41 +98,14 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
                     onClose={() => {
                         setShowAdd(false);
                     }}
-                    operatorType={active ? "edit" : "add"}
+                    operatorType={"add"}
                     onSubmit={() => {
                         getData();
                         setShowAdd(false);
                     }}
                     isPunchTheClock={true}
                 />
-                <DrawerWrapper
-                    title={active?.name}
-                    footer={
-                        <Space style={{ paddingBottom: 20 }}>
-                            <Button
-                                onClick={() => {
-                                    setShowAdd(true);
-                                }}
-                            >
-                                修改打卡计划
-                            </Button>
-                            {handleIsTodayPunchTheClock(active) ? (
-                                <Button type="primary" style={{ background: "green" }}>
-                                    今日已打卡
-                                </Button>
-                            ) : (
-                                <Button type="primary" onClick={() => punchTheClock(active)}>
-                                    现在打卡
-                                </Button>
-                            )}
-                        </Space>
-                    }
-                    open={!!active}
-                    onClose={() => setActive(undefined)}
-                >
-                    <PunchTheClockCalendar active={active} />
-                    {active && renderDetail(active)}
-                </DrawerWrapper>
+                <TodoHabitDrawer active={active} handleClose={() => setActive(undefined)} onRefresh={() => getData()} />
             </main>
         </Spin>
     );

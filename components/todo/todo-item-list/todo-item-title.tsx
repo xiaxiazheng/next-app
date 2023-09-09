@@ -15,6 +15,7 @@ import { TodoItemType } from "../types";
 import { getFootPrintList, handleHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
+import TodoHabitIcon from "../todo-habit-drawer/todo-habit-icon";
 
 interface IProps {
     item: TodoItemType;
@@ -65,6 +66,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
                 {item?.imgList && item.imgList?.length !== 0 && <FileImageOutlined className={styles.icon} />}
                 <TodoChainIcon item={item} />
+                <TodoHabitIcon item={item} />
             </span>
         </div>
     );
