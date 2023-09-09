@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react";
 import { AddTodoItem } from "../../../service";
-import { Button, message, Space } from "antd";
+import { Button, Input, message, Space } from "antd";
 import { CreateTodoItemReq, TodoItemType } from "../types";
-import TodoFormDrawer from "../todo-form-drawer";
 import dayjs from "dayjs";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import PunchTheClockCalendar from "./Calendar";
-import { handleIsTodayPunchTheClock, handleTimeRange } from "../todo-form-habit/utils";
+import HabitCalendar from "./Calendar";
+import { getToday, getZeroDay, handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
+import { getRangeFormToday } from "../utils";
 
 dayjs.locale("zh-cn");
 
 export const renderHabitDetail = (item: TodoItemType) => {
-    const { startTime, endTime, target } = handleTimeRange(item.timeRange);
+    const untilNow = getToday().diff(getZeroDay(item.time), "d") + 1;
+    const lastDoneTodo = item.child_todo_list?.[0];
+    const lastDoneDay = lastDoneTodo?.time;
     return (
         <>
             <div>
-                打卡开始日期：{startTime}，已经进行 {dayjs(endTime).diff(dayjs(startTime), "d")} 天
-            </div>
-            <div>
-                达标天数：{target}，
-                {item.child_todo_list_length < target
-                    ? `还差 ${target - item.child_todo_list_length} 天`
-                    : `已达成目标`}
-            </div>
-            <div>已打卡天数：{item.child_todo_list_length}</div>
-            <div>
-                今日：
+                今日
                 {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
             </div>
+            <div>习惯的描述：{item?.description || '暂无'}</div>
+            <div>
+                习惯立项日期：{item.time} {getRangeFormToday(item.time)}
+            </div>
+            <div>
+                已打卡天数：{item.child_todo_list_length} / {untilNow}
+            </div>
+            <div>最后一次打卡时间：{lastDoneDay ? `${lastDoneDay} ${getRangeFormToday(lastDoneDay)}` : "暂无"}</div>
+            <div>最后一次打卡的描述：{lastDoneTodo?.description || "暂无"}</div>
         </>
     );
 };
@@ -44,8 +45,8 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
     const punchTheClock = async (active: TodoItemType) => {
         const val: CreateTodoItemReq = {
             category: active.category,
-            color: active.color,
-            description: active.description,
+            color: `${active.color}` !== "3" ? `${Number(active.color) + 1}` : active.color,
+            description: desc,
             name: `打卡：${active.name}`,
             isBookMark: "0",
             isNote: "0",
@@ -54,6 +55,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             other_id: active.todo_id,
             status: "1",
             isWork: "0",
+            isHabit: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await AddTodoItem(val);
@@ -64,13 +66,17 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
 
     // const [showEdit, setShowEdit] = useState<boolean>(false);
 
+    const [desc, setDesc] = useState<string>("");
+
+    const isTodayDone = handleIsTodayPunchTheClock(active);
+
     return (
         <>
             <DrawerWrapper
                 title={active?.name}
                 footer={
                     <Space style={{ paddingBottom: 20 }}>
-                        {handleIsTodayPunchTheClock(active) ? (
+                        {isTodayDone ? (
                             <Button type="primary" style={{ background: "green" }}>
                                 今日已打卡
                             </Button>
@@ -91,8 +97,16 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                 open={!!active}
                 onClose={() => handleClose?.()}
             >
-                <PunchTheClockCalendar active={active} />
+                <HabitCalendar active={active} />
                 {active && renderHabitDetail(active)}
+                {!isTodayDone && (
+                    <Input
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
+                        style={{ marginTop: 12 }}
+                        placeholder="可以输入打卡时带上的描述"
+                    />
+                )}
             </DrawerWrapper>
             {/* <TodoFormDrawer
                 todo_id={active?.todo_id}

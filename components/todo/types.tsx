@@ -37,7 +37,7 @@ export interface TodoItemType {
     isTarget?: "0" | "1";
     isBookMark?: "0" | "1";
     isWork?: "0" | "1";
-    timeRange?: string;
+    isHabit?: string;
 
     imgList: ImageType[];
     fileList: FileType[];
@@ -59,7 +59,7 @@ export interface CreateTodoItemReq {
   isTarget: "0" | "1";
   isBookMark: "0" | "1";
   isWork: "0" | "1";
-  timeRange?: string;
+  isHabit: "0" | "1";
 }
 
 export interface EditTodoItemReq extends CreateTodoItemReq {

@@ -6,7 +6,6 @@ import { getTodoCategory } from "../../../service";
 import { colorMap, colorNameMap, colorTitle } from "../constant";
 import { TodoItemType } from "../types";
 import InputList from "../todo-form/input-list";
-import { timeRangeParse } from "./utils";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
@@ -26,19 +25,6 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
     useEffect(() => {
         getCategory();
     }, []);
-
-    useEffect(() => {
-        if (todo) {
-            const { startTime, target } = timeRangeParse(todo.timeRange);
-            form.setFieldsValue({
-                ...todo,
-                startTime,
-                // range,
-                target,
-                status: Number(todo.status),
-            });
-        }
-    }, [todo]);
 
     return (
         <main className={styles.edit_todo}>

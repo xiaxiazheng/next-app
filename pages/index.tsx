@@ -35,7 +35,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         setLoading(true);
         const res = await getTodo();
         if (res) {
-            setTodoList(res.data.list.filter(item => !item.timeRange));
+            setTodoList(res.data.list.filter(item => item.isHabit !== '1'));
         }
         setLoading(false);
     };

@@ -143,7 +143,7 @@ export const getTodoBookMark = async (): Promise<TodoRes | false> => {
 
 export const getTodoHabit = async (obj: any = {}): Promise<TodoRes | false> => {
     const params: any = {
-        isPunchTheClock: "1",
+        isHabit: "1",
         pageNo: 1,
         pageSize: 60,
     };

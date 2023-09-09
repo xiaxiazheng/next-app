@@ -4,7 +4,7 @@ import { Calendar } from "antd";
 import { TodoItemType } from "../types";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { handleTimeRange } from "../todo-form-habit/utils";
+import { getToday } from "../todo-form-habit/utils";
 
 interface IProps {
     active: TodoItemType | undefined;
@@ -23,7 +23,7 @@ const HabitCalendar: React.FC<IProps> = (props) => {
 
     if (!active) return null;
 
-    const { startTime, endTime } = handleTimeRange(active.timeRange);
+    const startTime = active.time, endTime = getToday();
     const endTimeAddOne = dayjs(endTime).add(1, "day");
 
     return (

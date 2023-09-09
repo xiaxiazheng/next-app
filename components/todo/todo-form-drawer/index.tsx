@@ -6,19 +6,16 @@ import { AddTodoItem, EditTodoItem, getTodoById, TodoStatus } from "../../../ser
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType, TodoItemType } from "../types";
-import TodoFormPunchTheClock from "../todo-form-habit";
 import dayjs from "dayjs";
-import { timeRangeStringify } from "../todo-form-habit/utils";
 
 interface IProps extends DrawerProps {
     todo_id?: string;
     operatorType: OperatorType;
     onSubmit?: (val: any) => void;
-    isPunchTheClock?: boolean; // 是否是打卡任务
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, open, operatorType, onSubmit, isPunchTheClock, onClose } = props;
+    const { todo_id, open, operatorType, onSubmit, onClose } = props;
 
     const [data, setData] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
@@ -42,35 +39,24 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         await form.validateFields();
 
         let val = form.getFieldsValue();
-        // 如果是打卡任务
-        if (isPunchTheClock) {
-            const { startTime, range, target, ...rest } = val;
-            const timeRange = timeRangeStringify({
-                startTime,
-                // range,
-                target,
-            });
-            if (data) {
-                // 编辑
-                val = {
-                    ...data,
-                    ...rest,
-                    timeRange,
-                };
-            } else {
-                // 新增
-                val = {
-                    doing: "0",
-                    isBookMark: "0",
-                    isNote: "0",
-                    isTarget: "1",
-                    other_id: "",
-                    status: 0,
-                    time: dayjs().format("YYYY-MM-DD"),
-                    ...rest,
-                    timeRange,
-                };
-            }
+        if (data) {
+            // 编辑
+            val = {
+                ...data,
+                ...val
+            };
+        } else {
+            // 新增
+            val = {
+                doing: "0",
+                isBookMark: "0",
+                isNote: "0",
+                isTarget: "1",
+                other_id: "",
+                status: 0,
+                time: dayjs().format("YYYY-MM-DD"),
+                ...val,
+            };
         }
 
         setLoading(true);
@@ -119,26 +105,16 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             }}
         >
             <Spin spinning={loading}>
-                {isPunchTheClock ? (
-                    <TodoFormPunchTheClock
-                        form={form}
-                        todo={data}
-                        onFieldsChange={() => {
-                            setIsEdit(true);
-                        }}
-                    />
-                ) : (
-                    <TodoForm
-                        form={form}
-                        status={TodoStatus.todo}
-                        todo={data}
-                        operatorType={operatorType}
-                        onFieldsChange={() => {
-                            setIsEdit(true);
-                            setIsClose(false);
-                        }}
-                    />
-                )}
+                <TodoForm
+                    form={form}
+                    status={TodoStatus.todo}
+                    todo={data}
+                    operatorType={operatorType}
+                    onFieldsChange={() => {
+                        setIsEdit(true);
+                        setIsClose(false);
+                    }}
+                />
             </Spin>
         </DrawerWrapper>
     );

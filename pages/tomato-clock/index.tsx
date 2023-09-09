@@ -98,6 +98,7 @@ const TomatoClock = () => {
             other_id: "",
             status: "1",
             isWork: "0",
+            isHabit: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await AddTodoItem(val);

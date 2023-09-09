@@ -27,7 +27,7 @@ const TodoItemList: React.FC<IProps> = (props) => {
                     item={item}
                     onClick={(item) => {
                         setActiveTodo(item);
-                        if (item?.timeRange) {
+                        if (item && item.isHabit === '1') {
                             setShowHabit(true);
                         } else {
                             setShowDesc(true);

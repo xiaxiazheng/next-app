@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, getTodoHabit, TodoStatus } from "../../service";
-import { Button, message, Space, Spin } from "antd";
+import { getTodoHabit, TodoStatus } from "../../service";
+import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
-import { handleIsTodayPunchTheClock, handleTimeRange } from "../../components/todo/todo-form-habit/utils";
+import { handleIsTodayPunchTheClock } from "../../components/todo/todo-form-habit/utils";
 import TodoHabitDrawer, { renderHabitDetail } from "../../components/todo/todo-habit-drawer";
 
 dayjs.locale("zh-cn");
@@ -106,7 +106,6 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
                         getData();
                         setShowAdd(false);
                     }}
-                    isPunchTheClock={true}
                 />
                 <TodoHabitDrawer active={active} handleClose={() => setActive(undefined)} onRefresh={() => getData()} />
             </main>

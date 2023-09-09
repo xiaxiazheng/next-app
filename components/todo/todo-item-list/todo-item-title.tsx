@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const judgeIsPunchTheClock = (item: TodoItemType) => {
-    if (!item.timeRange) return {};
+    if (item.isHabit !== '1') return {};
 
     if (handleIsTodayPunchTheClock(item)) {
         return { color: "#6bb167" };

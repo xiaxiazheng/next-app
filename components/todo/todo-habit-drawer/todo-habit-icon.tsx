@@ -7,7 +7,7 @@ import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
 
-    if (!item.timeRange) {
+    if (item.isHabit !== '1') {
         return null;
     }
 
