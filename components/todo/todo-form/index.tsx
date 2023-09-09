@@ -17,6 +17,7 @@ import {
     DownCircleOutlined,
     ThunderboltFilled,
     AppleFilled,
+    ClockCircleOutlined,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
 
@@ -186,7 +187,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} /> 公告
+                                    <StarFilled style={{ color: "#ffeb3b" }} /> 公告
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -198,7 +199,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} /> 存档
+                                    <BookOutlined style={{ color: "#ffeb3b" }} /> 存档
                                 </span>
                             </SwitchComp>
                         </Form.Item>

@@ -62,7 +62,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
         handleClose?.();
     };
 
-    const [showEdit, setShowEdit] = useState<boolean>(false);
+    // const [showEdit, setShowEdit] = useState<boolean>(false);
 
     return (
         <>
@@ -70,13 +70,6 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                 title={active?.name}
                 footer={
                     <Space style={{ paddingBottom: 20 }}>
-                        <Button
-                            onClick={() => {
-                                setShowEdit(true);
-                            }}
-                        >
-                            修改打卡计划
-                        </Button>
                         {handleIsTodayPunchTheClock(active) ? (
                             <Button type="primary" style={{ background: "green" }}>
                                 今日已打卡
@@ -86,6 +79,13 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                                 现在打卡
                             </Button>
                         )}
+                        {/* <Button
+                            onClick={() => {
+                                setShowEdit(true);
+                            }}
+                        >
+                            编辑
+                        </Button> */}
                     </Space>
                 }
                 open={!!active}
@@ -94,7 +94,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                 <PunchTheClockCalendar active={active} />
                 {active && renderHabitDetail(active)}
             </DrawerWrapper>
-            <TodoFormDrawer
+            {/* <TodoFormDrawer
                 todo_id={active?.todo_id}
                 open={showEdit}
                 onClose={() => {
@@ -105,8 +105,8 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                     onRefresh?.();
                     setShowEdit(false);
                 }}
-                isPunchTheClock={true}
-            />
+                // isPunchTheClock={true}
+            /> */}
         </>
     );
 };

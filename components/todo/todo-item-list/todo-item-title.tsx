@@ -52,6 +52,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 书签 */}
             {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
+            <TodoHabitIcon item={item} />
             <span
                 onClick={() => onClick && onClick(item)}
                 style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
@@ -66,7 +67,6 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
                 {item?.imgList && item.imgList?.length !== 0 && <FileImageOutlined className={styles.icon} />}
                 <TodoChainIcon item={item} />
-                <TodoHabitIcon item={item} />
             </span>
         </div>
     );
