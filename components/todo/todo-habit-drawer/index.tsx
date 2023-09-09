@@ -128,6 +128,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                 onSubmit={() => {
                     onRefresh?.();
                     setShowEdit(false);
+                    handleClose?.();
                 }}
             />
         </>
