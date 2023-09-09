@@ -7,6 +7,7 @@ import DrawerWrapper from "../../common/drawer-wrapper";
 import HabitCalendar from "./Calendar";
 import { getToday, getZeroDay, handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 import { getRangeFormToday } from "../utils";
+import TodoFormDrawer from "../todo-form-drawer";
 
 dayjs.locale("zh-cn");
 
@@ -20,7 +21,7 @@ export const renderHabitDetail = (item: TodoItemType) => {
                 今日
                 {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
             </div>
-            <div>习惯的描述：{item?.description || '暂无'}</div>
+            <div>习惯的描述：{item?.description || "暂无"}</div>
             <div>
                 习惯立项日期：{item.time} {getRangeFormToday(item.time)}
             </div>
@@ -64,7 +65,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
         handleClose?.();
     };
 
-    // const [showEdit, setShowEdit] = useState<boolean>(false);
+    const [showEdit, setShowEdit] = useState<boolean>(false);
 
     const [desc, setDesc] = useState<string>("");
 
@@ -75,7 +76,16 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             <DrawerWrapper
                 title={active?.name}
                 footer={
-                    <Space style={{ paddingBottom: 20 }}>
+                    <Space
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            flexWrap: "wrap",
+                            paddingTop: "10px",
+                            paddingBottom: "20px",
+                            borderTop: "1px solid white",
+                        }}
+                    >
                         {isTodayDone ? (
                             <Button type="primary" style={{ background: "green" }}>
                                 今日已打卡
@@ -85,13 +95,13 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                                 现在打卡
                             </Button>
                         )}
-                        {/* <Button
+                        <Button
                             onClick={() => {
                                 setShowEdit(true);
                             }}
                         >
                             编辑
-                        </Button> */}
+                        </Button>
                     </Space>
                 }
                 open={!!active}
@@ -108,7 +118,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                     />
                 )}
             </DrawerWrapper>
-            {/* <TodoFormDrawer
+            <TodoFormDrawer
                 todo_id={active?.todo_id}
                 open={showEdit}
                 onClose={() => {
@@ -119,8 +129,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                     onRefresh?.();
                     setShowEdit(false);
                 }}
-                // isPunchTheClock={true}
-            /> */}
+            />
         </>
     );
 };
