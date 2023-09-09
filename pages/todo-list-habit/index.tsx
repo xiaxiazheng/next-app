@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { AddTodoItem, getTodoHabit } from "../../service";
+import { AddTodoItem, getTodoHabit, TodoStatus } from "../../service";
 import { Button, message, Space, Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
@@ -23,9 +23,12 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
 
     const getData = async () => {
         setLoading(true);
-        const res = await getTodoHabit();
+        const params = {
+            status: TodoStatus.todo
+        };
+        const res = await getTodoHabit(params);
         if (res) {
-            const list = res.data.list.filter((item: TodoItemType) => !!item.timeRange);
+            const list = res.data.list;
             setTodoList(list);
             if (active) {
                 setActive(list.find((item) => item.todo_id === active.todo_id));
