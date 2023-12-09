@@ -11,6 +11,7 @@ import { CalendarOutlined, ApartmentOutlined, ClearOutlined, PlusOutlined, Minus
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import { useRouter } from "next/router";
+import { debounce } from "lodash";
 
 const { Search } = Input;
 
@@ -34,7 +35,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [todoType, setTodoType] = useState<"done" | "all">("done");
 
-    const getData = async (key?: string) => {
+    const getData = debounce(async (key?: string) => {
         setLoading(true);
         const params: any = {
             keyword: key || keyword.current,
@@ -54,7 +55,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
             setTodoMap(formatArrayToTimeMap(res.data.list));
         }
         setLoading(false);
-    };
+    }, 200);
 
     const router = useRouter();
 
@@ -68,7 +69,12 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     useEffect(() => {
         refreshFlag && getData();
         getCategory();
-    }, [pageNo, refreshFlag]);
+    }, [refreshFlag]);
+
+    useEffect(() => {
+        getData();
+        getCategory();
+    }, [pageNo]);
 
     const today = dayjs().format("YYYY-MM-DD");
 
@@ -77,11 +83,11 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [category, setCategory] = useState<any[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
-    const getCategory = async () => {
+    const getCategory = debounce(async () => {
         const res: any = await getTodoCategory();
         const resData = await res.json();
         setCategory(resData.data);
-    };
+    }, 200);
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory, startTime, todoType]);
