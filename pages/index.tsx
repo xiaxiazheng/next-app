@@ -7,7 +7,7 @@ import { getTodo, getTodoDone, getTodoHabit, TodoStatus } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
-import SearchHistory from "./todo-list-search/search-history";
+import SearchHistory, { setHistoryWord } from "./todo-list-search/search-history";
 // import HomeTips from "../components/common/home-tips";
 
 interface IProps {
@@ -82,6 +82,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [keyword, setKeyword] = useState<string>("");
     const search = () => {
+        setHistoryWord(keyword);
         router.push(`/todo-list-search?keyword=${keyword}`);
     };
 
