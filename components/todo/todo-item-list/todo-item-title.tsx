@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
-import { getFootPrintList, handleHighlight, judgeIsLastModify } from "../utils";
+import { getTodoTimeDetail, handleHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 import TodoHabitIcon from "../todo-habit-drawer/todo-habit-icon";
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const judgeIsPunchTheClock = (item: TodoItemType) => {
-    if (item.isHabit !== '1') return {};
+    if (item.isHabit !== "1") return {};
 
     if (handleIsTodayPunchTheClock(item)) {
         return { color: "#6bb167" };
@@ -58,10 +58,12 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                 style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
             >
                 {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
-                    <s>{handleHighlight(item.name, keyword)} {showTime && `(${item.time})`}</s>
+                    <s>
+                        {handleHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
+                    </s>
                 ) : (
                     <span>
-                        {handleHighlight(item.name, keyword)} {showTime && `(${item.time})`}
+                        {handleHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
                     </span>
                 )}
                 {item.description && <QuestionCircleOutlined className={styles.icon} />}

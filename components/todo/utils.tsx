@@ -116,6 +116,11 @@ export const formatArrayToTimeMap = (list: TodoItemType[]) => {
     }, {});
 };
 
+// 日期 + xx天前/后 + 周几
+export const getTodoTimeDetail = (time: string) => {
+    return `${time}, ${getRangeFormToday(time)}, ${getWeek(time)}`;
+};
+
 const weekList = ["日", "一", "二", "三", "四", "五", "六"];
 export const getWeek = (time: string) => {
     return `周${weekList[dayjs(time).day()]}`;
@@ -135,6 +140,10 @@ export const getRangeFormToday = (time: string | undefined) => {
     if (!time) return "";
     const day = getDayjs(time).diff(getDayjs(dayjs()), "d");
     if (day === 0) return "今天";
+    if (day === -1) return "昨天";
+    if (day === -2) return "前天";
+    if (day === 1) return "明天";
+    if (day === 2) return "后天";
     return `${Math.abs(day)} 天${day < 0 ? "前" : "后"}`;
 };
 
