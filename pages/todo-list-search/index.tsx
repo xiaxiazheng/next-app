@@ -7,13 +7,25 @@ import dayjs from "dayjs";
 import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../components/todo/utils";
-import { CalendarOutlined, ApartmentOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import TodoItemList from "../../components/todo/todo-item-list";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import { useRouter } from "next/router";
 import { debounce } from "lodash";
+import SearchHistory, { setHistoryWord } from "./search-history";
 
 const { Search } = Input;
+
+const todoTypeList = [
+    {
+        label: "所有",
+        value: "all",
+    },
+    {
+        label: "已完成",
+        value: "done",
+    },
+];
 
 interface IProps {
     refreshFlag: number;
@@ -33,7 +45,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [startTime, setStartTime] = useState<string>("");
 
-    const [todoType, setTodoType] = useState<"done" | "all">("done");
+    const [todoType, setTodoType] = useState<"done" | "all">("all");
 
     const getData = debounce(async (key?: string) => {
         setLoading(true);
@@ -80,7 +92,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
 
-    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [showDrawer, setShowFilter] = useState<boolean>(false);
     const [category, setCategory] = useState<any[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>("所有");
     const getCategory = debounce(async () => {
@@ -95,6 +107,8 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     // 传给子组件的 keyword
     const [pastKeyword, setPastKeyword] = useState<string>();
 
+    const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
+
     return (
         <Spin spinning={loading}>
             <Header title="搜索结果" />
@@ -102,12 +116,13 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 <h2 className={styles.h2}>
                     <span>搜索结果 ({total})</span>
                     <Space size={8}>
-                        {((pastKeyword && pastKeyword !== "") || startTime !== "") && (
+                        {((pastKeyword && pastKeyword !== "") || startTime !== "" || todoType !== "all") && (
                             <Button
                                 style={{ width: 50 }}
                                 icon={<ClearOutlined />}
                                 onClick={() => {
                                     keyword.current = "";
+                                    setTodoType("all");
                                     setPastKeyword("");
                                     forceUpdate();
                                     startTime === "" ? getData() : setStartTime("");
@@ -116,13 +131,8 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                                 danger
                             />
                         )}
-                        {/* todo 状态 */}
-                        <Button
-                            onClick={() => setTodoType((prev) => (prev === "done" ? "all" : "done"))}
-                            type={isSortTime ? "primary" : "default"}
-                        >
-                            {todoType}
-                        </Button>
+                        {/* 筛选 */}
+                        <Button onClick={() => setShowFilter(true)}>Filter</Button>
                         {/* 排序方式 */}
                         <Button
                             style={{ width: 50 }}
@@ -154,6 +164,15 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         onSearch={() => {
                             pageNo === 1 ? getData() : setPageNo(1);
                             setPastKeyword(keyword.current);
+                            setHistoryWord(keyword.current);
+                            setIsShowHistory(false);
+                        }}
+                        onFocus={() => {
+                            setIsShowHistory(true);
+                        }}
+                        onBlur={() => {
+                            // 这个 blur，要等别处的 click 触发后才执行
+                            setTimeout(() => setIsShowHistory(false), 100);
                         }}
                     />
                 </div>
@@ -170,60 +189,69 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         />
                     </Space>
                 )}
-                <div className={styles.list}>
-                    {Object.keys(todoMap).map((time) => (
-                        <div key={time}>
-                            {/* 日期 */}
-                            <div
-                                className={`${styles.time} ${
-                                    time === today ? styles.today : time < today ? "" : styles.future
-                                }`}
-                                onClick={() => {
-                                    const date = dayjs(time).format("YYYY-MM-DD");
-                                    setStartTime(date);
-                                    keyword.current = "";
-                                }}
-                            >
-                                {time} ({getWeek(time)}，{getRangeFormToday(time)})&nbsp;
-                                {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
-                            </div>
-                            {/* 当日的 todo */}
-                            <div className={styles.one_day}>
-                                <TodoItemList
-                                    list={getShowList(todoMap[time], { isSortTime })}
-                                    onRefresh={getData}
-                                    keyword={pastKeyword}
-                                />
-                            </div>
+                {isShowHistory && (
+                    <SearchHistory
+                        onSearch={(key) => {
+                            keyword.current = key;
+                            pageNo === 1 ? getData() : setPageNo(1);
+                            setPastKeyword(key);
+                            setIsShowHistory(false);
+                        }}
+                    />
+                )}
+                {!isShowHistory && (
+                    <>
+                        <div className={styles.list}>
+                            {Object.keys(todoMap).map((time) => (
+                                <div key={time}>
+                                    {/* 日期 */}
+                                    <div
+                                        className={`${styles.time} ${
+                                            time === today ? styles.today : time < today ? "" : styles.future
+                                        }`}
+                                    >
+                                        <span
+                                            onClick={() => {
+                                                const date = dayjs(time).format("YYYY-MM-DD");
+                                                setStartTime(date);
+                                                keyword.current = "";
+                                            }}
+                                        >
+                                            {time} ({getWeek(time)}，{getRangeFormToday(time)})&nbsp;
+                                            {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
+                                        </span>
+                                    </div>
+                                    {/* 当日的 todo */}
+                                    <div className={styles.one_day}>
+                                        <TodoItemList
+                                            list={getShowList(todoMap[time], { isSortTime })}
+                                            onRefresh={getData}
+                                            keyword={pastKeyword}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                            {Object.keys(todoMap)?.length === 0 && <div className={styles.noResult}>无搜索结果</div>}
                         </div>
-                    ))}
-                </div>
-                <Pagination
-                    className={styles.pagination}
-                    pageSize={15}
-                    current={pageNo}
-                    total={total}
-                    size="small"
-                    onChange={(val) => setPageNo(val)}
-                />
-                <Button
-                    className={styles.categoryBtn}
-                    type="primary"
-                    danger
-                    shape="circle"
-                    size="large"
-                    icon={<ApartmentOutlined />}
-                    onClick={() => setShowDrawer(true)}
-                />
+                        <Pagination
+                            className={styles.pagination}
+                            pageSize={15}
+                            current={pageNo}
+                            total={total}
+                            size="small"
+                            onChange={(val) => setPageNo(val)}
+                        />
+                    </>
+                )}
                 {/* 分类弹窗 */}
-                <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom" height="40vh">
+                <DrawerWrapper open={showDrawer} onClose={() => setShowFilter(false)} placement="bottom" height="70vh">
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group
                         className={styles.content}
                         value={activeCategory}
                         onChange={(e) => {
                             setActiveCategory(e.target.value);
-                            setShowDrawer(false);
+                            setShowFilter(false);
                         }}
                     >
                         <Radio.Button key="所有" value="所有" style={{ marginBottom: 10 }}>
@@ -232,6 +260,22 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         {category?.map((item) => (
                             <Radio.Button key={item.category} value={item.category} style={{ marginBottom: 10 }}>
                                 {item.category}
+                            </Radio.Button>
+                        ))}
+                    </Radio.Group>
+                    {/* todo 状态 */}
+                    <div style={{ marginBottom: 10 }}>分类：</div>
+                    <Radio.Group
+                        className={styles.content}
+                        value={todoType}
+                        onChange={(e) => {
+                            setTodoType(e.target.value);
+                            setShowFilter(false);
+                        }}
+                    >
+                        {todoTypeList?.map((item) => (
+                            <Radio.Button key={item.label} value={item.value} style={{ marginBottom: 10 }}>
+                                {item.label}
                             </Radio.Button>
                         ))}
                     </Radio.Group>
