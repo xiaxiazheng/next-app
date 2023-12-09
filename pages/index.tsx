@@ -7,6 +7,7 @@ import { getTodo, getTodoDone, getTodoHabit, TodoStatus } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
+import SearchHistory from "./todo-list-search/search-history";
 // import HomeTips from "../components/common/home-tips";
 
 interface IProps {
@@ -35,7 +36,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         setLoading(true);
         const res = await getTodo();
         if (res) {
-            setTodoList(res.data.list.filter(item => item.isHabit !== '1'));
+            setTodoList(res.data.list.filter((item) => item.isHabit !== "1"));
         }
         setLoading(false);
     };
@@ -60,7 +61,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const getTodoHabitTodoList = async () => {
         setLoading(true);
         const res = await getTodoHabit({
-            status: TodoStatus.todo
+            status: TodoStatus.todo,
         });
         if (res) {
             setHabitList(res.data.list);
@@ -84,44 +85,56 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         router.push(`/todo-list-search?keyword=${keyword}`);
     };
 
+    const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.todo}>
                 <Spin spinning={loading}>
                     <TodoDayList
-                        list={todoList}
+                        list={isShowHistory ? [] : todoList}
                         getData={getData}
                         title="todo"
                         isReverse={true}
                         search={
-                            <Input.Search
-                                className={styles.search}
-                                placeholder="输入搜索已完成 todo"
-                                value={keyword}
-                                onChange={(e) => setKeyword(e.target.value)}
-                                enterButton
-                                allowClear
-                                onSearch={() => {
-                                    search();
-                                }}
-                            />
+                            <>
+                                <Input.Search
+                                    className={styles.search}
+                                    placeholder="输入搜索已完成 todo"
+                                    value={keyword}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    enterButton
+                                    allowClear
+                                    onSearch={() => {
+                                        search();
+                                    }}
+                                    onFocus={() => setIsShowHistory(true)}
+                                    onBlur={() => {
+                                        // 这个 blur，要等别处的 click 触发后才执行
+                                        setTimeout(() => setIsShowHistory(false), 100);
+                                    }}
+                                />
+                                {isShowHistory && (
+                                    <SearchHistory
+                                        onSearch={(key) => {
+                                            setKeyword(key);
+                                            search();
+                                        }}
+                                    />
+                                )}
+                            </>
                         }
                     />
-                    <div className={styles.time}>今日已完成 ({doneList?.length})</div>
-                    <TodoItemList list={doneList} onRefresh={getTodoDone} />
-                    <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
-                    <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
+                    {!isShowHistory && (
+                        <>
+                            <div className={styles.time}>今日已完成 ({doneList?.length})</div>
+                            <TodoItemList list={doneList} onRefresh={getTodoDone} />
+                            <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
+                            <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
+                        </>
+                    )}
                 </Spin>
-                <div
-                    className={styles.beforeToday}
-                    onClick={() => {
-                        router.push("/today-before-years");
-                    }}
-                >
-                    看看往年今天?
-                </div>
-                {/* <HomeTips /> */}
             </main>
         </div>
     );
