@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoDone, getTodoHabit, TodoStatus } from "../service";
+import { getTodo, getTodoDone, getTodoFollowUp, getTodoHabit, getTodoPool, TodoStatus } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
@@ -27,23 +27,22 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [todoList, setTodoList] = useState([]);
     const [doneList, setDoneList] = useState([]);
+    const [poolList, setPoolList] = useState([]);
+    const [followUpList, setFollowUpList] = useState([]);
     const [habitList, setHabitList] = useState([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
     // 获取当前 Todo
     const getTodoList = async () => {
-        setLoading(true);
         const res = await getTodo();
         if (res) {
             setTodoList(res.data.list.filter((item) => item.isHabit !== "1"));
         }
-        setLoading(false);
     };
 
     // 获取今日已完成 Todo
     const getTodayDoneTodoList = async () => {
-        setLoading(true);
         const params: any = {
             keyword: "",
             pageNo: 1,
@@ -54,24 +53,40 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         if (res) {
             setDoneList(res.data.list);
         }
-        setLoading(false);
     };
 
     // 获取打卡情况
     const getTodoHabitTodoList = async () => {
-        setLoading(true);
         const res = await getTodoHabit({
             status: TodoStatus.todo,
         });
         if (res) {
             setHabitList(res.data.list);
         }
-        setLoading(false);
     };
+
+    // 获取待办池
+    const getTodoPoolList = async () => {
+        const res = await getTodoPool({
+            sortBy: [['time', 'DESC']]
+        });
+        if (res) {
+            setPoolList(res.data.list.slice(0, 5));
+        }
+    };
+    
+    // 获取待办池
+    const getTodoFollowUpList = async () => {
+        const res = await getTodoFollowUp();
+        if (res) {
+            setFollowUpList(res.data.list);
+        }
+    };
+
 
     const getData = () => {
         setLoading(true);
-        Promise.all([getTodoList(), getTodayDoneTodoList(), getTodoHabitTodoList()]).finally(() => {
+        Promise.all([getTodoList(), getTodayDoneTodoList(), getTodoHabitTodoList(), getTodoPoolList(), getTodoFollowUpList()]).finally(() => {
             setLoading(false);
         });
     };
@@ -131,8 +146,24 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         <>
                             <div className={styles.time}>今日已完成 ({doneList?.length})</div>
                             <TodoItemList list={doneList} onRefresh={getTodoDone} />
-                            <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
-                            <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
+                            {!!habitList.length && (
+                                <>
+                                    <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
+                                    <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
+                                </>
+                            )}
+                            {!!followUpList.length && (
+                                <>
+                                    <div className={styles.time}>需要跟进or待消化 ({followUpList?.length})</div>
+                                    <TodoItemList list={followUpList} onRefresh={getTodoFollowUpList} />
+                                </>
+                            )}
+                            {!!poolList.length && (
+                                <>
+                                    <div className={styles.time}>待办池最近五条 ({poolList?.length})</div>
+                                    <TodoItemList list={poolList} onRefresh={getTodoPoolList} />
+                                </>
+                            )}
                         </>
                     )}
                 </Spin>

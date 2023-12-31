@@ -103,11 +103,12 @@ export const getTodoDone = async ({ status, keyword, pageNo, category, ...rest }
     }
 };
 
-export const getTodoPool = async (): Promise<TodoRes | false> => {
+export const getTodoPool = async (obj: any = {}): Promise<TodoRes | false> => {
     const params = {
         status: TodoStatus.pool,
         pageSize: 200,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+        ...obj
     };
     const isWork = getIsWork();
     if (isWork !== "") {
@@ -121,6 +122,27 @@ export const getTodoPool = async (): Promise<TodoRes | false> => {
         return false;
     }
 };
+
+export const getTodoFollowUp = async () => {
+    const params: any = {
+        isFollowUp: "1",
+        pageNo: 1,
+        pageSize: 60,
+        // status: TodoStatus["todo"],
+    };
+    
+    const isWork = getIsWork();
+    if (isWork !== "") {
+        params["isWork"] = isWork;
+    }
+    const res: any = await postFetch(`/todo/getTodoList`, params);
+    if (res) {
+        const data = res.json();
+        return data;
+    } else {
+        return false;
+    }
+}
 
 export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
