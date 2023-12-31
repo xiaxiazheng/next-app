@@ -5,16 +5,18 @@ import { getTodoPool } from "../../service";
 import { Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import TodoAllList from "../../components/todo/todo-split-time-range-list";
+import useSettings from "../../hooks/useSettings";
 
 interface IProps {
     refreshFlag: number;
-    settings: any;
 }
 
-const TodoPool: React.FC<IProps> = ({ refreshFlag, settings }) => {
+const TodoPool: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
+    
+    const settings = useSettings();
 
     const getData = async () => {
         setLoading(true);

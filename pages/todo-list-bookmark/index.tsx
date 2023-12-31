@@ -5,13 +5,13 @@ import { getTodoBookMark } from "../../service";
 import { Spin } from "antd";
 import { TodoItemType } from "../../components/todo/types";
 import TodoAllList from "../../components/todo/todo-all-list";
+import useSettings from "../../hooks/useSettings";
 
 interface IProps {
     refreshFlag: number;
-    settings: any;
 }
 
-const TodoListBookmark: React.FC<IProps> = ({ refreshFlag, settings }) => {
+const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,6 +28,8 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag, settings }) => {
     useEffect(() => {
         getData();
     }, [refreshFlag]);
+    
+    const settings = useSettings();
 
     return (
         <Spin spinning={loading}>

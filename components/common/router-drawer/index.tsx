@@ -33,21 +33,23 @@ import { TodoStatus } from "../../../service";
 import { Button, Space } from "antd";
 import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import { TodoItemType } from "../../todo/types";
+import useSettings from "../../../hooks/useSettings";
 
 interface IProps {
     setRouterLoading: Function;
     refresh: () => void;
-    settings: any;
 }
 
 const RouterDrawer: React.FC<IProps> = (props) => {
-    const { setRouterLoading, refresh, settings } = props;
+    const { setRouterLoading, refresh } = props;
 
     const [isMe, setIsMe] = useState<boolean>();
     useEffect(() => {
         const username = localStorage.getItem("username");
         setIsMe(username === "zyb" ? true : false);
     }, []);
+
+    const settings = useSettings();
 
     const routes = [
         {

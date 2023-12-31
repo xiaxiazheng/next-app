@@ -9,18 +9,20 @@ import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
 import { handleIsTodayPunchTheClock } from "../../components/todo/todo-form-habit/utils";
 import TodoHabitDrawer, { renderHabitDetail } from "../../components/todo/todo-habit-drawer";
+import useSettings from "../../hooks/useSettings";
 
 dayjs.locale("zh-cn");
 
 interface IProps {
     refreshFlag: number;
-    settings: any;
 }
 
-const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag, settings }) => {
+const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
+    
+    const settings = useSettings();
 
     const getData = async () => {
         setLoading(true);

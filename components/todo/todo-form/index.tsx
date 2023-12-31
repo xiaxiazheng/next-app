@@ -20,6 +20,7 @@ import {
     ClockCircleOutlined,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
+import useSettings from "../../../hooks/useSettings";
 
 const minCategory = 6;
 
@@ -105,6 +106,8 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
+    const settings = useSettings();
+
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
@@ -163,7 +166,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <ThunderboltFilled style={{ color: "red" }} /> 加急
+                                    <ThunderboltFilled style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -175,7 +178,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <AimOutlined style={{ color: "#ffeb3b" }} /> 目标
+                                    <AimOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -187,7 +190,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <StarFilled style={{ color: "#ffeb3b" }} /> 公告
+                                    <StarFilled style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -199,7 +202,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <BookOutlined style={{ color: "#ffeb3b" }} /> 存档
+                                    <BookOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -211,7 +214,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <ClockCircleOutlined style={{ color: "#ffeb3b" }} /> 习惯
+                                    <ClockCircleOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.habit}
                                 </span>
                             </SwitchComp>
                         </Form.Item>

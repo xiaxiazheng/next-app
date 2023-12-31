@@ -8,6 +8,7 @@ import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
 import TodoItemList from "../../components/todo/todo-item-list";
+import useSettings from "../../hooks/useSettings";
 
 // 如果是今天的，就不展示日期，只展示时间
 const handleTime = (time: string) => {
@@ -19,13 +20,14 @@ interface NewTodoItemType extends TodoItemType {
 }
 
 interface IProps {
-    settings: any;
 }
 
-const TodoFootprint: React.FC<IProps> = ({ settings }) => {
+const TodoFootprint: React.FC<IProps> = () => {
     const [todoList, setTodoList] = useState<NewTodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
+    
+    const settings = useSettings();
 
     const getData = async () => {
         setLoading(true);
