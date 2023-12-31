@@ -57,7 +57,7 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
                 onClick={() => onClick && onClick(item)}
                 style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
             >
-                {item.status === String(TodoStatus.done) && item.isBookMark !== "1" ? (
+                {String(item.status) === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                     <s>
                         {handleHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
                     </s>

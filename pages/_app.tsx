@@ -4,7 +4,6 @@ import AffixHome from "../components/common/affix/affix-home";
 import { useEffect, useState } from "react";
 import { Spin } from "antd";
 import RouterDrawer from "../components/common/router-drawer";
-import useSettings from "../hooks/useSettings";
 
 function App({ Component, pageProps }: any) {
     const [loading, setLoading] = useState<boolean>(false);
@@ -13,8 +12,6 @@ function App({ Component, pageProps }: any) {
     const refresh = () => {
         setFlag(Math.random());
     };
-
-    const settings = useSettings();
 
     return (
         <Spin spinning={loading} style={{ overflow: "hidden" }}>

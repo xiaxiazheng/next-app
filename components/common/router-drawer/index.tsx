@@ -127,17 +127,17 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <OrderedListOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['done'],
+                    name: settings?.todoNameMap?.["done"],
                     path: "todo-list-search",
                     icon: <TrophyOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['pool'],
+                    name: settings?.todoNameMap?.["pool"],
                     path: "todo-list-pool",
                     icon: <ExperimentOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['habit'],
+                    name: settings?.todoNameMap?.["habit"],
                     path: "todo-list-habit",
                     icon: <CheckSquareOutlined />,
                 },
@@ -152,17 +152,17 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <FileTextOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['target'],
+                    name: settings?.todoNameMap?.["target"],
                     path: "todo-list-target",
                     icon: <AimOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['bookMark'],
+                    name: settings?.todoNameMap?.["bookMark"],
                     path: "todo-list-bookmark",
                     icon: <StarFilled />,
                 },
                 {
-                    name: settings?.todoNameMap?.['footprint'],
+                    name: settings?.todoNameMap?.["footprint"],
                     path: "todo-list-footprint",
                     icon: <HistoryOutlined />,
                 },
@@ -197,7 +197,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <RedditOutlined />,
                 },
                 {
-                    name: settings?.todoNameMap?.['note'],
+                    name: settings?.todoNameMap?.["note"],
                     path: "note",
                     icon: <FileTextOutlined />,
                 },

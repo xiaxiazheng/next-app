@@ -103,7 +103,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                         }}
                     >
                         <Space style={{ flex: 1, paddingTop: "10px" }}>
-                            {activeTodo?.status === String(TodoStatus.todo) && (
+                            {String(activeTodo?.status) === String(TodoStatus.todo) && (
                                 <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
                                     完成Todo
                                 </Button>
