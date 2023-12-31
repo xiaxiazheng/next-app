@@ -23,6 +23,7 @@ export const getTodo = async (): Promise<TodoRes | false> => {
         status: TodoStatus.todo,
         isTarget: "0",
         isBookMark: "0",
+        isFollowUp: "0",
         pageSize: 100,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
@@ -78,11 +79,12 @@ export const getTodoList = async (params: any): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoDone = async ({ status, keyword, pageNo, category, ...rest }): Promise<TodoRes | false> => {
+export const getTodoDone = async (obj: any): Promise<TodoRes | false> => {
+    const { status, keyword, pageNo, category, ...rest } = obj;
     const params = {
         keyword,
         pageNo,
-        ...rest
+        ...rest,
     };
     if (status) {
         params["status"] = status;
@@ -108,7 +110,7 @@ export const getTodoPool = async (obj: any = {}): Promise<TodoRes | false> => {
         status: TodoStatus.pool,
         pageSize: 200,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
-        ...obj
+        ...obj,
     };
     const isWork = getIsWork();
     if (isWork !== "") {
@@ -130,7 +132,7 @@ export const getTodoFollowUp = async () => {
         pageSize: 60,
         // status: TodoStatus["todo"],
     };
-    
+
     const isWork = getIsWork();
     if (isWork !== "") {
         params["isWork"] = isWork;
@@ -142,7 +144,7 @@ export const getTodoFollowUp = async () => {
     } else {
         return false;
     }
-}
+};
 
 export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
@@ -170,8 +172,8 @@ export const getTodoHabit = async (obj: any = {}): Promise<TodoRes | false> => {
         pageSize: 60,
     };
     const { status } = obj;
-    if (typeof status === 'number') {
-        params['status'] = status;
+    if (typeof status === "number") {
+        params["status"] = status;
     }
     const isWork = getIsWork();
     if (isWork !== "") {
@@ -194,8 +196,8 @@ export const getTodoTarget = async (obj: any = {}): Promise<TodoRes | false> => 
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
     const { status } = obj;
-    if (typeof status === 'number') {
-        params['status'] = status;
+    if (typeof status === "number") {
+        params["status"] = status;
     }
     const isWork = getIsWork();
     if (isWork !== "") {
