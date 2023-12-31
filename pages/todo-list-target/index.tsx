@@ -8,9 +8,10 @@ import { TodoItemType } from "../../components/todo/types";
 
 interface IProps {
     refreshFlag: number;
+    settings: any;
 }
 
-const TodoListTarget: React.FC<IProps> = ({ refreshFlag }) => {
+const TodoListTarget: React.FC<IProps> = ({ refreshFlag, settings }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -31,9 +32,9 @@ const TodoListTarget: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="目标" />
+            <Header title={settings?.todoNameMap?.['note']} />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title="目标" />
+                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.['note']} />
             </main>
         </Spin>
     );

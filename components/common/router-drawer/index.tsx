@@ -37,10 +37,11 @@ import { TodoItemType } from "../../todo/types";
 interface IProps {
     setRouterLoading: Function;
     refresh: () => void;
+    settings: any;
 }
 
 const RouterDrawer: React.FC<IProps> = (props) => {
-    const { setRouterLoading, refresh } = props;
+    const { setRouterLoading, refresh, settings } = props;
 
     const [isMe, setIsMe] = useState<boolean>();
     useEffect(() => {
@@ -124,17 +125,17 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <OrderedListOutlined />,
                 },
                 {
-                    name: "已完成",
+                    name: settings?.todoNameMap?.['done'],
                     path: "todo-list-search",
                     icon: <TrophyOutlined />,
                 },
                 {
-                    name: "待办池",
+                    name: settings?.todoNameMap?.['pool'],
                     path: "todo-list-pool",
                     icon: <ExperimentOutlined />,
                 },
                 {
-                    name: "习惯",
+                    name: settings?.todoNameMap?.['habit'],
                     path: "todo-list-habit",
                     icon: <CheckSquareOutlined />,
                 },
@@ -149,17 +150,17 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <FileTextOutlined />,
                 },
                 {
-                    name: "目标",
+                    name: settings?.todoNameMap?.['target'],
                     path: "todo-list-target",
                     icon: <AimOutlined />,
                 },
                 {
-                    name: "公告",
+                    name: settings?.todoNameMap?.['bookMark'],
                     path: "todo-list-bookmark",
                     icon: <StarFilled />,
                 },
                 {
-                    name: "足迹",
+                    name: settings?.todoNameMap?.['footprint'],
                     path: "todo-list-footprint",
                     icon: <HistoryOutlined />,
                 },
@@ -194,7 +195,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <RedditOutlined />,
                 },
                 {
-                    name: "note",
+                    name: settings?.todoNameMap?.['note'],
                     path: "note",
                     icon: <FileTextOutlined />,
                 },

@@ -8,9 +8,10 @@ import TodoAllList from "../../components/todo/todo-all-list";
 
 interface IProps {
     refreshFlag: number;
+    settings: any;
 }
 
-const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
+const TodoListBookmark: React.FC<IProps> = ({ refreshFlag, settings }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -30,9 +31,9 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="公告" />
+            <Header title={settings?.todoNameMap?.["bookMark"]} />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title={"公告"} />
+                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.["bookMark"]} />
             </main>
         </Spin>
     );

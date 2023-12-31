@@ -18,7 +18,11 @@ interface NewTodoItemType extends TodoItemType {
     edit_time: string;
 }
 
-const TodoFootprint = () => {
+interface IProps {
+    settings: any;
+}
+
+const TodoFootprint: React.FC<IProps> = ({ settings }) => {
     const [todoList, setTodoList] = useState<NewTodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -46,10 +50,10 @@ const TodoFootprint = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="足迹" />
+            <Header title={settings?.todoNameMap?.["footprint"]} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>足迹({todoList?.length})</span>
+                    <span>{settings?.todoNameMap?.["footprint"]}({todoList?.length})</span>
                     <Space size={8}>
                         {/* 刷新列表 */}
                         <Button

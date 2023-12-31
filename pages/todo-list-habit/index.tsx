@@ -14,9 +14,10 @@ dayjs.locale("zh-cn");
 
 interface IProps {
     refreshFlag: number;
+    settings: any;
 }
 
-const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
+const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag, settings }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     const getData = async () => {
         setLoading(true);
         const params = {
-            status: TodoStatus.todo
+            status: TodoStatus.todo,
         };
         const res = await getTodoHabit(params);
         if (res) {
@@ -51,10 +52,12 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title="打卡" />
+            <Header title={settings?.todoNameMap?.["habit"]} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>打卡任务({todoList?.length || 0})</span>
+                    <span>
+                        {settings?.todoNameMap?.["habit"]} ({todoList?.length || 0})
+                    </span>
                     <Space size={8}>
                         {/* 排序方式 */}
                         <Button
