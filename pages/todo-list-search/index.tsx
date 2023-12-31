@@ -45,7 +45,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [startTime, setStartTime] = useState<string>("");
 
-    const [todoType, setTodoType] = useState<"done" | "all">("all");
+    const [todoType, setTodoType] = useState<"done" | "all">("done");
 
     const getData = debounce(async (key?: string) => {
         setLoading(true);
