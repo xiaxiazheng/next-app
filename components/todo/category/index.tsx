@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { colorMap } from "../constant";
+import useSettings from "../../../hooks/useSettings";
 
 interface Props {
     color: string;
@@ -10,12 +10,14 @@ interface Props {
 const Category: React.FC<Props> = (props) => {
     const { color = "", category = "", style = {} } = props;
 
+    const settings = useSettings();
+
     return (
         <span
             className={styles.category}
             style={{
-                border: `1px solid ${colorMap[color]}`,
-                color: colorMap[color],
+                border: `1px solid ${settings?.todoColorMap?.[color]}`,
+                color: settings?.todoColorMap?.[color],
                 ...style,
             }}
         >

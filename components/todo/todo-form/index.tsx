@@ -3,7 +3,7 @@ import { Form, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { getTodoCategory, TodoStatus } from "../../../service";
-import { colorMap, colorNameMap, colorTitle } from "../constant";
+import { colorTitle } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
 import InputList from "./input-list";
 import NameTextArea from "./name-textarea";
@@ -119,9 +119,18 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="color" label={colorTitle} rules={[{ required: true }]} initialValue={"2"}>
                     <Radio.Group buttonStyle="solid">
-                        {["0", "1", "2", "3"].map((item) => (
-                            <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
-                                {colorNameMap[item]}
+                        {Object.keys(settings?.todoColorMap || {}).map((item) => (
+                            <Radio.Button
+                                key={item}
+                                value={item}
+                                style={{ color: settings?.todoColorMap?.[item] }}
+                                className={`${styles.color} ${item === "0" ? styles.zero : ""}${
+                                    item === "1" ? styles.one : ""
+                                }${item === "2" ? styles.two : ""}${item === "3" ? styles.three : ""}${
+                                    item === "4" ? styles.four : ""
+                                }${item === "-1" ? styles.minusOne : ""}`}
+                            >
+                                {settings?.todoColorNameMap?.[item]}
                             </Radio.Button>
                         ))}
                     </Radio.Group>

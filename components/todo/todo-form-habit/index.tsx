@@ -3,9 +3,10 @@ import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
 import { getTodoCategory } from "../../../service";
-import { colorMap, colorNameMap, colorTitle } from "../constant";
+import { colorTitle } from "../constant";
 import { TodoItemType } from "../types";
 import InputList from "../todo-form/input-list";
+import useSettings from "../../../hooks/useSettings";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
@@ -26,6 +27,8 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
         getCategory();
     }, []);
 
+    const settings = useSettings();
+
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
@@ -41,9 +44,9 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item name="color" label={colorTitle} rules={[{ required: true }]} initialValue={"0"}>
                     <Radio.Group>
-                        {["0", "1", "2", "3"].map((item) => (
-                            <Radio.Button key={item} value={item} style={{ color: colorMap[item] }}>
-                                {colorNameMap[item]}
+                        {Object.keys(settings?.todoColorMap || {}).map((item) => (
+                            <Radio.Button key={item} value={item} style={{ color: settings?.todoColorMap?.[item] }}>
+                                {settings?.todoColorNameMap?.[item]}
                             </Radio.Button>
                         ))}
                     </Radio.Group>
