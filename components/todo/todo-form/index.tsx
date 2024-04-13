@@ -224,7 +224,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                 </span>
                             </SwitchComp>
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             name="isHabit"
                             rules={[{ required: true }]}
                             initialValue={"0"}
@@ -235,7 +235,7 @@ const TodoForm: React.FC<Props> = (props) => {
                                     <ClockCircleOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.habit}
                                 </span>
                             </SwitchComp>
-                        </Form.Item>
+                        </Form.Item> */}
                     </Space>
                 </Form.Item>
                 <Form.Item name="other_id" label="前置 todo">
