@@ -27,6 +27,8 @@ const minCategory = 6;
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
 
+    const settings = useSettings();
+
     useEffect(() => {
         if (
             category.length !== 0 &&
@@ -44,19 +46,21 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
     return (
         <>
             <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
-                {(showAll ? category : category?.slice(0, minCategory))?.map((item) => (
-                    <Radio.Button key={item.category} value={item.category}>
-                        {item.category} ({item.count})
-                    </Radio.Button>
-                ))}
+                {(showAll ? category : category?.slice(0, settings?.todoCategoryDefaultShow || minCategory))?.map(
+                    (item) => (
+                        <Radio.Button key={item.category} value={item.category}>
+                            {item.category} ({item.count})
+                        </Radio.Button>
+                    )
+                )}
+                {!showAll && (
+                    <span className={styles.showAll}>
+                        <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
+                            show all Category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
+                        </Button>
+                    </span>
+                )}
             </Radio.Group>
-            {!showAll && (
-                <div className={styles.showAll}>
-                    <Button type="text" onClick={() => setShowAll((prev) => !prev)}>
-                        show all Category{showAll ? <UpCircleOutlined /> : <DownCircleOutlined />}
-                    </Button>
-                </div>
-            )}
         </>
     );
 };
@@ -117,7 +121,12 @@ const TodoForm: React.FC<Props> = (props) => {
                 <Form.Item name="description" label="详细描述">
                     <InputList />
                 </Form.Item>
-                <Form.Item name="color" label={colorTitle} rules={[{ required: true }]} initialValue={"2"}>
+                <Form.Item
+                    name="color"
+                    label={colorTitle}
+                    rules={[{ required: true }]}
+                    initialValue={settings?.todoDefaultColor || "3"}
+                >
                     <Radio.Group buttonStyle="solid">
                         {Object.keys(settings?.todoColorMap || {}).map((item) => (
                             <Radio.Button
