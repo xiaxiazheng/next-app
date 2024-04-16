@@ -125,7 +125,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     name="color"
                     label={colorTitle}
                     rules={[{ required: true }]}
-                    initialValue={settings?.todoDefaultColor || "3"}
+                    initialValue={String(settings?.todoDefaultColor || "3")}
                 >
                     <Radio.Group buttonStyle="solid">
                         {Object.keys(settings?.todoColorMap || {}).map((item) => (
