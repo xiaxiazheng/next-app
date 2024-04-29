@@ -53,23 +53,88 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const routes = [
         {
-            title: "others",
+            title: "todo",
             children: [
                 {
-                    name: "登录",
-                    path: "login",
-                    icon: <LoginOutlined />,
+                    name: "todo list",
+                    path: "/",
+                    icon: <OrderedListOutlined />,
                 },
                 {
-                    name: "翻译",
-                    path: "translate",
-                    icon: <TranslationOutlined />,
+                    name: settings?.todoNameMap?.["done"],
+                    path: "todo-list-search",
+                    icon: <TrophyOutlined />,
                 },
                 {
-                    name: "单词本",
-                    path: "word-book",
-                    icon: <TranslationOutlined />,
+                    name: settings?.todoNameMap?.["pool"],
+                    path: "todo-list-pool",
+                    icon: <ExperimentOutlined />,
                 },
+                // {
+                //     name: settings?.todoNameMap?.["habit"],
+                //     path: "todo-list-habit",
+                //     icon: <CheckSquareOutlined />,
+                // },
+                {
+                    name: "todo note",
+                    path: "todo-note",
+                    icon: <FileTextOutlined />,
+                },
+                {
+                    name: settings?.todoNameMap?.["target"],
+                    path: "todo-list-target",
+                    icon: <AimOutlined />,
+                },
+                {
+                    name: settings?.todoNameMap?.["bookMark"],
+                    path: "todo-list-bookmark",
+                    icon: <StarFilled />,
+                },
+                {
+                    name: settings?.todoNameMap?.["footprint"],
+                    path: "todo-list-footprint",
+                    icon: <HistoryOutlined />,
+                },
+                {
+                    name: "往年今日",
+                    path: "today-before-years",
+                    icon: <FieldTimeOutlined />,
+                },
+                {
+                    name: "新建 todo",
+                    path: "todo-add",
+                    icon: <PlusOutlined />,
+                },
+            ],
+        },
+        {
+            title: "blog",
+            children: [
+                {
+                    name: "我的日志",
+                    path: "blog",
+                    icon: <BookOutlined />,
+                },
+                {
+                    name: "随机日志",
+                    path: "blog-random",
+                    icon: <CoffeeOutlined />,
+                },
+            ],
+        },
+        {
+            title: "others",
+            children: [
+                // {
+                //     name: "翻译",
+                //     path: "translate",
+                //     icon: <TranslationOutlined />,
+                // },
+                // {
+                //     name: "单词本",
+                //     path: "word-book",
+                //     icon: <TranslationOutlined />,
+                // },
 
                 // {
                 //     name: "原生 audio",
@@ -101,113 +166,43 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     path: "cloud",
                     icon: <CloudOutlined />,
                 },
+                // {
+                //     name: "番茄时钟",
+                //     path: "tomato-clock",
+                //     icon: <ClockCircleOutlined />,
+                // },
                 {
-                    name: "番茄时钟",
-                    path: "tomato-clock",
-                    icon: <ClockCircleOutlined />,
+                    name: "CMD",
+                    path: "cmd",
+                    icon: <CodepenOutlined />,
                 },
-            ].concat(
-                isMe
-                    ? [
-                          {
-                              name: "CMD",
-                              path: "cmd",
-                              icon: <CodepenOutlined />,
-                          },
-                      ]
-                    : []
-            ),
+                {
+                    name: "登录",
+                    path: "login",
+                    icon: <LoginOutlined />,
+                },
+            ]
         },
-        {
-            title: "todo",
-            children: [
-                {
-                    name: "todo list",
-                    path: "/",
-                    icon: <OrderedListOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["done"],
-                    path: "todo-list-search",
-                    icon: <TrophyOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["pool"],
-                    path: "todo-list-pool",
-                    icon: <ExperimentOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["habit"],
-                    path: "todo-list-habit",
-                    icon: <CheckSquareOutlined />,
-                },
-                {
-                    name: "新建 todo",
-                    path: "todo-add",
-                    icon: <PlusOutlined />,
-                },
-                {
-                    name: "todo note",
-                    path: "todo-note",
-                    icon: <FileTextOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["target"],
-                    path: "todo-list-target",
-                    icon: <AimOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["bookMark"],
-                    path: "todo-list-bookmark",
-                    icon: <StarFilled />,
-                },
-                {
-                    name: settings?.todoNameMap?.["footprint"],
-                    path: "todo-list-footprint",
-                    icon: <HistoryOutlined />,
-                },
-                {
-                    name: "往年今日",
-                    path: "today-before-years",
-                    icon: <FieldTimeOutlined />,
-                },
-            ],
-        },
-        {
-            title: "blog",
-            children: [
-                {
-                    name: "随机日志",
-                    path: "blog-random",
-                    icon: <CoffeeOutlined />,
-                },
-                {
-                    name: "我的日志",
-                    path: "blog",
-                    icon: <BookOutlined />,
-                },
-            ],
-        },
-        {
-            title: "note",
-            children: [
-                {
-                    name: "随机 note",
-                    path: "note-random",
-                    icon: <RedditOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["note"],
-                    path: "note",
-                    icon: <FileTextOutlined />,
-                },
-                {
-                    name: "新增 note",
-                    path: "note-add",
-                    icon: <PlusOutlined />,
-                },
-            ],
-        },
+        // {
+        //     title: "note",
+        //     children: [
+        //         {
+        //             name: "随机 note",
+        //             path: "note-random",
+        //             icon: <RedditOutlined />,
+        //         },
+        //         {
+        //             name: settings?.todoNameMap?.["note"],
+        //             path: "note",
+        //             icon: <FileTextOutlined />,
+        //         },
+        //         {
+        //             name: "新增 note",
+        //             path: "note-add",
+        //             icon: <PlusOutlined />,
+        //         },
+        //     ],
+        // },
     ];
 
     const router = useRouter();

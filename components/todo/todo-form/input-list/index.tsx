@@ -30,15 +30,15 @@ const InputList = ({ value = "", onChange }: any) => {
                         placeholder="补充以及具体描述"
                         autoSize={{ minRows: 3, maxRows: 10 }}
                         style={{ wordBreak: "break-all" }}
-                        allowClear
                         value={item}
                         onChange={(e) => handleChange(e.target.value, index)}
                     />
                     <div className={styles.iconWrapper}>
-                        <DeleteOutlined
-                            className={styles.deleteIcon}
-                            style={{ color: "red" }}
+                        <Button
+                            icon={<DeleteOutlined className={styles.deleteIcon} style={{ color: "red" }} />}
                             onClick={() => handleDelete(index)}
+                            danger
+                            size="small"
                         />
                     </div>
                 </div>

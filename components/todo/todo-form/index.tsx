@@ -114,7 +114,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
     return (
         <main className={styles.edit_todo}>
-            <Form form={form} layout={"vertical"} labelCol={{ span: 4 }} wrapperCol={{ span: 4 }} {...rest}>
+            <Form form={form} layout={"vertical"} {...rest}>
                 <Form.Item name="name" label="名称" style={{ width: "100%" }} rules={[{ required: true }]}>
                     <NameTextArea handleDelete={() => form.setFieldValue("name", "")} />
                 </Form.Item>

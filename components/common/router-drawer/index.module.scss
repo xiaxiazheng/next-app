@@ -11,9 +11,11 @@
 
 .index {
   display: grid;
-  grid-template-columns: repeat(3, 72px);
+  grid-template-columns: repeat(auto-fit, 72px);
+  grid-row-gap: 18px;
   row-gap: 18px;
-  justify-content: space-between;
+  column-gap: 18px;
+  justify-content: flex-start;
   margin-bottom: 16px;
 
   .route_item {
