@@ -18,6 +18,7 @@ import {
     ThunderboltFilled,
     AppleFilled,
     ClockCircleOutlined,
+    FireFilled,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
 import useSettings from "../../../hooks/useSettings";
@@ -197,6 +198,24 @@ const TodoForm: React.FC<Props> = (props) => {
                             <SwitchComp>
                                 <span>
                                     <AimOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
+                                </span>
+                            </SwitchComp>
+                        </Form.Item>
+                        <Form.Item
+                            name="isFollowUp"
+                            rules={[{ required: true }]}
+                            initialValue={"0"}
+                            style={{ marginBottom: 3 }}
+                        >
+                            <SwitchComp>
+                                <span>
+                                    <FireFilled
+                                        style={{
+                                            marginRight: 5,
+                                            color: "#ffeb3b",
+                                        }}
+                                    />{" "}
+                                    {settings?.todoNameMap?.followUp}
                                 </span>
                             </SwitchComp>
                         </Form.Item>

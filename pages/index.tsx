@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoDone, getTodoFollowUp, getTodoHabit, getTodoPool, TodoStatus } from "../service";
+import { getTodo, getTodoDone, getTodoFollowUp, getTodoTarget, getTodoPool, TodoStatus } from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "./todo-list-search/search-history";
+import useSettings from "../hooks/useSettings";
 // import HomeTips from "../components/common/home-tips";
 
 interface IProps {
@@ -16,6 +17,8 @@ interface IProps {
 
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
+
+    const settings = useSettings();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -29,7 +32,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const [doneList, setDoneList] = useState([]);
     const [poolList, setPoolList] = useState([]);
     const [followUpList, setFollowUpList] = useState([]);
-    const [habitList, setHabitList] = useState([]);
+    const [targetList, setTargetList] = useState([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -55,26 +58,26 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         }
     };
 
-    // 获取打卡情况
-    const getTodoHabitTodoList = async () => {
-        const res = await getTodoHabit({
+    // 获取 targetList
+    const getTodoTargetTodoList = async () => {
+        const res = await getTodoTarget({
             status: TodoStatus.todo,
         });
         if (res) {
-            setHabitList(res.data.list);
+            setTargetList(res.data.list);
         }
     };
 
     // 获取待办池
     const getTodoPoolList = async () => {
         const res = await getTodoPool({
-            sortBy: [['time', 'DESC']]
+            sortBy: [["time", "DESC"]],
         });
         if (res) {
             setPoolList(res.data.list.slice(0, 5));
         }
     };
-    
+
     // 获取待办池
     const getTodoFollowUpList = async () => {
         const res = await getTodoFollowUp();
@@ -83,10 +86,15 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         }
     };
 
-
     const getData = () => {
         setLoading(true);
-        Promise.all([getTodoList(), getTodayDoneTodoList(), getTodoHabitTodoList(), getTodoPoolList(), getTodoFollowUpList()]).finally(() => {
+        Promise.all([
+            getTodoList(),
+            getTodayDoneTodoList(),
+            getTodoTargetTodoList(),
+            getTodoPoolList(),
+            getTodoFollowUpList(),
+        ]).finally(() => {
             setLoading(false);
         });
     };
@@ -144,17 +152,25 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     />
                     {!isShowHistory && (
                         <>
-                            <div className={styles.time}>今日已完成 ({doneList?.length})</div>
-                            <TodoItemList list={doneList} onRefresh={getTodoDone} />
-                            {!!habitList.length && (
+                            {!!doneList?.length && (
                                 <>
-                                    <div className={styles.time}>想养成的习惯 ({habitList?.length})</div>
-                                    <TodoItemList list={habitList} onRefresh={getTodoHabitTodoList} />
+                                    <div className={styles.time}>今日已完成 ({doneList?.length})</div>
+                                    <TodoItemList list={doneList} onRefresh={getTodoDone} />
+                                </>
+                            )}
+                            {!!targetList.length && (
+                                <>
+                                    <div className={styles.time}>
+                                        {settings?.todoNameMap?.target} ({targetList?.length})
+                                    </div>
+                                    <TodoItemList list={targetList} onRefresh={getTodoTargetTodoList} />
                                 </>
                             )}
                             {!!followUpList.length && (
                                 <>
-                                    <div className={styles.time}>需要跟进or待消化 ({followUpList?.length})</div>
+                                    <div className={styles.time}>
+                                        {settings?.todoNameMap?.followUp} ({followUpList?.length})
+                                    </div>
                                     <TodoItemList list={followUpList} onRefresh={getTodoFollowUpList} />
                                 </>
                             )}

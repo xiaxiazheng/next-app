@@ -5,7 +5,7 @@ import { Button, message, Space } from "antd";
 import { VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import MyModal from "../../common/my-modal";
-import { formatArrayToTimeMap, getShowList, getWeek } from "../../todo/utils";
+import { formatArrayToTimeMap, getRangeFormToday, getShowList, getTodoTimeDetail, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
 import TodoItemList from "../todo-item-list";
 
@@ -87,7 +87,7 @@ const TodoDayList: React.FC<IProps> = (props) => {
                             }`}
                         >
                             <span>
-                                {time} ({getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
+                                {time} ({getRangeFormToday(time)}, {getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
                             </span>
                             {time < today && (
                                 <Button

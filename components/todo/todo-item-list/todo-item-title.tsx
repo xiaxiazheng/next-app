@@ -5,6 +5,7 @@ import {
     QuestionCircleOutlined,
     FileImageOutlined,
     AimOutlined,
+    FireFilled,
     BookOutlined,
     StarFilled,
     AppleFilled,
@@ -48,6 +49,8 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             )}
             {/* 目标 */}
             {item.isTarget === "1" && <AimOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
+            {/* 待跟进 */}
+            {item.isFollowUp === "1" && <FireFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 存档 */}
             {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 书签 */}
