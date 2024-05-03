@@ -155,7 +155,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                             {!!doneList?.length && (
                                 <>
                                     <div className={styles.time}>今日已完成 ({doneList?.length})</div>
-                                    <TodoItemList list={doneList} onRefresh={getTodoDone} />
+                                    <TodoItemList list={doneList} onRefresh={getData} />
                                 </>
                             )}
                             {!!targetList.length && (
@@ -163,7 +163,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                                     <div className={styles.time}>
                                         {settings?.todoNameMap?.target} ({targetList?.length})
                                     </div>
-                                    <TodoItemList list={targetList} onRefresh={getTodoTargetTodoList} />
+                                    <TodoItemList list={targetList} onRefresh={getData} />
                                 </>
                             )}
                             {!!followUpList.length && (
@@ -171,13 +171,13 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                                     <div className={styles.time}>
                                         {settings?.todoNameMap?.followUp} ({followUpList?.length})
                                     </div>
-                                    <TodoItemList list={followUpList} onRefresh={getTodoFollowUpList} />
+                                    <TodoItemList list={followUpList} onRefresh={getData} />
                                 </>
                             )}
                             {!!poolList.length && (
                                 <>
                                     <div className={styles.time}>待办池最近五条 ({poolList?.length})</div>
-                                    <TodoItemList list={poolList} onRefresh={getTodoPoolList} />
+                                    <TodoItemList list={poolList} onRefresh={getData} />
                                 </>
                             )}
                         </>
