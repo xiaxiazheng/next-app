@@ -95,6 +95,12 @@ const TodoForm: React.FC<Props> = (props) => {
                     status: TodoStatus.todo,
                     time: dayjs().format("YYYY-MM-DD"),
                     other_id: todo.todo_id,
+                    isFollowUp: '0',
+                    isTarget: '0',
+                    isNote: '0',
+                    isBookMark: '0',
+                    isDoing: '0',
+                    color: '3',
                 });
             } else if (operatorType === "add-note") {
                 form.setFieldsValue({
