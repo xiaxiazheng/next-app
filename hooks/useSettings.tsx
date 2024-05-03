@@ -15,12 +15,14 @@ const useSettings = () => {
     };
 
     useEffect(() => {
-        if (JSON.stringify(lastSettings) !== "{}") {
-            setSettings(lastSettings);
-        } else {
-          !isRequesting && getSettingsData();
+        if (JSON.stringify(settings) === "{}") {
+            if (JSON.stringify(lastSettings) !== "{}") {
+                setSettings(lastSettings);
+            } else {
+                !isRequesting && getSettingsData();
+            }
         }
-    }, []);
+    });
 
     return settings;
 };
