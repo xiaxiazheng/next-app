@@ -86,6 +86,14 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         setActiveTodo(res.data);
     };
 
+    // 判断是否应该优先添加子节点
+    const shouldAddChild = (todo: TodoItemType) => {
+        if (todo?.isTarget === '1') {
+            return true;
+        }
+        return false;
+    }
+
     return (
         <>
             <DrawerWrapper
@@ -126,25 +134,24 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 </Button>
                             )}
                             <Button
-                                type="primary"
+                                type={shouldAddChild(activeTodo) ? "primary" : "default"}
                                 onClick={() => {
                                     setOperatorType("progress");
                                     setShowEdit(true);
                                 }}
                             >
-                                添加进度
+                                添加后续
                             </Button>
                             <Button
-                                type="primary"
+                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
                                 onClick={() => {
                                     setOperatorType("copy");
                                     setShowEdit(true);
                                 }}
                             >
-                                复制
+                                {activeTodo?.other_id ? '添加同级进度' : '复制'}
                             </Button>
                             <Button
-                                type="primary"
                                 onClick={() => {
                                     setOperatorType("edit");
                                     setShowEdit(true);
