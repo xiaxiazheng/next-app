@@ -116,7 +116,10 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 <h2 className={styles.h2}>
                     <span>搜索结果 ({total})</span>
                     <Space size={8}>
-                        {((pastKeyword && pastKeyword !== "") || startTime !== "" || todoType !== "all" || activeCategory !== "所有") && (
+                        {((pastKeyword && pastKeyword !== "") ||
+                            startTime !== "" ||
+                            todoType !== "all" ||
+                            activeCategory !== "所有") && (
                             <Button
                                 style={{ width: 50 }}
                                 icon={<ClearOutlined />}
@@ -176,6 +179,15 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                             setTimeout(() => setIsShowHistory(false), 100);
                         }}
                     />
+                    {(activeCategory !== "所有" || todoType !== "all") && (
+                        <Space size={8} style={{ paddingBottom: 4 }}>
+                            <span>已筛选：</span>
+                            {activeCategory !== "所有" && (
+                                <Button size="small" danger onClick={() => setActiveCategory("所有")}>{activeCategory}</Button>
+                            )}
+                            {todoType !== "all" && <Button size="small" danger onClick={() => setTodoType("all")}>{todoType}</Button>}
+                        </Space>
+                    )}
                 </div>
                 {startTime && (
                     <Space size={16} className={styles.timeControl}>
