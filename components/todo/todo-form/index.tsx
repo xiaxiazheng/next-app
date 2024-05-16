@@ -76,6 +76,8 @@ interface Props extends FormProps {
 const TodoForm: React.FC<Props> = (props) => {
     const { status, todo, operatorType, form, ...rest } = props;
 
+    const settings = useSettings();
+
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
         const res: any = await getTodoCategory();
@@ -100,7 +102,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     isNote: '0',
                     isBookMark: '0',
                     isDoing: '0',
-                    color: '3',
+                    color: String(settings?.todoDefaultColor) || '4',
                 });
             } else if (operatorType === "add-note") {
                 form.setFieldsValue({
@@ -117,8 +119,6 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
-    const settings = useSettings();
-
     return (
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} {...rest}>
@@ -132,7 +132,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     name="color"
                     label={colorTitle}
                     rules={[{ required: true }]}
-                    initialValue={String(settings?.todoDefaultColor || "3")}
+                    initialValue={String(settings?.todoDefaultColor || "4")}
                 >
                     <Radio.Group buttonStyle="solid">
                         {Object.keys(settings?.todoColorMap || {}).map((item) => (
