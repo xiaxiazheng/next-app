@@ -116,13 +116,14 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 <h2 className={styles.h2}>
                     <span>搜索结果 ({total})</span>
                     <Space size={8}>
-                        {((pastKeyword && pastKeyword !== "") || startTime !== "" || todoType !== "all") && (
+                        {((pastKeyword && pastKeyword !== "") || startTime !== "" || todoType !== "all" || activeCategory !== "所有") && (
                             <Button
                                 style={{ width: 50 }}
                                 icon={<ClearOutlined />}
                                 onClick={() => {
                                     keyword.current = "";
                                     setTodoType("all");
+                                    setActiveCategory("所有");
                                     setPastKeyword("");
                                     forceUpdate();
                                     startTime === "" ? getData() : setStartTime("");
