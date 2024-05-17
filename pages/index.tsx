@@ -3,7 +3,15 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoDone, getTodoFollowUp, getTodoTarget, getTodoPool, TodoStatus } from "../service";
+import {
+    getTodo,
+    getTodoDone,
+    getTodoFollowUp,
+    getTodoTarget,
+    getTodoPool,
+    TodoStatus,
+    getTodoFootprint,
+} from "../service";
 import TodoDayList from "../components/todo/todo-day-list";
 import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
@@ -33,6 +41,8 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const [poolList, setPoolList] = useState([]);
     const [followUpList, setFollowUpList] = useState([]);
     const [targetList, setTargetList] = useState([]);
+    const [footprintList, setFootprintList] = useState([]);
+    const [importantList, setImportantList] = useState([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -86,6 +96,28 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         }
     };
 
+    // 获取足迹
+    const getTodoFootprintList = async () => {
+        const res = await getTodoFootprint();
+        if (res) {
+            setFootprintList(res.data.list.slice(0, 5));
+        }
+    };
+
+    // 获取已完成的重要 todo
+    const getTodoImportantList = async () => {
+        const params: any = {
+            keyword: "",
+            pageNo: 1,
+            status: TodoStatus.done,
+            size: 20,
+        };
+        const res = await getTodoDone(params);
+        if (res) {
+            setImportantList(res.data.list.filter((item) => Number(item.color) < 3));
+        }
+    };
+
     const getData = () => {
         setLoading(true);
         Promise.all([
@@ -94,6 +126,8 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             getTodoTargetTodoList(),
             getTodoPoolList(),
             getTodoFollowUpList(),
+            getTodoFootprintList(),
+            getTodoImportantList(),
         ]).finally(() => {
             setLoading(false);
         });
@@ -172,6 +206,22 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                                         {settings?.todoNameMap?.followUp} ({followUpList?.length})
                                     </div>
                                     <TodoItemList list={followUpList} onRefresh={getData} />
+                                </>
+                            )}
+                            {!!footprintList.length && (
+                                <>
+                                    <div className={styles.time}>
+                                        {settings?.todoNameMap?.footprint}最近五条 ({footprintList?.length})
+                                    </div>
+                                    <TodoItemList list={footprintList} onRefresh={getData} />
+                                </>
+                            )}
+                            {!!importantList.length && (
+                                <>
+                                    <div className={styles.time}>
+                                        已完成的重要todo最近五条 ({importantList?.length})
+                                    </div>
+                                    <TodoItemList list={importantList} onRefresh={getData} />
                                 </>
                             )}
                             {!!poolList.length && (
