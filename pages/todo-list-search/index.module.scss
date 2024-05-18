@@ -141,3 +141,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.checkbox {
+    display: flex;
+    flex-wrap: wrap;
+    :global {
+        .ant-checkbox-wrapper {
+            color: white;
+        }
+    }
+}

@@ -82,13 +82,14 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const getTodoPoolList = async () => {
         const res = await getTodoPool({
             sortBy: [["time", "DESC"]],
+            pageSize: 5
         });
         if (res) {
-            setPoolList(res.data.list.slice(0, 5));
+            setPoolList(res.data.list);
         }
     };
 
-    // 获取待办池
+    // 获取完成但没结束
     const getTodoFollowUpList = async () => {
         const res = await getTodoFollowUp();
         if (res) {
@@ -98,9 +99,11 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     // 获取足迹
     const getTodoFootprintList = async () => {
-        const res = await getTodoFootprint();
+        const res = await getTodoFootprint({
+            pageSize: 5
+        });
         if (res) {
-            setFootprintList(res.data.list.slice(0, 5));
+            setFootprintList(res.data.list);
         }
     };
 
@@ -108,9 +111,9 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const getTodoImportantList = async () => {
         const params: any = {
             keyword: "",
-            pageNo: 1,
             status: TodoStatus.done,
-            size: 20,
+            color: ['0', '1', '2'],
+            pageSize: 5,
         };
         const res = await getTodoDone(params);
         if (res) {

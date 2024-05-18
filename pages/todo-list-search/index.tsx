@@ -4,7 +4,8 @@ import { getTodoDone, getTodoCategory, TodoStatus } from "../../service";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { TodoItemType } from "../../components/todo/types";
 import dayjs from "dayjs";
-import { Pagination, Input, Button, Spin, Space, Radio } from "antd";
+import { Pagination, Input, Button, Spin, Space, Radio, Checkbox } from "antd";
+import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../components/todo/utils";
 import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
@@ -48,11 +49,12 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoType, setTodoType] = useState<"done" | "all">("done");
 
     const getData = debounce(async (key?: string) => {
+        getCategory();
         setLoading(true);
         const params: any = {
             keyword: key || keyword.current,
             pageNo,
-            category: activeCategory === "所有" ? "" : activeCategory,
+            category: activeCategory as string[],
         };
         if (todoType === "done") {
             params["status"] = TodoStatus.done;
@@ -80,12 +82,10 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     useEffect(() => {
         refreshFlag && getData();
-        getCategory();
     }, [refreshFlag]);
 
     useEffect(() => {
         getData();
-        getCategory();
     }, [pageNo]);
 
     const today = dayjs().format("YYYY-MM-DD");
@@ -94,7 +94,7 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [showDrawer, setShowFilter] = useState<boolean>(false);
     const [category, setCategory] = useState<any[]>([]);
-    const [activeCategory, setActiveCategory] = useState<string>("所有");
+    const [activeCategory, setActiveCategory] = useState<CheckboxValueType[]>([]);
     const getCategory = debounce(async () => {
         const res: any = await getTodoCategory();
         const resData = await res.json();
@@ -119,14 +119,14 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                         {((pastKeyword && pastKeyword !== "") ||
                             startTime !== "" ||
                             todoType !== "all" ||
-                            activeCategory !== "所有") && (
+                            activeCategory.length !== 0) && (
                             <Button
                                 style={{ width: 50 }}
                                 icon={<ClearOutlined />}
                                 onClick={() => {
                                     keyword.current = "";
                                     setTodoType("all");
-                                    setActiveCategory("所有");
+                                    setActiveCategory([]);
                                     setPastKeyword("");
                                     forceUpdate();
                                     startTime === "" ? getData() : setStartTime("");
@@ -179,13 +179,28 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                             setTimeout(() => setIsShowHistory(false), 100);
                         }}
                     />
-                    {(activeCategory !== "所有" || todoType !== "all") && (
+                    {(activeCategory.length !== 0 || todoType !== "all") && (
                         <Space size={8} style={{ paddingBottom: 4 }}>
                             <span>已筛选：</span>
-                            {activeCategory !== "所有" && (
-                                <Button size="small" danger onClick={() => setActiveCategory("所有")}>{activeCategory}</Button>
+                            {activeCategory.length !== 0 && (
+                                <>
+                                    {activeCategory.map((item) => (
+                                        <Button
+                                            key={item as string}
+                                            size="small"
+                                            type="primary"
+                                            onClick={() => setActiveCategory((prev) => prev.filter((i) => i !== item))}
+                                        >
+                                            {item}
+                                        </Button>
+                                    ))}
+                                </>
                             )}
-                            {todoType !== "all" && <Button size="small" danger onClick={() => setTodoType("all")}>{todoType}</Button>}
+                            {todoType !== "all" && (
+                                <Button size="small" onClick={() => setTodoType("all")}>
+                                    {todoType}
+                                </Button>
+                            )}
                         </Space>
                     )}
                 </div>
@@ -259,23 +274,20 @@ const TodoDone: React.FC<IProps> = ({ refreshFlag }) => {
                 {/* 分类弹窗 */}
                 <DrawerWrapper open={showDrawer} onClose={() => setShowFilter(false)} placement="bottom" height="70vh">
                     <div style={{ marginBottom: 10 }}>分类：</div>
-                    <Radio.Group
-                        className={styles.content}
+                    <Checkbox.Group
+                        className={styles.checkbox}
                         value={activeCategory}
                         onChange={(e) => {
-                            setActiveCategory(e.target.value);
+                            setActiveCategory(e);
                             setShowFilter(false);
                         }}
                     >
-                        <Radio.Button key="所有" value="所有" style={{ marginBottom: 10 }}>
-                            所有
-                        </Radio.Button>
                         {category?.map((item) => (
-                            <Radio.Button key={item.category} value={item.category} style={{ marginBottom: 10 }}>
-                                {item.category}
-                            </Radio.Button>
+                            <Checkbox key={item.category} value={item.category} style={{ marginBottom: 10 }}>
+                                {item.category} ({item.count})
+                            </Checkbox>
                         ))}
-                    </Radio.Group>
+                    </Checkbox.Group>
                     {/* todo 状态 */}
                     <div style={{ marginBottom: 10 }}>分类：</div>
                     <Radio.Group

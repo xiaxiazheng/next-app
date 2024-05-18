@@ -212,11 +212,12 @@ export const getTodoTarget = async (obj: any = {}): Promise<TodoRes | false> => 
     }
 };
 
-export const getTodoFootprint = async (): Promise<TodoRes | false> => {
+export const getTodoFootprint = async (rest: any = {}): Promise<TodoRes | false> => {
     const params: any = {
         pageNo: 1,
         pageSize: 30,
         sortBy: [["mTime", "DESC"]],
+        ...rest
     };
     const isWork = getIsWork();
     if (isWork !== "") {
@@ -232,7 +233,10 @@ export const getTodoFootprint = async (): Promise<TodoRes | false> => {
 };
 
 export const getTodoCategory = async (params?: { isNote?: string }) => {
-    return await getFetch(`/todo/getTodoCategory${params?.isNote ? `?isNote=${params.isNote}` : ""}`);
+    const isWork = getIsWork();
+    return await getFetch(
+        `/todo/getTodoCategory?${params?.isNote ? `isNote=${params.isNote}&` : ""}${isWork ? `isWork=${isWork}` : ""}`
+    );
 };
 
 export const AddTodoItem = async (params: CreateTodoItemReq) => {
