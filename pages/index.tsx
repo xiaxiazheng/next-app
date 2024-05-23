@@ -1,7 +1,7 @@
 import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Input, message, Spin } from "antd";
+import { Button, Input, message, Spin } from "antd";
 import { useRouter } from "next/router";
 import {
     getTodo,
@@ -17,11 +17,30 @@ import TodoItemList from "../components/todo/todo-item-list";
 import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "./todo-list-search/search-history";
 import useSettings from "../hooks/useSettings";
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 // import HomeTips from "../components/common/home-tips";
 
 interface IProps {
     refreshFlag: number;
 }
+
+const TitleWrapper: React.FC<any> = (props) => {
+    const [isCollapse, setIsCollapse] = useState<boolean>(false);
+    const { title, list } = props;
+
+    if (!list?.length) return null;
+
+    return (
+        <>
+            <div className={styles.time} onClick={() => setIsCollapse(!isCollapse)}>
+                <span>
+                    {title} ({list?.length}) {isCollapse ? <CaretDownOutlined /> : <CaretUpOutlined />}
+                </span>
+            </div>
+            {!isCollapse && props.children}
+        </>
+    );
+};
 
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
@@ -82,7 +101,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const getTodoPoolList = async () => {
         const res = await getTodoPool({
             sortBy: [["time", "DESC"]],
-            pageSize: 5
+            pageSize: 5,
         });
         if (res) {
             setPoolList(res.data.list);
@@ -100,7 +119,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     // 获取足迹
     const getTodoFootprintList = async () => {
         const res = await getTodoFootprint({
-            pageSize: 5
+            pageSize: 5,
         });
         if (res) {
             setFootprintList(res.data.list);
@@ -112,7 +131,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         const params: any = {
             keyword: "",
             status: TodoStatus.done,
-            color: ['0', '1', '2'],
+            color: ["0", "1", "2"],
             pageSize: 5,
         };
         const res = await getTodoDone(params);
@@ -158,6 +177,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         getData={getData}
                         title="todo"
                         isReverse={true}
+                        timeStyle={{ fontSize: 17 }}
                         search={
                             <>
                                 <Input.Search
@@ -189,50 +209,24 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     />
                     {!isShowHistory && (
                         <>
-                            {!!doneList?.length && (
-                                <>
-                                    <div className={styles.time}>今日已完成 ({doneList?.length})</div>
-                                    <TodoItemList list={doneList} onRefresh={getData} />
-                                </>
-                            )}
-                            {!!targetList.length && (
-                                <>
-                                    <div className={styles.time}>
-                                        {settings?.todoNameMap?.target} ({targetList?.length})
-                                    </div>
-                                    <TodoItemList list={targetList} onRefresh={getData} />
-                                </>
-                            )}
-                            {!!followUpList.length && (
-                                <>
-                                    <div className={styles.time}>
-                                        {settings?.todoNameMap?.followUp} ({followUpList?.length})
-                                    </div>
-                                    <TodoItemList list={followUpList} onRefresh={getData} />
-                                </>
-                            )}
-                            {!!footprintList.length && (
-                                <>
-                                    <div className={styles.time}>
-                                        {settings?.todoNameMap?.footprint}最近五条 ({footprintList?.length})
-                                    </div>
-                                    <TodoItemList list={footprintList} onRefresh={getData} />
-                                </>
-                            )}
-                            {!!importantList.length && (
-                                <>
-                                    <div className={styles.time}>
-                                        已完成的重要todo最近五条 ({importantList?.length})
-                                    </div>
-                                    <TodoItemList list={importantList} onRefresh={getData} />
-                                </>
-                            )}
-                            {!!poolList.length && (
-                                <>
-                                    <div className={styles.time}>待办池最近五条 ({poolList?.length})</div>
-                                    <TodoItemList list={poolList} onRefresh={getData} />
-                                </>
-                            )}
+                            <TitleWrapper title={`今日已完成`} list={doneList}>
+                                <TodoItemList list={doneList} onRefresh={getData} />
+                            </TitleWrapper>
+                            <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
+                                <TodoItemList list={targetList} onRefresh={getData} />
+                            </TitleWrapper>
+                            <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
+                                <TodoItemList list={followUpList} onRefresh={getData} />
+                            </TitleWrapper>
+                            <TitleWrapper title={`${settings?.todoNameMap?.footprint}最近五条`} list={footprintList}>
+                                <TodoItemList list={footprintList} onRefresh={getData} />
+                            </TitleWrapper>
+                            <TitleWrapper title={`已完成的重要todo最近五条`} list={importantList}>
+                                <TodoItemList list={importantList} onRefresh={getData} />
+                            </TitleWrapper>
+                            <TitleWrapper title={`待办池最近五条`} list={poolList}>
+                                <TodoItemList list={poolList} onRefresh={getData} />
+                            </TitleWrapper>
                         </>
                     )}
                 </Spin>

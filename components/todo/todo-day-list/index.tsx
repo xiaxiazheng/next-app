@@ -16,6 +16,7 @@ interface IProps {
     isReverse?: boolean;
     btn?: ReactNode;
     search?: ReactNode;
+    timeStyle?: Object;
 }
 
 const TodoDayList: React.FC<IProps> = (props) => {
@@ -64,6 +65,7 @@ const TodoDayList: React.FC<IProps> = (props) => {
                     {title}({total})
                 </span>
                 <Space size={8}>
+                    {btn}
                     {/* 排序方式 */}
                     <Button
                         style={{ width: 50 }}
@@ -73,7 +75,6 @@ const TodoDayList: React.FC<IProps> = (props) => {
                     />
                     {/* 刷新列表 */}
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
-                    {btn}
                 </Space>
             </h2>
             {search}
@@ -85,9 +86,11 @@ const TodoDayList: React.FC<IProps> = (props) => {
                             className={`${styles.time} ${
                                 time === today ? styles.today : time < today ? styles.previously : styles.future
                             }`}
+                            style={props.timeStyle || {}}
                         >
                             <span>
-                                {time} ({getRangeFormToday(time)}, {getWeek(time)}){todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
+                                {time} ({getRangeFormToday(time)}, {getWeek(time)})
+                                {todoMap[time]?.length > 5 ? ` ${todoMap[time]?.length}` : null}
                             </span>
                             {time < today && (
                                 <Button
