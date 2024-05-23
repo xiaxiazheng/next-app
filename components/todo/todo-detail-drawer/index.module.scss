@@ -8,7 +8,9 @@
 
 .operator {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+    justify-content: flex-start;
     margin-left: 10px;
 }
 

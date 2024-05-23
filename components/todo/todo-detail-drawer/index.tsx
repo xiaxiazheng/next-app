@@ -88,11 +88,11 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
 
     // 判断是否应该优先添加子节点
     const shouldAddChild = (todo: TodoItemType) => {
-        if (todo?.isTarget === '1') {
+        if (todo?.isTarget === "1") {
             return true;
         }
         return false;
-    }
+    };
 
     return (
         <>
@@ -110,13 +110,6 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             borderTop: "1px solid white",
                         }}
                     >
-                        <Space style={{ flex: 1, paddingTop: "10px" }}>
-                            {String(activeTodo?.status) === String(TodoStatus.todo) && (
-                                <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
-                                    完成Todo
-                                </Button>
-                            )}
-                        </Space>
                         <Space
                             className={styles.operator}
                             size={10}
@@ -124,15 +117,23 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 paddingTop: "10px",
                             }}
                         >
-                            {hasChainIcon(activeTodo).hasChain && (
-                                <Button
-                                    onClick={() => {
-                                        setShowChain(true);
-                                    }}
-                                >
-                                    chain <TodoChainIcon item={activeTodo} />
-                                </Button>
-                            )}
+                            <Button
+                                onClick={() => {
+                                    setOperatorType("edit");
+                                    setShowEdit(true);
+                                }}
+                            >
+                                编辑
+                            </Button>
+                            <Button
+                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
+                                onClick={() => {
+                                    setOperatorType("copy");
+                                    setShowEdit(true);
+                                }}
+                            >
+                                {activeTodo?.other_id ? "添加同级进度" : "复制"}
+                            </Button>
                             <Button
                                 type={shouldAddChild(activeTodo) ? "primary" : "default"}
                                 onClick={() => {
@@ -142,23 +143,20 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             >
                                 添加后续
                             </Button>
-                            <Button
-                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
-                                onClick={() => {
-                                    setOperatorType("copy");
-                                    setShowEdit(true);
-                                }}
-                            >
-                                {activeTodo?.other_id ? '添加同级进度' : '复制'}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    setOperatorType("edit");
-                                    setShowEdit(true);
-                                }}
-                            >
-                                编辑
-                            </Button>
+                            {hasChainIcon(activeTodo).hasChain && (
+                                <Button
+                                    onClick={() => {
+                                        setShowChain(true);
+                                    }}
+                                >
+                                    chain <TodoChainIcon item={activeTodo} />
+                                </Button>
+                            )}
+                            {String(activeTodo?.status) === String(TodoStatus.todo) && (
+                                <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
+                                    完成Todo
+                                </Button>
+                            )}
                         </Space>
                     </div>
                 }
