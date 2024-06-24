@@ -28,6 +28,15 @@
     color: #a6adb4;
     background-color: #001529;
 }
+.todo :global(.ant-tabs) {
+    color: unset;
+}
+.todo :global(.ant-tabs.ant-tabs-tab) {
+    color: #a6adb4;
+}
+.todo :global(.ant-tabs-nav) {
+    margin-bottom: 0;
+}
 
 .beforeToday {
     display: flex;
