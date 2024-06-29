@@ -90,14 +90,16 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         }
     };
 
-    // 获取今日已完成 Todo
+    // 获取昨天已完成 Todo
     const getYesterdayDoneTodoList = async () => {
+        const yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
         const params: any = {
             keyword: "",
             pageNo: 1,
             pageSize: 30,
             status: TodoStatus.done,
-            startTime: dayjs().subtract(1, "day").format("YYYY-MM-DD"),
+            startTime: yesterday,
+            endTime: yesterday,
         };
         const res = await getTodoDone(params);
         if (res) {
@@ -150,7 +152,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             keyword: "",
             status: TodoStatus.done,
             color: ["0", "1", "2"],
-            pageSize: 5,
+            pageSize: 8,
         };
         const res = await getTodoDone(params);
         if (res) {
@@ -190,7 +192,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             <Header title="XIAXIAZheng" />
             <main className={styles.todo}>
                 <Spin spinning={loading}>
-                    <Tabs activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
+                    <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
                         <TabPane tab="todo" key="todo">
                             <TodoDayList
                                 list={isShowHistory ? [] : todoList}
@@ -234,10 +236,13 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         {!isShowHistory && (
                             <>
                                 <TabPane tab="done" key="done">
+                                    <TitleWrapper title={`今日已完成`} list={doneList}>
+                                        <TodoItemList list={doneList} onRefresh={getData} />
+                                    </TitleWrapper>
                                     <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
                                         <TodoItemList list={yesterdayList} onRefresh={getData} />
                                     </TitleWrapper>
-                                    <TitleWrapper title={`已完成的重要todo最近五条`} list={importantList}>
+                                    <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
                                         <TodoItemList list={importantList} onRefresh={getData} />
                                     </TitleWrapper>
                                 </TabPane>
