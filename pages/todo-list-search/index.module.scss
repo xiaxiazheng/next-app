@@ -1,5 +1,77 @@
-.done span {
-    vertical-align: middle;
+
+.done {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 35px);
+    span {
+        vertical-align: middle;
+    }
+
+    :global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
+        color: #a6adb4;
+        background-color: #001529;
+    }
+
+    :global(.ant-radio-button-wrapper) {
+        color: #a6adb4;
+        background-color: #001529;
+    }
+
+    :global(.ant-form-item-label > label) {
+        color: #a6adb4;
+    }
+    :global(.ant-radio-wrapper) {
+        color: #a6adb4;
+    }
+    :global(.ant-input) {
+        color: #a6adb4;
+        background-color: #001529;
+    }
+    :global(.ant-input::placeholder) {
+        color: #a6adb4;
+        background-color: #001529;
+    }
+    :global(.ant-input-affix-wrapper) {
+        color: #a6adb4;
+        background-color: #001529;
+    }
+
+    :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-prev) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-next) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-jump-prev) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-jump-next) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-prev button) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-next button) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-item a) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-disabled .ant-pagination-item-link) {
+        color: #a6adb4;
+    }
+    :global(.ant-pagination-item-active) {
+        background-color: #001529;
+    }
 }
 
 .h2 {
@@ -66,73 +138,6 @@
 .icon {
     vertical-align: middle;
     margin-left: 5px;
-}
-
-.done :global(.ant-form-item-label>label) {
-    color: #a6adb4;
-}
-.done :global(.ant-radio-wrapper) {
-    color: #a6adb4;
-}
-.done :global(.ant-input) {
-    color: #a6adb4;
-    background-color: #001529;
-}
-.done :global(.ant-input::placeholder) {
-    color: #a6adb4;
-    background-color: #001529;
-}
-.done :global(.ant-input-affix-wrapper) {
-    color: #a6adb4;
-    background-color: #001529;
-}
-
-.done :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-prev) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-next) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-jump-prev) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-jump-next) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-prev button) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-next button) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-item a) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-disabled .ant-pagination-item-link) {
-    color: #a6adb4;
-}
-.done :global(.ant-pagination-item-active) {
-    background-color: #001529;
-}
-.done {
-    :global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
-        color: #a6adb4;
-        background-color: #001529;
-    }
-    
-    :global(.ant-radio-button-wrapper) {
-        color: #a6adb4;
-        background-color: #001529;
-    }
 }
 
 .noResult {

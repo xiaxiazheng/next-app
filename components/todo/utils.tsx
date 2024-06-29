@@ -150,12 +150,22 @@ export const getRangeFormToday = (time: string | undefined) => {
 // 用于获取单日的 todo 列表的排序
 export const getShowList = (list: TodoItemType[], params: { isSortTime: boolean; keyword?: string }) => {
     const { isSortTime, keyword } = params;
-    let l = !isSortTime
-        ? list.filter((item) => item.doing === "1").concat(list.filter((item) => item.doing !== "1")) // 这里不用 sort 因为用 sort 会打乱顺序
-        : [...list].sort(
-              // sort 会改变原数组
-              (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
-          );
+    let l = [];
+    if (!isSortTime) {
+        const sortStatus = (list) => { // 未完成放前面
+            return list.filter((item) => item.status !== "1").concat(list.filter((item) => item.status === "1"));
+        }
+        const sortDoing = (list) => { // doing 放那面
+            return list.filter((item) => item.doing === "1").concat(list.filter((item) => item.doing !== "1")); // 这里不用 sort 因为用 sort 会打乱顺序
+        }
+        // 未完成放前面优先级 > doing 放前面
+        l =  sortStatus(sortDoing(list));
+    } else {
+        l = [...list].sort(
+            // sort 会改变原数组
+            (a, b) => (b?.mTime ? new Date(b.mTime).getTime() : 0) - (a?.mTime ? new Date(a.mTime).getTime() : 0)
+        );
+    }
 
     return !keyword
         ? l
@@ -188,17 +198,11 @@ export const setFootPrintList = (todo_id: string) => {
 };
 
 // 判断是否是最后几次操作的 todo
-const latestColorList = [
-    "rgba(175, 226, 177, 0.45)",
-    "rgba(175, 226, 177, 0.2)",
-    "rgba(175, 226, 177, 0.1)",
-];
+const latestColorList = ["rgba(175, 226, 177, 0.45)", "rgba(175, 226, 177, 0.2)", "rgba(175, 226, 177, 0.1)"];
 export const judgeIsLastModify = (todo_id: string) => {
     const index = getFootPrintList()
         .slice(0, 3)
         .map((item) => item.todo_id)
         .indexOf(todo_id);
-    return index !== -1
-        ? { backgroundColor: latestColorList[index], display: "inline" }
-        : {};
+    return index !== -1 ? { backgroundColor: latestColorList[index], display: "inline" } : {};
 };
