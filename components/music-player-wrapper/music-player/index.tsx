@@ -7,9 +7,11 @@ import {
     PauseCircleOutlined,
     PlayCircleOutlined,
     RedoOutlined,
+    TrademarkOutlined,
 } from "@ant-design/icons";
 
-import { MusicListType } from "../../pages/music-player";
+import { MusicListType } from "..";
+import AffixSong from "../../common/affix/affix-song";
 
 interface PropsType {
     list: MusicListType[];
@@ -21,7 +23,26 @@ let timer: any = -1;
 const Music: React.FC<PropsType> = (props) => {
     const { list: musicList } = props;
 
-    const randomList = musicList;
+    useEffect(() => {
+        setRandomList(musicList);
+    }, [musicList]);
+
+    const [isRandom, setIsRandom] = useState<boolean>(false);
+    const [randomList, setRandomList] = useState<MusicListType[]>([]);
+    const getRandomList = () => {
+        if (!isRandom) {
+            // 每次初始化生成随机列表
+            const l = [...musicList].sort(() => Math.random() - Math.random());
+            setRandomList(l);
+            setIsRandom(true);
+        } else {
+            setRandomList(musicList);
+            setIsRandom(false);
+        }
+        setTimeout(() => {
+            anchoring();
+        }, 200);
+    };
 
     // 是否单曲循环
     const [isOneCircle, setIsOneCircle] = useState<boolean>(false);
@@ -140,41 +161,43 @@ const Music: React.FC<PropsType> = (props) => {
         return randomList[index] ? randomList[index] : "";
     };
 
-    const [showList, setShowList] = useState<MusicListType[]>(musicList);
     const [keyword, setKeyword] = useState<string>("");
-    useEffect(() => {
+    const getShowList = (list: MusicListType[]) => {
         if (keyword && keyword !== "") {
-            setShowList(musicList.filter((item) => item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1));
+            return list.filter((item) => item.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1);
         } else {
-            setShowList(musicList);
+            return list;
         }
-    }, [keyword, musicList]);
+    };
+
+    const anchoring = () => {
+        if (active?.key) {
+            document.getElementById(`${active.key}`)?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
+    };
 
     return (
-        <div className={`${styles.music} ScrollBar`}>
+        <div className={`${styles.music}`}>
+            <div className={styles.search}>
+                <Input value={keyword} onChange={(val) => setKeyword(val.target.value)} allowClear />
+            </div>
             {/* 列表 */}
             <div className={`${styles.musicList}`}>
-                {showList?.map((item) => (
+                {getShowList(randomList)?.map((item, index) => (
                     <span
                         key={item.key}
+                        id={item.key}
                         onClick={() => handleChoice(item)}
                         className={active && active === item ? styles.active : ""}
                     >
-                        {item.name}
+                        <span className={styles.songIndex}>{index + 1}.</span> {item.name}
                     </span>
                 ))}
             </div>
             <div className={styles.box}>
-                <div className={styles.search}>
-                    <Input
-                        style={{
-                            width: "calc(100% - 22px)",
-                        }}
-                        value={keyword}
-                        onChange={(val) => setKeyword(val.target.value)}
-                        allowClear
-                    />
-                </div>
                 {/* 播放 */}
                 <div className={styles.musicBox} ref={musicBox}>
                     <audio controls>
@@ -215,8 +238,14 @@ const Music: React.FC<PropsType> = (props) => {
                         title={`下一首：${getAfterSong()}`}
                         onClick={playAfterSong}
                     />
+                    <TrademarkOutlined
+                        className={`${styles.playIcon} ${isRandom ? styles.active : ""}`}
+                        title={"乱序循环"}
+                        onClick={getRandomList}
+                    />
                 </div>
             </div>
+            <AffixSong onClick={anchoring} />
         </div>
     );
 };

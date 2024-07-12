@@ -1,64 +1,27 @@
-.main {
-    padding: 0 10px;
-}
 
-.title {
-    margin: 16px 0;
-    padding: 10px 0 5px 0;
-    border-bottom: 2px solid #a6adb4;
-}
-
-.todo {
-    // padding-bottom: 10px;
-}
-
-.search {
-    margin-bottom: 15px;
-}
-
-.todo :global(.ant-input) {
+.home :global(.ant-input) {
     color: #a6adb4;
     background-color: #001529;
 }
-.todo :global(.ant-input::placeholder) {
+.home :global(.ant-input::placeholder) {
     color: #a6adb4;
     background-color: #001529;
 }
-.todo :global(.ant-input-affix-wrapper) {
+.home :global(.ant-input-affix-wrapper) {
     color: #a6adb4;
     background-color: #001529;
 }
-.todo :global(.ant-tabs) {
+.home :global(.ant-tabs) {
     color: unset;
 }
-.todo :global(.ant-tabs.ant-tabs-tab) {
+.home :global(.ant-tabs.ant-tabs-tab) {
     color: #a6adb4;
 }
-.todo :global(.ant-tabs-nav) {
+.home :global(.ant-tabs-nav) {
     margin-bottom: 0;
 }
 
-.beforeToday {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    padding: 5px 0;
-    border: 1px solid #ccc;
-}
-
-.time {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    padding-bottom: 3px;
-    border-bottom: 1px solid #a6adb4;
-    color: #1677ff;
-    font-size: 18px;
-}
-
-.tabs :global(.ant-tabs-content) {
+.home :global(.ant-tabs-content) {
     height: calc(100vh - 78px);
     overflow-y: auto;
 }

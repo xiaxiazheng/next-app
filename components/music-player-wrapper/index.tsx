@@ -1,8 +1,7 @@
-import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { GetMediaList } from "../../service";
 import { useEffect, useState } from "react";
-import MusicPlayerComp from "../../components/music-player";
+import MusicPlayerComp from "./music-player";
 
 const obj = {
     key: "杨宗纬 - 我离开我自己 (Live).flac",
@@ -19,7 +18,7 @@ export interface MusicListType extends MusicType {
 const cdnUrl = "http://cdn.xiaxiazheng.cn";
 const hCdnUrl = "http://hcdn.xiaxiazheng.cn";
 
-const MusicPlayer = () => {
+const MusicPlayerWrapper = () => {
     const [list, setList] = useState<MusicListType[]>([]);
 
     const getData = async () => {
@@ -48,23 +47,10 @@ const MusicPlayer = () => {
     }, []);
 
     return (
-        <>
-            <Header title="音乐播放器" />
-            <main>
-                <div className={styles.musicPlayer}>
-                    <MusicPlayerComp list={list} />
-                </div>
-            </main>
-        </>
+        <div className={styles.musicPlayer}>
+            <MusicPlayerComp list={list} />
+        </div>
     );
 };
 
-export default MusicPlayer;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}
+export default MusicPlayerWrapper;

@@ -130,17 +130,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 //     path: "word-book",
                 //     icon: <TranslationOutlined />,
                 // },
-
                 // {
                 //     name: "原生 audio",
                 //     path: "native-audio",
                 //     icon: <CustomerServiceOutlined />,
                 // },
-                {
-                    name: "音乐播放器",
-                    path: "music-player",
-                    icon: <CustomerServiceOutlined />,
-                },
                 {
                     name: "七牛云视频",
                     path: "video",
