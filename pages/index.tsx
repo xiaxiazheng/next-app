@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "./todo-list-search/search-history";
 import useSettings from "../hooks/useSettings";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import TodayBeforeYears from "../components/todo/today-before-years";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -169,10 +170,12 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             footprint: [getTodoFootprintList],
             other: [getTodoTargetTodoList, getTodoFollowUpList, getTodoPoolList],
         };
-        setLoading(true);
-        Promise.all(map[activeKey].map((item) => item())).finally(() => {
-            setLoading(false);
-        });
+        if (map?.[activeKey]) {
+            setLoading(true);
+            Promise.all(map[activeKey].map((item) => item())).finally(() => {
+                setLoading(false);
+            });
+        }
     };
 
     useEffect(() => {
@@ -264,6 +267,9 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                                     <TitleWrapper title={`待办池最近十条`} list={poolList}>
                                         <TodoItemList list={poolList} onRefresh={getData} />
                                     </TitleWrapper>
+                                </TabPane>
+                                <TabPane tab="history" key="history">
+                                    <TodayBeforeYears refreshFlag={refreshFlag} />
                                 </TabPane>
                             </>
                         )}

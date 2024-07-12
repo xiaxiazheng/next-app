@@ -1,10 +1,10 @@
-import Header from "../../components/common/header";
+import Header from "../../common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoList, TodoStatus } from "../../service";
-import TodoDayList from "../../components/todo/todo-day-list";
+import { getTodo, getTodoList, TodoStatus } from "../../../service";
+import TodoDayList from "../todo-day-list";
 import dayjs from "dayjs";
 
 interface IProps {
@@ -51,28 +51,15 @@ const TodayBeforeYears: React.FC<IProps> = ({ refreshFlag }) => {
     }, [refreshFlag]);
 
     return (
-        <div>
-            <Header title="XIAXIAZheng" />
-            <main className={styles.todo}>
-                <Spin spinning={loading}>
-                    <TodoDayList
-                        list={todoList}
-                        getData={getData}
-                        title="往年今天"
-                        isReverse={true}
-                    />
-                </Spin>
-            </main>
-        </div>
+        <Spin spinning={loading}>
+            <TodoDayList
+                list={todoList}
+                getData={getData}
+                title="往年今天"
+                isReverse={true}
+            />
+        </Spin>
     );
 };
 
 export default TodayBeforeYears;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

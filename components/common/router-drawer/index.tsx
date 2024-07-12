@@ -96,11 +96,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     icon: <HistoryOutlined />,
                 },
                 {
-                    name: "往年今日",
-                    path: "today-before-years",
-                    icon: <FieldTimeOutlined />,
-                },
-                {
                     name: "新建 todo",
                     path: "todo-add",
                     icon: <PlusOutlined />,
