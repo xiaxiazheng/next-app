@@ -21,7 +21,9 @@
     margin-bottom: 0;
 }
 
-.home :global(.ant-tabs-content) {
-    height: calc(100vh - 78px);
-    overflow-y: auto;
+.home {
+    .content {
+        height: calc(100vh - 78px);
+        overflow-y: hidden;
+    }
 }

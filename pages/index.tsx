@@ -31,10 +31,10 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
                 <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
-                    <TabPane tab="todo" key="todo">
+                    <TabPane tab="todo" key="todo" className={styles.content}>
                         <HomeTodo refreshFlag={refreshFlag} />
                     </TabPane>
-                    <TabPane tab="music" key="music">
+                    <TabPane tab="music" key="music" className={styles.content}>
                         <MusicPlayerWrapper />
                     </TabPane>
                 </Tabs>
