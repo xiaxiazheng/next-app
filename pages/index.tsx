@@ -4,7 +4,8 @@ import styles from "./index.module.scss";
 import { Button, Input, message, Spin, Tabs } from "antd";
 import { useRouter } from "next/router";
 import MusicPlayerWrapper from "../components/music-player-wrapper";
-import HomeTodo from "./home-todo";
+import HomeTodo from "../components/home-todo";
+import HomeTranslate from "../components/home-translate";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -36,6 +37,9 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     </TabPane>
                     <TabPane tab="music" key="music" className={styles.content}>
                         <MusicPlayerWrapper />
+                    </TabPane>
+                    <TabPane tab="translate" key="translate" className={styles.content}>
+                        <HomeTranslate />
                     </TabPane>
                 </Tabs>
             </main>

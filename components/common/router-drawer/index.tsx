@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
     LoginOutlined,
-    CustomerServiceOutlined,
-    RedditOutlined,
     BookOutlined,
     OrderedListOutlined,
     ExperimentOutlined,
     TrophyOutlined,
     FileTextOutlined,
     CoffeeOutlined,
-    TranslationOutlined,
     PlusOutlined,
     CloudOutlined,
     GithubOutlined,
@@ -19,11 +16,8 @@ import {
     StarFilled,
     AimOutlined,
     VideoCameraOutlined,
-    ClockCircleOutlined,
-    CheckSquareOutlined,
     HistoryOutlined,
     AppleFilled,
-    FieldTimeOutlined,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
 import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
@@ -121,16 +115,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             title: "others",
             children: [
                 // {
-                //     name: "翻译",
-                //     path: "translate",
-                //     icon: <TranslationOutlined />,
-                // },
-                // {
-                //     name: "单词本",
-                //     path: "word-book",
-                //     icon: <TranslationOutlined />,
-                // },
-                // {
                 //     name: "原生 audio",
                 //     path: "native-audio",
                 //     icon: <CustomerServiceOutlined />,
@@ -170,7 +154,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     path: "login",
                     icon: <LoginOutlined />,
                 },
-            ]
+            ],
         },
         // {
         //     title: "note",

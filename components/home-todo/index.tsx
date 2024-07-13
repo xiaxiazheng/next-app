@@ -1,4 +1,4 @@
-import Header from "../../components/common/header";
+import Header from "../common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Spin, Tabs } from "antd";
@@ -12,13 +12,13 @@ import {
     TodoStatus,
     getTodoFootprint,
 } from "../../service";
-import TodoDayList from "../../components/todo/todo-day-list";
-import TodoItemList from "../../components/todo/todo-item-list";
+import TodoDayList from "../todo/todo-day-list";
+import TodoItemList from "../todo/todo-item-list";
 import dayjs from "dayjs";
-import SearchHistory, { setHistoryWord } from "../todo-list-search/search-history";
+import SearchHistory, { setHistoryWord } from "../../pages/todo-list-search/search-history";
 import useSettings from "../../hooks/useSettings";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import TodayBeforeYears from "../../components/todo/today-before-years";
+import TodayBeforeYears from "../todo/today-before-years";
 
 const TabPane = Tabs.TabPane;
 

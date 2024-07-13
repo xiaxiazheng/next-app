@@ -1,10 +1,10 @@
 import { getFetch, postFetch } from ".";
 
-export const YouDaoTranslate = async (keyword: string) => {
+export const getTranslate = async (keyword: string) => {
     const params = {
         keyword
     }
-    const res = await postFetch(`/translate/YouDaoTranslate`, params);
+    const res = await postFetch(`/translate/translate`, params);
     if (res) {
         const data = res.json();
         return data;
@@ -13,12 +13,12 @@ export const YouDaoTranslate = async (keyword: string) => {
     }
 };
 
-export const getTranslateList = async (keyword: string, pageNo: number, pageSize?: number) => {
-    const params = {
-        keyword,
-        pageNo,
-        pageSize
-    };
+export const getTranslateList = async (params: {
+    keyword?: string,
+    pageNo: number,
+    pageSize?: number
+    isMark?: number
+}) => {
     const res: any = await postFetch(`/translate/getTranslateList`, params);
     if (res) {
         const data = res.json();
