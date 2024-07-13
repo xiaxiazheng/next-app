@@ -51,8 +51,8 @@ const UploadImageFile: React.FC<Props> = (props) => {
     };
 
     const getUploadingList = (list: UploadFile<any>[]) => {
-        return list.filter((item) => item.status !== "done" && item.status !== 'error')
-    }
+        return list.filter((item) => item.status !== "done" && item.status !== "error");
+    };
 
     return (
         <div className={styles.upload_wrapper} onClick={(e) => e.stopPropagation()} style={style}>
@@ -73,29 +73,25 @@ const UploadImageFile: React.FC<Props> = (props) => {
                 <PlusOutlined className={styles.addIcon} />
                 点击上传图片/文件
             </Upload>
-            <MyModal
-                visible={getUploadingList(uploadFileList).length !== 0}
-                showFooter={false}
-                title={"上传图片/文件"}
-            >
-                {getUploadingList(uploadFileList)
-                    .map((item, index) => {
-                        return (
-                            <div className={styles.progress} key={index}>
-                                <div className={styles.name}>{item.originFileObj.name}</div>
-                                <div>{handleSize(item.size || 0)}</div>
-                                <div>进度：{(item.percent || 0).toFixed(1)}%</div>
-                                <Progress
-                                    strokeColor={{
-                                        from: "#108ee9",
-                                        to: "#87d068",
-                                    }}
-                                    percent={Number((item.percent || 0).toFixed(1))}
-                                    status="active"
-                                />
-                            </div>
-                        );
-                    })}
+            <MyModal visible={getUploadingList(uploadFileList).length !== 0} showFooter={false} title={"上传图片/文件"}>
+                {getUploadingList(uploadFileList).map((item, index) => {
+                    return (
+                        <div className={styles.progress} key={index}>
+                            <div className={styles.name}>{item.originFileObj.name}</div>
+                            <div>{handleSize(item.size || 0)}</div>
+                            <div>进度：{(item.percent || 0).toFixed(1)}%</div>
+                            <Progress
+                                className={styles.progressBar}
+                                strokeColor={{
+                                    from: "#108ee9",
+                                    to: "#87d068",
+                                }}
+                                percent={Number((item.percent || 0).toFixed(1))}
+                                status="active"
+                            />
+                        </div>
+                    );
+                })}
             </MyModal>
         </div>
     );
