@@ -154,11 +154,14 @@
 }
 
 .scrollArea {
+    display: block;
+    width: 100%;
     height: calc(100vh - 257px);
     overflow-y: auto;
 }
 
 .list {
+    width: 100%;
     height: calc(100vh - 249px);
     overflow-y: auto;
 }
