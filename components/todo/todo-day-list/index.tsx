@@ -12,23 +12,19 @@ import TodoItemList from "../todo-item-list";
 interface IProps {
     list: any[];
     getData: Function;
-    title: string;
     isReverse?: boolean;
-    btn?: ReactNode;
-    search?: ReactNode;
     timeStyle?: Object;
+    isSortTime?: boolean;
 }
 
 const TodoDayList: React.FC<IProps> = (props) => {
-    const { list, getData, title, isReverse = false, btn, search } = props;
+    const { list, getData, isReverse = false, isSortTime = false } = props;
 
     const [todoMap, setTodoMap] = useState<{ [k in string]: TodoItemType[] }>({});
-    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         if (list) {
             setTodoMap(formatArrayToTimeMap(list));
-            setTotal(list.length);
         }
     }, [list]);
 
@@ -56,28 +52,8 @@ const TodoDayList: React.FC<IProps> = (props) => {
         }
     };
 
-    const [isSortTime, setIsSortTime] = useState<boolean>(false);
-
     return (
         <>
-            <h2 className={styles.h2}>
-                <span>
-                    {title}({total})
-                </span>
-                <Space size={8}>
-                    {btn}
-                    {/* 排序方式 */}
-                    <Button
-                        style={{ width: 50 }}
-                        icon={<CalendarOutlined />}
-                        onClick={() => setIsSortTime((prev) => !prev)}
-                        type={isSortTime ? "primary" : "default"}
-                    />
-                    {/* 刷新列表 */}
-                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
-                </Space>
-            </h2>
-            {search}
             <div className={styles.list}>
                 {(isReverse ? Object.keys(todoMap).sort() : Object.keys(todoMap).sort().reverse()).map((time) => (
                     <div key={time}>

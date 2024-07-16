@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { message, Spin } from "antd";
 import { useRouter } from "next/router";
 import { getTodo, getTodoList, TodoStatus } from "../../../service";
-import TodoDayList from "../todo-day-list";
+import TodoDayListWrapper from "../todo-day-list-wrapper";
 import dayjs from "dayjs";
 
 interface IProps {
@@ -52,7 +52,7 @@ const TodayBeforeYears: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <TodoDayList
+            <TodoDayListWrapper
                 list={todoList}
                 getData={getData}
                 title="往年今天"

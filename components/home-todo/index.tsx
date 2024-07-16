@@ -12,13 +12,14 @@ import {
     TodoStatus,
     getTodoFootprint,
 } from "../../service";
-import TodoDayList from "../todo/todo-day-list";
+import TodoDayListWrapper from "../todo/todo-day-list-wrapper";
 import TodoItemList from "../todo/todo-item-list";
 import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "../../pages/todo-list-search/search-history";
 import useSettings from "../../hooks/useSettings";
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, FireFilled } from "@ant-design/icons";
 import TodayBeforeYears from "../todo/today-before-years";
+import TodoDayList from "../todo/todo-day-list";
 
 const TabPane = Tabs.TabPane;
 
@@ -180,16 +181,24 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     };
 
     const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
+    const [isFollowUp, setIsFollowUp] = useState<boolean>(true);
+
+    const getTodayList = () => {
+        return isShowHistory ? [] : todoList.concat(isFollowUp ? followUpList : []).filter(item => !dayjs(item.time).isAfter(dayjs()));
+    };
+
+    const getAfterList = () => {
+        return todoList.filter(item => dayjs(item.time).isAfter(dayjs()));
+    };
 
     return (
         <Spin spinning={loading}>
             <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
                 <TabPane tab="todo" key="todo" className={styles.content}>
-                    <TodoDayList
-                        list={isShowHistory ? [] : todoList.concat(followUpList)}
+                    <TodoDayListWrapper
+                        list={getTodayList()}
                         getData={getData}
                         title="todo"
-                        isReverse={true}
                         timeStyle={{ fontSize: 17 }}
                         search={
                             <>
@@ -219,10 +228,25 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                                 )}
                             </>
                         }
+                        btn={
+                            <Button
+                                onClick={() => setIsFollowUp(!isFollowUp)}
+                                type={isFollowUp ? "primary" : "default"}
+                            >
+                                <FireFilled />
+                            </Button>
+                        }
                     />
-                    <TitleWrapper title={`今日已完成`} list={doneList}>
-                        <TodoItemList list={doneList} onRefresh={getData} />
-                    </TitleWrapper>
+                    {!isShowHistory && (
+                        <>
+                            <TitleWrapper title={`之后待办`} list={getAfterList()}>
+                                <TodoDayList getData={getData} list={getAfterList()} />
+                            </TitleWrapper>
+                            <TitleWrapper title={`今日已完成`} list={doneList}>
+                                <TodoItemList list={doneList} onRefresh={getData} />
+                            </TitleWrapper>
+                        </>
+                    )}
                 </TabPane>
                 {!isShowHistory && (
                     <>
@@ -238,10 +262,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                             </TitleWrapper>
                         </TabPane>
                         <TabPane tab="footprint" key="footprint" className={styles.content}>
-                            <TitleWrapper
-                                title={`${settings?.todoNameMap?.footprint}最近十条`}
-                                list={footprintList}
-                            >
+                            <TitleWrapper title={`${settings?.todoNameMap?.footprint}最近十条`} list={footprintList}>
                                 <TodoItemList list={footprintList} onRefresh={getData} />
                             </TitleWrapper>
                         </TabPane>

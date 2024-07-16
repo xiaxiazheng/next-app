@@ -42,7 +42,7 @@ export const handleSplitListByTimeRange = (
     }, {} as Record<string, TodoItemType[]>);
 };
 
-const TodoDayList = (props: IProps) => {
+const TodoSplitTimeRangeList = (props: IProps) => {
     const { list, getData, title, btn } = props;
 
     const [total, setTotal] = useState(0);
@@ -106,7 +106,7 @@ const TodoDayList = (props: IProps) => {
     );
 };
 
-export default TodoDayList;
+export default TodoSplitTimeRangeList;
 
 export async function getServerSideProps(context) {
     return {
