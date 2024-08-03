@@ -15,7 +15,9 @@
         "docker:push": "sh dockerPush.sh",
         "docker:pull": "sh dockerPull.sh",
         "docker:build": "docker build -t xiaxiazheng/nextapp:latest .",
-        "docker:run": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest"
+        "docker:run": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest",
+        "docker:save": "docker save -o xiaxiazheng-next-app.tar xiaxiazheng/nextapp",
+        "docker:load": "docker load --input xiaxiazheng-next-app.tar"
     },
     "dependencies": {
         "antd": "^5.2.3",
