@@ -158,7 +158,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const getData = () => {
         const map = {
             todo: [getTodoList, getTodayDoneTodoList, getTodoFollowUpList],
-            done: [getYesterdayDoneTodoList, getTodoImportantDoneList],
+            done: [getTodayDoneTodoList, getYesterdayDoneTodoList, getTodoImportantDoneList],
             footprint: [getTodoFootprintList],
             other: [getTodoTargetTodoList, getTodoPoolList],
         };
