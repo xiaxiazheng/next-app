@@ -77,6 +77,7 @@
 .h2 {
     display: flex;
     justify-content: space-between;
+    margin: 10px 0;
 }
 
 .search {
@@ -97,7 +98,7 @@
 }
 
 .list {
-    height: calc(100vh - 16px - 180px);
+    height: calc(100vh - 16px - 250px);
     margin-bottom: 10px;
     overflow-y: auto;
 }
@@ -155,4 +156,8 @@
             color: white;
         }
     }
+}
+
+.pagination {
+    background-color: #0c5293;
 }

@@ -20,6 +20,7 @@ import useSettings from "../../hooks/useSettings";
 import { CaretDownOutlined, CaretUpOutlined, FireFilled } from "@ant-design/icons";
 import TodayBeforeYears from "../todo/today-before-years";
 import TodoDayList from "../todo/todo-day-list";
+import TodoSearch from "../../pages/todo-list-search";
 
 const TabPane = Tabs.TabPane;
 
@@ -177,112 +178,119 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const [keyword, setKeyword] = useState<string>("");
     const search = () => {
         setHistoryWord(keyword);
-        router.push(`/todo-list-search?keyword=${keyword}`);
+        setActiveKey('search');
+        setIsShowHistory(false);
     };
 
     const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
     const [isFollowUp, setIsFollowUp] = useState<boolean>(true);
 
     const getTodayList = () => {
-        return isShowHistory ? [] : todoList.concat(isFollowUp ? followUpList : []).filter(item => !dayjs(item.time).isAfter(dayjs()));
+        return isShowHistory
+            ? []
+            : todoList.concat(isFollowUp ? followUpList : []).filter((item) => !dayjs(item.time).isAfter(dayjs()));
     };
 
     const getAfterList = () => {
-        return todoList.filter(item => dayjs(item.time).isAfter(dayjs()));
+        return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
 
     return (
         <Spin spinning={loading}>
-            <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
-                <TabPane tab="todo" key="todo" className={styles.content}>
-                    <TodoDayListWrapper
-                        list={getTodayList()}
-                        getData={getData}
-                        title="todo"
-                        timeStyle={{ fontSize: 17 }}
-                        search={
+            <Input.Search
+                className={styles.search}
+                placeholder="输入搜索已完成 todo"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                enterButton
+                allowClear
+                onSearch={() => {
+                    search();
+                }}
+                onFocus={() => setIsShowHistory(true)}
+                onBlur={() => {
+                    // 这个 blur，要等别处的 click 触发后才执行
+                    setTimeout(() => setIsShowHistory(false), 100);
+                }}
+            />
+            {isShowHistory && (
+                <SearchHistory
+                    onSearch={(key) => {
+                        setKeyword(key);
+                        search();
+                    }}
+                />
+            )}
+            {!isShowHistory && (
+                <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
+                    <TabPane tab="todo" key="todo" className={styles.content}>
+                        <TodoDayListWrapper
+                            list={getTodayList()}
+                            getData={getData}
+                            title="todo"
+                            timeStyle={{ fontSize: 17 }}
+                            btn={
+                                <Button
+                                    onClick={() => setIsFollowUp(!isFollowUp)}
+                                    type={isFollowUp ? "primary" : "default"}
+                                >
+                                    <FireFilled />
+                                </Button>
+                            }
+                        />
+                        {!isShowHistory && (
                             <>
-                                <Input.Search
-                                    className={styles.search}
-                                    placeholder="输入搜索已完成 todo"
-                                    value={keyword}
-                                    onChange={(e) => setKeyword(e.target.value)}
-                                    enterButton
-                                    allowClear
-                                    onSearch={() => {
-                                        search();
-                                    }}
-                                    onFocus={() => setIsShowHistory(true)}
-                                    onBlur={() => {
-                                        // 这个 blur，要等别处的 click 触发后才执行
-                                        setTimeout(() => setIsShowHistory(false), 100);
-                                    }}
-                                />
-                                {isShowHistory && (
-                                    <SearchHistory
-                                        onSearch={(key) => {
-                                            setKeyword(key);
-                                            search();
-                                        }}
-                                    />
-                                )}
+                                <TitleWrapper title={`之后待办`} list={getAfterList()}>
+                                    <TodoDayList getData={getData} list={getAfterList()} />
+                                </TitleWrapper>
+                                <TitleWrapper title={`今日已完成`} list={doneList}>
+                                    <TodoItemList list={doneList} onRefresh={getData} />
+                                </TitleWrapper>
                             </>
-                        }
-                        btn={
-                            <Button
-                                onClick={() => setIsFollowUp(!isFollowUp)}
-                                type={isFollowUp ? "primary" : "default"}
-                            >
-                                <FireFilled />
-                            </Button>
-                        }
-                    />
+                        )}
+                    </TabPane>
                     {!isShowHistory && (
                         <>
-                            <TitleWrapper title={`之后待办`} list={getAfterList()}>
-                                <TodoDayList getData={getData} list={getAfterList()} />
-                            </TitleWrapper>
-                            <TitleWrapper title={`今日已完成`} list={doneList}>
-                                <TodoItemList list={doneList} onRefresh={getData} />
-                            </TitleWrapper>
+                            <TabPane tab="done" key="done" className={styles.content}>
+                                <TitleWrapper title={`今日已完成`} list={doneList}>
+                                    <TodoItemList list={doneList} onRefresh={getData} />
+                                </TitleWrapper>
+                                <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
+                                    <TodoItemList list={yesterdayList} onRefresh={getData} />
+                                </TitleWrapper>
+                                <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
+                                    <TodoItemList list={importantList} onRefresh={getData} />
+                                </TitleWrapper>
+                            </TabPane>
+                            <TabPane tab="footprint" key="footprint" className={styles.content}>
+                                <TitleWrapper
+                                    title={`${settings?.todoNameMap?.footprint}最近十条`}
+                                    list={footprintList}
+                                >
+                                    <TodoItemList list={footprintList} onRefresh={getData} />
+                                </TitleWrapper>
+                            </TabPane>
+                            <TabPane tab="search" key="search" className={styles.content}>
+                                <TodoSearch refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
+                            </TabPane>
+                            <TabPane tab="other" key="other" className={styles.content}>
+                                <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
+                                    <TodoItemList list={targetList} onRefresh={getData} />
+                                </TitleWrapper>
+                                <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
+                                    <TodoItemList list={followUpList} onRefresh={getData} />
+                                </TitleWrapper>
+                                <TitleWrapper title={`待办池最近十条`} list={poolList}>
+                                    <TodoItemList list={poolList} onRefresh={getData} />
+                                </TitleWrapper>
+                            </TabPane>
+                            <TabPane tab="history" key="history" className={styles.content}>
+                                <TodayBeforeYears refreshFlag={refreshFlag} />
+                            </TabPane>
                         </>
                     )}
-                </TabPane>
-                {!isShowHistory && (
-                    <>
-                        <TabPane tab="done" key="done" className={styles.content}>
-                            <TitleWrapper title={`今日已完成`} list={doneList}>
-                                <TodoItemList list={doneList} onRefresh={getData} />
-                            </TitleWrapper>
-                            <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
-                                <TodoItemList list={yesterdayList} onRefresh={getData} />
-                            </TitleWrapper>
-                            <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
-                                <TodoItemList list={importantList} onRefresh={getData} />
-                            </TitleWrapper>
-                        </TabPane>
-                        <TabPane tab="footprint" key="footprint" className={styles.content}>
-                            <TitleWrapper title={`${settings?.todoNameMap?.footprint}最近十条`} list={footprintList}>
-                                <TodoItemList list={footprintList} onRefresh={getData} />
-                            </TitleWrapper>
-                        </TabPane>
-                        <TabPane tab="other" key="other" className={styles.content}>
-                            <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
-                                <TodoItemList list={targetList} onRefresh={getData} />
-                            </TitleWrapper>
-                            <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
-                                <TodoItemList list={followUpList} onRefresh={getData} />
-                            </TitleWrapper>
-                            <TitleWrapper title={`待办池最近十条`} list={poolList}>
-                                <TodoItemList list={poolList} onRefresh={getData} />
-                            </TitleWrapper>
-                        </TabPane>
-                        <TabPane tab="history" key="history" className={styles.content}>
-                            <TodayBeforeYears refreshFlag={refreshFlag} />
-                        </TabPane>
-                    </>
-                )}
-            </Tabs>
+                </Tabs>
+            )}
         </Spin>
     );
 };

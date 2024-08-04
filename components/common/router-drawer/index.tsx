@@ -54,11 +54,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     path: "/",
                     icon: <OrderedListOutlined />,
                 },
-                {
-                    name: settings?.todoNameMap?.["done"],
-                    path: "todo-list-search",
-                    icon: <TrophyOutlined />,
-                },
+                // {
+                //     name: settings?.todoNameMap?.["done"],
+                //     path: "todo-list-search",
+                //     icon: <TrophyOutlined />,
+                // },
                 {
                     name: settings?.todoNameMap?.["pool"],
                     path: "todo-list-pool",

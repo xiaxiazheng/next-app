@@ -34,9 +34,9 @@ const TodoListTarget: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title={settings?.todoNameMap?.['note']} />
+            <Header title={settings?.todoNameMap?.['target']} />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.['note']} />
+                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.['target']} />
             </main>
         </Spin>
     );
