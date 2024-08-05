@@ -77,6 +77,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             pageNo: 1,
             status: TodoStatus.done,
             startTime: dayjs().format("YYYY-MM-DD"),
+            sortBy: [["mTime", "DESC"]],
         };
         const res = await getTodoDone(params);
         if (res) {
@@ -94,6 +95,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             status: TodoStatus.done,
             startTime: yesterday,
             endTime: yesterday,
+            sortBy: [["mTime", "DESC"]],
         };
         const res = await getTodoDone(params);
         if (res) {
