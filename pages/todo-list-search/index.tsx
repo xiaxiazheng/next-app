@@ -177,6 +177,7 @@ const TodoSearch: React.FC<IProps> = ({ refreshFlag, keyword, setKeyword }) => {
                                 onClick={() => {
                                     const date = dayjs(time).format("YYYY-MM-DD");
                                     setStartTime(date);
+                                    setKeyword?.();
                                 }}
                             >
                                 {time} ({getWeek(time)}，{getRangeFormToday(time)})&nbsp;
