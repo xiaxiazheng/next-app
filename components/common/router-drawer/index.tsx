@@ -232,18 +232,9 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     const [visible2, setVisible2] = useState<boolean>(false);
 
     const handleCloseAdd = () => {
-        const map = {
-            [TodoStatus.todo]: "/",
-            [TodoStatus.done]: "/todo-list-search",
-            [TodoStatus.pool]: "/todo-list-pool",
-        };
         setShowAddTodo(false);
-        if (router.route === map[newTodo.status]) {
-            refresh();
-            setNewTodo(undefined);
-        } else {
-            router.push(map[newTodo.status]);
-        }
+        refresh();
+        setNewTodo(undefined);
     };
 
     return (
