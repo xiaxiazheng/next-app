@@ -267,7 +267,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                                     title={`${settings?.todoNameMap?.footprint}最近十条`}
                                     list={footprintList}
                                 >
-                                    <TodoItemList list={footprintList} onRefresh={getData} />
+                                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
                                 </TitleWrapper>
                             </TabPane>
                             <TabPane tab="search" key="search" className={styles.content}>
