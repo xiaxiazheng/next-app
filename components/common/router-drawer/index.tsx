@@ -69,11 +69,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 //     path: "todo-list-habit",
                 //     icon: <CheckSquareOutlined />,
                 // },
-                {
-                    name: "todo note",
-                    path: "todo-note",
-                    icon: <FileTextOutlined />,
-                },
+                // {
+                //     name: "todo note",
+                //     path: "todo-note",
+                //     icon: <FileTextOutlined />,
+                // },
                 {
                     name: settings?.todoNameMap?.["target"],
                     path: "todo-list-target",

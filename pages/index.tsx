@@ -1,10 +1,11 @@
 import Header from "../components/common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Button, Input, message, Spin, Tabs } from "antd";
+import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
 import MusicPlayerWrapper from "../components/music-player-wrapper";
 import HomeTodo from "../components/home-todo";
+import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
 // import HomeTips from "../components/common/home-tips";
 
@@ -34,6 +35,9 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                 <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
                     <TabPane tab="todo" key="todo" className={styles.content}>
                         <HomeTodo refreshFlag={refreshFlag} />
+                    </TabPane>
+                    <TabPane tab="todo圈" key="note" className={styles.content}>
+                        <TodoNote />
                     </TabPane>
                     <TabPane tab="music" key="music" className={styles.content}>
                         <MusicPlayerWrapper />
