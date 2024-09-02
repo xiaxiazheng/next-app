@@ -97,6 +97,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     status: TodoStatus.todo,
                     time: dayjs().format("YYYY-MM-DD"),
                     other_id: todo.todo_id,
+                    doing: '0',
                     isFollowUp: '0',
                     isTarget: '0',
                     isNote: '0',
