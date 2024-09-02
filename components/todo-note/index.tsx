@@ -2,8 +2,8 @@ import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { getTodoList, getTodoCategory } from "../../service";
-import { useEffect, useState } from "react";
-import { Input, Button, Pagination, Radio, Space, message, Drawer } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { Input, Button, Pagination, Radio, Space, message, Drawer, Spin } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
 import Category from "../../components/todo/category";
 import PreviewImages from "../../components/common/preview-images";
@@ -13,6 +13,8 @@ import { OperatorType, TodoItemType } from "../../components/todo/types";
 import { renderDescription } from "../../components/todo/utils";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
+import Loading from "../loading";
+import TodoItemTitle from "../todo/todo-item-list/todo-item-title";
 
 const { Search } = Input;
 
@@ -29,7 +31,7 @@ const Item = (props: {
     return (
         <>
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                {showTitle && <Title item={item} />}
+                {showTitle && <TodoItemTitle item={item} showTime={true} keyword="" />}
                 {item.description !== "" && <div>{renderDescription(item.description)}</div>}
             </div>
             <div className={styles.imgFileList}>
@@ -54,17 +56,6 @@ const Item = (props: {
     );
 };
 
-const Title = (props: { item?: TodoItemType; showTime?: boolean }) => {
-    const { item, showTime = false } = props;
-
-    return (
-        <div>
-            {<Category style={{ verticalAlign: 1 }} category={item?.category} color={item?.color} />}
-            {item?.name} {showTime && <>({item?.time})</>}
-        </div>
-    );
-};
-
 const TodoNote = () => {
     useEffect(() => {
         getCategory();
@@ -78,9 +69,12 @@ const TodoNote = () => {
     const [keyword, setKeyword] = useState<string>();
 
     const [list, setList] = useState<TodoItemType[]>([]);
-    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("mTime");
+    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("cTime");
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const getData = async () => {
+        setLoading(true);
         const params = {
             pageNo,
             pageSize,
@@ -96,15 +90,13 @@ const TodoNote = () => {
             const data = res.data;
             setList(data.list);
             setTotal(data.total);
+            handleScrollToTop();
         }
+        setLoading(false);
     };
 
     const handleClick = (item: TodoItemType) => {
         active?.todo_id === item.todo_id ? setActive(undefined) : setActive(item);
-    };
-
-    const handleAdd = () => {
-        setShowAdd(true);
     };
 
     useEffect(() => {
@@ -139,6 +131,15 @@ const TodoNote = () => {
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const [operatorType, setOperatorType] = useState<OperatorType>("add-note");
 
+    const ref = useRef<any>(null);
+    const handleScrollToTop = () => {
+        ref?.current?.scroll({
+            left: 0,
+            top: 0,
+            behavior: "smooth",
+        });
+    }
+
     return (
         <>
             <h2 className={styles.h2}>
@@ -147,9 +148,8 @@ const TodoNote = () => {
                 </span>
                 <Space size={5}>
                     <Button type="primary" onClick={() => setSortBy((prev) => (prev === "cTime" ? "mTime" : "cTime"))}>
-                        {sortBy === "mTime" ? "修改时间倒序" : "创建时间倒序"}
+                        {sortBy === "mTime" ? "按修改时间倒序" : "按创建时间倒序"}
                     </Button>
-                    <Button style={{ width: 50 }} icon={<PlusOutlined />} type="primary" onClick={() => handleAdd()} />
                 </Space>
             </h2>
             <div>
@@ -165,7 +165,7 @@ const TodoNote = () => {
                     }}
                 />
             </div>
-            <div className={styles.content}>
+            <div className={styles.content} ref={ref}>
                 <div className={styles.list}>
                     {list.map((item) => {
                         return (
@@ -175,6 +175,7 @@ const TodoNote = () => {
                         );
                     })}
                 </div>
+                {loading && <Loading />}
             </div>
             <Pagination
                 className={styles.pagination}
@@ -219,7 +220,7 @@ const TodoNote = () => {
                 open={!!active}
                 onClose={() => setActive(undefined)}
                 placement="bottom"
-                title={<Title item={list.find((item) => item.todo_id === active?.todo_id)} showTime={true} />}
+                title={<TodoItemTitle item={list.find((item) => item.todo_id === active?.todo_id)} showTime={true} keyword="" />}
                 footer={
                     <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
                         <Button onClick={() => copyContent(`${active?.name}\n${active?.description}`)} type="primary">

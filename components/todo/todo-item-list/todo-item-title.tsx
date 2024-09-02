@@ -38,6 +38,8 @@ const judgeIsPunchTheClock = (item: TodoItemType) => {
 const TodoItemTitle: React.FC<IProps> = (props) => {
     const { item, onClick, keyword, showTime = false } = props;
 
+    if (!item) return null;
+
     return (
         <div style={{ marginBottom: 8 }}>
             <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
