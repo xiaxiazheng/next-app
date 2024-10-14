@@ -43,7 +43,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         <MusicPlayerWrapper />
                     </TabPane>
                     <TabPane tab="translate" key="translate" className={styles.content}>
-                        <HomeTranslate />
+                        <HomeTranslate isActive={activeKey === 'translate'} />
                     </TabPane>
                 </Tabs>
             </main>

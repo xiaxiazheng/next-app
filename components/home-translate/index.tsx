@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { deleteTranslateItem, getTranslate, getTranslateList, switchTranslateMark } from "../../service";
 import { StarFilled, InfoCircleFilled, DeleteOutlined } from "@ant-design/icons";
 import DrawerWrapper from "../common/drawer-wrapper";
+import useTouchBottomToTop from "../../hooks/useTouchBottomToTop";
 
 interface TranslateType {
     isMark: 0 | 1;
@@ -16,10 +17,14 @@ interface TranslateType {
     translate_id: string;
 }
 
+interface IProps {
+    isActive: boolean;
+}
+
 const { TextArea } = Input;
 const { confirm } = Modal;
 
-const HomeTranslate: React.FC = () => {
+const HomeTranslate: React.FC<IProps> = props => {
     const pageSize = 8;
     const [keyword, setKeyword] = useState<string>();
     const [translate, setTranslate] = useState<any>();
@@ -52,6 +57,17 @@ const HomeTranslate: React.FC = () => {
     useEffect(() => {
         getList();
     }, [pageNo, isMark]);
+
+    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    
+    const tips = useTouchBottomToTop(
+        {
+            onChange: () => {
+                props.isActive && !showDrawer && setShowDrawer(true);
+            },
+        },
+        [props.isActive, showDrawer]
+    );
 
     const handleTranslate = async () => {
         const str = keyword?.trim();
@@ -213,8 +229,6 @@ const HomeTranslate: React.FC = () => {
         );
     };
 
-    const [showDrawer, setShowDrawer] = useState<boolean>(false);
-
     return (
         <div className={styles.content}>
             <Space direction="vertical" style={{ width: "100%" }}>
@@ -313,6 +327,7 @@ const HomeTranslate: React.FC = () => {
                     />
                 </DrawerWrapper>
             </Space>
+            {tips}
         </div>
     );
 };
