@@ -8,7 +8,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
         <Drawer
             open={open}
             placement={placement}
-            className={styles.drawer}
+            className={`${styles.drawer} ${className}`}
             onClose={onClose}
             footer={footer}
             title={title}

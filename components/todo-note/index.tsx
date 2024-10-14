@@ -10,7 +10,7 @@ import PreviewImages from "../../components/common/preview-images";
 import UploadImageFile from "../../components/common/upload-image-file";
 import PreviewFiles from "../../components/common/preview-files";
 import { OperatorType, TodoItemType } from "../../components/todo/types";
-import { renderDescription } from "../../components/todo/utils";
+import { getTodoTimeDetail, renderDescription } from "../../components/todo/utils";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
 import Loading from "../loading";
@@ -26,13 +26,14 @@ const Item = (props: {
     showTitle?: boolean;
     getData: Function;
     maxImgCount?: number;
+    descriptionClassName?: string;
 }) => {
-    const { item, isActive, showTitle = true, getData, maxImgCount = -1 } = props;
+    const { item, isActive, showTitle = true, getData, maxImgCount = -1, descriptionClassName } = props;
     return (
         <>
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                {showTitle && <TodoItemTitle item={item} showTime={true} keyword="" />}
-                {item.description !== "" && <div>{renderDescription(item.description)}</div>}
+                {showTitle && <TodoItemTitle item={item} showTime={false} keyword="" />}
+                {item.description !== "" && <div className={descriptionClassName}>{renderDescription(item.description)}</div>}
             </div>
             <div className={styles.imgFileList}>
                 <PreviewImages
@@ -61,15 +62,13 @@ const TodoNote = () => {
         getCategory();
     }, []);
 
-    const router = useRouter();
-
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
     const pageSize = 10;
     const [keyword, setKeyword] = useState<string>();
 
     const [list, setList] = useState<TodoItemType[]>([]);
-    const [sortBy, setSortBy] = useState<"mTime" | "cTime">("cTime");
+    const [sortBy, setSortBy] = useState<"mTime" | "time">("time");
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -80,7 +79,13 @@ const TodoNote = () => {
             pageSize,
             keyword: keyword || "",
             isNote: "1",
-            sortBy: [[sortBy, "DESC"]],
+            sortBy:
+                sortBy === "time"
+                    ? [
+                          ["time", "DESC"],
+                          ["cTime", "DESC"],
+                      ]
+                    : [["mTime", "DESC"]],
         };
         if (activeCategory !== "所有") {
             params["category"] = activeCategory;
@@ -138,7 +143,7 @@ const TodoNote = () => {
             top: 0,
             behavior: "smooth",
         });
-    }
+    };
 
     return (
         <>
@@ -147,8 +152,8 @@ const TodoNote = () => {
                     {title} ({total})
                 </span>
                 <Space size={5}>
-                    <Button type="primary" onClick={() => setSortBy((prev) => (prev === "cTime" ? "mTime" : "cTime"))}>
-                        {sortBy === "mTime" ? "按修改时间倒序" : "按创建时间倒序"}
+                    <Button type="primary" onClick={() => setSortBy((prev) => (prev === "time" ? "mTime" : "time"))}>
+                        {sortBy === "mTime" ? "按修改倒序" : "按 time 倒序"}
                     </Button>
                 </Space>
             </h2>
@@ -169,8 +174,11 @@ const TodoNote = () => {
                 <div className={styles.list}>
                     {list.map((item) => {
                         return (
-                            <div key={item.todo_id} className={styles.list_item} onClick={() => handleClick(item)}>
-                                <Item item={item} isActive={false} getData={getData} maxImgCount={2} />
+                            <div key={item.todo_id} onClick={() => handleClick(item)}>
+                                <div className={styles.item_time}>{getTodoTimeDetail(item.time)}</div>
+                                <div className={styles.list_item}>
+                                    <Item item={item} isActive={false} getData={getData} maxImgCount={2} descriptionClassName={styles.renderDescription} />
+                                </div>
                             </div>
                         );
                     })}
@@ -217,10 +225,18 @@ const TodoNote = () => {
             </DrawerWrapper>
             {/* 详情抽屉 */}
             <DrawerWrapper
+                className={styles.drawerWrapper}
                 open={!!active}
                 onClose={() => setActive(undefined)}
                 placement="bottom"
-                title={<TodoItemTitle item={list.find((item) => item.todo_id === active?.todo_id)} showTime={true} keyword="" />}
+                title={
+                    <TodoItemTitle
+                        item={list.find((item) => item.todo_id === active?.todo_id)}
+                        showTime={true}
+                        keyword=""
+                        wrapperStyle={{}}
+                    />
+                }
                 footer={
                     <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
                         <Button onClick={() => copyContent(`${active?.name}\n${active?.description}`)} type="primary">

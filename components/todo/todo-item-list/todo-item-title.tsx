@@ -23,6 +23,7 @@ interface IProps {
     onClick?: (item: TodoItemType) => void;
     keyword: string;
     showTime?: boolean;
+    wrapperStyle?: any;
 }
 
 const judgeIsPunchTheClock = (item: TodoItemType) => {
@@ -36,12 +37,12 @@ const judgeIsPunchTheClock = (item: TodoItemType) => {
 };
 
 const TodoItemTitle: React.FC<IProps> = (props) => {
-    const { item, onClick, keyword, showTime = false } = props;
+    const { item, onClick, keyword, showTime = false, wrapperStyle } = props;
 
     if (!item) return null;
 
     return (
-        <div style={{ marginBottom: 8 }}>
+        <div style={wrapperStyle || { marginBottom: 8 }}>
             <Category color={item.color} category={item.category} style={{ verticalAlign: "-1px" }} />
             {/* 公司 */}
             {item.isWork === "1" && <AppleFilled style={{ marginRight: 5, color: "#00d4d8" }} />}

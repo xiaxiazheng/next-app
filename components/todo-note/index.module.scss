@@ -5,6 +5,15 @@
     }
 }
 
+.item_time {
+    padding: 6px 0 2px;
+    color: #4ad5ba;
+}
+
+.renderDescription {
+    font-size: 12px;
+}
+
 .h2 {
     display: flex;
     justify-content: space-between;
@@ -22,11 +31,12 @@
         column-count: 1;
         column-gap: 6px;
         width: 100%;
+        padding-bottom: 60px;
         .list_item {
             -webkit-column-break-inside: avoid;
             width: 100%;
             margin-bottom: 6px;
-            padding: 5px 7px;
+            padding: 5px 7px 0;
             font-size: 12px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 4px;
@@ -49,8 +59,8 @@
 }
 
 .modalContent {
-    max-height: calc(100vh - 16px - 200px);
-    overflow-y: auto;
+    // max-height: calc(100vh - 16px - 200px);
+    // overflow-y: auto;
 }
 
 .imgFileList {
@@ -69,7 +79,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 8;
+    -webkit-line-clamp: 10;
     white-space: pre-line;
     word-break: break-all;
     &.active {
@@ -136,8 +146,16 @@
 
 .pagination {
     position: fixed;
-    bottom: 30px;
+    bottom: 0;
     left: 0;
     right: 0;
     background-color: #0c5293;
+    padding-bottom: 30px;
+    padding-top: 7px;
+}
+
+.drawerWrapper {
+    :global(.ant-drawer-header) {
+        padding: 10px 12px;
+    }
 }
