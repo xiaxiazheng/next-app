@@ -65,6 +65,7 @@ const HomeTranslate: React.FC<IProps> = props => {
             onChange: () => {
                 props.isActive && !showDrawer && setShowDrawer(true);
             },
+            tipsText: '打开翻译记录'
         },
         [props.isActive, showDrawer]
     );

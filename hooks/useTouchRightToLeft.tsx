@@ -5,9 +5,11 @@ interface Params {
     spanY?: number;
     onChange: Function;
     isReverse?: boolean;
+    tipsText?: string;
+    canListen?: boolean;
 }
 
-const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false }: Params, listener: any[]) => {
+const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false, tipsText = '', canListen = true }: Params, listener: any[]) => {
     const handleJudge = (x: number, y: number) => {
         if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
             onChange();
@@ -48,16 +50,19 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
     };
 
     useEffect(() => {
-        document.addEventListener("touchstart", handleStart);
-        document.addEventListener("touchend", handleEnd);
-        document.addEventListener("touchmove", handleMove);
+        if (canListen) {
+            console.log('listener right to left', isReverse);
+            document.addEventListener("touchstart", handleStart);
+            document.addEventListener("touchend", handleEnd);
+            document.addEventListener("touchmove", handleMove);            
+        }
 
         return () => {
             document.removeEventListener("touchstart", handleStart);
             document.removeEventListener("touchend", handleEnd);
             document.removeEventListener("touchmove", handleMove);
         };
-    }, [...listener]);
+    }, [...listener, canListen]);
 
     const [isShow, setIsShow] = useState<boolean>(false);
     const [x, setX] = useState<number>(0);
@@ -80,6 +85,7 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
             >
                 <div>x: {x.toFixed(0)}</div>
                 <div>y: {y.toFixed(0)}</div>
+                <div>{tipsText}</div>
             </div>
         )
     );

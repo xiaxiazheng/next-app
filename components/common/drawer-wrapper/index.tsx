@@ -5,6 +5,7 @@ import { Drawer, DrawerProps } from "antd";
 const DrawerWrapper: React.FC<DrawerProps> = (props) => {
     const { title, open, onClose, placement = "bottom", footer, height = "75vh", className, ...rest } = props;
 
+    // 从上到下
     const tips = useTouchBottomToTop(
         {
             spanY: 200,
@@ -12,8 +13,10 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
                 open && onClose(null);
             },
             isReverse: true,
+            tipsText: '关闭抽屉',
+            canListen: open
         },
-        [open]
+        [open],
     );
 
     return (

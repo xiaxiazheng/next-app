@@ -5,9 +5,14 @@ interface Params {
     spanY?: number;
     onChange: Function;
     isReverse?: boolean;
+    tipsText?: string;
+    canListen?: boolean;
 }
 
-const useTouchBottomToTop = ({ spanX = 100, spanY = 160, onChange, isReverse = false }: Params, listener: any[]) => {
+const useTouchBottomToTop = (
+    { spanX = 100, spanY = 160, onChange, isReverse = false, canListen = true, tipsText = "" }: Params,
+    listener: any[]
+) => {
     const handleJudge = (x: number, y: number) => {
         if (handleReverse(ref.current.y - y) >= spanY && Math.abs(ref.current.x - x) < spanX) {
             onChange();
@@ -48,16 +53,19 @@ const useTouchBottomToTop = ({ spanX = 100, spanY = 160, onChange, isReverse = f
     };
 
     useEffect(() => {
-        document.addEventListener("touchstart", handleStart);
-        document.addEventListener("touchend", handleEnd);
-        document.addEventListener("touchmove", handleMove);
+        if (canListen) {
+            console.log('listener bottom to top', isReverse);
+            document.addEventListener("touchstart", handleStart);
+            document.addEventListener("touchend", handleEnd);
+            document.addEventListener("touchmove", handleMove);
+        }
 
         return () => {
             document.removeEventListener("touchstart", handleStart);
             document.removeEventListener("touchend", handleEnd);
             document.removeEventListener("touchmove", handleMove);
         };
-    }, [...listener]);
+    }, [...listener, canListen]);
 
     const [isShow, setIsShow] = useState<boolean>(false);
     const [x, setX] = useState<number>(0);
@@ -72,7 +80,7 @@ const useTouchBottomToTop = ({ spanX = 100, spanY = 160, onChange, isReverse = f
                     left: "50vw",
                     transform: "translate(-50%, -50%)",
                     color: "white",
-                    background: y >= spanY && Math.abs(x) < spanX? "#1bbb1b" : "#d9363e",
+                    background: y >= spanY && Math.abs(x) < spanX ? "#1bbb1b" : "#d9363e",
                     borderRadius: 8,
                     zIndex: 1001,
                     padding: "5px 10px",
@@ -80,6 +88,7 @@ const useTouchBottomToTop = ({ spanX = 100, spanY = 160, onChange, isReverse = f
             >
                 <div>x: {x.toFixed(0)}</div>
                 <div>y: {y.toFixed(0)}</div>
+                <div>{tipsText}</div>
             </div>
         )
     );

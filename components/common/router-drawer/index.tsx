@@ -5,8 +5,6 @@ import {
     BookOutlined,
     OrderedListOutlined,
     ExperimentOutlined,
-    TrophyOutlined,
-    FileTextOutlined,
     CoffeeOutlined,
     PlusOutlined,
     CloudOutlined,
@@ -20,14 +18,13 @@ import {
     AppleFilled,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
-import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
 import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
-import { TodoStatus } from "../../../service";
 import { Button, Space } from "antd";
 import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import { TodoItemType } from "../../todo/types";
 import useSettings from "../../../hooks/useSettings";
+import useTouchBottomToTop from "../../../hooks/useTouchBottomToTop";
 
 interface IProps {
     setRouterLoading: Function;
@@ -183,24 +180,26 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
-    // 从左往右
-    const tips1 = useTouchRightToLeft(
+    // 从上到下
+    const tips1 = useTouchBottomToTop(
         {
-            spanX: 150,
+            spanX: 200,
             isReverse: true,
             onChange: () => {
                 !showAddTodo && setShowDrawer(true);
             },
+            tipsText: '打开目录抽屉'
         },
         [showAddTodo]
     );
-    // 从右往左，打开添加 todo
-    const tips2 = useTouchRightToLeft(
+    // 从下到上
+    const tips2 = useTouchBottomToTop(
         {
-            spanX: 150,
+            spanX: 200,
             onChange: () => {
                 !showDrawer && setShowAddTodo(true);
             },
+            tipsText: '新增 todo'
         },
         [showDrawer]
     );

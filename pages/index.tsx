@@ -7,6 +7,7 @@ import MusicPlayerWrapper from "../components/music-player-wrapper";
 import HomeTodo from "../components/home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
+import useTouchRightToLeft from "../hooks/useTouchRightToLeft";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -14,6 +15,8 @@ const TabPane = Tabs.TabPane;
 interface IProps {
     refreshFlag: number;
 }
+
+const tabList = ['todo', 'note', 'music', 'translate'];
 
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
@@ -27,6 +30,45 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     }, []);
 
     const [activeKey, setActiveKey] = useState<string>("todo");
+
+    // 从右到左
+    const tips1 = useTouchRightToLeft(
+        {
+            // spanY: 200,
+            onChange: () => {
+                if (activeKey) {
+                    const i = tabList.findIndex(item => item === activeKey);
+                    if (i !== tabList.length) {
+                        setActiveKey(tabList[i + 1]);
+                    } else {
+                        setActiveKey(tabList[0]);
+                    }
+                }
+            },
+            tipsText: '切换 tab, ->'
+        },
+        [activeKey]
+    );
+    
+    // 从左到右
+    const tips2 = useTouchRightToLeft(
+        {
+            // spanY: 200,
+            onChange: () => {
+                if (activeKey) {
+                    const i = tabList.findIndex(item => item === activeKey);
+                    if (i !== 0) {
+                        setActiveKey(tabList[i - 1]);
+                    } else {
+                        setActiveKey(tabList[tabList.length - 1]);
+                    }
+                }
+            },
+            isReverse: true,
+            tipsText: '切换 tab, <-'
+        },
+        [activeKey]
+    );
 
     return (
         <div>
@@ -46,6 +88,8 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         <HomeTranslate isActive={activeKey === 'translate'} />
                     </TabPane>
                 </Tabs>
+                {tips1}
+                {tips2}
             </main>
         </div>
     );
