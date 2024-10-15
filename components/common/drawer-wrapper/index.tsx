@@ -14,7 +14,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
             },
             isReverse: true,
             tipsText: '关闭抽屉',
-            canListen: open
+            canListen: open,
         },
         [open],
     );

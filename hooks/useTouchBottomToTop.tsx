@@ -9,13 +9,32 @@ interface Params {
     canListen?: boolean;
 }
 
+let bottomTopList = [];
+let topBottomList = [];
+
 const useTouchBottomToTop = (
     { spanX = 100, spanY = 160, onChange, isReverse = false, canListen = true, tipsText = "" }: Params,
     listener: any[]
 ) => {
+    const judgeCanRun = () => {
+        if (isReverse) {
+            if (topBottomList.length !== 0 && topBottomList[topBottomList.length - 1] === tipsText) {
+                return true;
+            }
+        }
+        if (!isReverse) {
+            if (bottomTopList.length !== 0 && bottomTopList[bottomTopList.length - 1] === tipsText) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const handleJudge = (x: number, y: number) => {
         if (handleReverse(ref.current.y - y) >= spanY && Math.abs(ref.current.x - x) < spanX) {
-            onChange();
+            if (judgeCanRun()) {
+                onChange();
+            }
         }
     };
 
@@ -54,16 +73,26 @@ const useTouchBottomToTop = (
 
     useEffect(() => {
         if (canListen) {
+            !isReverse && bottomTopList.push(tipsText);
+            isReverse && topBottomList.push(tipsText);
             console.log('listener bottom to top', isReverse);
             document.addEventListener("touchstart", handleStart);
             document.addEventListener("touchend", handleEnd);
             document.addEventListener("touchmove", handleMove);
+
+            console.log('bottomTopList', bottomTopList);
+            console.log('topBottomList', topBottomList);
         }
 
         return () => {
+            !isReverse && (bottomTopList = bottomTopList.filter(item => item !== tipsText));
+            isReverse && (topBottomList = topBottomList.filter(item => item !== tipsText));
             document.removeEventListener("touchstart", handleStart);
             document.removeEventListener("touchend", handleEnd);
             document.removeEventListener("touchmove", handleMove);
+
+            console.log('bottomTopList', bottomTopList);
+            console.log('topBottomList', topBottomList);
         };
     }, [...listener, canListen]);
 
@@ -72,7 +101,7 @@ const useTouchBottomToTop = (
     const [y, setY] = useState<number>(0);
 
     return (
-        isShow && (
+        isShow && judgeCanRun() && (
             <div
                 style={{
                     position: "fixed",

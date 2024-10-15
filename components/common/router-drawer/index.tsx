@@ -186,22 +186,22 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             spanX: 200,
             isReverse: true,
             onChange: () => {
-                !showAddTodo && setShowDrawer(true);
+                setShowDrawer(true);
             },
             tipsText: '打开目录抽屉'
         },
-        [showAddTodo]
+        []
     );
     // 从下到上
     const tips2 = useTouchBottomToTop(
         {
             spanX: 200,
             onChange: () => {
-                !showDrawer && setShowAddTodo(true);
+                setShowAddTodo(true);
             },
             tipsText: '新增 todo'
         },
-        [showDrawer]
+        []
     );
 
     const handleClick = async (path: string) => {
