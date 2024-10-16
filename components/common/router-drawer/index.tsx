@@ -25,6 +25,7 @@ import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import { TodoItemType } from "../../todo/types";
 import useSettings from "../../../hooks/useSettings";
 import useTouchBottomToTop from "../../../hooks/useTouchBottomToTop";
+import useTouchRightToLeft from "../../../hooks/useTouchRightToLeft";
 
 interface IProps {
     setRouterLoading: Function;
@@ -180,15 +181,16 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
-    // 从上到下
-    const tips1 = useTouchBottomToTop(
+    // 从左到右
+    const tips1 = useTouchRightToLeft(
         {
-            spanX: 200,
+            // spanX: 200,
             isReverse: true,
             onChange: () => {
                 setShowDrawer(true);
             },
-            tipsText: '打开目录抽屉'
+            tipsText: '打开目录抽屉',
+            canListen: !showAddTodo
         },
         []
     );
@@ -199,7 +201,8 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             onChange: () => {
                 setShowAddTodo(true);
             },
-            tipsText: '新增 todo'
+            tipsText: '新增 todo',
+            canListen: !showDrawer
         },
         []
     );

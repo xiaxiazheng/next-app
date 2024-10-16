@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { debounce } from "lodash";
+import { debounceTime } from "./useTouchBottomToTop";
 
 interface Params {
     spanX?: number;
@@ -9,7 +11,10 @@ interface Params {
     canListen?: boolean;
 }
 
-const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = false, tipsText = '', canListen = true }: Params, listener: any[]) => {
+const useTouchRightToLeft = (
+    { spanX = 160, spanY = 100, onChange, isReverse = false, tipsText = "", canListen = true }: Params,
+    listener: any[]
+) => {
     const handleJudge = (x: number, y: number) => {
         if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
             onChange();
@@ -26,35 +31,35 @@ const useTouchRightToLeft = ({ spanX = 160, spanY = 100, onChange, isReverse = f
     });
     const isStart = useRef<any>(false);
 
-    const handleStart = (e: TouchEvent) => {
+    const handleStart = debounce((e: TouchEvent) => {
         ref.current = {
             x: e.targetTouches?.[0].pageX,
             y: e.targetTouches?.[0].pageY,
         };
         isStart.current = true;
-    };
+    }, debounceTime);
 
-    const handleEnd = (e: TouchEvent) => {
+    const handleEnd = debounce((e: TouchEvent) => {
         handleJudge(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
         isStart.current = false;
         setIsShow(false);
-    };
+    }, debounceTime);
 
-    const handleMove = (e: TouchEvent) => {
+    const handleMove = debounce((e: TouchEvent) => {
         const moveX = handleReverse(ref.current.x - e.targetTouches?.[0].pageX);
         setX(moveX);
         setY(e.targetTouches?.[0].pageY - ref.current.y);
         if (isStart.current) {
             moveX > 100 ? setIsShow(true) : setIsShow(false);
         }
-    };
+    }, debounceTime);
 
     useEffect(() => {
         if (canListen) {
-            console.log('listener right to left', isReverse);
+            console.log("listener right to left", isReverse);
             document.addEventListener("touchstart", handleStart);
             document.addEventListener("touchend", handleEnd);
-            document.addEventListener("touchmove", handleMove);            
+            document.addEventListener("touchmove", handleMove);
         }
 
         return () => {

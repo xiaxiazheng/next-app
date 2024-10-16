@@ -50,25 +50,25 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         [activeKey]
     );
     
-    // 从左到右
-    const tips2 = useTouchRightToLeft(
-        {
-            // spanY: 200,
-            onChange: () => {
-                if (activeKey) {
-                    const i = tabList.findIndex(item => item === activeKey);
-                    if (i !== 0) {
-                        setActiveKey(tabList[i - 1]);
-                    } else {
-                        setActiveKey(tabList[tabList.length - 1]);
-                    }
-                }
-            },
-            isReverse: true,
-            tipsText: '切换 tab, <-'
-        },
-        [activeKey]
-    );
+    // // 从左到右
+    // const tips2 = useTouchRightToLeft(
+    //     {
+    //         // spanY: 200,
+    //         onChange: () => {
+    //             if (activeKey) {
+    //                 const i = tabList.findIndex(item => item === activeKey);
+    //                 if (i !== 0) {
+    //                     setActiveKey(tabList[i - 1]);
+    //                 } else {
+    //                     setActiveKey(tabList[tabList.length - 1]);
+    //                 }
+    //             }
+    //         },
+    //         isReverse: true,
+    //         tipsText: '切换 tab, <-'
+    //     },
+    //     [activeKey]
+    // );
 
     return (
         <div>
@@ -89,7 +89,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     </TabPane>
                 </Tabs>
                 {tips1}
-                {tips2}
+                {/* {tips2} */}
             </main>
         </div>
     );
