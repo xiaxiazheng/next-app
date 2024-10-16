@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
+import { debounceTime } from "./useTouchToTop";
 
 interface Params {
     spanX?: number;
@@ -10,35 +11,13 @@ interface Params {
     canListen?: boolean;
 }
 
-// let bottomTopList = [];
-// let topBottomList = [];
-
-export const debounceTime = 100;
-
-const useTouchBottomToTop = (
-    { spanX = 100, spanY = 160, onChange, isReverse = false, canListen = true, tipsText = "" }: Params,
+const useTouchToLeft = (
+    { spanX = 160, spanY = 100, onChange, isReverse = false, tipsText = "", canListen = true }: Params,
     listener: any[]
 ) => {
-    const judgeCanRun = () => {
-        // if (isReverse) {
-        //     if (topBottomList.length !== 0 && topBottomList[topBottomList.length - 1] === tipsText) {
-        //         return true;
-        //     }
-        // }
-        // if (!isReverse) {
-        //     if (bottomTopList.length !== 0 && bottomTopList[bottomTopList.length - 1] === tipsText) {
-        //         return true;
-        //     }
-        // }
-        // return false;
-        return true;
-    };
-
     const handleJudge = (x: number, y: number) => {
-        if (handleReverse(ref.current.y - y) >= spanY && Math.abs(ref.current.x - x) < spanX) {
-            if (judgeCanRun()) {
-                onChange();
-            }
+        if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
+            onChange();
         }
     };
 
@@ -67,36 +46,27 @@ const useTouchBottomToTop = (
     }, debounceTime);
 
     const handleMove = debounce((e: TouchEvent) => {
-        const moveY = handleReverse(ref.current.y - e.targetTouches?.[0].pageY);
-        setX(ref.current.x - e.targetTouches?.[0].pageX);
-        setY(moveY);
+        const moveX = handleReverse(ref.current.x - e.targetTouches?.[0].pageX);
+        setX(moveX);
+        setY(e.targetTouches?.[0].pageY - ref.current.y);
         if (isStart.current) {
-            moveY > 100 ? setIsShow(true) : setIsShow(false);
+            moveX > 100 ? setIsShow(true) : setIsShow(false);
         }
     }, debounceTime);
 
     useEffect(() => {
         if (canListen) {
-            // !isReverse && bottomTopList.push(tipsText);
-            // isReverse && topBottomList.push(tipsText);
-            console.log("listener bottom to top", isReverse);
             document.addEventListener("touchstart", handleStart);
             document.addEventListener("touchend", handleEnd);
             document.addEventListener("touchmove", handleMove);
-
-            // console.log("bottomTopList", bottomTopList);
-            // console.log("topBottomList", topBottomList);
         }
 
         return () => {
-            // !isReverse && (bottomTopList = bottomTopList.filter((item) => item !== tipsText));
-            // isReverse && (topBottomList = topBottomList.filter((item) => item !== tipsText));
-            document.removeEventListener("touchstart", handleStart);
-            document.removeEventListener("touchend", handleEnd);
-            document.removeEventListener("touchmove", handleMove);
-
-            // console.log("bottomTopList", bottomTopList);
-            // console.log("topBottomList", topBottomList);
+            if (canListen) {
+                document.removeEventListener("touchstart", handleStart);
+                document.removeEventListener("touchend", handleEnd);
+                document.removeEventListener("touchmove", handleMove);
+            }
         };
     }, [...listener, canListen]);
 
@@ -105,8 +75,7 @@ const useTouchBottomToTop = (
     const [y, setY] = useState<number>(0);
 
     return (
-        isShow &&
-        judgeCanRun() && (
+        isShow && (
             <div
                 style={{
                     position: "fixed",
@@ -114,7 +83,7 @@ const useTouchBottomToTop = (
                     left: "50vw",
                     transform: "translate(-50%, -50%)",
                     color: "white",
-                    background: y >= spanY && Math.abs(x) < spanX ? "#1bbb1b" : "#d9363e",
+                    background: x >= spanX && Math.abs(y) < spanY ? "#1bbb1b" : "#d9363e",
                     borderRadius: 8,
                     zIndex: 1001,
                     padding: "5px 10px",
@@ -128,4 +97,4 @@ const useTouchBottomToTop = (
     );
 };
 
-export default useTouchBottomToTop;
+export default useTouchToLeft;

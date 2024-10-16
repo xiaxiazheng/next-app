@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { deleteTranslateItem, getTranslate, getTranslateList, switchTranslateMark } from "../../service";
 import { StarFilled, InfoCircleFilled, DeleteOutlined } from "@ant-design/icons";
 import DrawerWrapper from "../common/drawer-wrapper";
-import useTouchBottomToTop from "../../hooks/useTouchBottomToTop";
 
 interface TranslateType {
     isMark: 0 | 1;
@@ -24,7 +23,7 @@ interface IProps {
 const { TextArea } = Input;
 const { confirm } = Modal;
 
-const HomeTranslate: React.FC<IProps> = props => {
+const HomeTranslate: React.FC<IProps> = (props) => {
     const pageSize = 8;
     const [keyword, setKeyword] = useState<string>();
     const [translate, setTranslate] = useState<any>();
@@ -59,17 +58,6 @@ const HomeTranslate: React.FC<IProps> = props => {
     }, [pageNo, isMark]);
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
-    
-    const tips = useTouchBottomToTop(
-        {
-            onChange: () => {
-                props.isActive && !showDrawer && setShowDrawer(true);
-            },
-            tipsText: '打开翻译记录',
-            canListen: props.isActive
-        },
-        [props.isActive, showDrawer]
-    );
 
     const handleTranslate = async () => {
         const str = keyword?.trim();
@@ -89,7 +77,7 @@ const HomeTranslate: React.FC<IProps> = props => {
                 getList();
             }
         } else {
-            setTranslate(false);
+            setTranslate(undefined);
         }
     };
 
@@ -242,11 +230,18 @@ const HomeTranslate: React.FC<IProps> = props => {
                     {translate?.isMark === 1 && <span>当前查询已记录</span>}
                     {translate && (
                         <Button onClick={() => switchMark()} danger={translate.isMark === 1}>
-                            {translate.isMark === 0 ? "保存" : "移除"}
+                            {translate.isMark === 0 ? "save" : "remvoe"}
                         </Button>
                     )}
+                    {translate && <Button onClick={() => setTranslate(undefined)}>clear</Button>}
                 </Space>
-                <Space direction="vertical" className={styles.scrollArea}>
+                <Space
+                    direction="vertical"
+                    className={styles.scrollArea}
+                    onClick={() => {
+                        !translate && setShowDrawer(true);
+                    }}
+                >
                     <div className={styles.keyword}>{translate?.keyword}</div>
                     {translate?.keyword && (
                         <Space direction="vertical" className={`${styles.result} ScrollBar`}>
@@ -254,6 +249,7 @@ const HomeTranslate: React.FC<IProps> = props => {
                             {renderTranslateSentence(translate?.result)}
                         </Space>
                     )}
+                    {!translate && <div className={styles.btnMask}>查看搜索历史</div>}
                 </Space>
                 <Button type="primary" onClick={() => setShowDrawer(true)}>
                     查看搜索历史
@@ -329,7 +325,6 @@ const HomeTranslate: React.FC<IProps> = props => {
                     />
                 </DrawerWrapper>
             </Space>
-            {tips}
         </div>
     );
 };

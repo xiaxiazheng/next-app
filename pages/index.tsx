@@ -7,7 +7,7 @@ import MusicPlayerWrapper from "../components/music-player-wrapper";
 import HomeTodo from "../components/home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
-import useTouchRightToLeft from "../hooks/useTouchRightToLeft";
+import useTouchToLeft from "../hooks/useTouchToLeft";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -32,7 +32,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const [activeKey, setActiveKey] = useState<string>("todo");
 
     // 从右到左
-    const tips1 = useTouchRightToLeft(
+    const tips1 = useTouchToLeft(
         {
             // spanY: 200,
             onChange: () => {
@@ -51,7 +51,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     );
     
     // // 从左到右
-    // const tips2 = useTouchRightToLeft(
+    // const tips2 = useTouchToLeft(
     //     {
     //         // spanY: 200,
     //         onChange: () => {

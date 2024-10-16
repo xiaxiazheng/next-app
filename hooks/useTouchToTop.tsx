@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
-import { debounceTime } from "./useTouchBottomToTop";
 
 interface Params {
     spanX?: number;
@@ -11,13 +10,16 @@ interface Params {
     canListen?: boolean;
 }
 
-const useTouchRightToLeft = (
-    { spanX = 160, spanY = 100, onChange, isReverse = false, tipsText = "", canListen = true }: Params,
+export const debounceTime = 20;
+
+const useTouchToTop = (
+    { spanX = 100, spanY = 160, onChange, isReverse = false, canListen = true, tipsText = "" }: Params,
     listener: any[]
 ) => {
+
     const handleJudge = (x: number, y: number) => {
-        if (handleReverse(ref.current.x - x) >= spanX && Math.abs(ref.current.y - y) < spanY) {
-            onChange();
+        if (handleReverse(ref.current.y - y) >= spanY && Math.abs(ref.current.x - x) < spanX) {
+                onChange();
         }
     };
 
@@ -46,17 +48,16 @@ const useTouchRightToLeft = (
     }, debounceTime);
 
     const handleMove = debounce((e: TouchEvent) => {
-        const moveX = handleReverse(ref.current.x - e.targetTouches?.[0].pageX);
-        setX(moveX);
-        setY(e.targetTouches?.[0].pageY - ref.current.y);
+        const moveY = handleReverse(ref.current.y - e.targetTouches?.[0].pageY);
+        setX(ref.current.x - e.targetTouches?.[0].pageX);
+        setY(moveY);
         if (isStart.current) {
-            moveX > 100 ? setIsShow(true) : setIsShow(false);
+            moveY > 100 ? setIsShow(true) : setIsShow(false);
         }
     }, debounceTime);
 
     useEffect(() => {
         if (canListen) {
-            console.log("listener right to left", isReverse);
             document.addEventListener("touchstart", handleStart);
             document.addEventListener("touchend", handleEnd);
             document.addEventListener("touchmove", handleMove);
@@ -82,7 +83,7 @@ const useTouchRightToLeft = (
                     left: "50vw",
                     transform: "translate(-50%, -50%)",
                     color: "white",
-                    background: x >= spanX && Math.abs(y) < spanY ? "#1bbb1b" : "#d9363e",
+                    background: y >= spanY && Math.abs(x) < spanX ? "#1bbb1b" : "#d9363e",
                     borderRadius: 8,
                     zIndex: 1001,
                     padding: "5px 10px",
@@ -96,4 +97,4 @@ const useTouchRightToLeft = (
     );
 };
 
-export default useTouchRightToLeft;
+export default useTouchToTop;

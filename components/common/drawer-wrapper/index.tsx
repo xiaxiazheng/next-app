@@ -1,4 +1,4 @@
-import useTouchBottomToTop from "../../../hooks/useTouchBottomToTop";
+import useTouchToTop from "../../../hooks/useTouchToTop";
 import styles from "./index.module.scss";
 import { Drawer, DrawerProps } from "antd";
 
@@ -6,7 +6,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
     const { title, open, onClose, placement = "bottom", footer, height = "75vh", className, ...rest } = props;
 
     // 从上到下
-    const tips = useTouchBottomToTop(
+    const tips = useTouchToTop(
         {
             spanY: 200,
             onChange: () => {
