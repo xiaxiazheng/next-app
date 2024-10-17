@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
     LoginOutlined,
@@ -24,8 +24,7 @@ import { Button, Space } from "antd";
 import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import { TodoItemType } from "../../todo/types";
 import useSettings from "../../../hooks/useSettings";
-import useTouchToTop from "../../../hooks/useTouchToTop";
-import useTouchToLeft from "../../../hooks/useTouchToLeft";
+import useTouchEvent from "../../../hooks/useTouchEvent";
 
 interface IProps {
     setRouterLoading: Function;
@@ -181,30 +180,29 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
-    // 从左到右
-    const tips1 = useTouchToLeft(
-        {
-            isReverse: true,
-            onChange: () => {
-                setShowDrawer(true);
-            },
-            tipsText: '打开目录抽屉',
-            canListen: !showAddTodo
-        },
-        []
-    );
-    // 从下到上
-    const tips2 = useTouchToTop(
-        {
-            spanX: 200,
-            onChange: () => {
+
+    const id = useRef<any>(null);
+    const id2 = useRef<any>(null);
+    const { touchEvent } = useTouchEvent();
+
+    useEffect(() => {
+        id.current = "打开新增todo" + Math.random().toFixed(6);
+        id2.current = "打开目录抽屉" + Math.random().toFixed(6);
+        touchEvent?.pushList("top", {
+            id: id.current,
+            handleMoveEnd: () => {
                 setShowAddTodo(true);
             },
-            tipsText: '新增 todo',
-            canListen: !showDrawer
-        },
-        []
-    );
+            tipsText: "打开新增todo",
+        });
+        touchEvent?.pushList("right", {
+            id: id2.current,
+            handleMoveEnd: () => {
+                setShowDrawer(true);
+            },
+            tipsText: "打开目录抽屉",
+        });
+    }, []);
 
     const handleClick = async (path: string) => {
         setShowDrawer(false);
@@ -324,12 +322,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         handleCloseAdd();
                     }}
                 />
-            )}
-            {!showDrawer && !showAddTodo && (
-                <>
-                    {tips1}
-                    {tips2}
-                </>
             )}
         </>
     );

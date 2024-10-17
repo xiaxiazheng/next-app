@@ -1,5 +1,5 @@
 import Header from "../components/common/header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import MusicPlayerWrapper from "../components/music-player-wrapper";
 import HomeTodo from "../components/home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
-import useTouchToLeft from "../hooks/useTouchToLeft";
+import useTouchEvent from "../hooks/useTouchEvent";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -16,7 +16,7 @@ interface IProps {
     refreshFlag: number;
 }
 
-const tabList = ['todo', 'note', 'music', 'translate'];
+const tabList = ["todo", "note", "music", "translate"];
 
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
@@ -31,13 +31,15 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [activeKey, setActiveKey] = useState<string>("todo");
 
-    // 从右到左
-    const tips1 = useTouchToLeft(
-        {
-            // spanY: 200,
-            onChange: () => {
+    const id = useRef<any>(null);
+    const { touchEvent } = useTouchEvent();
+    useEffect(() => {
+        id.current = "切换 tab, ->" + Math.random().toFixed(6);
+        touchEvent?.pushList("left", {
+            id: id.current,
+            handleMoveEnd: () => {
                 if (activeKey) {
-                    const i = tabList.findIndex(item => item === activeKey);
+                    const i = tabList.findIndex((item) => item === activeKey);
                     if (i !== tabList.length) {
                         setActiveKey(tabList[i + 1]);
                     } else {
@@ -45,11 +47,10 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     }
                 }
             },
-            tipsText: '切换 tab, ->'
-        },
-        [activeKey]
-    );
-    
+            tipsText: "切换 tab, ->",
+        });
+    }, []);
+
     // // 从左到右
     // const tips2 = useTouchToLeft(
     //     {
@@ -85,12 +86,11 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                         <MusicPlayerWrapper />
                     </TabPane>
                     <TabPane tab="translate" key="translate" className={styles.content}>
-                        <HomeTranslate isActive={activeKey === 'translate'} />
+                        <HomeTranslate isActive={activeKey === "translate"} />
                     </TabPane>
                 </Tabs>
-                {tips1}
-                {/* {tips2} */}
             </main>
+            {touchEvent?.render()}
         </div>
     );
 };
