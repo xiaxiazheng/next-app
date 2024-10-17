@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
+import styles from "./touch-event.module.scss";
 
 interface Params {
     spanX?: number;
@@ -26,31 +27,31 @@ export class TouchEventClass {
     bottomList = [];
     forceUpdate: Function = () => {};
 
-    init() {
+    init = () => {
         document.addEventListener("touchstart", this.handleStart);
         document.addEventListener("touchend", this.handleEnd);
         document.addEventListener("touchmove", this.handleMove);
-    }
+    };
 
-    setForceUpdate(forceUpdate: Function) {
+    setForceUpdate = (forceUpdate: Function) => {
         this.forceUpdate = forceUpdate;
-    }
+    };
 
-    pushList(
+    pushList = (
         direction: "bottom" | "top" | "left" | "right",
         params: {
             id: string;
             handleMoveEnd: () => void;
             tipsText: string;
         }
-    ) {
+    ) => {
         direction === "top" && this.topList.push(params);
         direction === "bottom" && this.bottomList.push(params);
         direction === "left" && this.leftList.push(params);
         direction === "right" && this.rightList.push(params);
-    }
+    };
 
-    popList(direction: "bottom" | "top" | "left" | "right", id: string) {
+    popList = (direction: "bottom" | "top" | "left" | "right", id: string) => {
         if (direction === "top") {
             this.topList = this.topList.filter((item) => item.id !== id);
         }
@@ -63,7 +64,7 @@ export class TouchEventClass {
         if (direction === "right") {
             this.rightList = this.rightList.filter((item) => item.id !== id);
         }
-    }
+    };
 
     handleStart = debounce((e: TouchEvent) => {
         this.startX = e.targetTouches?.[0].pageX;
@@ -109,46 +110,34 @@ export class TouchEventClass {
         this.getRender();
     }, debounceTime);
 
-    handleMoveEndText() {
+    handleMoveEndText = () => {
         if (-this.moveY > this.safeXY && Math.abs(this.moveX) < this.safeXY) {
-            return this.topList.length && this.topList[this.topList.length - 1].tipsText;
+            return this.topList.length ? this.topList[this.topList.length - 1].tipsText : "";
         }
         if (this.moveY > this.safeXY && Math.abs(this.moveX) < this.safeXY) {
-            return this.bottomList.length && this.bottomList[this.bottomList.length - 1].tipsText;
+            return this.bottomList.length ? this.bottomList[this.bottomList.length - 1].tipsText : "";
         }
         if (-this.moveX > this.safeXY && Math.abs(this.moveY) < this.safeXY) {
-            return this.leftList.length && this.leftList[this.leftList.length - 1].tipsText;
+            return this.leftList.length ? this.leftList[this.leftList.length - 1].tipsText : "";
         }
         if (this.moveX > this.safeXY && Math.abs(this.moveY) < this.safeXY) {
-            return this.rightList.length && this.rightList[this.rightList.length - 1].tipsText;
+            return this.rightList.length ? this.rightList[this.rightList.length - 1].tipsText : "";
         }
-    }
+    };
 
     getRender() {
         this.forceUpdate?.();
     }
 
     render() {
-        console.log("forceUpdate? ", this.isShow);
+        if (!this.isShow) return null;
+        const text = this.handleMoveEndText();
         return (
-            this.isShow && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: "50vh",
-                        left: "50vw",
-                        transform: "translate(-50%, -50%)",
-                        color: "white",
-                        background: "#1bbb1b",
-                        // "#d9363e",
-                        borderRadius: 8,
-                        zIndex: 1001,
-                        padding: "5px 10px",
-                    }}
-                >
+            text && (
+                <div className={styles.touchEventText}>
                     <div>x: {this.moveX.toFixed(0)}</div>
                     <div>y: {this.moveY.toFixed(0)}</div>
-                    <div>{this.handleMoveEndText()}</div>
+                    <div>{text}</div>
                 </div>
             )
         );

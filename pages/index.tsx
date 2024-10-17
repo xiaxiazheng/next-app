@@ -1,5 +1,5 @@
 import Header from "../components/common/header";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
@@ -8,6 +8,7 @@ import HomeTodo from "../components/home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
 import useTouchEvent from "../hooks/useTouchEvent";
+import TouchEventComp from "../utils/TouchEventComp";
 // import HomeTips from "../components/common/home-tips";
 
 const TabPane = Tabs.TabPane;
@@ -32,7 +33,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const [activeKey, setActiveKey] = useState<string>("todo");
 
     const id = useRef<any>(null);
-    const { touchEvent } = useTouchEvent();
+    const touchEvent = useTouchEvent();
     useEffect(() => {
         id.current = "切换 tab, ->" + Math.random().toFixed(6);
         touchEvent?.pushList("left", {
@@ -90,7 +91,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
                     </TabPane>
                 </Tabs>
             </main>
-            {touchEvent?.render()}
+            <TouchEventComp />
         </div>
     );
 };

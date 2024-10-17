@@ -11,7 +11,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
         id.current = "关闭弹窗" + Math.random().toFixed(6);
     }, []);
 
-    const { touchEvent } = useTouchEvent();
+    const touchEvent = useTouchEvent();
 
     useEffect(() => {
         if (open) {

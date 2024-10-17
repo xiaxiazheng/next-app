@@ -183,7 +183,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     const id = useRef<any>(null);
     const id2 = useRef<any>(null);
-    const { touchEvent } = useTouchEvent();
+    const touchEvent = useTouchEvent();
 
     useEffect(() => {
         id.current = "打开新增todo" + Math.random().toFixed(6);
