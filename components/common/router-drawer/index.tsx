@@ -195,7 +195,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             },
             tipsText: "打开新增todo",
         });
-        touchEvent?.pushList("right", {
+        touchEvent?.pushList("bottom", {
             id: id2.current,
             handleMoveEnd: () => {
                 setShowDrawer(true);
@@ -238,7 +238,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="left" width="80vw">
+            <DrawerWrapper open={showDrawer} onClose={() => setShowDrawer(false)} placement="top" height="80vh">
                 <Space size={10} style={{ paddingTop: "20px" }}>
                     <Button
                         className={styles.btn}

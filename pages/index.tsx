@@ -33,15 +33,21 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const [activeKey, setActiveKey] = useState<string>("todo");
 
     const id = useRef<any>(null);
+    const id2 = useRef<any>(null);
     const touchEvent = useTouchEvent();
     useEffect(() => {
         id.current = "切换 tab, ->" + Math.random().toFixed(6);
+        id2.current = "切换 tab, <-" + Math.random().toFixed(6);
+    }, []);
+
+    useEffect(() => {
+        touchEvent?.popList("left", id.current);
         touchEvent?.pushList("left", {
             id: id.current,
             handleMoveEnd: () => {
                 if (activeKey) {
                     const i = tabList.findIndex((item) => item === activeKey);
-                    if (i !== tabList.length) {
+                    if (i !== tabList.length - 1) {
                         setActiveKey(tabList[i + 1]);
                     } else {
                         setActiveKey(tabList[0]);
@@ -50,28 +56,23 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             },
             tipsText: "切换 tab, ->",
         });
-    }, []);
-
-    // // 从左到右
-    // const tips2 = useTouchToLeft(
-    //     {
-    //         // spanY: 200,
-    //         onChange: () => {
-    //             if (activeKey) {
-    //                 const i = tabList.findIndex(item => item === activeKey);
-    //                 if (i !== 0) {
-    //                     setActiveKey(tabList[i - 1]);
-    //                 } else {
-    //                     setActiveKey(tabList[tabList.length - 1]);
-    //                 }
-    //             }
-    //         },
-    //         isReverse: true,
-    //         tipsText: '切换 tab, <-'
-    //     },
-    //     [activeKey]
-    // );
-
+        touchEvent?.popList("right", id.current);
+        touchEvent?.pushList("right", {
+            id: id2.current,
+            handleMoveEnd: () => {
+                if (activeKey) {
+                    const i = tabList.findIndex(item => item === activeKey);
+                    if (i !== 0) {
+                        setActiveKey(tabList[i - 1]);
+                    } else {
+                        setActiveKey(tabList[tabList.length - 1]);
+                    }
+                }
+            },
+            tipsText: "切换 tab, <-",
+        });
+    }, [activeKey]);
+    
     return (
         <div>
             <Header title="XIAXIAZheng" />
