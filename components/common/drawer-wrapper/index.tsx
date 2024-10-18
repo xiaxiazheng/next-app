@@ -15,6 +15,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
 
     useEffect(() => {
         if (open) {
+            touchEvent?.popList("bottom", id.current);
             touchEvent?.pushList("bottom", {
                 id: id.current,
                 handleMoveEnd: () => {
@@ -25,7 +26,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
         } else {
             touchEvent?.popList("bottom", id.current);
         }
-    }, [open]);
+    }, [open, onClose]);
 
     return (
         <>
