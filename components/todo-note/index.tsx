@@ -1,10 +1,10 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import { getTodoList, getTodoCategory } from "../../service";
+import { getTodoList, getTodoCategory, getIsWork } from "../../service";
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message, Drawer, Spin } from "antd";
-import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
+import { PlusOutlined, ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
 import Category from "../../components/todo/category";
 import PreviewImages from "../../components/common/preview-images";
 import UploadImageFile from "../../components/common/upload-image-file";
@@ -33,7 +33,9 @@ const Item = (props: {
         <>
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
                 {showTitle && <TodoItemTitle item={item} showTime={false} keyword="" />}
-                {item.description !== "" && <div className={descriptionClassName}>{renderDescription(item.description)}</div>}
+                {item.description !== "" && (
+                    <div className={descriptionClassName}>{renderDescription(item.description)}</div>
+                )}
             </div>
             <div className={styles.imgFileList}>
                 <PreviewImages
@@ -58,9 +60,11 @@ const Item = (props: {
 };
 
 const TodoNote = () => {
+    const isWork = getIsWork();
+
     useEffect(() => {
         getCategory();
-    }, []);
+    }, [isWork]);
 
     const [pageNo, setPageNo] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
@@ -106,7 +110,7 @@ const TodoNote = () => {
 
     useEffect(() => {
         getData();
-    }, [pageNo, sortBy]);
+    }, [pageNo, sortBy, isWork]);
 
     const [active, setActive] = useState<TodoItemType>();
 
@@ -155,6 +159,8 @@ const TodoNote = () => {
                     <Button type="primary" onClick={() => setSortBy((prev) => (prev === "time" ? "mTime" : "time"))}>
                         {sortBy === "mTime" ? "按修改倒序" : "按 time 倒序"}
                     </Button>
+                    {/* 刷新列表 */}
+                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
                 </Space>
             </h2>
             <div>
@@ -177,7 +183,13 @@ const TodoNote = () => {
                             <div key={item.todo_id} onClick={() => handleClick(item)}>
                                 <div className={styles.item_time}>{getTodoTimeDetail(item.time)}</div>
                                 <div className={styles.list_item}>
-                                    <Item item={item} isActive={false} getData={getData} maxImgCount={2} descriptionClassName={styles.renderDescription} />
+                                    <Item
+                                        item={item}
+                                        isActive={false}
+                                        getData={getData}
+                                        maxImgCount={2}
+                                        descriptionClassName={styles.renderDescription}
+                                    />
                                 </div>
                             </div>
                         );

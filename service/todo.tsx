@@ -11,7 +11,7 @@ export interface TodoRes {
     data: { list: TodoItemType[]; total: number };
 }
 
-const getIsWork = () => {
+export const getIsWork = () => {
     if (localStorage.getItem("WorkOrLife")) {
         return localStorage.getItem("WorkOrLife");
     }
