@@ -2,15 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import styles from "./touch-event.module.scss";
 
-interface Params {
-    spanX?: number;
-    spanY?: number;
-    onChange: Function;
-    isReverse?: boolean;
-    tipsText?: string;
-    canListen?: boolean;
-}
-
 export const debounceTime = 20;
 
 export class TouchEventClass {
@@ -20,11 +11,14 @@ export class TouchEventClass {
     moveY = 0;
     isStart = false;
     isShow = false;
-    safeXY = 120;
-    leftList = [];
-    rightList = [];
-    topList = [];
-    bottomList = [];
+    safeX = 120;
+    safeY = 210;
+    map = {
+        top: [],
+        bottom: [],
+        left: [],
+        right: [],
+    };
     forceUpdate: Function = () => {};
 
     init = () => {
@@ -37,6 +31,16 @@ export class TouchEventClass {
         this.forceUpdate = forceUpdate;
     };
 
+    setSafeXY = (params: { x: number; y: number }) => {
+        const { x, y } = params;
+        if (x) {
+            this.safeX = x;
+        }
+        if (y) {
+            this.safeY = y;
+        }
+    };
+
     pushList = (
         direction: "bottom" | "top" | "left" | "right",
         params: {
@@ -45,53 +49,52 @@ export class TouchEventClass {
             tipsText: string;
         }
     ) => {
-        direction === "top" && this.topList.push(params);
-        direction === "bottom" && this.bottomList.push(params);
-        direction === "left" && this.leftList.push(params);
-        direction === "right" && this.rightList.push(params);
+        this.map[direction].push(params);
     };
 
     popList = (direction: "bottom" | "top" | "left" | "right", id: string) => {
-        if (direction === "top") {
-            this.topList = this.topList.filter((item) => item.id !== id);
-        }
-        if (direction === "bottom") {
-            this.bottomList = this.bottomList.filter((item) => item.id !== id);
-        }
-        if (direction === "left") {
-            this.leftList = this.leftList.filter((item) => item.id !== id);
-        }
-        if (direction === "right") {
-            this.rightList = this.rightList.filter((item) => item.id !== id);
-        }
+        this.map[direction] = this.map[direction].filter((item) => item.id !== id);
     };
 
     handleStart = debounce((e: TouchEvent) => {
         this.startX = e.targetTouches?.[0].pageX;
         this.startY = e.targetTouches?.[0].pageY;
         this.isStart = true;
-        console.log("top", this.topList, "bottom", this.bottomList, "left", this.leftList, "right", this.rightList);
+        console.log(this.map);
     }, debounceTime);
 
-    handleJudge = (endX: number, endY: number) => {
+    getDirection = (moveX: number, moveY: number) => {
+        if (-moveY > this.safeY && Math.abs(moveX) < this.safeX) {
+            return "top";
+        }
+        if (moveY > this.safeY && Math.abs(moveX) < this.safeX) {
+            return "bottom";
+        }
+        if (-moveX > this.safeX && Math.abs(moveY) < this.safeY) {
+            return "left";
+        }
+        if (moveX > this.safeX && Math.abs(moveY) < this.safeY) {
+            return "right";
+        }
+        return "";
+    };
+
+    handleRunMoveEnd = (endX: number, endY: number) => {
         const moveX = endX - this.startX;
         const moveY = endY - this.startY;
-        if (-moveY > this.safeXY && Math.abs(moveX) < this.safeXY) {
-            this.topList.length && this.topList[this.topList.length - 1].handleMoveEnd();
-        }
-        if (moveY > this.safeXY && Math.abs(moveX) < this.safeXY) {
-            this.bottomList.length && this.bottomList[this.bottomList.length - 1].handleMoveEnd();
-        }
-        if (-moveX > this.safeXY && Math.abs(moveY) < this.safeXY) {
-            this.leftList.length && this.leftList[this.leftList.length - 1].handleMoveEnd();
-        }
-        if (moveX > this.safeXY && Math.abs(moveY) < this.safeXY) {
-            this.rightList.length && this.rightList[this.rightList.length - 1].handleMoveEnd();
-        }
+        let direction = this.getDirection(moveX, moveY);
+        const len = this.map[direction]?.length;
+        len && this.map[direction][len - 1].handleMoveEnd();
+    };
+
+    handleMoveEndText = () => {
+        const direction = this.getDirection(this.moveX, this.moveY);
+        const len = this.map[direction]?.length;
+        return len ? this.map[direction][len - 1].tipsText : "";
     };
 
     handleEnd = debounce((e: TouchEvent) => {
-        this.handleJudge(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
+        this.handleRunMoveEnd(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
         this.isStart = false;
         this.isShow = false;
         this.getRender();
@@ -102,28 +105,13 @@ export class TouchEventClass {
         const moveX = e.targetTouches?.[0].pageX - this.startX;
         this.moveX = moveX;
         this.moveY = moveY;
-        if (Math.abs(moveX) < this.safeXY && Math.abs(moveY) < this.safeXY) {
+        if (Math.abs(moveX) < this.safeX && Math.abs(moveY) < this.safeY) {
             this.isShow = false;
         } else {
             this.isShow = true;
         }
         this.getRender();
     }, debounceTime);
-
-    handleMoveEndText = () => {
-        if (-this.moveY > this.safeXY && Math.abs(this.moveX) < this.safeXY) {
-            return this.topList.length ? this.topList[this.topList.length - 1].tipsText : "";
-        }
-        if (this.moveY > this.safeXY && Math.abs(this.moveX) < this.safeXY) {
-            return this.bottomList.length ? this.bottomList[this.bottomList.length - 1].tipsText : "";
-        }
-        if (-this.moveX > this.safeXY && Math.abs(this.moveY) < this.safeXY) {
-            return this.leftList.length ? this.leftList[this.leftList.length - 1].tipsText : "";
-        }
-        if (this.moveX > this.safeXY && Math.abs(this.moveY) < this.safeXY) {
-            return this.rightList.length ? this.rightList[this.rightList.length - 1].tipsText : "";
-        }
-    };
 
     getRender() {
         this.forceUpdate?.();
