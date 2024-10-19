@@ -3,6 +3,7 @@ import TouchEventClass from "../utils/touch-event";
 import useSettings from "./useSettings";
 
 let touchEvent: TouchEventClass;
+let isInit = false;
 
 const useTouchEvent = () => {
     const settings = useSettings();
@@ -13,8 +14,11 @@ const useTouchEvent = () => {
     }
 
     useEffect(() => {
-        // 初始化touch事件
-        touchEvent.init();
+        if (!isInit) {
+            // 初始化touch事件
+            touchEvent.init();
+            isInit = true;
+        }
     }, []);
 
     useEffect(() => {
