@@ -22,6 +22,7 @@ export class TouchEventClass {
     forceUpdate: Function = () => {};
 
     init = () => {
+        console.log('init touch event');
         document.addEventListener("touchstart", this.handleStart);
         document.addEventListener("touchend", this.handleEnd);
         document.addEventListener("touchmove", this.handleMove);
