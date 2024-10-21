@@ -3,6 +3,7 @@ import TouchEventClass from "../utils/touch-event";
 import useSettings from "./useSettings";
 
 let touchEvent: TouchEventClass;
+let isInit = false;
 
 const useTouchEvent = () => {
     const settings = useSettings();
@@ -14,8 +15,11 @@ const useTouchEvent = () => {
     }
 
     useEffect(() => {
-        // 初始化 touch 监听事件，因为 window 对象的缘故，所以需要在 useEffect 里包裹
-        touchEvent.init();
+        if (!isInit) {
+            // 初始化 touch 监听事件，因为 window 对象的缘故，所以需要在 useEffect 里包裹
+            touchEvent.init();
+            isInit = true;
+        }
     }, []);
 
     useEffect(() => {
