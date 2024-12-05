@@ -100,6 +100,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} />}
                 open={visible}
                 onClose={handleClose}
+                height={'90vh'}
                 footer={
                     <div
                         style={{
