@@ -9,9 +9,8 @@ import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
 import useTouchEvent from "../hooks/useTouchEvent";
 import TouchEventComp from "../utils/TouchEventComp";
+import type { TabsProps } from 'antd';
 // import HomeTips from "../components/common/home-tips";
-
-const TabPane = Tabs.TabPane;
 
 interface IProps {
     refreshFlag: number;
@@ -72,25 +71,33 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             tipsText: "切换 tab, <-",
         });
     }, [activeKey]);
-    
+
+    const tabs: TabsProps['items'] = [
+        {
+            key: 'todo',
+            label: 'todo',
+            children: <div className={styles.content}><HomeTodo refreshFlag={refreshFlag} /></div>
+        },
+        {
+            key: 'todo圈',
+            label: 'todo圈',
+            children: <div className={styles.content}><TodoNote /></div>
+        }, {
+            key: 'music',
+            label: 'music',
+            children: <div className={styles.content}><MusicPlayerWrapper /></div>
+        }, {
+            key: 'translate',
+            label: 'translate',
+            children: <div className={styles.content}><HomeTranslate isActive={activeKey === "translate"} /></div>
+        },
+    ]
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
-                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
-                    <TabPane tab="todo" key="todo" className={styles.content}>
-                        <HomeTodo refreshFlag={refreshFlag} />
-                    </TabPane>
-                    <TabPane tab="todo圈" key="note" className={styles.content}>
-                        <TodoNote />
-                    </TabPane>
-                    <TabPane tab="music" key="music" className={styles.content}>
-                        <MusicPlayerWrapper />
-                    </TabPane>
-                    <TabPane tab="translate" key="translate" className={styles.content}>
-                        <HomeTranslate isActive={activeKey === "translate"} />
-                    </TabPane>
-                </Tabs>
+                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)} items={tabs} />
             </main>
             <TouchEventComp />
         </div>

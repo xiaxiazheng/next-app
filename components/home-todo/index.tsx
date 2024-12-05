@@ -21,6 +21,7 @@ import { CaretDownOutlined, CaretUpOutlined, FireFilled } from "@ant-design/icon
 import TodayBeforeYears from "../todo/today-before-years";
 import TodoDayList from "../todo/todo-day-list";
 import TodoSearch from "../../pages/todo-list-search";
+import type { TabsProps } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -197,6 +198,85 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
 
+    const tabs: TabsProps['items'] = [
+        {
+            key: 'todo', label: 'todo', children:
+                <div className={styles.content}>
+                    <TodoDayListWrapper
+                        list={getTodayList()}
+                        getData={getData}
+                        title="todo"
+                        timeStyle={{ fontSize: 17 }}
+                        btn={
+                            <Button
+                                onClick={() => setIsFollowUp(!isFollowUp)}
+                                type={isFollowUp ? "primary" : "default"}
+                            >
+                                <FireFilled />
+                            </Button>
+                        }
+                    />
+                    {!isShowHistory && (
+                        <>
+                            <TitleWrapper title={`之后待办`} list={getAfterList()}>
+                                <TodoDayList getData={getData} list={getAfterList()} />
+                            </TitleWrapper>
+                            <TitleWrapper title={`今日已完成`} list={doneList}>
+                                <TodoItemList list={doneList} onRefresh={getData} />
+                            </TitleWrapper>
+                        </>
+                    )}
+                </div>
+        },
+        {
+            key: 'done', label: 'done', children: <div className={styles.content}>
+                <TitleWrapper title={`今日已完成`} list={doneList}>
+                    <TodoItemList list={doneList} onRefresh={getData} />
+                </TitleWrapper>
+                <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
+                    <TodoItemList list={yesterdayList} onRefresh={getData} />
+                </TitleWrapper>
+                <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
+                    <TodoItemList list={importantList} onRefresh={getData} />
+                </TitleWrapper>
+            </div>
+        },
+        {
+            key: 'footprint', label: 'footprint', children: <div className={styles.content}>
+                <TitleWrapper
+                    title={`${settings?.todoNameMap?.footprint}最近十条`}
+                    list={footprintList}
+                >
+                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
+                </TitleWrapper>
+            </div>
+        },
+        {
+            key: 'search', label: 'search', children: <div className={styles.content}>
+                <TodoSearch refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
+            </div>
+        },
+        {
+            key: 'other', label: 'other', children: <div className={styles.content}>
+                <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
+                    <TodoItemList list={targetList} onRefresh={getData} />
+                </TitleWrapper>
+                <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
+                    <TodoItemList list={followUpList} onRefresh={getData} />
+                </TitleWrapper>
+                <TitleWrapper title={`待办池最近十条`} list={poolList}>
+                    <TodoItemList list={poolList} onRefresh={getData} />
+                </TitleWrapper>
+            </div>
+        },
+        {
+            key: 'history', label: 'history', children:
+                <div className={styles.content}>
+                    <TodayBeforeYears refreshFlag={refreshFlag} />
+                </div>
+        },
+    ];
+
     return (
         <Spin spinning={loading}>
             <Input.Search
@@ -224,74 +304,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                 />
             )}
             {!isShowHistory && (
-                <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
-                    <TabPane tab="todo" key="todo" className={styles.content}>
-                        <TodoDayListWrapper
-                            list={getTodayList()}
-                            getData={getData}
-                            title="todo"
-                            timeStyle={{ fontSize: 17 }}
-                            btn={
-                                <Button
-                                    onClick={() => setIsFollowUp(!isFollowUp)}
-                                    type={isFollowUp ? "primary" : "default"}
-                                >
-                                    <FireFilled />
-                                </Button>
-                            }
-                        />
-                        {!isShowHistory && (
-                            <>
-                                <TitleWrapper title={`之后待办`} list={getAfterList()}>
-                                    <TodoDayList getData={getData} list={getAfterList()} />
-                                </TitleWrapper>
-                                <TitleWrapper title={`今日已完成`} list={doneList}>
-                                    <TodoItemList list={doneList} onRefresh={getData} />
-                                </TitleWrapper>
-                            </>
-                        )}
-                    </TabPane>
-                    {!isShowHistory && (
-                        <>
-                            <TabPane tab="done" key="done" className={styles.content}>
-                                <TitleWrapper title={`今日已完成`} list={doneList}>
-                                    <TodoItemList list={doneList} onRefresh={getData} />
-                                </TitleWrapper>
-                                <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
-                                    <TodoItemList list={yesterdayList} onRefresh={getData} />
-                                </TitleWrapper>
-                                <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
-                                    <TodoItemList list={importantList} onRefresh={getData} />
-                                </TitleWrapper>
-                            </TabPane>
-                            <TabPane tab="footprint" key="footprint" className={styles.content}>
-                                <TitleWrapper
-                                    title={`${settings?.todoNameMap?.footprint}最近十条`}
-                                    list={footprintList}
-                                >
-                                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
-                                </TitleWrapper>
-                            </TabPane>
-                            <TabPane tab="search" key="search" className={styles.content}>
-                                <TodoSearch refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
-                            </TabPane>
-                            <TabPane tab="other" key="other" className={styles.content}>
-                                <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
-                                    <TodoItemList list={targetList} onRefresh={getData} />
-                                </TitleWrapper>
-                                <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
-                                    <TodoItemList list={followUpList} onRefresh={getData} />
-                                </TitleWrapper>
-                                <TitleWrapper title={`待办池最近十条`} list={poolList}>
-                                    <TodoItemList list={poolList} onRefresh={getData} />
-                                </TitleWrapper>
-                            </TabPane>
-                            <TabPane tab="history" key="history" className={styles.content}>
-                                <TodayBeforeYears refreshFlag={refreshFlag} />
-                            </TabPane>
-                        </>
-                    )}
-                </Tabs>
+                <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)} items={tabs} />
             )}
         </Spin>
     );
