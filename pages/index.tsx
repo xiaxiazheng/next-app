@@ -16,8 +16,6 @@ interface IProps {
     refreshFlag: number;
 }
 
-const tabList = ["todo", "note", "music", "translate"];
-
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
 
@@ -79,8 +77,8 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             children: <div className={styles.content}><HomeTodo refreshFlag={refreshFlag} /></div>
         },
         {
-            key: 'todo圈',
-            label: 'todo圈',
+            key: 'todo存档',
+            label: 'todo存档',
             children: <div className={styles.content}><TodoNote /></div>
         }, {
             key: 'music',
@@ -91,13 +89,16 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             label: 'translate',
             children: <div className={styles.content}><HomeTranslate isActive={activeKey === "translate"} /></div>
         },
-    ]
+    ];
+    const tabList = tabs.map(item => item.key);
 
     return (
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
-                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)} items={tabs} />
+                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => {
+                    setActiveKey(val);
+                }} items={tabs} />
             </main>
             <TouchEventComp />
         </div>

@@ -56,11 +56,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 //     path: "todo-list-search",
                 //     icon: <TrophyOutlined />,
                 // },
-                {
-                    name: settings?.todoNameMap?.["pool"],
-                    path: "todo-list-pool",
-                    icon: <ExperimentOutlined />,
-                },
                 // {
                 //     name: settings?.todoNameMap?.["habit"],
                 //     path: "todo-list-habit",
@@ -80,11 +75,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     name: settings?.todoNameMap?.["bookMark"],
                     path: "todo-list-bookmark",
                     icon: <StarFilled />,
-                },
-                {
-                    name: settings?.todoNameMap?.["footprint"],
-                    path: "todo-list-footprint",
-                    icon: <HistoryOutlined />,
                 },
                 {
                     name: "新建 todo",

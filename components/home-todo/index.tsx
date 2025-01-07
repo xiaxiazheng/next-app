@@ -8,7 +8,6 @@ import {
     getTodoDone,
     getTodoFollowUp,
     getTodoTarget,
-    getTodoPool,
     TodoStatus,
     getTodoFootprint,
 } from "../../service";
@@ -55,7 +54,6 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState([]);
     const [doneList, setDoneList] = useState([]);
     const [yesterdayList, setYesterdayList] = useState([]);
-    const [poolList, setPoolList] = useState([]);
     const [followUpList, setFollowUpList] = useState([]);
     const [targetList, setTargetList] = useState([]);
     const [footprintList, setFootprintList] = useState([]);
@@ -114,17 +112,6 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         }
     };
 
-    // 获取待办池
-    const getTodoPoolList = async () => {
-        const res = await getTodoPool({
-            sortBy: [["time", "DESC"]],
-            pageSize: 10,
-        });
-        if (res) {
-            setPoolList(res.data.list);
-        }
-    };
-
     // 获取完成但没结束
     const getTodoFollowUpList = async () => {
         const res = await getTodoFollowUp();
@@ -164,7 +151,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             todo: [getTodoList, getTodayDoneTodoList, getTodoFollowUpList],
             done: [getTodayDoneTodoList, getYesterdayDoneTodoList, getTodoImportantDoneList],
             footprint: [getTodoFootprintList],
-            other: [getTodoTargetTodoList, getTodoPoolList],
+            other: [getTodoTargetTodoList],
         };
         if (map?.[activeKey]) {
             setLoading(true);
@@ -263,9 +250,6 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                 </TitleWrapper>
                 <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
                     <TodoItemList list={followUpList} onRefresh={getData} />
-                </TitleWrapper>
-                <TitleWrapper title={`待办池最近十条`} list={poolList}>
-                    <TodoItemList list={poolList} onRefresh={getData} />
                 </TitleWrapper>
             </div>
         },

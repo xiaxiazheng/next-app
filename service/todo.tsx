@@ -4,7 +4,6 @@ import { CreateTodoItemReq, TodoItemType } from "../components/todo/types";
 export enum TodoStatus {
     todo = 0,
     done = 1,
-    pool = 2,
 }
 
 export interface TodoRes {
@@ -92,26 +91,6 @@ export const getTodoDone = async (obj: any): Promise<TodoRes | false> => {
     if (category) {
         params["category"] = category;
     }
-    const isWork = getIsWork();
-    if (isWork !== "") {
-        params["isWork"] = isWork;
-    }
-    const res: any = await postFetch(`/todo/getTodoList`, params);
-    if (res) {
-        const data = res.json();
-        return data;
-    } else {
-        return false;
-    }
-};
-
-export const getTodoPool = async (obj: any = {}): Promise<TodoRes | false> => {
-    const params = {
-        status: TodoStatus.pool,
-        pageSize: 200,
-        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
-        ...obj,
-    };
     const isWork = getIsWork();
     if (isWork !== "") {
         params["isWork"] = isWork;
