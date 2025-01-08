@@ -143,26 +143,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                 },
             ],
         },
-        // {
-        //     title: "note",
-        //     children: [
-        //         {
-        //             name: "随机 note",
-        //             path: "note-random",
-        //             icon: <RedditOutlined />,
-        //         },
-        //         {
-        //             name: settings?.todoNameMap?.["note"],
-        //             path: "note",
-        //             icon: <FileTextOutlined />,
-        //         },
-        //         {
-        //             name: "新增 note",
-        //             path: "note-add",
-        //             icon: <PlusOutlined />,
-        //         },
-        //     ],
-        // },
     ];
 
     const router = useRouter();
