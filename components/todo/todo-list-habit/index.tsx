@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import Header from "../../components/common/header";
+import Header from "../../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoHabit, TodoStatus } from "../../service";
+import { getTodoHabit, TodoStatus } from "../../../service";
 import { Button, Space, Spin } from "antd";
-import { TodoItemType } from "../../components/todo/types";
+import { TodoItemType } from "../../../components/todo/types";
 import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
-import TodoFormDrawer from "../../components/todo/todo-form-drawer";
+import TodoFormDrawer from "../../../components/todo/todo-form-drawer";
 import dayjs from "dayjs";
-import { handleIsTodayPunchTheClock } from "../../components/todo/todo-form-habit/utils";
-import TodoHabitDrawer, { renderHabitDetail } from "../../components/todo/todo-habit-drawer";
-import useSettings from "../../hooks/useSettings";
+import { handleIsTodayPunchTheClock } from "../../../components/todo/todo-form-habit/utils";
+import TodoHabitDrawer, { renderHabitDetail } from "../../../components/todo/todo-habit-drawer";
+import useSettings from "../../../hooks/useSettings";
 
 dayjs.locale("zh-cn");
 

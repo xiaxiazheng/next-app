@@ -31,7 +31,10 @@ const TodoDayListWrapper: React.FC<IProps> = (props) => {
                     <Button
                         style={{ width: 50 }}
                         icon={<CalendarOutlined />}
-                        onClick={() => setIsSortTime((prev) => !prev)}
+                        onClick={() => {
+                            message.info(isSortTime ? '按重要程度排序' : '按修改时间排序', 1);
+                            setIsSortTime((prev) => !prev);
+                        }}
                         type={isSortTime ? "primary" : "default"}
                     />
                     {/* 刷新列表 */}

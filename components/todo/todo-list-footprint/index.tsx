@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import Header from "../../components/common/header";
+import Header from "../../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoFootprint } from "../../service";
+import { getTodoFootprint } from "../../../service";
 import { Button, Space, Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import TodoAllList from "../../components/todo/todo-all-list";
-import { TodoItemType } from "../../components/todo/types";
+import TodoAllList from "../../../components/todo/todo-all-list";
+import { TodoItemType } from "../../../components/todo/types";
 import dayjs from "dayjs";
-import TodoItemList from "../../components/todo/todo-item-list";
-import useSettings from "../../hooks/useSettings";
+import TodoItemList from "../../../components/todo/todo-item-list";
+import useSettings from "../../../hooks/useSettings";
 
 // 如果是今天的，就不展示日期，只展示时间
 const handleTime = (time: string) => {

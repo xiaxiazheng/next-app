@@ -14,15 +14,26 @@ import {
 import TodoDayListWrapper from "../todo/todo-day-list-wrapper";
 import TodoItemList from "../todo/todo-item-list";
 import dayjs from "dayjs";
-import SearchHistory, { setHistoryWord } from "../../pages/todo-list-search/search-history";
+import SearchHistory, { setHistoryWord } from "../../components/todo/todo-list-search/search-history";
+import TodoSearch from "../../components/todo/todo-list-search";
+import TodoListDone from "../../components/todo/todo-list-done";
 import useSettings from "../../hooks/useSettings";
-import { CaretDownOutlined, CaretUpOutlined, FireFilled } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, FireFilled, FieldTimeOutlined } from "@ant-design/icons";
 import TodayBeforeYears from "../todo/today-before-years";
 import TodoDayList from "../todo/todo-day-list";
-import TodoSearch from "../../pages/todo-list-search";
 import type { TabsProps } from 'antd';
+import useStorageState from "../../hooks/useStorageState";
 
-const TabPane = Tabs.TabPane;
+export const getDayjs = (day: dayjs.Dayjs | string) => {
+    if (typeof day === "string") {
+        day = dayjs(day).set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
+    }
+    return day.set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
+};
+
+export const getToday = () => {
+    return getDayjs(dayjs());
+};
 
 interface IProps {
     refreshFlag: number;
@@ -52,8 +63,6 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const settings = useSettings();
 
     const [todoList, setTodoList] = useState([]);
-    const [doneList, setDoneList] = useState([]);
-    const [yesterdayList, setYesterdayList] = useState([]);
     const [followUpList, setFollowUpList] = useState([]);
     const [targetList, setTargetList] = useState([]);
     const [footprintList, setFootprintList] = useState([]);
@@ -66,39 +75,6 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         const res = await getTodo();
         if (res) {
             setTodoList(res.data.list.filter((item) => item.isHabit !== "1"));
-        }
-    };
-
-    // 获取今日已完成 Todo
-    const getTodayDoneTodoList = async () => {
-        const params: any = {
-            keyword: "",
-            pageNo: 1,
-            status: TodoStatus.done,
-            startTime: dayjs().format("YYYY-MM-DD"),
-            sortBy: [["mTime", "DESC"]],
-        };
-        const res = await getTodoDone(params);
-        if (res) {
-            setDoneList(res.data.list);
-        }
-    };
-
-    // 获取昨天已完成 Todo
-    const getYesterdayDoneTodoList = async () => {
-        const yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
-        const params: any = {
-            keyword: "",
-            pageNo: 1,
-            pageSize: 30,
-            status: TodoStatus.done,
-            startTime: yesterday,
-            endTime: yesterday,
-            sortBy: [["mTime", "DESC"]],
-        };
-        const res = await getTodoDone(params);
-        if (res) {
-            setYesterdayList(res.data.list);
         }
     };
 
@@ -148,8 +124,8 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
 
     const getData = () => {
         const map = {
-            todo: [getTodoList, getTodayDoneTodoList, getTodoFollowUpList],
-            done: [getTodayDoneTodoList, getYesterdayDoneTodoList, getTodoImportantDoneList],
+            todo: [getTodoList, getTodoFollowUpList],
+            done: [getTodoImportantDoneList],
             footprint: [getTodoFootprintList],
             other: [getTodoTargetTodoList],
         };
@@ -185,22 +161,38 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
 
+    const [isOnlyToday, updateIsOnlyToday] = useStorageState('isOnlyToday');
+
     const tabs: TabsProps['items'] = [
         {
             key: 'todo', label: 'todo', children:
                 <div className={styles.content}>
                     <TodoDayListWrapper
-                        list={getTodayList()}
+                        list={isOnlyToday ? getTodayList().filter(item => item.time === getToday()) : getTodayList()}
                         getData={getData}
                         title="todo"
                         timeStyle={{ fontSize: 17 }}
                         btn={
-                            <Button
-                                onClick={() => setIsFollowUp(!isFollowUp)}
-                                type={isFollowUp ? "primary" : "default"}
-                            >
-                                <FireFilled />
-                            </Button>
+                            <>
+                                <Button
+                                    onClick={() => {
+                                        message.info(!isOnlyToday ? '只看今天的 todo' : '看所有 todo', 1);
+                                        updateIsOnlyToday();
+                                    }}
+                                    type={isOnlyToday ? "primary" : "default"}
+                                >
+                                    <FieldTimeOutlined />
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        message.info(!isFollowUp ? '看 follow up todo' : '不看 follow up todo', 1);
+                                        setIsFollowUp(!isFollowUp)
+                                    }}
+                                    type={isFollowUp ? "primary" : "default"}
+                                >
+                                    <FireFilled />
+                                </Button>
+                            </>
                         }
                     />
                     {!isShowHistory && (
@@ -208,24 +200,13 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                             <TitleWrapper title={`之后待办`} list={getAfterList()}>
                                 <TodoDayList getData={getData} list={getAfterList()} />
                             </TitleWrapper>
-                            <TitleWrapper title={`今日已完成`} list={doneList}>
-                                <TodoItemList list={doneList} onRefresh={getData} />
-                            </TitleWrapper>
                         </>
                     )}
                 </div>
         },
         {
             key: 'done', label: 'done', children: <div className={styles.content}>
-                <TitleWrapper title={`今日已完成`} list={doneList}>
-                    <TodoItemList list={doneList} onRefresh={getData} />
-                </TitleWrapper>
-                <TitleWrapper title={`昨日已完成`} list={yesterdayList}>
-                    <TodoItemList list={yesterdayList} onRefresh={getData} />
-                </TitleWrapper>
-                <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
-                    <TodoItemList list={importantList} onRefresh={getData} />
-                </TitleWrapper>
+                <TodoListDone refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
             </div>
         },
         {
@@ -248,13 +229,13 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                 <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
                     <TodoItemList list={targetList} onRefresh={getData} />
                 </TitleWrapper>
-                <TitleWrapper title={settings?.todoNameMap?.followUp} list={followUpList}>
-                    <TodoItemList list={followUpList} onRefresh={getData} />
+                <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
+                    <TodoItemList list={importantList} onRefresh={getData} />
                 </TitleWrapper>
             </div>
         },
         {
-            key: 'history', label: 'history', children:
+            key: 'before', label: 'before', children:
                 <div className={styles.content}>
                     <TodayBeforeYears refreshFlag={refreshFlag} />
                 </div>
