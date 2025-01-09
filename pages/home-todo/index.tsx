@@ -1,4 +1,3 @@
-import Header from "../common/header";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Spin, Tabs } from "antd";
@@ -11,45 +10,37 @@ import {
     TodoStatus,
     getTodoFootprint,
 } from "../../service";
-import TodoDayListWrapper from "../todo/todo-day-list-wrapper";
-import TodoItemList from "../todo/todo-item-list";
+import TodoDayListWrapper from "../../components/todo/todo-day-list-wrapper";
+import TodoItemList from "../../components/todo/todo-item-list";
 import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "../../components/todo/todo-list-search/search-history";
-import TodoSearch from "../../components/todo/todo-list-search";
 import TodoListDone from "../../components/todo/todo-list-done";
 import useSettings from "../../hooks/useSettings";
 import { CaretDownOutlined, CaretUpOutlined, FireFilled, FieldTimeOutlined } from "@ant-design/icons";
-import TodayBeforeYears from "../todo/today-before-years";
-import TodoDayList from "../todo/todo-day-list";
+import TodayBeforeYears from "../../components/todo/today-before-years";
+import TodoDayList from "../../components/todo/todo-day-list";
 import type { TabsProps } from 'antd';
 import useStorageState from "../../hooks/useStorageState";
-
-export const getDayjs = (day: dayjs.Dayjs | string) => {
-    if (typeof day === "string") {
-        day = dayjs(day).set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
-    }
-    return day.set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
-};
-
-export const getToday = () => {
-    return getDayjs(dayjs());
-};
+import { getToday } from "../../components/todo/utils";
+import TodoListHabit from "../../components/todo/todo-list-habit";
+import TodoListBookmark from "../../components/todo/todo-list-bookmark";
+import TodoIcon from "../../components/todo/todo-icon";
 
 interface IProps {
     refreshFlag: number;
 }
 
 const TitleWrapper: React.FC<any> = (props) => {
-    const [isCollapse, setIsCollapse] = useState<boolean>(false);
     const { title, list } = props;
+    const [isCollapse, updateIsCollapse] = useStorageState(`isCollapse-${title}`);
 
     if (!list?.length) return null;
 
     return (
         <>
-            <div className={styles.time} onClick={() => setIsCollapse(!isCollapse)}>
+            <div className={styles.time} onClick={() => updateIsCollapse()}>
                 <span>
-                    {title} ({list?.length}) {isCollapse ? <CaretDownOutlined /> : <CaretUpOutlined />}
+                    {title} ({list?.length}) {!isCollapse ? <CaretDownOutlined /> : <CaretUpOutlined />}
                 </span>
             </div>
             {!isCollapse && props.children}
@@ -125,9 +116,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const getData = () => {
         const map = {
             todo: [getTodoList, getTodoFollowUpList],
-            done: [getTodoImportantDoneList],
-            footprint: [getTodoFootprintList],
-            other: [getTodoTargetTodoList],
+            other: [getTodoTargetTodoList, getTodoImportantDoneList, getTodoFootprintList],
         };
         if (map?.[activeKey]) {
             setLoading(true);
@@ -144,12 +133,12 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const [keyword, setKeyword] = useState<string>("");
     const search = () => {
         setHistoryWord(keyword);
-        setActiveKey('search');
+        setActiveKey('done');
         setIsShowHistory(false);
     };
 
+    /** 是否展现搜索历史词 */
     const [isShowHistory, setIsShowHistory] = useState<boolean>(false);
-    const [isFollowUp, setIsFollowUp] = useState<boolean>(true);
 
     const getTodayList = () => {
         return isShowHistory
@@ -161,6 +150,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
 
+    const [isFollowUp, updateIsFollowUp] = useStorageState('isFollowUp');
     const [isOnlyToday, updateIsOnlyToday] = useStorageState('isOnlyToday');
 
     const tabs: TabsProps['items'] = [
@@ -186,7 +176,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                                 <Button
                                     onClick={() => {
                                         message.info(!isFollowUp ? '看 follow up todo' : '不看 follow up todo', 1);
-                                        setIsFollowUp(!isFollowUp)
+                                        updateIsFollowUp()
                                     }}
                                     type={isFollowUp ? "primary" : "default"}
                                 >
@@ -210,27 +200,32 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             </div>
         },
         {
-            key: 'footprint', label: 'footprint', children: <div className={styles.content}>
-                <TitleWrapper
-                    title={`${settings?.todoNameMap?.footprint}最近十条`}
-                    list={footprintList}
-                >
-                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
-                </TitleWrapper>
-            </div>
+            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }}/>habit</>, children:
+                <div className={styles.content}>
+                    <TodoListHabit refreshFlag={refreshFlag} />
+                </div>
         },
         {
-            key: 'search', label: 'search', children: <div className={styles.content}>
-                <TodoSearch refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
-            </div>
+            key: 'mark', label: <><TodoIcon iconType="bookMark" style={{ marginRight: 3 }}/>mark</>, children:
+                <div className={styles.content}>
+                    <TodoListBookmark refreshFlag={refreshFlag} />
+                </div>
         },
         {
             key: 'other', label: 'other', children: <div className={styles.content}>
+                {/* target */}
                 <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
                     <TodoItemList list={targetList} onRefresh={getData} />
                 </TitleWrapper>
                 <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
                     <TodoItemList list={importantList} onRefresh={getData} />
+                </TitleWrapper>
+                {/* footprint */}
+                <TitleWrapper
+                    title={`${settings?.todoNameMap?.footprint}最近十条`}
+                    list={footprintList}
+                >
+                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
                 </TitleWrapper>
             </div>
         },

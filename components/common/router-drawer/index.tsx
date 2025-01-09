@@ -4,7 +4,6 @@ import {
     LoginOutlined,
     BookOutlined,
     OrderedListOutlined,
-    ExperimentOutlined,
     CoffeeOutlined,
     PlusOutlined,
     CloudOutlined,
@@ -12,10 +11,7 @@ import {
     CodepenOutlined,
     ClusterOutlined,
     StarFilled,
-    AimOutlined,
     VideoCameraOutlined,
-    HistoryOutlined,
-    AppleFilled,
 } from "@ant-design/icons";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
 import DrawerWrapper from "../drawer-wrapper";
@@ -25,6 +21,7 @@ import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import { TodoItemType } from "../../todo/types";
 import useSettings from "../../../hooks/useSettings";
 import useTouchEvent from "../../../hooks/useTouchEvent";
+import TodoIcon from "../../todo/todo-icon";
 
 interface IProps {
     setRouterLoading: Function;
@@ -50,16 +47,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     name: "todo list",
                     path: "/",
                     icon: <OrderedListOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["target"],
-                    path: "todo-list-target",
-                    icon: <AimOutlined />,
-                },
-                {
-                    name: settings?.todoNameMap?.["bookMark"],
-                    path: "todo-list-bookmark",
-                    icon: <StarFilled />,
                 },
                 {
                     name: "新建 todo",
@@ -111,11 +98,6 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     path: "cloud",
                     icon: <CloudOutlined />,
                 },
-                // {
-                //     name: "番茄时钟",
-                //     path: "tomato-clock",
-                //     icon: <ClockCircleOutlined />,
-                // },
                 {
                     name: "CMD",
                     path: "cmd",
@@ -199,7 +181,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         className={styles.btn}
                         type="text"
                         onClick={() => setIsWork(isWork === "1" ? "" : "1")}
-                        icon={<AppleFilled />}
+                        icon={<TodoIcon iconType="work" />}
                         style={
                             isWork === "1"
                                 ? {
@@ -215,7 +197,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         className={styles.btn}
                         type="text"
                         onClick={() => setIsWork(isWork === "0" ? "" : "0")}
-                        icon={<CoffeeOutlined />}
+                        icon={<TodoIcon iconType="life" />}
                         style={
                             isWork === "0"
                                 ? {

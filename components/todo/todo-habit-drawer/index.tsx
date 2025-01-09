@@ -21,9 +21,9 @@ export const renderHabitDetail = (item: TodoItemType) => {
                 今日
                 {handleIsTodayPunchTheClock(item) ? "已打卡" : "未打卡"}
             </div>
-            <div>习惯的描述：{item?.description || "暂无"}</div>
+            <div>描述：{item?.description || "暂无"}</div>
             <div>
-                习惯立项日期：{item.time} {getRangeFormToday(item.time)}
+                立项日期：{item.time} {getRangeFormToday(item.time)}
             </div>
             <div>
                 已打卡天数：{item.child_todo_list_length} / {untilNow}

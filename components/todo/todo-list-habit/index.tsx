@@ -17,7 +17,7 @@ interface IProps {
     refreshFlag: number;
 }
 
-const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
+const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -44,7 +44,6 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
         getData();
     }, [refreshFlag]);
 
-    const [isSortTime, setIsSortTime] = useState<boolean>(false);
     const [showAdd, setShowAdd] = useState<boolean>(false);
     const handleAdd = () => {
         setShowAdd(true);
@@ -57,17 +56,10 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
             <Header title={settings?.todoNameMap?.["habit"]} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>
+                    <span style={{ fontSize: 16 }}>
                         {settings?.todoNameMap?.["habit"]} ({todoList?.length || 0})
                     </span>
                     <Space size={8}>
-                        {/* 排序方式 */}
-                        <Button
-                            style={{ width: 50 }}
-                            icon={<CalendarOutlined />}
-                            onClick={() => setIsSortTime((prev) => !prev)}
-                            type={isSortTime ? "primary" : "default"}
-                        />
                         {/* 刷新列表 */}
                         <Button
                             style={{ width: 50 }}
@@ -118,12 +110,5 @@ const TodoListPunchTheClock: React.FC<IProps> = ({ refreshFlag }) => {
     );
 };
 
-export default TodoListPunchTheClock;
+export default TodoListHabit;
 
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

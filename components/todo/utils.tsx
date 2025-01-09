@@ -206,3 +206,14 @@ export const judgeIsLastModify = (todo_id: string) => {
         .indexOf(todo_id);
     return index !== -1 ? { backgroundColor: latestColorList[index], display: "inline" } : {};
 };
+
+export const getExtraDayjs = (day: dayjs.Dayjs | string) => {
+    if (typeof day === "string") {
+        day = dayjs(day).set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
+    }
+    return day.set('hour', 0).set('minute', 0).set('second', 0).set("millisecond", 0);
+};
+
+export const getToday = () => {
+    return getExtraDayjs(dayjs());
+};

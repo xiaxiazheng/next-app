@@ -1,10 +1,10 @@
 import Header from "../components/common/header";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
 import MusicPlayerWrapper from "../components/music-player-wrapper";
-import HomeTodo from "../components/home-todo";
+import HomeTodo from "./home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
 import useTouchEvent from "../hooks/useTouchEvent";

@@ -200,8 +200,6 @@ const TodoListDone: React.FC<IProps> = ({ refreshFlag, keyword, setKeyword }) =>
                         </Checkbox>
                     ))}
                 </Checkbox.Group>
-                {/* todo 状态 */}
-                <div style={{ marginBottom: 10 }}>分类：</div>
             </DrawerWrapper>
         </Spin>
     );
