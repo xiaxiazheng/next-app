@@ -215,5 +215,5 @@ export const getExtraDayjs = (day: dayjs.Dayjs | string) => {
 };
 
 export const getToday = () => {
-    return getExtraDayjs(dayjs()).format('YYYY-MM-DD');
+    return getExtraDayjs(dayjs());
 };

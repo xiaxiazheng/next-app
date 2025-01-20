@@ -150,7 +150,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const getOnlyTodayList = (list: TodoItemType[]) => {
         const d = settings?.todoShowBeforeToday?.days || 0;
         return list.filter(item => {
-            if (item.time === getToday()) {
+            if (item.time === getToday().format('YYYY-MM-DD')) {
                 return true;
             }
             if (getExtraDayjs(item.time).isBefore(getExtraDayjs(dayjs())) && getExtraDayjs(item.time).isAfter(getExtraDayjs(dayjs()).subtract(d + 1, 'day'))) {
