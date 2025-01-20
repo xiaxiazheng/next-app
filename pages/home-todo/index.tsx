@@ -21,10 +21,11 @@ import TodayBeforeYears from "../../components/todo/today-before-years";
 import TodoDayList from "../../components/todo/todo-day-list";
 import type { TabsProps } from 'antd';
 import useStorageState from "../../hooks/useStorageState";
-import { getToday } from "../../components/todo/utils";
+import { getExtraDayjs, getToday } from "../../components/todo/utils";
 import TodoListHabit from "../../components/todo/todo-list-habit";
 import TodoListBookmark from "../../components/todo/todo-list-bookmark";
 import TodoIcon from "../../components/todo/todo-icon";
+import { TodoItemType } from "../../components/todo/types";
 
 interface IProps {
     refreshFlag: number;
@@ -53,11 +54,11 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
 
     const settings = useSettings();
 
-    const [todoList, setTodoList] = useState([]);
-    const [followUpList, setFollowUpList] = useState([]);
-    const [targetList, setTargetList] = useState([]);
-    const [footprintList, setFootprintList] = useState([]);
-    const [importantList, setImportantList] = useState([]);
+    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
+    const [followUpList, setFollowUpList] = useState<TodoItemType[]>([]);
+    const [targetList, setTargetList] = useState<TodoItemType[]>([]);
+    const [footprintList, setFootprintList] = useState<TodoItemType[]>([]);
+    const [importantList, setImportantList] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -146,6 +147,18 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             : todoList.concat(isFollowUp ? followUpList : []).filter((item) => !dayjs(item.time).isAfter(dayjs()));
     };
 
+    const getOnlyTodayList = (list: TodoItemType[]) => {
+        const d = settings?.todoShowBeforeToday?.days || 0;
+        return list.filter(item => {
+            if (item.time === getToday()) {
+                return true;
+            }
+            if (getExtraDayjs(item.time).isBefore(getExtraDayjs(dayjs())) && getExtraDayjs(item.time).isAfter(getExtraDayjs(dayjs()).subtract(d + 1, 'day'))) {
+                return true;
+            }
+        });
+    }
+
     const getAfterList = () => {
         return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
@@ -156,9 +169,9 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const tabs: TabsProps['items'] = [
         {
             key: 'todo', label: 'todo', children:
-                <div className={styles.content}>
+                <div className={styles.content}> 
                     <TodoDayListWrapper
-                        list={isOnlyToday ? getTodayList().filter(item => item.time === getToday()) : getTodayList()}
+                        list={isOnlyToday ? getOnlyTodayList(getTodayList()) : getTodayList()}
                         getData={getData}
                         title="todo"
                         timeStyle={{ fontSize: 17 }}
@@ -166,7 +179,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                             <>
                                 <Button
                                     onClick={() => {
-                                        message.info(!isOnlyToday ? '只看今天的 todo' : '看所有 todo', 1);
+                                        message.info(!isOnlyToday ? settings?.todoShowBeforeToday?.text : '看所有 todo', 1);
                                         updateIsOnlyToday();
                                     }}
                                     type={isOnlyToday ? "primary" : "default"}
