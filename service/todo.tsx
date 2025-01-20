@@ -23,7 +23,7 @@ export const getTodo = async (): Promise<TodoRes | false> => {
         isTarget: "0",
         isBookMark: "0",
         isFollowUp: "0",
-        pageSize: 100,
+        pageSize: 300,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
     const isWork = getIsWork();
@@ -129,7 +129,7 @@ export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
         isBookMark: "1",
         pageNo: 1,
-        pageSize: 100,
+        pageSize: 300,
     };
     const isWork = getIsWork();
     if (isWork !== "") {
