@@ -1,23 +1,20 @@
 import Header from "../components/common/header";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
 import MusicPlayerWrapper from "../components/music-player-wrapper";
-import HomeTodo from "../components/home-todo";
+import HomeTodo from "./home-todo";
 import TodoNote from "../components/todo-note";
 import HomeTranslate from "../components/home-translate";
 import useTouchEvent from "../hooks/useTouchEvent";
 import TouchEventComp from "../utils/TouchEventComp";
+import type { TabsProps } from 'antd';
 // import HomeTips from "../components/common/home-tips";
-
-const TabPane = Tabs.TabPane;
 
 interface IProps {
     refreshFlag: number;
 }
-
-const tabList = ["todo", "note", "music", "translate"];
 
 const Home: React.FC<IProps> = ({ refreshFlag }) => {
     const router = useRouter();
@@ -72,25 +69,36 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
             tipsText: "切换 tab, <-",
         });
     }, [activeKey]);
-    
+
+    const tabs: TabsProps['items'] = [
+        {
+            key: 'todo',
+            label: 'todo',
+            children: <div className={styles.content}><HomeTodo refreshFlag={refreshFlag} /></div>
+        },
+        {
+            key: 'todo存档',
+            label: 'todo存档',
+            children: <div className={styles.content}><TodoNote /></div>
+        }, {
+            key: 'music',
+            label: 'music',
+            children: <div className={styles.content}><MusicPlayerWrapper /></div>
+        }, {
+            key: 'translate',
+            label: 'translate',
+            children: <div className={styles.content}><HomeTranslate isActive={activeKey === "translate"} /></div>
+        },
+    ];
+    const tabList = tabs.map(item => item.key);
+
     return (
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
-                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => setActiveKey(val)}>
-                    <TabPane tab="todo" key="todo" className={styles.content}>
-                        <HomeTodo refreshFlag={refreshFlag} />
-                    </TabPane>
-                    <TabPane tab="todo圈" key="note" className={styles.content}>
-                        <TodoNote />
-                    </TabPane>
-                    <TabPane tab="music" key="music" className={styles.content}>
-                        <MusicPlayerWrapper />
-                    </TabPane>
-                    <TabPane tab="translate" key="translate" className={styles.content}>
-                        <HomeTranslate isActive={activeKey === "translate"} />
-                    </TabPane>
-                </Tabs>
+                <Tabs className={styles.tabs} activeKey={activeKey} onChange={(val) => {
+                    setActiveKey(val);
+                }} items={tabs} />
             </main>
             <TouchEventComp />
         </div>

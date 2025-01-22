@@ -27,9 +27,7 @@ const TodoAllList = (props: IProps) => {
 
     const [todoList, setTodoList] = useState<TodoItemType[]>();
     const [total, setTotal] = useState(0);
-
     const [isSortTime, setIsSortTime] = useState<boolean>(false);
-    const [keyword, setKeyword] = useState<string>();
 
     return (
         <>
@@ -49,33 +47,12 @@ const TodoAllList = (props: IProps) => {
                     <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
                 </Space>
             </h2>
-            <div>
-                <Search
-                    className={styles.search}
-                    placeholder="输入搜索"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    enterButton
-                    allowClear
-                    onSearch={() => {
-                        getData();
-                    }}
-                />
-            </div>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList && <TodoItemList list={getShowList(todoList, { isSortTime, keyword })} onRefresh={getData} />}
+                {todoList && <TodoItemList list={getShowList(todoList, { isSortTime })} onRefresh={getData} />}
             </div>
         </>
     );
 };
 
 export default TodoAllList;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

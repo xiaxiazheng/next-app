@@ -4,7 +4,6 @@ import { CreateTodoItemReq, TodoItemType } from "../components/todo/types";
 export enum TodoStatus {
     todo = 0,
     done = 1,
-    pool = 2,
 }
 
 export interface TodoRes {
@@ -24,7 +23,7 @@ export const getTodo = async (): Promise<TodoRes | false> => {
         isTarget: "0",
         isBookMark: "0",
         isFollowUp: "0",
-        pageSize: 100,
+        pageSize: 300,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
     const isWork = getIsWork();
@@ -105,26 +104,6 @@ export const getTodoDone = async (obj: any): Promise<TodoRes | false> => {
     }
 };
 
-export const getTodoPool = async (obj: any = {}): Promise<TodoRes | false> => {
-    const params = {
-        status: TodoStatus.pool,
-        pageSize: 200,
-        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
-        ...obj,
-    };
-    const isWork = getIsWork();
-    if (isWork !== "") {
-        params["isWork"] = isWork;
-    }
-    const res: any = await postFetch(`/todo/getTodoList`, params);
-    if (res) {
-        const data = res.json();
-        return data;
-    } else {
-        return false;
-    }
-};
-
 export const getTodoFollowUp = async () => {
     const params: any = {
         isFollowUp: "1",
@@ -150,7 +129,7 @@ export const getTodoBookMark = async (): Promise<TodoRes | false> => {
     const params: any = {
         isBookMark: "1",
         pageNo: 1,
-        pageSize: 100,
+        pageSize: 300,
     };
     const isWork = getIsWork();
     if (isWork !== "") {

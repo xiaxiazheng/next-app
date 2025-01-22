@@ -10,18 +10,12 @@ import NameTextArea from "./name-textarea";
 import SwitchComp from "./switch";
 import SelectBeforeTodo from "./select-before-todo";
 import {
-    AimOutlined,
-    BookOutlined,
-    StarFilled,
     UpCircleOutlined,
     DownCircleOutlined,
-    ThunderboltFilled,
-    AppleFilled,
-    ClockCircleOutlined,
-    FireFilled,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
 import useSettings from "../../../hooks/useSettings";
+import TodoIcon from "../todo-icon";
 
 const minCategory = 6;
 
@@ -141,11 +135,9 @@ const TodoForm: React.FC<Props> = (props) => {
                                 key={item}
                                 value={item}
                                 style={{ color: settings?.todoColorMap?.[item] }}
-                                className={`${styles.color} ${item === "0" ? styles.zero : ""}${
-                                    item === "1" ? styles.one : ""
-                                }${item === "2" ? styles.two : ""}${item === "3" ? styles.three : ""}${
-                                    item === "4" ? styles.four : ""
-                                }${item === "-1" ? styles.minusOne : ""}`}
+                                className={`${styles.color} ${item === "0" ? styles.zero : ""}${item === "1" ? styles.one : ""
+                                    }${item === "2" ? styles.two : ""}${item === "3" ? styles.three : ""}${item === "4" ? styles.four : ""
+                                    }${item === "-1" ? styles.minusOne : ""}`}
                             >
                                 {settings?.todoColorNameMap?.[item]}
                             </Radio.Button>
@@ -180,7 +172,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span style={{ color: "#00d4d8" }}>
-                                    <AppleFilled /> 工作
+                                    <TodoIcon iconType="work" /> 工作
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -192,7 +184,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <ThunderboltFilled style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
+                                    <TodoIcon iconType="urgent" style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -204,25 +196,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <AimOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
-                                </span>
-                            </SwitchComp>
-                        </Form.Item>
-                        <Form.Item
-                            name="isFollowUp"
-                            rules={[{ required: true }]}
-                            initialValue={"0"}
-                            style={{ marginBottom: 3 }}
-                        >
-                            <SwitchComp>
-                                <span>
-                                    <FireFilled
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />{" "}
-                                    {settings?.todoNameMap?.followUp}
+                                    <TodoIcon iconType="target" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -234,7 +208,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <StarFilled style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
+                                    <TodoIcon iconType="bookMark" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -246,22 +220,29 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <BookOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
+                                    <TodoIcon iconType="note" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
-                        {/* <Form.Item
-                            name="isHabit"
+                        <Form.Item
+                            name="isFollowUp"
                             rules={[{ required: true }]}
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
                             <SwitchComp>
                                 <span>
-                                    <ClockCircleOutlined style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.habit}
+                                    <TodoIcon
+                                        iconType="followUp"
+                                        style={{
+                                            marginRight: 5,
+                                            color: "#ffeb3b",
+                                        }}
+                                    />{" "}
+                                    {settings?.todoNameMap?.followUp}
                                 </span>
                             </SwitchComp>
-                        </Form.Item> */}
+                        </Form.Item>
                     </Space>
                 </Form.Item>
                 <Form.Item name="other_id" label="前置 todo">

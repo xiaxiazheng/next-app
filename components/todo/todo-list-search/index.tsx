@@ -1,15 +1,15 @@
 import styles from "./index.module.scss";
-import { getTodoDone, getTodoCategory, TodoStatus } from "../../service";
+import { getTodoDone, getTodoCategory, TodoStatus } from "../../../service";
 import { useEffect, useReducer, useState } from "react";
-import { TodoItemType } from "../../components/todo/types";
+import { TodoItemType } from "../../../components/todo/types";
 import dayjs from "dayjs";
 import { Pagination, Button, Spin, Space, Radio, Checkbox } from "antd";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { SyncOutlined } from "@ant-design/icons";
-import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../components/todo/utils";
+import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../../components/todo/utils";
 import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import TodoItemList from "../../components/todo/todo-item-list";
-import DrawerWrapper from "../../components/common/drawer-wrapper";
+import TodoItemList from "../../../components/todo/todo-item-list";
+import DrawerWrapper from "../../../components/common/drawer-wrapper";
 import { debounce } from "lodash";
 
 const todoTypeList = [

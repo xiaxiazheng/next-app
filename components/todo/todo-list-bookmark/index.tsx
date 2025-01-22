@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import Header from "../../components/common/header";
+import Header from "../../common/header";
 import styles from "./index.module.scss";
-import { getTodoBookMark } from "../../service";
+import { getTodoBookMark } from "../../../service";
 import { Spin } from "antd";
-import { TodoItemType } from "../../components/todo/types";
-import TodoAllList from "../../components/todo/todo-all-list";
-import useSettings from "../../hooks/useSettings";
+import { TodoItemType } from "../types";
+import TodoAllList from "../todo-all-list";
+import useSettings from "../../../hooks/useSettings";
 
 interface IProps {
     refreshFlag: number;
@@ -42,11 +42,3 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
 };
 
 export default TodoListBookmark;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

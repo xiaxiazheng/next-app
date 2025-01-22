@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../types";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
+import TodoIcon from "../todo-icon";
 
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
@@ -14,7 +15,8 @@ const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const isTodayDone = handleIsTodayPunchTheClock(item);
 
     return (
-      <ClockCircleOutlined
+      <TodoIcon
+        iconType="habit"
           className={styles.habitIcon}
           style={{
               color: isTodayDone ? "#52d19c" : "#f5222d",
