@@ -1,12 +1,12 @@
 import React from "react";
-import { Button, Input, Space } from "antd";
+import { Button, Input, message, Space } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 
 const { TextArea } = Input;
 
 export const splitStr = "<#####>";
-const InputList = ({ value = "", onChange }: any) => {
+const InputList = ({ value = "", onChange, handleParse }: any) => {
     const l = value.split(splitStr);
 
     const handleChange = (val: string, index: number) => {
@@ -19,11 +19,25 @@ const InputList = ({ value = "", onChange }: any) => {
         onChange(l.join(splitStr));
     };
 
+    const handleParse1 = async () => {
+        const text = await navigator.clipboard.readText();;
+        if (text) {
+            handleParse(text)
+        } else {
+            message.warning("暂无文本");
+        }
+    }
+
     return (
         <Space size={4} direction="vertical" style={{ width: "100%" }}>
-            <Button style={{ width: "100%" }} icon={<PlusOutlined />} onClick={() => onChange(`${splitStr}${value}`)}>
-                增加描述
-            </Button>
+            <div style={{ display: "flex" }}>
+                <Button style={{ flex: 1 }} icon={<PlusOutlined />} onClick={() => onChange(`${splitStr}${value}`)}>
+                    增加描述
+                </Button>
+                <Button style={{ width: 70, marginLeft: 5 }} onClick={() => handleParse1()}>
+                    粘贴
+                </Button>
+            </div>
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
                     <TextArea
