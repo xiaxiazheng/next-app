@@ -56,7 +56,7 @@ const PreviewImages: React.FC<Props> = (props) => {
 
     return (
         <PhotoProvider maskClosable={true}>
-            {list.map((img) => (
+            {list?.map((img) => (
                 <PreviewImage key={img.img_id} image={img} style={style} />
             ))}
         </PhotoProvider>

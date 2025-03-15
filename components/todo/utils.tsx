@@ -2,22 +2,23 @@ import { TodoItemType } from "./types";
 import dayjs from "dayjs";
 import styles from "./utils.module.scss";
 import { splitStr } from "./todo-form/input-list";
+import MarkdownShow from "./markdown-show";
 
 export const renderDescription = (str: string, keyword: string = "") => {
     return (
         <div className={styles.descList}>
             {str.split(splitStr).map((i, index) => (
                 <div className={styles.desc} key={index}>
-                    {handleHighlight(i, keyword)}
+                    {handleDescriptionHighlight(i, keyword)}
                 </div>
             ))}
         </div>
     );
 };
 
-export const handleHighlight = (string: string, keyword: string = "") => {
+export const handleDescriptionHighlight = (string: string, keyword: string = "") => {
     if (!string) return "";
-    return handleUrlHighlight(string, keyword);
+    return <MarkdownShow blogcont={string} keyword={keyword} />;
 };
 
 // 把 http/https 的 url 抠出来，思路是保留每一个断点的 url 并填充占位符，最后统一处理

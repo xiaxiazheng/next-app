@@ -24,6 +24,7 @@
         "dayjs": "^1.10.7",
         "highlight.js": "^11.2.0",
         "localforage": "^1.10.0",
+        "markdown-it": "^14.1.0",
         "next": "^12.0.0",
         "nosleep.js": "^0.12.0",
         "react": "17.0.2",
@@ -32,6 +33,7 @@
     },
     "devDependencies": {
         "@commitlint/cli": "^13.1.0",
+        "@types/markdown-it": "^14.1.2",
         "@commitlint/config-conventional": "^13.1.0",
         "@types/node": "^16.7.10",
         "@types/react": "^17.0.19",

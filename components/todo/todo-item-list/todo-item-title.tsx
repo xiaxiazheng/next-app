@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import Category from "../category";
 import { TodoItemType } from "../types";
-import { getTodoTimeDetail, handleHighlight, judgeIsLastModify } from "../utils";
+import { getTodoTimeDetail, handleKeywordHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 import TodoHabitIcon from "../todo-habit-drawer/todo-habit-icon";
@@ -65,11 +65,11 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             >
                 {String(item.status) === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                     <s>
-                        {handleHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
+                        {handleKeywordHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
                     </s>
                 ) : (
                     <span>
-                        {handleHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
+                        {handleKeywordHighlight(item.name, keyword)} {showTime && `(${getTodoTimeDetail(item.time)})`}
                     </span>
                 )}
                 {item.description && <QuestionCircleOutlined className={styles.icon} />}
