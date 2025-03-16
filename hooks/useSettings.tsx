@@ -11,6 +11,7 @@ interface ContextType {
     todoDefaultColor: number;
     quickDecisionConfig: Record<string, any>;
     todoShowBeforeToday: Record<string, any>;
+    todoPreset: Record<string, any>;
 };
 
 let lastSettings = {};

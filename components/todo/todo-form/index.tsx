@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { getTodoCategory, TodoStatus } from "../../../service";
 import { colorTitle } from "../constant";
 import { OperatorType, TodoItemType } from "../types";
-import InputList from "./input-list";
+import InputList, { splitStr } from "./input-list";
 import NameTextArea from "./name-textarea";
 import SwitchComp from "./switch";
 import SelectBeforeTodo from "./select-before-todo";
@@ -68,7 +68,7 @@ interface Props extends FormProps {
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { status, todo, operatorType, form, ...rest } = props;
+    const { status, todo, operatorType, form, onFieldsChange, ...rest } = props;
 
     const settings = useSettings();
 
@@ -114,14 +114,47 @@ const TodoForm: React.FC<Props> = (props) => {
         }
     }, [todo, operatorType]);
 
+    // 处理预设选项集
+    const handlePreset = (item: Record<string, string>) => {
+        form.setFieldsValue(item);
+        // @ts-ignore
+        onFieldsChange?.();
+    }
+
     return (
         <main className={styles.edit_todo}>
-            <Form form={form} layout={"vertical"} {...rest}>
+            <Form form={form} layout={"vertical"} onFieldsChange={onFieldsChange} {...rest}>
                 <Form.Item name="name" label="名称" style={{ width: "100%" }} rules={[{ required: true }]}>
                     <NameTextArea handleDelete={() => form.setFieldValue("name", "")} />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
-                    <InputList />
+                    <InputList handleParse={(text: string) => {
+                        const oldText = form.getFieldValue("description");
+                        if (!!oldText) {
+                            form.setFieldValue("description", text + splitStr + oldText);
+                        } else {
+                            form.setFieldValue("description", text);
+                        }
+                    }} />
+                </Form.Item>
+                <Form.Item label="预设选项">
+                    <Space>
+                        {settings?.todoPreset?.map((item, index) => {
+                            return <Button style={{ borderColor: settings?.todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
+                                <span style={{ color: settings?.todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
+                                {item?.isWork && <TodoIcon
+                                    iconType={item?.isWork === "1" ? "work" : "life"}
+                                    style={{ color: "#00d4d8" }}
+                                />}
+                                {item?.isNote === "1" && <TodoIcon
+                                    iconType="note"
+                                    style={{
+                                        color: "#ffeb3b"
+                                    }}
+                                />}
+                            </Button>
+                        })}
+                    </Space>
                 </Form.Item>
                 <Form.Item
                     name="color"
