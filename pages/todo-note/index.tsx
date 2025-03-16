@@ -4,8 +4,7 @@ import styles from "./index.module.scss";
 import { getTodoList, getTodoCategory, getIsWork } from "../../service";
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message, Drawer, Spin } from "antd";
-import { PlusOutlined, ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
-import Category from "../../components/todo/category";
+import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
 import PreviewImages from "../../components/common/preview-images";
 import UploadImageFile from "../../components/common/upload-image-file";
 import PreviewFiles from "../../components/common/preview-files";
@@ -13,8 +12,9 @@ import { OperatorType, TodoItemType } from "../../components/todo/types";
 import { getTodoTimeDetail, renderDescription } from "../../components/todo/utils";
 import DrawerWrapper from "../../components/common/drawer-wrapper";
 import TodoFormDrawer from "../../components/todo/todo-form-drawer";
-import Loading from "../loading";
-import TodoItemTitle from "../todo/todo-item-list/todo-item-title";
+import Loading from "../../components/loading";
+import TodoItemTitle from "../../components/todo/todo-item-list/todo-item-title";
+import { useIsWork } from "../../hooks/useIsWork";
 
 const { Search } = Input;
 
@@ -60,7 +60,7 @@ const Item = (props: {
 };
 
 const TodoNote = () => {
-    const isWork = getIsWork();
+    const isWork = useIsWork();
 
     useEffect(() => {
         getCategory();

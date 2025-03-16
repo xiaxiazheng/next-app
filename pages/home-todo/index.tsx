@@ -66,7 +66,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const getTodoList = async () => {
         const res = await getTodo();
         if (res) {
-            setTodoList(res.data.list.filter((item) => item.isHabit !== "1"));
+            setTodoList(res?.data?.list?.filter((item) => item.isHabit !== "1"));
         }
     };
 

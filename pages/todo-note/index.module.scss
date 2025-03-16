@@ -80,7 +80,6 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 10;
-    white-space: pre-line;
     word-break: break-all;
     &.active {
         -webkit-line-clamp: unset;

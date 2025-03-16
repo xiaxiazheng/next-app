@@ -5,23 +5,14 @@ import { GetNoteList, GetNoteCategory, getAllTreeList, getNodeCont, modifyNodeCo
 import { useEffect, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message, Tree, Collapse } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";
-import { NoteType } from "../../components/note/types";
-import Category from "../../components/todo/category";
 import MyDrawer from "../../components/common/my-drawer";
 import PreviewImages from "../../components/common/preview-images";
-import UploadImageFile from "../../components/common/upload-image-file";
-import { handleUrl, handleKeyword } from "../../components/note/utils";
-import AffixEdit from "../../components/common/affix/affix-edit";
 import PreviewFiles from "../../components/common/preview-files";
 import MyModal from "../../components/common/my-modal";
 
 const { TextArea } = Input;
 
-const { Search } = Input;
-
 const Note = () => {
-    const router = useRouter();
-
     const [treeList, setTreeList] = useState<any[]>([]);
     const getTreeData = async () => {
         const res = await getAllTreeList();

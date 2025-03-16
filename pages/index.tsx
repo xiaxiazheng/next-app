@@ -5,12 +5,11 @@ import { message, Tabs } from "antd";
 import { useRouter } from "next/router";
 import MusicPlayerWrapper from "../components/music-player-wrapper";
 import HomeTodo from "./home-todo";
-import TodoNote from "../components/todo-note";
+import TodoNote from "./todo-note";
 import HomeTranslate from "../components/home-translate";
 import useTouchEvent from "../hooks/useTouchEvent";
 import TouchEventComp from "../utils/TouchEventComp";
 import type { TabsProps } from 'antd';
-// import HomeTips from "../components/common/home-tips";
 
 interface IProps {
     refreshFlag: number;

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { getFetch, postFetch } from ".";
 import { CreateTodoItemReq, TodoItemType } from "../components/todo/types";
 
@@ -11,8 +12,13 @@ export interface TodoRes {
 }
 
 export const getIsWork = () => {
-    if (localStorage.getItem("WorkOrLife")) {
-        return localStorage.getItem("WorkOrLife");
+    try {
+        if (localStorage.getItem("WorkOrLife")) {
+            return localStorage.getItem("WorkOrLife");
+        }
+    } catch(e) {
+        console.log('localStorage error')
+        return ""
     }
     return "";
 };
@@ -196,7 +202,7 @@ export const getTodoFootprint = async (rest: any = {}): Promise<TodoRes | false>
         pageNo: 1,
         pageSize: 30,
         sortBy: [["mTime", "DESC"]],
-        ...rest
+        ...rest,
     };
     const isWork = getIsWork();
     if (isWork !== "") {
