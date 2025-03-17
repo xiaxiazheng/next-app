@@ -2,7 +2,7 @@ import { Divider, DrawerProps, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { getTodoChainById } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 import { TodoItemType } from "../types";
 
 interface IProps extends DrawerProps {
@@ -49,7 +49,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                         {todoChainList.filter((item) => item.todo_id !== todoId)?.length !== 0 && (
                             <>
                                 <h4>前置：</h4>
-                                <TodoItemList
+                                <TodoTreeList
                                     list={todoChainList.filter((item) => item.todo_id !== todoId) || []}
                                     onRefresh={(item) => {
                                         handleRefresh(item.todo_id);
@@ -68,7 +68,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                                 当前：
                             </span>
                         </h4>
-                        <TodoItemList
+                        <TodoTreeList
                             list={todoChainList.filter((item) => item.todo_id === todoId) || []}
                             onRefresh={(item) => {
                                 handleRefresh(item.todo_id);
@@ -79,7 +79,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                             <>
                                 <Divider style={{ margin: "12px 0" }} />
                                 <h4>后续：</h4>
-                                <TodoItemList
+                                <TodoTreeList
                                     list={todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list || []}
                                     onRefresh={(item) => {
                                         handleRefresh(item.todo_id);

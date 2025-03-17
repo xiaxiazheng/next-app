@@ -11,14 +11,14 @@ import { getTodoTimeDetail, renderDescription } from "../../todo/utils";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../../todo/todo-form-drawer";
 import Loading from "../../loading";
-import TodoItemTitle from "../../todo/todo-item-list/todo-item-title";
+import TodoItemTitle from "../../todo/todo-tree-list/todo-item-title";
 import { useIsWork } from "../../../hooks/useIsWork";
 
 const { Search } = Input;
 
 const title = "todo note";
 
-const Item = (props: {
+const TodoNoteItem = (props: {
     item: TodoItemType;
     isActive: boolean;
     showTitle?: boolean;
@@ -181,7 +181,7 @@ const TodoNoteComp = () => {
                             <div key={item.todo_id} onClick={() => handleClick(item)}>
                                 <div className={styles.item_time}>{getTodoTimeDetail(item.time)}</div>
                                 <div className={styles.list_item}>
-                                    <Item
+                                    <TodoNoteItem
                                         item={item}
                                         isActive={false}
                                         getData={getData}
@@ -267,7 +267,7 @@ const TodoNoteComp = () => {
             >
                 <div className={styles.modalContent}>
                     {list.find((item) => item.todo_id === active?.todo_id) && (
-                        <Item
+                        <TodoNoteItem
                             item={list.find((item) => item.todo_id === active?.todo_id)}
                             isActive={true}
                             showTitle={false}

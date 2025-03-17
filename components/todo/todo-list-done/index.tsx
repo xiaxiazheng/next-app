@@ -8,7 +8,7 @@ import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { SyncOutlined } from "@ant-design/icons";
 import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../utils";
 import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { debounce } from "lodash";
 
@@ -165,7 +165,7 @@ const TodoListDone: React.FC<IProps> = ({ refreshFlag, keyword, setKeyword }) =>
                         </div>
                         {/* 当日的 todo */}
                         <div className={styles.one_day}>
-                            <TodoItemList
+                            <TodoTreeList
                                 list={getShowList(todoMap[time], { isSortTime })}
                                 onRefresh={getData}
                                 keyword={keyword}

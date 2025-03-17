@@ -6,7 +6,7 @@ import { Button, Space, Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../../components/todo/types";
 import dayjs from "dayjs";
-import TodoItemList from "../../../components/todo/todo-item-list";
+import TodoTreeList from "../../../components/todo/todo-tree-list";
 import useSettings from "../../../hooks/useSettings";
 
 // 如果是今天的，就不展示日期，只展示时间
@@ -70,7 +70,7 @@ const TodoFootprint: React.FC<IProps> = () => {
                         return (
                             <div key={item.todo_id} className={styles.item}>
                                 <div className={styles.time}>{handleTime(item.edit_time)}</div>
-                                <TodoItemList list={[item]} onRefresh={getData} />
+                                <TodoTreeList list={[item]} onRefresh={getData} />
                             </div>
                         );
                     })}

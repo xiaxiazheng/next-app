@@ -11,7 +11,7 @@ import {
     getTodoFootprint,
 } from "../../../service";
 import TodoDayListWrapper from "../../todo/todo-day-list-wrapper";
-import TodoItemList from "../../todo/todo-item-list";
+import TodoTreeList from "../../todo/todo-tree-list";
 import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "../../todo/todo-list-search/search-history";
 import TodoListDone from "../../todo/todo-list-done";
@@ -228,17 +228,17 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
             key: 'other', label: 'other', children: <div className={styles.content}>
                 {/* target */}
                 <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
-                    <TodoItemList list={targetList} onRefresh={getData} />
+                    <TodoTreeList list={targetList} onRefresh={getData} />
                 </TitleWrapper>
                 <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
-                    <TodoItemList list={importantList} onRefresh={getData} />
+                    <TodoTreeList list={importantList} onRefresh={getData} />
                 </TitleWrapper>
                 {/* footprint */}
                 <TitleWrapper
                     title={`${settings?.todoNameMap?.footprint}最近十条`}
                     list={footprintList}
                 >
-                    <TodoItemList list={footprintList} onRefresh={getData} showTime={true} />
+                    <TodoTreeList list={footprintList} onRefresh={getData} showTime={true} />
                 </TitleWrapper>
             </div>
         },
