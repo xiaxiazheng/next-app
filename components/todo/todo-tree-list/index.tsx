@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { getTodoById, TodoStatus } from "../../../service";
+import { useState } from "react";
 import { TodoItemType } from "../types";
 import TodoDetailDrawer from "../todo-detail-drawer";
-import TodoItemTitle from "./todo-item-title";
+import TodoTree from "./todo-tree";
 
 interface IProps {
     list: TodoItemType[];
@@ -19,7 +18,7 @@ const TodoTreeList: React.FC<IProps> = (props) => {
 
     return (
         <>
-            {list.map((item) => (
+            {/* {list.map((item) => (
                 <TodoItemTitle
                     key={item.todo_id}
                     item={item}
@@ -29,7 +28,19 @@ const TodoTreeList: React.FC<IProps> = (props) => {
                     keyword={keyword}
                     showTime={showTime}
                 />
-            ))}
+            ))} */}
+            <TodoTree
+                todoList={list}
+                onClick={(item) => {
+                    setActiveId(item.todo_id);
+                }}
+                keyword={keyword}
+                getTodoItemProps={(item) => {
+                    return {
+                        showTime,
+                    }
+                }}
+            />
             {/* 一个list，对应一个详情弹窗 */}
             {activeId !== '' && <TodoDetailDrawer
                 visible={true}

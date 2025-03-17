@@ -4,12 +4,13 @@ import styles from "./index.module.scss";
 import { getTodoHabit, TodoStatus } from "../../../service";
 import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "../../../components/todo/types";
-import { PlusOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
-import TodoFormDrawer from "../../../components/todo/todo-form-drawer";
+import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { handleIsTodayPunchTheClock } from "../../../components/todo/todo-form-habit/utils";
 import TodoHabitDrawer, { renderHabitDetail } from "../../../components/todo/todo-habit-drawer";
 import useSettings from "../../../hooks/useSettings";
+import TodoTree from "../todo-tree-list/todo-tree";
+import TodoTreeList from "../todo-tree-list";
 
 dayjs.locale("zh-cn");
 
@@ -21,7 +22,7 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
     const [loading, setLoading] = useState<boolean>(false);
-    
+
     const settings = useSettings();
 
     const getData = async () => {
@@ -44,11 +45,6 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
         getData();
     }, [refreshFlag]);
 
-    const [showAdd, setShowAdd] = useState<boolean>(false);
-    const handleAdd = () => {
-        setShowAdd(true);
-    };
-
     const [active, setActive] = useState<TodoItemType>();
 
     return (
@@ -67,17 +63,14 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
                             onClick={() => getData()}
                             type="default"
                         />
-                        {/* 新建待办 */}
-                        <Button
-                            style={{ width: 50 }}
-                            icon={<PlusOutlined />}
-                            onClick={() => handleAdd()}
-                            type="primary"
-                        />
                     </Space>
                 </h2>
                 {/* 待办 todo 列表 */}
-                <div className={styles.list}>
+                <TodoTreeList
+                    list={todoList}
+                    onRefresh={getData}
+                />
+                {/* <div className={styles.list}>
                     {todoList &&
                         todoList.map((item) => (
                             <div
@@ -92,19 +85,7 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
                             </div>
                         ))}
                 </div>
-                <TodoFormDrawer
-                    todo_id={active?.todo_id}
-                    open={showAdd}
-                    onClose={() => {
-                        setShowAdd(false);
-                    }}
-                    operatorType={"add"}
-                    onSubmit={() => {
-                        getData();
-                        setShowAdd(false);
-                    }}
-                />
-                <TodoHabitDrawer active={active} handleClose={() => setActive(undefined)} onRefresh={() => getData()} />
+                <TodoHabitDrawer active={active} handleClose={() => setActive(undefined)} onRefresh={() => getData()} /> */}
             </main>
         </Spin>
     );

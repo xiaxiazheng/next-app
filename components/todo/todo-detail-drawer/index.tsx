@@ -89,7 +89,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     return (
         <>
             <DrawerWrapper
-                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} />}
+                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />}
                 open={visible}
                 onClose={handleClose}
                 height={'90vh'}
