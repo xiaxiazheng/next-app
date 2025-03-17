@@ -40,6 +40,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
                 closeIcon={null}
                 closable={false}
                 height={height}
+                push={{ distance: 5 }}
                 {...rest}
             >
                 <div className={styles.content}>{props.children}</div>
