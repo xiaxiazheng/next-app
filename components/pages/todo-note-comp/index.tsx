@@ -57,7 +57,7 @@ const Item = (props: {
     );
 };
 
-const TodoNote = () => {
+const TodoNoteComp = () => {
     const isWork = useIsWork();
 
     useEffect(() => {
@@ -293,7 +293,7 @@ const TodoNote = () => {
     );
 };
 
-export default TodoNote;
+export default TodoNoteComp;
 
 export async function getServerSideProps(context) {
     return {

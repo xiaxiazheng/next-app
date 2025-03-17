@@ -1,11 +1,12 @@
 import Header from "../../components/common/header";
+import TodoNoteComp from "../../components/pages/todo-note-comp";
 
 const TodoNote = () => {
     return (
         <>
             <Header title="todo-note" />
             <main>
-                <TodoNote />
+                <TodoNoteComp />
             </main>
         </>
     );
