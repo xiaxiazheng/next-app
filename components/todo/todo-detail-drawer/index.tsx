@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import { TodoItemType } from "../types";
@@ -16,16 +16,22 @@ import AddTodoHoc from "../add-todo-hoc";
 interface IProps {
     activeTodo: TodoItemType;
     visible: boolean;
-    onRefresh: (item?: TodoItemType) => void; // 触发刷新外部列表
+    /** 
+     * 在新增修改或新增 todo 的时候触发
+     * 触发外部列表刷新
+     */
+    onRefresh: (item?: TodoItemType) => void;
     onClose: Function; // 关闭弹窗时触发
     keyword?: string;
+    footer?: () => ReactNode;
+    footerConfig?: { hideAddBtn?: boolean, hideDoneBtn?: boolean };
 }
 
 export const splitStr = "<#####>";
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
-    const { activeTodo, visible, onRefresh, onClose, keyword } = props;
+    const { activeTodo, visible, onRefresh, onClose, keyword, footer, footerConfig } = props;
 
     useEffect(() => {
         if (activeTodo) {
@@ -111,37 +117,39 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             >
                                 编辑
                             </Button>
-                            <AddTodoHoc
-                                operatorType="copy"
-                                todo_id={activeTodo?.todo_id}
-                                renderChildren={({ onClick }) => {
-                                    return (
-                                        <Button
-                                            type={!shouldAddChild(activeTodo) ? "primary" : "default"}
-                                            onClick={() => {
-                                                onClick();
-                                            }}
-                                        >
-                                            {activeTodo?.other_id ? "添加同级进度" : "复制"}
-                                        </Button>
-                                    )
-                                }} />
-                            <AddTodoHoc
-                                operatorType="progress"
-                                todo_id={activeTodo?.todo_id}
-                                onClose={onRefresh}
-                                renderChildren={({ onClick }) => {
-                                    return (
-                                        <Button
-                                            type={shouldAddChild(activeTodo) ? "primary" : "default"}
-                                            onClick={() => {
-                                                onClick()
-                                            }}
-                                        >
-                                            添加后续
-                                        </Button>
-                                    )
-                                }} />
+                            {!footerConfig?.hideAddBtn && <>
+                                <AddTodoHoc
+                                    operatorType="copy"
+                                    todo_id={activeTodo?.todo_id}
+                                    renderChildren={({ onClick }) => {
+                                        return (
+                                            <Button
+                                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                onClick={() => {
+                                                    onClick();
+                                                }}
+                                            >
+                                                {activeTodo?.other_id ? "添加同级进度" : "复制"}
+                                            </Button>
+                                        )
+                                    }} />
+                                <AddTodoHoc
+                                    operatorType="progress"
+                                    todo_id={activeTodo?.todo_id}
+                                    onClose={onRefresh}
+                                    renderChildren={({ onClick }) => {
+                                        return (
+                                            <Button
+                                                type={shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                onClick={() => {
+                                                    onClick()
+                                                }}
+                                            >
+                                                添加后续
+                                            </Button>
+                                        )
+                                    }} />
+                            </>}
                             {hasChainIcon(activeTodo).hasChain && (
                                 <Button
                                     onClick={() => {
@@ -151,16 +159,17 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                     chain <TodoChainIcon item={activeTodo} />
                                 </Button>
                             )}
-                            {String(activeTodo?.status) === String(TodoStatus.todo) && (
+                            {!footerConfig?.hideDoneBtn && String(activeTodo?.status) === String(TodoStatus.todo) && (
                                 <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
                                     完成Todo
                                 </Button>
                             )}
+                            {footer?.()}
                         </Space>
                     </div>
                 }
             >
-                <div style={{ fontSize: 14 }}>
+                <div style={{ fontSize: 13 }}>
                     {activeTodo?.description && renderDescription(activeTodo.description, keyword)}
                 </div>
                 {activeTodo?.todo_id && (

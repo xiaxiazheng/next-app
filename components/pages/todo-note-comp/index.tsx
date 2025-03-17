@@ -1,61 +1,19 @@
 import styles from "./index.module.scss";
-import { getTodoList, getTodoCategory, getIsWork } from "../../../service";
+import { getTodoList, getTodoCategory } from "../../../service";
 import { useEffect, useRef, useState } from "react";
-import { Input, Button, Pagination, Radio, Space, message, Drawer, Spin } from "antd";
+import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
-import PreviewImages from "../../common/preview-images";
-import UploadImageFile from "../../common/upload-image-file";
-import PreviewFiles from "../../common/preview-files";
-import { OperatorType, TodoItemType } from "../../todo/types";
-import { getTodoTimeDetail, renderDescription } from "../../todo/utils";
+import { TodoItemType } from "../../todo/types";
+import { getTodoTimeDetail } from "../../todo/utils";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import TodoFormDrawer from "../../todo/todo-form-drawer";
 import Loading from "../../loading";
-import TodoItemTitle from "../../todo/todo-tree-list/todo-item-title";
 import { useIsWork } from "../../../hooks/useIsWork";
+import TodoDetailDrawer from "../../todo/todo-detail-drawer";
+import TodoNoteItem from "./todo-note-item";
 
 const { Search } = Input;
 
 const title = "todo note";
-
-const TodoNoteItem = (props: {
-    item: TodoItemType;
-    isActive: boolean;
-    showTitle?: boolean;
-    getData: Function;
-    maxImgCount?: number;
-    descriptionClassName?: string;
-}) => {
-    const { item, isActive, showTitle = true, getData, maxImgCount = -1, descriptionClassName } = props;
-    return (
-        <>
-            <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
-                {showTitle && <TodoItemTitle item={item} showTime={false} keyword="" />}
-                {item.description !== "" && (
-                    <div className={descriptionClassName}>{renderDescription(item.description)}</div>
-                )}
-            </div>
-            <div className={styles.imgFileList}>
-                <PreviewImages
-                    imagesList={maxImgCount !== -1 ? item.imgList.slice(0, maxImgCount) : item.imgList}
-                    style={{ margin: 0 }}
-                />
-                <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
-                {isActive && (
-                    <UploadImageFile
-                        type="todo"
-                        otherId={item.todo_id}
-                        refreshImgList={() => getData()}
-                        style={{ margin: 0 }}
-                    />
-                )}
-                {maxImgCount !== -1 && item.imgList.length > maxImgCount && (
-                    <div style={{ opacity: 0.7 }}>还有 {item.imgList.length - maxImgCount} 张图</div>
-                )}
-            </div>
-        </>
-    );
-};
 
 const TodoNoteComp = () => {
     const isWork = useIsWork();
@@ -74,7 +32,7 @@ const TodoNoteComp = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const getData = async () => {
+    const getData = async (props: { isNeedScroll?: boolean } = { isNeedScroll: true }) => {
         setLoading(true);
         const params = {
             pageNo,
@@ -84,9 +42,9 @@ const TodoNoteComp = () => {
             sortBy:
                 sortBy === "time"
                     ? [
-                          ["time", "DESC"],
-                          ["cTime", "DESC"],
-                      ]
+                        ["time", "DESC"],
+                        ["cTime", "DESC"],
+                    ]
                     : [["mTime", "DESC"]],
         };
         if (activeCategory !== "所有") {
@@ -97,7 +55,7 @@ const TodoNoteComp = () => {
             const data = res.data;
             setList(data.list);
             setTotal(data.total);
-            handleScrollToTop();
+            props?.isNeedScroll && handleScrollToTop();
         }
         setLoading(false);
     };
@@ -135,9 +93,6 @@ const TodoNoteComp = () => {
         document.body.removeChild(input);
     };
 
-    const [showAdd, setShowAdd] = useState<boolean>(false);
-    const [operatorType, setOperatorType] = useState<OperatorType>("add-note");
-
     const ref = useRef<any>(null);
     const handleScrollToTop = () => {
         ref?.current?.scroll({
@@ -146,6 +101,8 @@ const TodoNoteComp = () => {
             behavior: "smooth",
         });
     };
+
+    const [isChange, setIsChange] = useState<boolean>(false);
 
     return (
         <>
@@ -158,7 +115,7 @@ const TodoNoteComp = () => {
                         {sortBy === "mTime" ? "按修改倒序" : "按 time 倒序"}
                     </Button>
                     {/* 刷新列表 */}
-                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData()} type="default" />
+                    <Button style={{ width: 50 }} icon={<SyncOutlined />} onClick={() => getData({ isNeedScroll: false })} type="default" />
                 </Space>
             </h2>
             <div>
@@ -187,6 +144,7 @@ const TodoNoteComp = () => {
                                         getData={getData}
                                         maxImgCount={2}
                                         descriptionClassName={styles.renderDescription}
+                                        keyword={keyword}
                                     />
                                 </div>
                             </div>
@@ -234,61 +192,26 @@ const TodoNoteComp = () => {
                 </Radio.Group>
             </DrawerWrapper>
             {/* 详情抽屉 */}
-            <DrawerWrapper
-                className={styles.drawerWrapper}
-                open={!!active}
-                onClose={() => setActive(undefined)}
-                placement="bottom"
-                title={
-                    <TodoItemTitle
-                        item={list.find((item) => item.todo_id === active?.todo_id)}
-                        showTime={true}
-                        keyword=""
-                        wrapperStyle={{}}
-                    />
-                }
-                footer={
-                    <Space size={16} style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
-                        <Button onClick={() => copyContent(`${active?.name}\n${active?.description}`)} type="primary">
-                            复制内容
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                setOperatorType("edit");
-                                setShowAdd(true);
-                            }}
-                            danger
-                            type="primary"
-                        >
-                            编辑
-                        </Button>
-                    </Space>
-                }
-            >
-                <div className={styles.modalContent}>
-                    {list.find((item) => item.todo_id === active?.todo_id) && (
-                        <TodoNoteItem
-                            item={list.find((item) => item.todo_id === active?.todo_id)}
-                            isActive={true}
-                            showTitle={false}
-                            getData={getData}
-                        />
-                    )}
-                </div>
-            </DrawerWrapper>
-            <TodoFormDrawer
-                open={showAdd}
-                todo_id={active?.todo_id}
+            {active && <TodoDetailDrawer
+                activeTodo={active}
+                visible={true}
+                keyword={keyword}
+                onRefresh={(item) => { setIsChange(true); setActive(item); }}
                 onClose={() => {
-                    setOperatorType("add-note");
-                    setShowAdd(false);
+                    setActive(undefined);
+                    isChange && getData({ isNeedScroll: false });
+                    setIsChange(false);
                 }}
-                onSubmit={() => {
-                    setOperatorType("add-note");
-                    setShowAdd(false);
+                footerConfig={{
+                    hideAddBtn: true,
+                    hideDoneBtn: true,
                 }}
-                operatorType={operatorType}
-            />
+                footer={() => (
+                    <Button onClick={() => copyContent(`${active?.name}\n${active?.description}`)} type="primary">
+                        复制内容
+                    </Button>
+                )}
+            />}
         </>
     );
 };
