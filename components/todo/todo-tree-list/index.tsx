@@ -18,17 +18,6 @@ const TodoTreeList: React.FC<IProps> = (props) => {
 
     return (
         <>
-            {/* {list.map((item) => (
-                <TodoItemTitle
-                    key={item.todo_id}
-                    item={item}
-                    onClick={(item) => {
-                        setActiveId(item.todo_id);
-                    }}
-                    keyword={keyword}
-                    showTime={showTime}
-                />
-            ))} */}
             <TodoTree
                 todoList={list}
                 onClick={(item) => {

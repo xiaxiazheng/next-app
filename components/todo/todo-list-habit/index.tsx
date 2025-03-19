@@ -6,10 +6,7 @@ import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "../../../components/todo/types";
 import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { handleIsTodayPunchTheClock } from "../../../components/todo/todo-form-habit/utils";
-import TodoHabitDrawer, { renderHabitDetail } from "../../../components/todo/todo-habit-drawer";
 import useSettings from "../../../hooks/useSettings";
-import TodoTree from "../todo-tree-list/todo-tree";
 import TodoTreeList from "../todo-tree-list";
 
 dayjs.locale("zh-cn");
@@ -19,7 +16,7 @@ interface IProps {
 }
 
 const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
-    const [todoList, setTodoList] = useState<TodoItemType[]>();
+    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -34,9 +31,6 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
         if (res) {
             const list = res.data.list;
             setTodoList(list);
-            if (active) {
-                setActive(list.find((item) => item.todo_id === active.todo_id));
-            }
         }
         setLoading(false);
     };
@@ -44,8 +38,6 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
     useEffect(() => {
         getData();
     }, [refreshFlag]);
-
-    const [active, setActive] = useState<TodoItemType>();
 
     return (
         <Spin spinning={loading}>
@@ -70,22 +62,6 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
                     list={todoList}
                     onRefresh={getData}
                 />
-                {/* <div className={styles.list}>
-                    {todoList &&
-                        todoList.map((item) => (
-                            <div
-                                key={item.todo_id}
-                                style={{ borderColor: handleIsTodayPunchTheClock(item) ? "green" : "#4096ff" }}
-                                onClick={() => {
-                                    setActive(item);
-                                }}
-                            >
-                                <div className={styles.name}>{item.name}</div>
-                                {renderHabitDetail(item)}
-                            </div>
-                        ))}
-                </div>
-                <TodoHabitDrawer active={active} handleClose={() => setActive(undefined)} onRefresh={() => getData()} /> */}
             </main>
         </Spin>
     );
