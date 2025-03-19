@@ -16,9 +16,7 @@ interface TranslateType {
     translate_id: string;
 }
 
-interface IProps {
-    isActive: boolean;
-}
+interface IProps {}
 
 const { TextArea } = Input;
 const { confirm } = Modal;

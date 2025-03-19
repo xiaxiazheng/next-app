@@ -98,7 +98,7 @@
 }
 
 .list {
-    height: calc(100vh - 16px - 250px);
+    // height: calc(100vh - 16px - 250px);
     margin-bottom: 10px;
     overflow-y: auto;
 }
@@ -159,5 +159,8 @@
 }
 
 .pagination {
+    position: sticky;
+    bottom: 0;
+    padding: 5px 0;
     background-color: #0c5293;
 }

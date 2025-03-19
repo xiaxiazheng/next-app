@@ -4,7 +4,7 @@ import {
     StarFilled,
     ThunderboltFilled,
     AppleFilled,
-    ClockCircleOutlined,
+    BarsOutlined,
     FireFilled,
     CoffeeOutlined,
 } from "@ant-design/icons";
@@ -23,7 +23,7 @@ const TodoIcon: React.FC<Props> = (props) => {
         target: AimOutlined,
         urgent: ThunderboltFilled,
         work: AppleFilled,
-        habit: ClockCircleOutlined,
+        habit: BarsOutlined,
         life: CoffeeOutlined
     }
 

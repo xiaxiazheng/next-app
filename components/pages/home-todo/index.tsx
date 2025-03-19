@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Spin, Tabs } from "antd";
 import { useRouter } from "next/router";
@@ -26,9 +26,11 @@ import TodoListHabit from "../../todo/todo-list-habit";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
 import TodoIcon from "../../todo/todo-icon";
 import { TodoItemType } from "../../todo/types";
+import useTouchEvent from "../../../hooks/useTouchEvent";
 
 interface IProps {
     refreshFlag: number;
+    contentHeight?: string;
 }
 
 const TitleWrapper: React.FC<any> = (props) => {
@@ -49,9 +51,7 @@ const TitleWrapper: React.FC<any> = (props) => {
     );
 };
 
-const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
-    const router = useRouter();
-
+const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh - 110px)' }) => {
     const settings = useSettings();
 
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
@@ -166,10 +166,10 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
     const [isFollowUp, updateIsFollowUp] = useStorageState('isFollowUp');
     const [isOnlyToday, updateIsOnlyToday] = useStorageState('isOnlyToday');
 
-    const tabs: TabsProps['items'] = [
+    const tabList: TabsProps['items'] = [
         {
             key: 'todo', label: 'todo', children:
-                <div className={styles.content}> 
+                <div className={styles.content} style={{ height: contentHeight }}> 
                     <TodoDayListWrapper
                         list={isOnlyToday ? getOnlyTodayList(getTodayList()) : getTodayList()}
                         getData={getData}
@@ -208,24 +208,24 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                 </div>
         },
         {
-            key: 'done', label: 'done', children: <div className={styles.content}>
+            key: 'done', label: 'done', children: <div className={styles.content} style={{ height: contentHeight }}>
                 <TodoListDone refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
             </div>
         },
         {
-            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }}/>habit</>, children:
-                <div className={styles.content}>
+            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }}/>tree</>, children:
+                <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListHabit refreshFlag={refreshFlag} />
                 </div>
         },
         {
             key: 'mark', label: <><TodoIcon iconType="bookMark" style={{ marginRight: 3 }}/>mark</>, children:
-                <div className={styles.content}>
+                <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListBookmark refreshFlag={refreshFlag} />
                 </div>
         },
         {
-            key: 'other', label: 'other', children: <div className={styles.content}>
+            key: 'other', label: 'other', children: <div className={styles.content} style={{ height: contentHeight }}>
                 {/* target */}
                 <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
                     <TodoTreeList list={targetList} onRefresh={getData} />
@@ -244,11 +244,53 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
         },
         {
             key: 'before', label: 'before', children:
-                <div className={styles.content}>
+                <div className={styles.content} style={{ height: contentHeight }}>
                     <TodayBeforeYears refreshFlag={refreshFlag} />
                 </div>
         },
     ];
+
+    const id = useRef<any>(null);
+    const id2 = useRef<any>(null);
+    const touchEvent = useTouchEvent();
+    useEffect(() => {
+        id.current = "切换 tab, ->" + Math.random().toFixed(6);
+        id2.current = "切换 tab, <-" + Math.random().toFixed(6);
+    }, []);
+
+    useEffect(() => {
+        touchEvent?.popList("left", id.current);
+        touchEvent?.pushList("left", {
+            id: id.current,
+            handleMoveEnd: () => {
+                if (activeKey) {
+                    const i = tabList.findIndex((item) => item.key === activeKey);
+                    if (i !== tabList.length - 1) {
+                        setActiveKey(tabList[i + 1].key);
+                    } else {
+                        setActiveKey(tabList[0].key);
+                    }
+                }
+            },
+            tipsText: "切换 tab, ->",
+        });
+        touchEvent?.popList("right", id.current);
+        touchEvent?.pushList("right", {
+            id: id2.current,
+            handleMoveEnd: () => {
+                if (activeKey) {
+                    const i = tabList.findIndex(item => item.key === activeKey);
+                    if (i !== 0) {
+                        setActiveKey(tabList[i - 1].key);
+                    } else {
+                        setActiveKey(tabList[tabList.length - 1].key);
+                    }
+                }
+            },
+            tipsText: "切换 tab, <-",
+        });
+    }, [activeKey]);
+
 
     return (
         <Spin spinning={loading}>
@@ -277,7 +319,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag }) => {
                 />
             )}
             {!isShowHistory && (
-                <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)} items={tabs} />
+                <Tabs className={styles.todoHome} activeKey={activeKey} onChange={(val) => setActiveKey(val)} items={tabList} />
             )}
         </Spin>
     );

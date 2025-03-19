@@ -62,6 +62,21 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             title: "others",
             children: [
                 {
+                    name: "home",
+                    path: "home",
+                    icon: <VideoCameraOutlined />,
+                },
+                {
+                    name: "music",
+                    path: "music",
+                    icon: <VideoCameraOutlined />,
+                },
+                {
+                    name: "translate",
+                    path: "translate",
+                    icon: <VideoCameraOutlined />,
+                },
+                {
                     name: "七牛云视频",
                     path: "video",
                     icon: <VideoCameraOutlined />,
