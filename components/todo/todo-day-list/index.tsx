@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import MyModal from "../../common/my-modal";
 import { formatArrayToTimeMap, getRangeFormToday, getShowList, getTodoTimeDetail, getWeek } from "../../todo/utils";
 import { TodoItemType } from "../../todo/types";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 
 interface IProps {
     list: any[];
@@ -80,7 +80,7 @@ const TodoDayList: React.FC<IProps> = (props) => {
                         </div>
                         {/* 当日 todo */}
                         <div className={styles.one_day}>
-                            <TodoItemList list={getShowList(todoMap[time], { isSortTime })} onRefresh={getData} />
+                            <TodoTreeList list={getShowList(todoMap[time], { isSortTime })} onRefresh={getData} />
                         </div>
                     </div>
                 ))}

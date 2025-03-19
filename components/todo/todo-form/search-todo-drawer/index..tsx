@@ -5,7 +5,7 @@ import { TodoItemType } from "../../types";
 import styles from "./index.module.scss";
 import DrawerWrapper from "../../../common/drawer-wrapper";
 import Loading from "../../../loading";
-import TodoItemTitle from "../../todo-item-list/todo-item-title";
+import TodoItemTitle from "../../todo-tree-list/todo-item-title";
 
 interface IProps extends DrawerProps {
     todo_id: string;

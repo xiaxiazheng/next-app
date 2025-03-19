@@ -2,7 +2,7 @@ import { Divider, DrawerProps, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { getTodoChainById } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 import { TodoItemType } from "../types";
 
 interface IProps extends DrawerProps {
@@ -45,50 +45,13 @@ const ChainDrawer: React.FC<IProps> = (props) => {
         <DrawerWrapper title={"todo chain"} open={open} {...rest}>
             <Spin spinning={loading}>
                 {todoId && (
-                    <>
-                        {todoChainList.filter((item) => item.todo_id !== todoId)?.length !== 0 && (
-                            <>
-                                <h4>前置：</h4>
-                                <TodoItemList
-                                    list={todoChainList.filter((item) => item.todo_id !== todoId) || []}
-                                    onRefresh={(item) => {
-                                        handleRefresh(item.todo_id);
-                                    }}
-                                    showTime={true}
-                                />
-                                <Divider style={{ margin: "12px 0" }} />
-                            </>
-                        )}
-                        <h4>
-                            <span
-                                style={{
-                                    color: "#40a9ff",
-                                }}
-                            >
-                                当前：
-                            </span>
-                        </h4>
-                        <TodoItemList
-                            list={todoChainList.filter((item) => item.todo_id === todoId) || []}
-                            onRefresh={(item) => {
-                                handleRefresh(item.todo_id);
-                            }}
-                            showTime={true}
-                        />
-                        {todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list_length !== 0 && (
-                            <>
-                                <Divider style={{ margin: "12px 0" }} />
-                                <h4>后续：</h4>
-                                <TodoItemList
-                                    list={todoChainList.find((item) => item.todo_id === todoId)?.child_todo_list || []}
-                                    onRefresh={(item) => {
-                                        handleRefresh(item.todo_id);
-                                    }}
-                                    showTime={true}
-                                />
-                            </>
-                        )}
-                    </>
+                    <TodoTreeList
+                        list={todoChainList}
+                        onRefresh={(item) => {
+                            handleRefresh(item.todo_id);
+                        }}
+                        showTime={true}
+                    />
                 )}
             </Spin>
         </DrawerWrapper>

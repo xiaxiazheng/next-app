@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
-import { OperatorType, TodoItemType } from "../types";
+import { TodoItemType } from "../types";
 import styles from "./index.module.scss";
 import { renderDescription, setFootPrintList } from "../utils";
 import { Button, message, Space } from "antd";
@@ -9,24 +9,29 @@ import { DoneTodoItem, getTodoById, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
-import TodoItemTitle from "../todo-item-list/todo-item-title";
-import TodoChainIcon, { hasChainIcon } from "../todo-item-list/todo-chain-icon";
+import TodoItemTitle from "../todo-tree-list/todo-item-title";
+import TodoChainIcon, { hasChainIcon } from "../todo-tree-list/todo-chain-icon";
+import AddTodoHoc from "../add-todo-hoc";
 
 interface IProps {
     activeTodo: TodoItemType;
-    setActiveTodo: (item: TodoItemType) => void; // 用于刷新 activeTodo
     visible: boolean;
-    setVisible: Function;
-    onRefresh: Function; // 触发刷新外部列表
-    onClose?: Function; // 关闭弹窗时触发
+    /** 
+     * 在新增修改或新增 todo 的时候触发
+     * 触发外部列表刷新
+     */
+    onRefresh: (item?: TodoItemType) => void;
+    onClose: Function; // 关闭弹窗时触发
     keyword?: string;
+    footer?: () => ReactNode;
+    footerConfig?: { hideAddBtn?: boolean, hideDoneBtn?: boolean };
 }
 
 export const splitStr = "<#####>";
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
-    const { activeTodo, setActiveTodo, visible, setVisible, onRefresh, onClose, keyword } = props;
+    const { activeTodo, visible, onRefresh, onClose, keyword, footer, footerConfig } = props;
 
     useEffect(() => {
         if (activeTodo) {
@@ -45,45 +50,32 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         if (res) {
             message.success(res.message);
             handleClose();
-            onRefresh();
+            onRefresh(res.data);
         }
         setLoading(false);
     };
 
     const handleClose = () => {
-        setVisible(false);
-        onClose?.();
+        onClose();
     };
 
     const [showEdit, setShowEdit] = useState<boolean>(false);
-    const [operatorType, setOperatorType] = useState<OperatorType>("edit");
 
     const [showChain, setShowChain] = useState<boolean>(false);
-
-    const [activeTodo2, setActiveTodo2] = useState<TodoItemType>();
-    const [visible2, setVisible2] = useState<boolean>(false);
 
     const GetTodoById = async (todo_id: string) => {
         return await getTodoById(todo_id);
     };
 
     const onSubmit = async (val: TodoItemType) => {
-        if (operatorType !== "edit") {
-            // 如果不是编辑，说明是新增，需要在 activeTodo2 的详情弹窗展示新增的
-            const res = await GetTodoById(val.todo_id);
-            setActiveTodo2(res.data);
-            setVisible2(true);
-        } else {
-            // 如果是编辑，就要更新当前这个 activeTodo
-            setActiveTodo({ ...activeTodo, ...val });
-        }
-        onRefresh();
+        const newTodo = { ...activeTodo, ...val };
+        onRefresh(newTodo);
         setShowEdit(false);
     };
 
     const handleUpload = async () => {
         const res = await GetTodoById(activeTodo.todo_id);
-        setActiveTodo(res.data);
+        onRefresh(res.data);
     };
 
     // 判断是否应该优先添加子节点
@@ -97,7 +89,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     return (
         <>
             <DrawerWrapper
-                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} />}
+                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />}
                 open={visible}
                 onClose={handleClose}
                 height={'90vh'}
@@ -120,30 +112,44 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                         >
                             <Button
                                 onClick={() => {
-                                    setOperatorType("edit");
                                     setShowEdit(true);
                                 }}
                             >
                                 编辑
                             </Button>
-                            <Button
-                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
-                                onClick={() => {
-                                    setOperatorType("copy");
-                                    setShowEdit(true);
-                                }}
-                            >
-                                {activeTodo?.other_id ? "添加同级进度" : "复制"}
-                            </Button>
-                            <Button
-                                type={shouldAddChild(activeTodo) ? "primary" : "default"}
-                                onClick={() => {
-                                    setOperatorType("progress");
-                                    setShowEdit(true);
-                                }}
-                            >
-                                添加后续
-                            </Button>
+                            {!footerConfig?.hideAddBtn && <>
+                                <AddTodoHoc
+                                    operatorType="copy"
+                                    todo_id={activeTodo?.todo_id}
+                                    renderChildren={({ onClick }) => {
+                                        return (
+                                            <Button
+                                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                onClick={() => {
+                                                    onClick();
+                                                }}
+                                            >
+                                                {activeTodo?.other_id ? "添加同级进度" : "复制"}
+                                            </Button>
+                                        )
+                                    }} />
+                                <AddTodoHoc
+                                    operatorType="progress"
+                                    todo_id={activeTodo?.todo_id}
+                                    onClose={onRefresh}
+                                    renderChildren={({ onClick }) => {
+                                        return (
+                                            <Button
+                                                type={shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                onClick={() => {
+                                                    onClick()
+                                                }}
+                                            >
+                                                添加后续
+                                            </Button>
+                                        )
+                                    }} />
+                            </>}
                             {hasChainIcon(activeTodo).hasChain && (
                                 <Button
                                     onClick={() => {
@@ -153,16 +159,17 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                     chain <TodoChainIcon item={activeTodo} />
                                 </Button>
                             )}
-                            {String(activeTodo?.status) === String(TodoStatus.todo) && (
+                            {!footerConfig?.hideDoneBtn && String(activeTodo?.status) === String(TodoStatus.todo) && (
                                 <Button type="primary" onClick={() => handleDone()} danger loading={loading}>
                                     完成Todo
                                 </Button>
                             )}
+                            {footer?.()}
                         </Space>
                     </div>
                 }
             >
-                <div style={{ fontSize: 14 }}>
+                <div style={{ fontSize: 13 }}>
                     {activeTodo?.description && renderDescription(activeTodo.description, keyword)}
                 </div>
                 {activeTodo?.todo_id && (
@@ -176,20 +183,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 open={showEdit}
                 todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
-                operatorType={operatorType}
+                operatorType={'edit'}
                 onSubmit={onSubmit}
             />
             <ChainDrawer open={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
-            {activeTodo && (
-                <TodoDetailDrawer
-                    activeTodo={activeTodo2}
-                    setActiveTodo={setActiveTodo2}
-                    visible={visible2}
-                    setVisible={setVisible2}
-                    keyword={keyword}
-                    onRefresh={onRefresh}
-                />
-            )}
         </>
     );
 };

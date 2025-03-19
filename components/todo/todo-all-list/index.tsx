@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Button, Input, Space } from "antd";
+import { Button, Space } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "../../../components/todo/types";
 import { CalendarOutlined } from "@ant-design/icons";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 import { getShowList } from "../utils";
-
-const { Search } = Input;
 
 interface IProps {
     list: TodoItemType[];
@@ -49,7 +47,7 @@ const TodoAllList = (props: IProps) => {
             </h2>
             {/* 待办 todo 列表 */}
             <div className={styles.list}>
-                {todoList && <TodoItemList list={getShowList(todoList, { isSortTime })} onRefresh={getData} />}
+                {todoList && <TodoTreeList list={getShowList(todoList, { isSortTime })} onRefresh={getData} />}
             </div>
         </>
     );

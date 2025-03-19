@@ -4,7 +4,7 @@ import { Button, Space } from "antd";
 import { SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs, { ManipulateType } from "dayjs";
 import { TodoItemType } from "../../todo/types";
-import TodoItemList from "../todo-item-list";
+import TodoTreeList from "../todo-tree-list";
 import { getShowList } from "../utils";
 
 interface IProps {
@@ -96,7 +96,7 @@ const TodoSplitTimeRangeList = (props: IProps) => {
                             </div>
                             {/* 当日 todo */}
                             <div className={styles.one_day}>
-                                <TodoItemList list={list} onRefresh={getData} />
+                                <TodoTreeList list={list} onRefresh={getData} />
                             </div>
                         </div>
                     );

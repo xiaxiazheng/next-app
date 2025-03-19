@@ -15,28 +15,17 @@ import Category from "../category";
 import { TodoItemType } from "../types";
 import { getTodoTimeDetail, handleKeywordHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
-import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
-import TodoHabitIcon from "../todo-habit-drawer/todo-habit-icon";
 
-interface IProps {
+export interface TodoItemTitleProps {
     item: TodoItemType;
-    onClick?: (item: TodoItemType) => void;
+    onClick?: (item: TodoItemType,
+        e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
     keyword: string;
     showTime?: boolean;
     wrapperStyle?: any;
 }
 
-const judgeIsPunchTheClock = (item: TodoItemType) => {
-    if (item.isHabit !== "1") return {};
-
-    if (handleIsTodayPunchTheClock(item)) {
-        return { color: "#6bb167" };
-    } else {
-        return { color: "#c15b5b" };
-    }
-};
-
-const TodoItemTitle: React.FC<IProps> = (props) => {
+const TodoItemTitle: React.FC<TodoItemTitleProps> = (props) => {
     const { item, onClick, keyword, showTime = false, wrapperStyle } = props;
 
     if (!item) return null;
@@ -58,10 +47,11 @@ const TodoItemTitle: React.FC<IProps> = (props) => {
             {item.isNote === "1" && <BookOutlined style={{ marginRight: 5, color: "#ffeb3b" }} />}
             {/* 书签 */}
             {item.isBookMark === "1" && <StarFilled style={{ marginRight: 5, color: "#ffeb3b" }} />}
-            <TodoHabitIcon item={item} />
+            {/* 习惯 */}
+            {/* <TodoHabitIcon item={item} /> */}
             <span
-                onClick={() => onClick && onClick(item)}
-                style={{ ...judgeIsLastModify(item.todo_id), ...judgeIsPunchTheClock(item) }}
+                onClick={(e) => onClick && onClick(item, e)}
+                style={{ ...judgeIsLastModify(item.todo_id) }}
             >
                 {String(item.status) === String(TodoStatus.done) && item.isBookMark !== "1" ? (
                     <s>
