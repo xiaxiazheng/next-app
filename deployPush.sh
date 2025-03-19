@@ -2,7 +2,7 @@
 yarn build
 
 # 生成镜像
-docker build -t xiaxiazheng/nextapp:latest .
+docker build --platform linux/amd64 -t xiaxiazheng/nextapp:latest .
 
 # 镜像保存成 tar 包
 yarn docker:save
