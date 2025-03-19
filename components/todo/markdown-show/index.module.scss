@@ -34,11 +34,6 @@
         white-space: pre-wrap;
     }
 
-    code {
-        display: block;
-        padding: 10px !important;
-    }
-
     :global(.keyword) {
         color: #908080;
         background: yellow;
@@ -47,5 +42,18 @@
         font-size: 14px;
         border-radius: 4px;
         box-sizing: border-box;
+    }
+
+    code {
+        background: #797979;
+        color: #dcdcdc;
+        margin: 0 4px;
+        padding: 3px 8px;
+        border-radius: 6px;
+    }
+
+    :global(code.hljs) {
+        margin: 0;
+        background: #1e1e1e;
     }
 }
