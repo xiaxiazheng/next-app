@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { getFetch, postFetch } from ".";
 import { CreateTodoItemReq, TodoItemType } from "../components/todo/types";
+import { getToday } from "../components/todo/utils";
 
 export enum TodoStatus {
     todo = 0,
@@ -23,8 +24,9 @@ export const getIsWork = () => {
     return "";
 };
 
-export const getTodo = async (): Promise<TodoRes | false> => {
-    const params = {
+export const getTodo = async (param: any = {}): Promise<TodoRes | false> => {
+    const { days } = param;
+    const params: any = {
         status: TodoStatus.todo,
         isTarget: "0",
         isBookMark: "0",
@@ -32,6 +34,10 @@ export const getTodo = async (): Promise<TodoRes | false> => {
         pageSize: 300,
         sortBy: [["color"], ["isWork", "DESC"], ["category"]],
     };
+
+    if (days && Number(days)) {
+        params.startTime = getToday().subtract(Number(days), 'days').format("YYYY-MM-DD");
+    }
     const isWork = getIsWork();
     if (isWork !== "") {
         params["isWork"] = isWork;

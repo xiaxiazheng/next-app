@@ -64,7 +64,9 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
 
     // 获取当前 Todo
     const getTodoList = async () => {
-        const res = await getTodo();
+        const res = await getTodo(isShowLastXdays ? {
+            days: settings?.todoShowBeforeToday?.days
+        } : {});
         if (res) {
             setTodoList(res?.data?.list?.filter((item) => item.isHabit !== "1"));
         }
@@ -128,8 +130,10 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
     };
 
     useEffect(() => {
-        getData();
-    }, [refreshFlag, activeKey]);
+        if (settings && JSON.stringify(settings) !== '{}') {
+            getData();
+        }
+    }, [refreshFlag, activeKey, settings]);
 
     const [keyword, setKeyword] = useState<string>("");
     const search = () => {
@@ -147,31 +151,30 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
             : todoList.concat(isFollowUp ? followUpList : []).filter((item) => !dayjs(item.time).isAfter(dayjs()));
     };
 
-    const getOnlyTodayList = (list: TodoItemType[]) => {
-        const d = settings?.todoShowBeforeToday?.days || 0;
-        return list.filter(item => {
-            if (item.time === getToday().format('YYYY-MM-DD')) {
-                return true;
-            }
-            if (getExtraDayjs(item.time).isBefore(getExtraDayjs(dayjs())) && getExtraDayjs(item.time).isAfter(getExtraDayjs(dayjs()).subtract(d + 1, 'day'))) {
-                return true;
-            }
-        });
-    }
-
     const getAfterList = () => {
         return todoList.filter((item) => dayjs(item.time).isAfter(dayjs()));
     };
 
     const [isFollowUp, updateIsFollowUp] = useStorageState('isFollowUp');
-    const [isOnlyToday, updateIsOnlyToday] = useStorageState('isOnlyToday');
+    const [isShowLastXdays, updateIsShowLastXdays] = useStorageState('isShowLastXdays');
+
+    const isUpdate = useRef(false);
+    useEffect(() => {
+        if (isUpdate.current) {
+            setLoading(true);
+            getTodoList().finally(() => {
+                setLoading(false);
+            });
+            isUpdate.current = false;
+        }
+    }, [isShowLastXdays]);
 
     const tabList: TabsProps['items'] = [
         {
             key: 'todo', label: 'todo', children:
-                <div className={styles.content} style={{ height: contentHeight }}> 
+                <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoDayListWrapper
-                        list={isOnlyToday ? getOnlyTodayList(getTodayList()) : getTodayList()}
+                        list={getTodayList()}
                         getData={getData}
                         title="todo"
                         timeStyle={{ fontSize: 17 }}
@@ -179,10 +182,11 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
                             <>
                                 <Button
                                     onClick={() => {
-                                        message.info(!isOnlyToday ? settings?.todoShowBeforeToday?.text : '看所有 todo', 1);
-                                        updateIsOnlyToday();
+                                        message.info(!isShowLastXdays ? settings?.todoShowBeforeToday?.text : '看所有 todo', 1);
+                                        isUpdate.current = true;
+                                        updateIsShowLastXdays();
                                     }}
-                                    type={isOnlyToday ? "primary" : "default"}
+                                    type={isShowLastXdays ? "primary" : "default"}
                                 >
                                     <FieldTimeOutlined />
                                 </Button>
@@ -213,13 +217,13 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
             </div>
         },
         {
-            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }}/>tree</>, children:
+            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }} />tree</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListHabit refreshFlag={refreshFlag} />
                 </div>
         },
         {
-            key: 'mark', label: <><TodoIcon iconType="bookMark" style={{ marginRight: 3 }}/>mark</>, children:
+            key: 'mark', label: <><TodoIcon iconType="bookMark" style={{ marginRight: 3 }} />mark</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListBookmark refreshFlag={refreshFlag} />
                 </div>

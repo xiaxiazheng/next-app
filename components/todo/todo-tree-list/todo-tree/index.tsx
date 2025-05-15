@@ -54,7 +54,6 @@ const TodoTree: React.FC<Props> = (props) => {
 
     const [treeList, setTreeList] = useState<TodoItemType[]>([]);
     useEffect(() => {
-        console.log('dataMode', dataMode, todoList)
         dataMode === "flat" && setTreeList(handleListToTree(todoList));
         dataMode === "tree" &&
             setTreeList(handleListToTree(handleTreeToList(todoList)));
