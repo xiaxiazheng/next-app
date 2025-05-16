@@ -1,5 +1,5 @@
 # 使用 node 镜像a
-FROM node:16-alpine
+FROM --platform=linux/amd64 node:16-alpine
 
 # 准备工作目录
 WORKDIR /app
