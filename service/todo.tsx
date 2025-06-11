@@ -25,19 +25,16 @@ export const getIsWork = () => {
 };
 
 export const getTodo = async (param: any = {}): Promise<TodoRes | false> => {
-    const { days } = param;
     const params: any = {
         status: TodoStatus.todo,
         isTarget: "0",
         isBookMark: "0",
         isFollowUp: "0",
         pageSize: 300,
-        sortBy: [["color"], ["isWork", "DESC"], ["category"]],
+        sortBy: [["time", "DESC"], ["color"], ["isWork", "DESC"], ["category"]],
+        ...param,
     };
 
-    if (days && Number(days)) {
-        params.startTime = getToday().subtract(Number(days), 'days').format("YYYY-MM-DD");
-    }
     const isWork = getIsWork();
     if (isWork !== "") {
         params["isWork"] = isWork;
