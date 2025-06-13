@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
-import { Button, Input, message, Spin, Tabs } from "antd";
+import { Button, Input, message, Space, Spin, Tabs } from "antd";
 import {
     getTodo,
     getTodoDone,
@@ -134,10 +134,11 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
     }, [refreshFlag, activeKey, settings]);
 
     const [keyword, setKeyword] = useState<string>("");
-    const search = () => {
+    const handleSearch = () => {
         setHistoryWord(keyword);
         setActiveKey('done');
         setIsShowHistory(false);
+        getData();
     };
 
     /** 是否展现搜索历史词 */
@@ -294,27 +295,32 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
 
     return (
         <Spin spinning={loading}>
-            <Input.Search
-                className={styles.search}
-                placeholder="输入搜索已完成 todo"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                enterButton
-                allowClear
-                onSearch={() => {
-                    search();
-                }}
-                onFocus={() => setIsShowHistory(true)}
-                onBlur={() => {
-                    // 这个 blur，要等别处的 click 触发后才执行
-                    setTimeout(() => setIsShowHistory(false), 100);
-                }}
-            />
+            <Space>
+                <Input.Search
+                    className={styles.search}
+                    placeholder="输入搜索已完成 todo"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    allowClear
+                    enterButton
+                    onPressEnter={() => {
+                        handleSearch();
+                    }}
+                    onSearch={() => {
+                        handleSearch();
+                    }}
+                    onFocus={() => setIsShowHistory(true)}
+                    onBlur={() => {
+                        // 这个 blur，要等别处的 click 触发后才执行
+                        setTimeout(() => setIsShowHistory(false), 100);
+                    }}
+                />
+            </Space>
             {isShowHistory && (
                 <SearchHistory
                     onSearch={(key) => {
                         setKeyword(key);
-                        search();
+                        handleSearch();
                     }}
                 />
             )}
