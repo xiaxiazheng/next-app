@@ -181,9 +181,6 @@ const Music: React.FC<PropsType> = (props) => {
 
     return (
         <div className={`${styles.music}`}>
-            <div className={styles.search}>
-                <Input value={keyword} onChange={(val) => setKeyword(val.target.value)} allowClear />
-            </div>
             {/* 列表 */}
             <div className={`${styles.musicList}`}>
                 {getShowList(randomList)?.map((item, index) => (
@@ -198,6 +195,9 @@ const Music: React.FC<PropsType> = (props) => {
                 ))}
             </div>
             <div className={styles.box}>
+                <div className={styles.search}>
+                    <Input value={keyword} onChange={(val) => setKeyword(val.target.value)} allowClear />
+                </div>
                 {/* 播放 */}
                 <div className={styles.musicBox} ref={musicBox}>
                     <audio controls>

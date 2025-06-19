@@ -18,7 +18,8 @@ function App({ Component, pageProps }: any) {
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
-    const isShowHome = router.pathname !== "/" && router.pathname !== '/todo-note';
+    const isMusic = router.pathname === '/music';
+    const isShowHome = !isMusic && router.pathname !== "/" && router.pathname !== '/todo-note';
 
     return (
         <Spin spinning={loading} style={{ overflow: "hidden" }}>
@@ -31,7 +32,7 @@ function App({ Component, pageProps }: any) {
                     setShowDrawer(true);
                 }}
             />
-            <AddTodoHoc
+            {!isMusic && <AddTodoHoc
                 onClose={() => refresh()}
                 renderChildren={({onClick}) => {
                     return (
@@ -42,6 +43,7 @@ function App({ Component, pageProps }: any) {
                         />
                     )
                 }} />
+            }
             <RouterDrawer
                 setRouterLoading={setLoading}
                 refresh={refresh}
