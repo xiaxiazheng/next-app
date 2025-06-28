@@ -39,6 +39,7 @@ export interface TodoItemType {
     isBookMark?: "0" | "1";
     isWork?: "0" | "1";
     isHabit?: string;
+    isKeyNode?: "0" | "1";
 
     imgList: ImageType[];
     fileList: FileType[];

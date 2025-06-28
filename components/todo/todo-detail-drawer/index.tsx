@@ -4,7 +4,7 @@ import UploadImageFile from "../../common/upload-image-file";
 import { TodoItemType } from "../types";
 import styles from "./index.module.scss";
 import { renderDescription, setFootPrintList } from "../utils";
-import { Button, message, Space } from "antd";
+import { Button, Input, message, Space } from "antd";
 import { DoneTodoItem, getTodoById, TodoStatus } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
@@ -12,11 +12,12 @@ import ChainDrawer from "../chain-drawer";
 import TodoItemTitle from "../todo-tree-list/todo-item-title";
 import TodoChainIcon, { hasChainIcon } from "../todo-tree-list/todo-chain-icon";
 import AddTodoHoc from "../add-todo-hoc";
+import { decrypt } from "./encodeDecodeUtils";
 
 interface IProps {
     activeTodo: TodoItemType;
     visible: boolean;
-    /** 
+    /**
      * 在新增修改或新增 todo 的时候触发
      * 触发外部列表刷新
      */
@@ -24,7 +25,7 @@ interface IProps {
     onClose: Function; // 关闭弹窗时触发
     keyword?: string;
     footer?: () => ReactNode;
-    footerConfig?: { hideAddBtn?: boolean, hideDoneBtn?: boolean };
+    footerConfig?: { hideAddBtn?: boolean; hideDoneBtn?: boolean };
 }
 
 export const splitStr = "<#####>";
@@ -86,13 +87,29 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         return false;
     };
 
+    const [isDecode, setIsDecode] = useState<boolean>(false);
+    const [password, setPassword] = useState<string>(localStorage.getItem('encodePassword') || '');
+    const [decodeData, setDecodeData] = useState<string>('');
+    const handleDecode = async () => {
+        const data = await decrypt(activeTodo.description, password);
+        if (data) {
+            setDecodeData(data);
+            localStorage.setItem('encodePassword', password);
+            setIsDecode(true);
+        }
+    };
+
     return (
         <>
             <DrawerWrapper
-                title={activeTodo && <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />}
+                title={
+                    activeTodo && (
+                        <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
+                    )
+                }
                 open={visible}
                 onClose={handleClose}
-                height={'90vh'}
+                height={"90vh"}
                 footer={
                     <div
                         style={{
@@ -117,39 +134,43 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             >
                                 编辑
                             </Button>
-                            {!footerConfig?.hideAddBtn && <>
-                                <AddTodoHoc
-                                    operatorType="copy"
-                                    todo_id={activeTodo?.todo_id}
-                                    renderChildren={({ onClick }) => {
-                                        return (
-                                            <Button
-                                                type={!shouldAddChild(activeTodo) ? "primary" : "default"}
-                                                onClick={() => {
-                                                    onClick();
-                                                }}
-                                            >
-                                                {activeTodo?.other_id ? "添加同级进度" : "复制"}
-                                            </Button>
-                                        )
-                                    }} />
-                                <AddTodoHoc
-                                    operatorType="progress"
-                                    todo_id={activeTodo?.todo_id}
-                                    onClose={onRefresh}
-                                    renderChildren={({ onClick }) => {
-                                        return (
-                                            <Button
-                                                type={shouldAddChild(activeTodo) ? "primary" : "default"}
-                                                onClick={() => {
-                                                    onClick()
-                                                }}
-                                            >
-                                                添加后续
-                                            </Button>
-                                        )
-                                    }} />
-                            </>}
+                            {!footerConfig?.hideAddBtn && (
+                                <>
+                                    <AddTodoHoc
+                                        operatorType="copy"
+                                        todo_id={activeTodo?.todo_id}
+                                        renderChildren={({ onClick }) => {
+                                            return (
+                                                <Button
+                                                    type={!shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                    onClick={() => {
+                                                        onClick();
+                                                    }}
+                                                >
+                                                    {activeTodo?.other_id ? "添加同级进度" : "复制"}
+                                                </Button>
+                                            );
+                                        }}
+                                    />
+                                    <AddTodoHoc
+                                        operatorType="progress"
+                                        todo_id={activeTodo?.todo_id}
+                                        onClose={onRefresh}
+                                        renderChildren={({ onClick }) => {
+                                            return (
+                                                <Button
+                                                    type={shouldAddChild(activeTodo) ? "primary" : "default"}
+                                                    onClick={() => {
+                                                        onClick();
+                                                    }}
+                                                >
+                                                    添加后续
+                                                </Button>
+                                            );
+                                        }}
+                                    />
+                                </>
+                            )}
                             {hasChainIcon(activeTodo).hasChain && (
                                 <Button
                                     onClick={() => {
@@ -165,6 +186,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 </Button>
                             )}
                             {footer?.()}
+                            {activeTodo.isKeyNode === "1" && <>
+                            <Input value={password} onChange={e => setPassword(e.target.value)} />
+                            <Button onClick={() => handleDecode()}>解密</Button>
+                            </>}
                         </Space>
                     </div>
                 }
@@ -183,10 +208,24 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 open={showEdit}
                 todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
-                operatorType={'edit'}
+                operatorType={"edit"}
                 onSubmit={onSubmit}
             />
             <ChainDrawer open={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
+            <DrawerWrapper
+                title={
+                    activeTodo && (
+                        <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
+                    )
+                }
+                open={isDecode}
+                onClose={() => setIsDecode(false)}
+                height={"90vh"}
+            >
+                <div style={{ fontSize: 13 }}>
+                    {decodeData && renderDescription(decodeData, keyword)}
+                </div>
+            </DrawerWrapper>
         </>
     );
 };
