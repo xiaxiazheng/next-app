@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
-import { Button, Input, message, Spin, Tabs } from "antd";
-import { useRouter } from "next/router";
+import { Button, Input, message, Space, Spin, Tabs } from "antd";
 import {
     getTodo,
     getTodoDone,
@@ -16,12 +15,11 @@ import dayjs from "dayjs";
 import SearchHistory, { setHistoryWord } from "../../todo/todo-list-search/search-history";
 import TodoListDone from "../../todo/todo-list-done";
 import useSettings from "../../../hooks/useSettings";
-import { CaretDownOutlined, CaretUpOutlined, FireFilled, FieldTimeOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, FireFilled } from "@ant-design/icons";
 import TodayBeforeYears from "../../todo/today-before-years";
 import TodoDayList from "../../todo/todo-day-list";
 import type { TabsProps } from 'antd';
 import useStorageState from "../../../hooks/useStorageState";
-import { getExtraDayjs, getToday } from "../../todo/utils";
 import TodoListHabit from "../../todo/todo-list-habit";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
 import TodoIcon from "../../todo/todo-icon";
@@ -65,7 +63,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
     // 获取当前 Todo
     const getTodoList = async () => {
         const res = await getTodo(isShowLastXdays ? {
-            days: settings?.todoShowBeforeToday?.days
+            pageSize: settings?.todoShowBeforeToday?.limit || 500
         } : {});
         if (res) {
             setTodoList(res?.data?.list?.filter((item) => item.isHabit !== "1"));
@@ -136,10 +134,11 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
     }, [refreshFlag, activeKey, settings]);
 
     const [keyword, setKeyword] = useState<string>("");
-    const search = () => {
+    const handleSearch = () => {
         setHistoryWord(keyword);
         setActiveKey('done');
         setIsShowHistory(false);
+        getData();
     };
 
     /** 是否展现搜索历史词 */
@@ -188,7 +187,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
                                     }}
                                     type={isShowLastXdays ? "primary" : "default"}
                                 >
-                                    <FieldTimeOutlined />
+                                    {settings?.todoShowBeforeToday?.limit}
                                 </Button>
                                 <Button
                                     onClick={() => {
@@ -203,11 +202,9 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
                         }
                     />
                     {!isShowHistory && (
-                        <>
-                            <TitleWrapper title={`之后待办`} list={getAfterList()}>
-                                <TodoDayList getData={getData} list={getAfterList()} />
-                            </TitleWrapper>
-                        </>
+                        <TitleWrapper title={`之后待办`} list={getAfterList()}>
+                            <TodoDayList getData={getData} list={getAfterList()} isReverse />
+                        </TitleWrapper>
                     )}
                 </div>
         },
@@ -298,27 +295,32 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
 
     return (
         <Spin spinning={loading}>
-            <Input.Search
-                className={styles.search}
-                placeholder="输入搜索已完成 todo"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                enterButton
-                allowClear
-                onSearch={() => {
-                    search();
-                }}
-                onFocus={() => setIsShowHistory(true)}
-                onBlur={() => {
-                    // 这个 blur，要等别处的 click 触发后才执行
-                    setTimeout(() => setIsShowHistory(false), 100);
-                }}
-            />
+            <Space>
+                <Input.Search
+                    className={styles.search}
+                    placeholder="输入搜索已完成 todo"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    allowClear
+                    enterButton
+                    onPressEnter={() => {
+                        handleSearch();
+                    }}
+                    onSearch={() => {
+                        handleSearch();
+                    }}
+                    onFocus={() => setIsShowHistory(true)}
+                    onBlur={() => {
+                        // 这个 blur，要等别处的 click 触发后才执行
+                        setTimeout(() => setIsShowHistory(false), 100);
+                    }}
+                />
+            </Space>
             {isShowHistory && (
                 <SearchHistory
                     onSearch={(key) => {
                         setKeyword(key);
-                        search();
+                        handleSearch();
                     }}
                 />
             )}

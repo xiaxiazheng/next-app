@@ -62,19 +62,14 @@ const RouterDrawer: React.FC<IProps> = (props) => {
             title: "others",
             children: [
                 {
-                    name: "home",
-                    path: "home",
-                    icon: <VideoCameraOutlined />,
-                },
-                {
-                    name: "music",
+                    name: "Music",
                     path: "music",
-                    icon: <VideoCameraOutlined />,
+                    // icon: <TikTokOutlined />,
                 },
                 {
                     name: "translate",
                     path: "translate",
-                    icon: <VideoCameraOutlined />,
+                    // icon: <VideoCameraOutlined />,
                 },
                 {
                     name: "七牛云视频",
@@ -100,6 +95,11 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                     name: "CMD",
                     path: "cmd",
                     icon: <CodepenOutlined />,
+                },
+                {
+                    name: "home",
+                    path: "home",
+                    // icon: <VideoCameraOutlined />,
                 },
                 {
                     name: "登录",
