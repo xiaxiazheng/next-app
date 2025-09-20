@@ -1,5 +1,4 @@
-import { FileType } from "../../service/file";
-import { ImageType } from "../../service/image";
+import { FileType, ImageType } from "@xiaxiazheng/blog-libs";
 
 export interface Mao {
     appearance: string;

@@ -1,9 +1,8 @@
 import { Divider, DrawerProps, Spin } from "antd";
 import { useEffect, useState } from "react";
-import { getTodoChainById } from "../../../service";
+import { getTodoChainById, TodoItemType } from "@xiaxiazheng/blog-libs";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoTreeList from "../todo-tree-list";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface IProps extends DrawerProps {
     todo_id?: string;

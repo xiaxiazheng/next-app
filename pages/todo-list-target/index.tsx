@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoTarget } from "../../service";
+import { getTodoTarget } from "@xiaxiazheng/blog-libs";
 import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";

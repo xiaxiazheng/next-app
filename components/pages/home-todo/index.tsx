@@ -8,7 +8,9 @@ import {
     getTodoTarget,
     TodoStatus,
     getTodoFootprint,
-} from "../../../service";
+    TodoItemType,
+    TodoTypeIcon
+} from "@xiaxiazheng/blog-libs";
 import TodoDayListWrapper from "../../todo/todo-day-list-wrapper";
 import TodoTreeList from "../../todo/todo-tree-list";
 import dayjs from "dayjs";
@@ -22,7 +24,6 @@ import type { TabsProps } from 'antd';
 import useStorageState from "../../../hooks/useStorageState";
 import TodoListHabit from "../../todo/todo-list-habit";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
-import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import useTouchEvent from "../../../hooks/useTouchEvent";
 
 interface IProps {

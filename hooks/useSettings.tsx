@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSettings } from "../service/settings";
+import { getSettings } from "@xiaxiazheng/blog-libs";
 
 interface ContextType {
     todoNameMap: Record<string, any>;

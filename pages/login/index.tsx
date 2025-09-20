@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { Form, Input, Button } from "antd";
-import { login } from "../../service";
+import { login } from "@xiaxiazheng/blog-libs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 

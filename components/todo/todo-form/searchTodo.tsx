@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { message, Select, Tooltip } from "antd";
 import debounce from "lodash/debounce";
-import { getTodoById, getTodoList } from "../../../service";
+import { getTodoById, getTodoList } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 

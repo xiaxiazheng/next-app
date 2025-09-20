@@ -5,7 +5,7 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import { renderDescription, setFootPrintList } from "../utils";
 import { Button, Input, message, Space } from "antd";
-import { DoneTodoItem, getTodoById, TodoStatus } from "../../../service";
+import { DoneTodoItem, getTodoById, TodoStatus } from "@xiaxiazheng/blog-libs";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";

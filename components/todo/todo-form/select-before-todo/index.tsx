@@ -1,6 +1,6 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react";
-import { getTodoById } from "../../../../service";
+import { getTodoById } from "@xiaxiazheng/blog-libs";
 import TodoItemTitle from "../../todo-tree-list/todo-item-title";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SearchTodoDrawer from "../search-todo-drawer/index.";

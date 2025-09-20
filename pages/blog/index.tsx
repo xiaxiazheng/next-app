@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import { GetBlogList } from "../../service";
+import { GetBlogList } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import { Input, Pagination } from "antd";
 import { BlogListType } from "../../components/blog/types";

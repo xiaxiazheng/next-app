@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
-import { GetNoteList, GetNoteCategory, getAllTreeList, getNodeCont, modifyNodeContItem } from "../../service";
+import { GetNoteList, GetNoteCategory, getAllTreeList, getNodeCont, modifyNodeContItem } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message, Tree, Collapse } from "antd";
 import { PlusOutlined, ApartmentOutlined } from "@ant-design/icons";

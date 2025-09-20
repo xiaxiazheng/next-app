@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { TodoStatus } from "../../../service";
+import { TodoStatus } from "@xiaxiazheng/blog-libs";
 import {
     QuestionCircleOutlined,
     FileImageOutlined,

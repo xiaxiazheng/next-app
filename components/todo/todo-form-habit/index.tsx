@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Input, Radio, FormInstance, FormProps } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { getTodoCategory } from "../../../service";
+import { getTodoCategory } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../constant";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import InputList from "../todo-form/input-list";

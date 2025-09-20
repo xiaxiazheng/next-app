@@ -5,7 +5,7 @@ import { Input } from "antd";
 import PreviewImages from "../../components/common/preview-images";
 import UploadImageFile from "../../components/common/upload-image-file";
 import MyModal from "../../components/common/my-modal";
-import { getMaoList } from "../../service/mao";
+import { getMaoList } from "@xiaxiazheng/blog-libs";
 import { IMao } from "../../components/mao/types";
 import PreviewFiles from "../../components/common/preview-files";
 

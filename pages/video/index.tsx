@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { getMediaList } from "../../service/folder";
+import { getMediaList } from "@xiaxiazheng/blog-libs";
 import { Modal, Spin } from "antd";
 import MyModal from "../../components/common/my-modal";
 

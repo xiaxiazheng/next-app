@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./blog_id.module.scss";
-import { GetBlogCont } from "../../service";
+import { GetBlogCont } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
 import AffixBack from "../../components/common/affix/affix-back";

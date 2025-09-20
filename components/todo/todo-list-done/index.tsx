@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { getTodoDone, getTodoCategory, TodoStatus } from "../../../service";
+import { getTodoDone, getTodoCategory, TodoStatus } from "@xiaxiazheng/blog-libs";
 import { useEffect, useReducer, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";

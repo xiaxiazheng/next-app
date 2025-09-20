@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../../components/common/header";
 import styles from "./index.module.scss";
-import { getTodoHabit, TodoStatus } from "../../../service";
+import { getTodoHabit, TodoStatus } from "@xiaxiazheng/blog-libs";
 import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { SyncOutlined } from "@ant-design/icons";

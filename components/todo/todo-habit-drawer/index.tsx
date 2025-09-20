@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AddTodoItem } from "../../../service";
+import { AddTodoItem } from "@xiaxiazheng/blog-libs";
 import { Button, Input, message, Space } from "antd";
 import { CreateTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";

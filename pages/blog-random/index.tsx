@@ -1,6 +1,6 @@
 import Header from "../../components/common/header";
 import styles from "../blog/blog_id.module.scss";
-import { GetBlogList, GetBlogCont } from "../../service";
+import { GetBlogList, GetBlogCont } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
 import AffixRefresh from "../../components/common/affix/affix-refresh";

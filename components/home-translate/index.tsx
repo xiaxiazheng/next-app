@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space, Modal, Tabs, Pagination, Tooltip, Drawer, Radio } from "antd";
 import { useRouter } from "next/router";
-import { deleteTranslateItem, getTranslate, getTranslateList, switchTranslateMark } from "../../service";
+import { deleteTranslateItem, getTranslate, getTranslateList, switchTranslateMark } from "@xiaxiazheng/blog-libs";
 import { StarFilled, InfoCircleFilled, DeleteOutlined } from "@ant-design/icons";
 import DrawerWrapper from "../common/drawer-wrapper";
 

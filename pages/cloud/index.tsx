@@ -1,15 +1,13 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { GetMediaList } from "../../service";
+import { GetMediaList } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import PreviewImages from "../../components/common/preview-images";
 import PreviewFiles, { FileType } from "../../components/common/preview-files";
 import UploadImageFile from "../../components/common/upload-image-file";
-import { addFolder, getFolder } from "../../service/folder";
+import { addFolder, getFolder, getFileListByOtherId, getImageListByOtherId, ImageType } from "@xiaxiazheng/blog-libs";
 import { FolderType } from "../../components/cloud/type";
 import { FolderOutlined } from "@ant-design/icons";
-import { getFileListByOtherId } from "../../service/file";
-import { getImageListByOtherId, ImageType } from "../../service/image";
 import AffixBack from "../../components/common/affix/affix-back";
 import AffixFooter from "../../components/common/affix/affix-footer";
 import AffixAdd from "../../components/common/affix/affix-add";

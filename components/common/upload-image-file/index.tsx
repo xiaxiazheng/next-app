@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { Upload, message, Progress, UploadFile } from "antd";
-import { staticUrl } from "../../../service";
+import { staticUrl } from "@xiaxiazheng/blog-libs";
 import { PlusOutlined } from "@ant-design/icons";
 import MyModal from "../my-modal";
 

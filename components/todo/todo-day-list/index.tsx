@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { EditTodoItem } from "../../../service";
+import { EditTodoItem } from "@xiaxiazheng/blog-libs";
 import { Button, message, Space } from "antd";
 import { VerticalAlignTopOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";

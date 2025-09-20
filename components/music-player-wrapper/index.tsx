@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { GetMediaList } from "../../service";
+import { GetMediaList } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import MusicPlayerComp from "./music-player";
 

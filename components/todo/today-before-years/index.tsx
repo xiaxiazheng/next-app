@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Spin } from "antd";
 import { useRouter } from "next/router";
-import { getTodo, getTodoList, TodoStatus } from "../../../service";
+import { getTodo, getTodoList, TodoStatus } from "@xiaxiazheng/blog-libs";
 import TodoDayListWrapper from "../todo-day-list-wrapper";
 import dayjs from "dayjs";
 

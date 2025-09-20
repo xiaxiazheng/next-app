@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import { getTodo, getTodoTarget } from "../../../service";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { getTodo, getTodoTarget, TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { Space } from "antd";
