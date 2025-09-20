@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { getTodoList, getTodoCategory, TodoItemType } from "@xiaxiazheng/blog-libs";
+import { getTodoList, getTodoCategory, TodoItemType, handleCopy } from "@xiaxiazheng/blog-libs";
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
@@ -80,17 +80,6 @@ const TodoNoteComp = () => {
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);
     }, [activeCategory]);
-
-    // 复制内容
-    const copyContent = (content: string) => {
-        const input = document.createElement("textarea");
-        document.body.appendChild(input);
-        input.value = content;
-        input.select();
-        document.execCommand("copy");
-        message.success("已复制到粘贴板");
-        document.body.removeChild(input);
-    };
 
     const ref = useRef<any>(null);
     const handleScrollToTop = () => {
@@ -206,7 +195,7 @@ const TodoNoteComp = () => {
                     hideDoneBtn: true,
                 }}
                 footer={() => (
-                    <Button onClick={() => copyContent(`${active?.name}\n${active?.description}`)} type="primary">
+                    <Button onClick={() => handleCopy(`${active?.name}\n${active?.description}`)} type="primary">
                         复制内容
                     </Button>
                 )}
