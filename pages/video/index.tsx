@@ -2,7 +2,7 @@ import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { getMediaList } from "@xiaxiazheng/blog-libs";
-import { Modal, Spin } from "antd";
+import { Spin } from "antd";
 import MyModal from "../../components/common/my-modal";
 
 export const cdnUrl = 'http://cdn.xiaxiazheng.cn';
@@ -16,7 +16,7 @@ const MusicPlayer = () => {
         setLoading(true);
         const res = await getMediaList();
         if (res) {
-            const list = res.data.filter((item) =>
+            const list = res.filter((item) =>
                 item.mimeType.includes("video")
             );
             setList(list);

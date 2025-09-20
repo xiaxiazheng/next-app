@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { GetMediaList } from "@xiaxiazheng/blog-libs";
+import { getMediaList } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import MusicPlayerComp from "./music-player";
 
@@ -22,10 +22,10 @@ const MusicPlayerWrapper = () => {
     const [list, setList] = useState<MusicListType[]>([]);
 
     const getData = async () => {
-        const res: any = await GetMediaList();
-        const resData = await res.json();
-        const data: MusicType[] = resData.data;
-
+        const data: MusicType[] = await getMediaList();
+        if (!data) {
+            return;
+        }
         const username = localStorage.getItem("username");
         const url = username === "zyb" ? cdnUrl : hCdnUrl;
         setList(

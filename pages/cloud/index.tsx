@@ -1,6 +1,5 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
-import { GetMediaList } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import PreviewImages from "../../components/common/preview-images";
 import PreviewFiles, { FileType } from "../../components/common/preview-files";

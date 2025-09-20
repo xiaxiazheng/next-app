@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
-import { AddTodoItem, EditTodoItem, getTodoById, TodoStatus, TodoItemType } from "@xiaxiazheng/blog-libs";
+import { addTodoItem, editTodoItem, getTodoById, TodoStatus, TodoItemType } from "@xiaxiazheng/blog-libs";
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType } from "../types";
@@ -62,11 +62,11 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         setLoading(true);
         const res =
             data && operatorType === "edit"
-                ? await EditTodoItem({
+                ? await editTodoItem({
                       ...val,
                       todo_id: data.todo_id,
                   })
-                : await AddTodoItem(val);
+                : await addTodoItem(val);
         if (res) {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
             onSubmit?.(operatorType === "edit" ? val : res.data.newTodoItem);

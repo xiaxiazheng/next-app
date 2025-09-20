@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useCountDown from "../../hooks/useCountDown";
 import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
 import dayjs from "dayjs";
-import { AddTodoItem, getTodoList } from "@xiaxiazheng/blog-libs";
+import { addTodoItem, getTodoList } from "@xiaxiazheng/blog-libs";
 import { CreateTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 // import NoSleep from 'nosleep.js';
 
@@ -103,7 +103,7 @@ const TomatoClock = () => {
             isFollowUp: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
-        await AddTodoItem(val);
+        await addTodoItem(val);
         message.success("倒计时结束啦~~，当前完成已同步到 todo");
         setIsStart(false);
         setIsCounting(false);

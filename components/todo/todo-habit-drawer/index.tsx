@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AddTodoItem } from "@xiaxiazheng/blog-libs";
+import { addTodoItem } from "@xiaxiazheng/blog-libs";
 import { Button, Input, message, Space } from "antd";
 import { CreateTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
@@ -61,7 +61,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             isKeyNode: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
-        await AddTodoItem(val);
+        await addTodoItem(val);
         message.success("打卡成功");
         onRefresh?.();
         handleClose?.();

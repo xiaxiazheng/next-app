@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space, Spin } from "antd";
-import { AddTodoItem, getTodoList } from "@xiaxiazheng/blog-libs";
+import { addTodoItem, getTodoList } from "@xiaxiazheng/blog-libs";
 import useScrollToHook from "../../hooks/useScrollToHooks";
 import MyDrawer from "../../components/common/my-drawer";
 import dayjs from "dayjs";
@@ -80,7 +80,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 isFollowUp: "0",
                 time: dayjs().format("YYYY-MM-DD"),
             };
-            const res = await AddTodoItem(params);
+            const res = await addTodoItem(params);
             if (res) {
                 message.success("保存脚本成功");
                 getScript();

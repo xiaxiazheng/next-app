@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import styles from "./index.module.scss";
 import { Form, Input, Button } from "antd";
-import { login } from "@xiaxiazheng/blog-libs";
+import { postLogin } from "@xiaxiazheng/blog-libs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -10,7 +10,7 @@ const Login = () => {
     const router = useRouter();
 
     const onFinish = async (val) => {
-        const res = await login(val);
+        const res = await postLogin(val);
         if (res) {
             localStorage.setItem("username", val.username)
             localStorage.setItem("password", val.password)
