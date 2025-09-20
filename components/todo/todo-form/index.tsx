@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
 import useSettings from "../../../hooks/useSettings";
-import TodoIcon from "../todo-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 
 const minCategory = 6;
 
@@ -143,12 +143,12 @@ const TodoForm: React.FC<Props> = (props) => {
                         {settings?.todoPreset?.map((item, index) => {
                             return <Button style={{ borderColor: settings?.todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
                                 <span style={{ color: settings?.todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
-                                {item?.isWork && <TodoIcon
-                                    iconType={item?.isWork === "1" ? "work" : "life"}
+                                {item?.isWork && <TodoTypeIcon
+                                    type={item?.isWork === "1" ? "work" : "life"}
                                     style={{ color: "#00d4d8" }}
                                 />}
-                                {item?.isNote === "1" && <TodoIcon
-                                    iconType="note"
+                                {item?.isNote === "1" && <TodoTypeIcon
+                                    type="note"
                                     style={{
                                         color: "#ffeb3b"
                                     }}
@@ -206,7 +206,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span style={{ color: "#00d4d8" }}>
-                                    <TodoIcon iconType="work" /> 工作
+                                    <TodoTypeIcon type="work" /> 工作
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -218,7 +218,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <TodoIcon iconType="urgent" style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
+                                    <TodoTypeIcon type="urgent" style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -230,7 +230,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <TodoIcon iconType="target" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
+                                    <TodoTypeIcon type="target" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -242,7 +242,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <TodoIcon iconType="bookMark" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
+                                    <TodoTypeIcon type="bookMark" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -254,7 +254,7 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <TodoIcon iconType="note" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
+                                    <TodoTypeIcon type="note" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
                                 </span>
                             </SwitchComp>
                         </Form.Item>
@@ -266,8 +266,8 @@ const TodoForm: React.FC<Props> = (props) => {
                         >
                             <SwitchComp>
                                 <span>
-                                    <TodoIcon
-                                        iconType="followUp"
+                                    <TodoTypeIcon
+                                        type="followUp"
                                         style={{
                                             marginRight: 5,
                                             color: "#ffeb3b",

@@ -22,8 +22,7 @@ import type { TabsProps } from 'antd';
 import useStorageState from "../../../hooks/useStorageState";
 import TodoListHabit from "../../todo/todo-list-habit";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
-import TodoIcon from "../../todo/todo-icon";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 import useTouchEvent from "../../../hooks/useTouchEvent";
 
 interface IProps {
@@ -214,13 +213,13 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
             </div>
         },
         {
-            key: 'habit', label: <><TodoIcon iconType="habit" style={{ marginRight: 3 }} />tree</>, children:
+            key: 'habit', label: <><TodoTypeIcon type="habit" style={{ marginRight: 3 }} />tree</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListHabit refreshFlag={refreshFlag} />
                 </div>
         },
         {
-            key: 'mark', label: <><TodoIcon iconType="bookMark" style={{ marginRight: 3 }} />mark</>, children:
+            key: 'mark', label: <><TodoTypeIcon type="bookMark" style={{ marginRight: 3 }} />mark</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListBookmark refreshFlag={refreshFlag} />
                 </div>

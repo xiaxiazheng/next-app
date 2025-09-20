@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styles from "./index.module.scss";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
-import TodoIcon from "../todo-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
@@ -14,8 +14,8 @@ const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const isTodayDone = handleIsTodayPunchTheClock(item);
 
     return (
-      <TodoIcon
-        iconType="habit"
+      <TodoTypeIcon
+        type="habit"
           className={styles.habitIcon}
           style={{
               color: isTodayDone ? "#52d19c" : "#f5222d",

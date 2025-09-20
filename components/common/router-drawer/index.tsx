@@ -15,7 +15,7 @@ import {
 import DrawerWrapper from "../drawer-wrapper";
 import styles from "./index.module.scss";
 import { Button, Space } from "antd";
-import TodoIcon from "../../todo/todo-icon";
+import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     setRouterLoading: Function;
@@ -165,7 +165,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         className={styles.btn}
                         type="text"
                         onClick={() => setIsWork(isWork === "1" ? "" : "1")}
-                        icon={<TodoIcon iconType="work" />}
+                        icon={<TodoTypeIcon type="work" />}
                         style={
                             isWork === "1"
                                 ? {
@@ -181,7 +181,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         className={styles.btn}
                         type="text"
                         onClick={() => setIsWork(isWork === "0" ? "" : "0")}
-                        icon={<TodoIcon iconType="life" />}
+                        icon={<TodoTypeIcon type="life" />}
                         style={
                             isWork === "0"
                                 ? {
