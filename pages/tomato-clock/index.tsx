@@ -6,7 +6,7 @@ import useCountDown from "../../hooks/useCountDown";
 import { calculateTime, playAudio } from "../../components/tomato-clock/utils";
 import dayjs from "dayjs";
 import { AddTodoItem, getTodoList } from "../../service";
-import { CreateTodoItemReq, TodoItemType } from "../../components/todo/types";
+import { CreateTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 // import NoSleep from 'nosleep.js';
 
 // let nosleep: any;
@@ -99,6 +99,8 @@ const TomatoClock = () => {
             status: "1",
             isWork: "0",
             isHabit: "0",
+            isKeyNode: "0",
+            isFollowUp: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await AddTodoItem(val);

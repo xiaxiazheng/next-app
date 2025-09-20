@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { getTodoById } from "../../../../service";
 import TodoItemTitle from "../../todo-tree-list/todo-item-title";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import SearchTodoDrawer from "../search-todo-drawer/index.";
 
 interface IProps {

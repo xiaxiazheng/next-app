@@ -5,7 +5,7 @@ import { AddTodoItem, getTodoList } from "../../service";
 import useScrollToHook from "../../hooks/useScrollToHooks";
 import MyDrawer from "../../components/common/my-drawer";
 import dayjs from "dayjs";
-import { CreateTodoItemReq } from "../../components/todo/types";
+import { CreateTodoItemReq } from "@xiaxiazheng/blog-libs";
 
 const { TextArea } = Input;
 const placeholder = "-----------";
@@ -76,6 +76,8 @@ const CMD: React.FC<ICMD> = (props) => {
                 isBookMark: "0",
                 isWork: "0",
                 isHabit: "0",
+                isKeyNode: "0",
+                isFollowUp: "0",
                 time: dayjs().format("YYYY-MM-DD"),
             };
             const res = await AddTodoItem(params);

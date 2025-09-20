@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Calendar } from "antd";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { getToday } from "../todo-form-habit/utils";

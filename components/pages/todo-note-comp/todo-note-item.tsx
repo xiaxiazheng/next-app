@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import PreviewFiles from "../../common/preview-files";
-import { TodoItemType } from "../../todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { renderDescription } from "../../todo/utils";
 import TodoItemTitle from "../../todo/todo-tree-list/todo-item-title";
 

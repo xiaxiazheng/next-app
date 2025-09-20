@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoFormDrawer from "../todo-form-drawer";
 import TodoDetailDrawer from "../todo-detail-drawer";
 import { useRouter } from "next/router";

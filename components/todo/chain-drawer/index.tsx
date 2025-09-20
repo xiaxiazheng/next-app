@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getTodoChainById } from "../../../service";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoTreeList from "../todo-tree-list";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 
 interface IProps extends DrawerProps {
     todo_id?: string;

@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { getTodoFootprint } from "../../../service";
 import { Button, Space, Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { TodoItemType } from "../../../components/todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import TodoTreeList from "../../../components/todo/todo-tree-list";
 import useSettings from "../../../hooks/useSettings";

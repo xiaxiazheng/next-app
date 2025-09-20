@@ -12,7 +12,7 @@ import {
     ThunderboltFilled,
 } from "@ant-design/icons";
 import Category from "../category";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { getTodoTimeDetail, handleKeywordHighlight, judgeIsLastModify } from "../utils";
 import TodoChainIcon from "./todo-chain-icon";
 

@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Button, Space } from "antd";
 import { SyncOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs, { ManipulateType } from "dayjs";
-import { TodoItemType } from "../../todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
 import { getShowList } from "../utils";
 

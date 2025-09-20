@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { AddTodoItem, EditTodoItem, getTodoById, TodoStatus } from "../../../service";
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import { operatorMap, OperatorType, TodoItemType } from "../types";
+import { operatorMap, OperatorType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 
 interface IProps extends DrawerProps {

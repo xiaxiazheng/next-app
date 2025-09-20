@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { message, Select, Tooltip } from "antd";
 import debounce from "lodash/debounce";
 import { getTodoById, getTodoList } from "../../../service";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 
 const SearchTodo = ({ value, onChange, activeTodo }: any) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Space } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { TodoItemType } from "../../../components/todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { CalendarOutlined } from "@ant-design/icons";
 import TodoTreeList from "../todo-tree-list";
 import { getShowList } from "../utils";

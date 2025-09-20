@@ -1,4 +1,4 @@
-import { TodoItemType } from "./types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import styles from "./utils.module.scss";
 import { splitStr } from "./todo-form/input-list";

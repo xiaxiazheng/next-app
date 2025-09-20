@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TodoItemType } from "../../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoItemTitle, { TodoItemTitleProps } from "../todo-item-title";
 import styles from "./index.module.scss";
 import Tree from "./tree";

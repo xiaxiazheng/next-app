@@ -3,7 +3,7 @@ import Header from "../../common/header";
 import styles from "./index.module.scss";
 import { getTodoBookMark } from "../../../service";
 import { Spin } from "antd";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoAllList from "../todo-all-list";
 import useSettings from "../../../hooks/useSettings";
 

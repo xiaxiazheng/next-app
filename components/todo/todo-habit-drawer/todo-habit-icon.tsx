@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import styles from "./index.module.scss";
-import { ClockCircleOutlined } from "@ant-design/icons";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { handleIsTodayPunchTheClock } from "../todo-form-habit/utils";
 import TodoIcon from "../todo-icon";
 

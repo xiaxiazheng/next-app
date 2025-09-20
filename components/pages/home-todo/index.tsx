@@ -23,7 +23,7 @@ import useStorageState from "../../../hooks/useStorageState";
 import TodoListHabit from "../../todo/todo-list-habit";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
 import TodoIcon from "../../todo/todo-icon";
-import { TodoItemType } from "../../todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import useTouchEvent from "../../../hooks/useTouchEvent";
 
 interface IProps {

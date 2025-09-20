@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AddTodoItem } from "../../../service";
 import { Button, Input, message, Space } from "antd";
-import { CreateTodoItemReq, TodoItemType } from "../types";
+import { CreateTodoItemReq, TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import HabitCalendar from "./Calendar";
@@ -57,6 +57,8 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             status: "1",
             isWork: "0",
             isHabit: "0",
+            isFollowUp: "0",
+            isKeyNode: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await AddTodoItem(val);

@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { getTodoDone, getTodoCategory, TodoStatus } from "../../../service";
 import { useEffect, useReducer, useState } from "react";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import { Pagination, Button, Spin, Space, Radio, Checkbox } from "antd";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";

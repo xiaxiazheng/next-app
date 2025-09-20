@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { SwapOutlined, SwapLeftOutlined, SwapRightOutlined } from "@ant-design/icons";
 
 export const hasChainIcon = (item: TodoItemType) => {

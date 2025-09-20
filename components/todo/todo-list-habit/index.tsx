@@ -3,7 +3,7 @@ import Header from "../../../components/common/header";
 import styles from "./index.module.scss";
 import { getTodoHabit, TodoStatus } from "../../../service";
 import { Button, Space, Spin } from "antd";
-import { TodoItemType } from "../../../components/todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import useSettings from "../../../hooks/useSettings";

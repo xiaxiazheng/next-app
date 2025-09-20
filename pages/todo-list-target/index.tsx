@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { getTodoTarget } from "../../service";
 import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
-import { TodoItemType } from "../../components/todo/types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import useSettings from "../../hooks/useSettings";
 
 interface IProps {

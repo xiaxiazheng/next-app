@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
-import { TodoItemType } from "../types";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import { renderDescription, setFootPrintList } from "../utils";
 import { Button, Input, message, Space } from "antd";

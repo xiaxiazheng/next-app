@@ -2,11 +2,11 @@ import { ReactNode, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { EditTodoItem } from "../../../service";
 import { Button, message, Space } from "antd";
-import { VerticalAlignTopOutlined, SyncOutlined, CalendarOutlined } from "@ant-design/icons";
+import { VerticalAlignTopOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import MyModal from "../../common/my-modal";
-import { formatArrayToTimeMap, getRangeFormToday, getShowList, getTodoTimeDetail, getWeek } from "../../todo/utils";
-import { TodoItemType } from "../../todo/types";
+import { formatArrayToTimeMap, getRangeFormToday, getShowList, getWeek } from "../../todo/utils";
+import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
 
 interface IProps {
