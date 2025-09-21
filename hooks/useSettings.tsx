@@ -22,8 +22,8 @@ const useSettings = () => {
     const getSettingsData = async () => {
         isRequesting = true;
         const res = await getSettings();
-        setSettings(res.data);
-        lastSettings = res.data;
+        setSettings(res);
+        lastSettings = res;
         isRequesting = false;
     };
 
