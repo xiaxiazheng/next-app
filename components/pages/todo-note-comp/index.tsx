@@ -74,8 +74,7 @@ const TodoNoteComp = () => {
     const [activeCategory, setActiveCategory] = useState<string>("所有");
     const getCategory = async () => {
         const res: any = await getTodoCategory({ isNote: "1" });
-        const resData = await res.json();
-        setCategory(resData.data);
+        setCategory(res.data);
     };
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);

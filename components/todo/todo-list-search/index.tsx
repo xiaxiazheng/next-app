@@ -84,8 +84,7 @@ const TodoSearch: React.FC<IProps> = ({ refreshFlag, keyword, setKeyword }) => {
     const [activeCategory, setActiveCategory] = useState<CheckboxValueType[]>([]);
     const getCategory = debounce(async () => {
         const res: any = await getTodoCategory();
-        const resData = await res.json();
-        setCategory(resData.data);
+        setCategory(res.data);
     }, 200);
     useEffect(() => {
         pageNo === 1 ? getData() : setPageNo(1);

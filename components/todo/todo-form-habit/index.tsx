@@ -19,8 +19,7 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
         const res: any = await getTodoCategory();
-        const resData = await res.json();
-        setCategory(resData.data);
+        setCategory(res.data);
     };
 
     useEffect(() => {
