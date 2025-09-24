@@ -49,7 +49,7 @@ const TitleWrapper: React.FC<any> = (props) => {
     );
 };
 
-const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh - 110px)' }) => {
+const HomeTodo: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100vh - 110px)' }) => {
     const settings = useSettings();
 
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
@@ -114,6 +114,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
 
     const [activeKey, setActiveKey] = useState<string>("todo");
 
+    const [doneFlag, setDoneFlag] = useState<number>(0);
     const getData = () => {
         const map = {
             todo: [getTodoList, getTodoFollowUpList],
@@ -124,6 +125,10 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
             Promise.all(map[activeKey].map((item) => item())).finally(() => {
                 setLoading(false);
             });
+        }
+        if (activeKey === 'done') {
+            console.log(doneFlag + 1);
+            setDoneFlag(doneFlag + 1);
         }
     };
 
@@ -210,7 +215,7 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
         },
         {
             key: 'done', label: 'done', children: <div className={styles.content} style={{ height: contentHeight }}>
-                <TodoListDone refreshFlag={refreshFlag} keyword={keyword} setKeyword={setKeyword} />
+                <TodoListDone refreshFlag={refreshFlag + doneFlag} keyword={keyword} setKeyword={setKeyword} />
             </div>
         },
         {
@@ -304,9 +309,11 @@ const HomeTodo: React.FC<IProps> = ({ refreshFlag, contentHeight = 'calc(100vh -
                     allowClear
                     enterButton
                     onPressEnter={() => {
+                        console.log('onPressEnter', keyword);
                         handleSearch();
                     }}
                     onSearch={() => {
+                        console.log('onSearch', keyword);
                         handleSearch();
                     }}
                     onFocus={() => setIsShowHistory(true)}
