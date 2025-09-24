@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { message, DrawerProps, Input, Space } from "antd";
-import { getTodoById, getTodoList } from "@xiaxiazheng/blog-libs";
+import { getTodoById, getTodoList, TodoItem } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import DrawerWrapper from "../../../common/drawer-wrapper";
 import Loading from "../../../loading";
-import TodoItemTitle from "../../todo-tree-list/todo-item-title";
 
 interface IProps extends DrawerProps {
     todo_id: string;
@@ -80,7 +79,7 @@ const SearchTodoDrawer: React.FC<IProps> = (props) => {
                 {options?.map((item) => {
                     return (
                         <div key={item.todo_id} onClick={() => handleChoice(item)}>
-                            <TodoItemTitle item={item} keyword={keyword} />
+                            <TodoItem item={item} keyword={keyword} />
                         </div>
                     );
                 })}                

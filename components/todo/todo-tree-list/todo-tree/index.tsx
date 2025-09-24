@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import TodoItemTitle, { TodoItemTitleProps } from "../todo-item-title";
-import styles from "./index.module.scss";
+import { TodoItemType, TodoItem, TodoItemProps } from "@xiaxiazheng/blog-libs";
 import Tree from "./tree";
 
 interface Props {
@@ -15,7 +13,7 @@ interface Props {
         item: TodoItemType,
         e: React.MouseEvent<HTMLSpanElement, MouseEvent>
     ) => void;
-    getTodoItemProps?: (item: TodoItemType) => Partial<TodoItemTitleProps>;
+    getTodoItemProps?: (item: TodoItemType) => Partial<TodoItemProps>;
     keyword?: string;
 }
 
@@ -56,14 +54,15 @@ const TodoTree: React.FC<Props> = (props) => {
     useEffect(() => {
         dataMode === "flat" && setTreeList(handleListToTree(todoList));
         dataMode === "tree" &&
-            setTreeList(handleListToTree(handleTreeToList(todoList)));
+            setTreeList(handleListToTree(handleTreeToList(todoList))); // 多了一步先拆解数据，再组装
+            // 为了要多这一步？因为 listToTree 会往树结构里塞东西，修改数据结构
     }, [todoList]);
 
     return (
         <Tree
             treeList={treeList}
             renderTitle={(item) => (
-                <TodoItemTitle
+                <TodoItem
                     item={item}
                     onClick={onClick}
                     keyword={keyword}
@@ -71,7 +70,7 @@ const TodoTree: React.FC<Props> = (props) => {
                 />
             )}
             renderChildren={(item) => (
-                <TodoItemTitle
+                <TodoItem
                     item={item}
                     onClick={onClick}
                     keyword={keyword}

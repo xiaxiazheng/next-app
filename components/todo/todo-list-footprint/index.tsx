@@ -7,7 +7,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import TodoTreeList from "../../../components/todo/todo-tree-list";
-import useSettings from "../../../hooks/useSettings";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 
 // 如果是今天的，就不展示日期，只展示时间
 const handleTime = (time: string) => {

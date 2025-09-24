@@ -1,8 +1,7 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { getTodoById } from "@xiaxiazheng/blog-libs";
-import TodoItemTitle from "../../todo-tree-list/todo-item-title";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoItem } from "@xiaxiazheng/blog-libs";
 import SearchTodoDrawer from "../search-todo-drawer/index.";
 
 interface IProps {
@@ -31,7 +30,7 @@ const SelectBeforeTodo: React.FC<IProps> = (props) => {
         <div style={{ color: "white" }}>
             {beforeTodo ? (
                 <>
-                    <TodoItemTitle item={beforeTodo} keyword="" onClick={() => setVisible(true)} showTime={true} />
+                    <TodoItem item={beforeTodo} keyword="" onClick={() => setVisible(true)} showTime={true} />
                     <Button type="primary" danger onClick={() => onChange("")}>
                         删
                     </Button>

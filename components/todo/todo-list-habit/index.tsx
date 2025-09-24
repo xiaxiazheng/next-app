@@ -6,7 +6,7 @@ import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import useSettings from "../../../hooks/useSettings";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
 
 dayjs.locale("zh-cn");

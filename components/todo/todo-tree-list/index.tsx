@@ -1,24 +1,25 @@
 import { useState } from "react";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoTree } from "@xiaxiazheng/blog-libs";
 import TodoDetailDrawer from "../todo-detail-drawer";
-import TodoTree from "./todo-tree";
 
 interface IProps {
     list: TodoItemType[];
     onRefresh: Function;
     showTime?: boolean;
     keyword?: string;
+    dataMode?: 'flat' | 'tree';
 }
 
 /** todo 列表渲染的统一入口 */
 const TodoTreeList: React.FC<IProps> = (props) => {
-    const { list, onRefresh, showTime = false, keyword } = props;
+    const { list, onRefresh, showTime = false, keyword, dataMode = 'flat' } = props;
 
     const [activeId, setActiveId] = useState<string>('');
 
     return (
         <>
             <TodoTree
+                dataMode={dataMode}
                 todoList={list}
                 onClick={(item) => {
                     setActiveId(item.todo_id);

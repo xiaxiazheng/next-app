@@ -5,7 +5,7 @@ import { getTodoTarget } from "@xiaxiazheng/blog-libs";
 import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import useSettings from "../../hooks/useSettings";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     refreshFlag: number;

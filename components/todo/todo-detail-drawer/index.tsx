@@ -5,12 +5,10 @@ import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import { renderDescription, setFootPrintList } from "../utils";
 import { Button, Input, message, Space } from "antd";
-import { doneTodoItem, getTodoById, TodoStatus } from "@xiaxiazheng/blog-libs";
+import { doneTodoItem, getTodoById, TodoStatus, TodoItem, TodoChainIcon, hasChainIcon } from "@xiaxiazheng/blog-libs";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
-import TodoItemTitle from "../todo-tree-list/todo-item-title";
-import TodoChainIcon, { hasChainIcon } from "../todo-tree-list/todo-chain-icon";
 import AddTodoHoc from "../add-todo-hoc";
 import { decrypt } from "./encodeDecodeUtils";
 
@@ -27,8 +25,6 @@ interface IProps {
     footer?: () => ReactNode;
     footerConfig?: { hideAddBtn?: boolean; hideDoneBtn?: boolean };
 }
-
-export const splitStr = "<#####>";
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
@@ -104,7 +100,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             <DrawerWrapper
                 title={
                     activeTodo && (
-                        <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
+                        <TodoItem item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
                     )
                 }
                 open={visible}
@@ -187,8 +183,8 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             )}
                             {footer?.()}
                             {activeTodo.isKeyNode === "1" && <>
-                            <Input value={password} onChange={e => setPassword(e.target.value)} />
-                            <Button onClick={() => handleDecode()}>解密</Button>
+                                <Input value={password} onChange={e => setPassword(e.target.value)} />
+                                <Button onClick={() => handleDecode()}>解密</Button>
                             </>}
                         </Space>
                     </div>
@@ -215,7 +211,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             <DrawerWrapper
                 title={
                     activeTodo && (
-                        <TodoItemTitle item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
+                        <TodoItem item={activeTodo} keyword={keyword} showTime={true} wrapperStyle={{}} />
                     )
                 }
                 open={isDecode}

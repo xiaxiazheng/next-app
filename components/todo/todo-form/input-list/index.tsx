@@ -2,10 +2,10 @@ import React from "react";
 import { Button, Input, message, Space } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
+import { splitStr } from "@xiaxiazheng/blog-libs";
 
 const { TextArea } = Input;
 
-export const splitStr = "<#####>";
 const InputList = ({ value = "", onChange, handleParse }: any) => {
     const l = value.split(splitStr);
 

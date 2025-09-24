@@ -45,6 +45,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
             <Spin spinning={loading}>
                 {todoId && (
                     <TodoTreeList
+                        dataMode="tree"
                         list={todoChainList}
                         onRefresh={(item) => {
                             handleRefresh(item.todo_id);

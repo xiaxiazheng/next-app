@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { getTodoCategory, TodoStatus, TodoItemType, TodoTypeIcon } from "@xiaxiazheng/blog-libs";
+import { getTodoCategory, TodoStatus, TodoItemType, TodoTypeIcon, splitStr } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../constant";
 import { OperatorType } from "../types";
-import InputList, { splitStr } from "./input-list";
+import InputList from "./input-list";
 import NameTextArea from "./name-textarea";
 import SwitchComp from "./switch";
 import SelectBeforeTodo from "./select-before-todo";
@@ -14,7 +14,7 @@ import {
     DownCircleOutlined,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
-import useSettings from "../../../hooks/useSettings";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 
 const minCategory = 6;
 

@@ -6,7 +6,7 @@ import { getTodoCategory } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../constant";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import InputList from "../todo-form/input-list";
-import useSettings from "../../../hooks/useSettings";
+import { useSettings } from "@xiaxiazheng/blog-libs";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
