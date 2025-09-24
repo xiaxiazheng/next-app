@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { getTodoTimeDetail } from "../../utils";
+import { getTodoTimeDetail } from "@xiaxiazheng/blog-libs";
 
 const btnList = [
     { label: "Yesterday", value: dayjs().subtract(1, "day").format("YYYY-MM-DD") },

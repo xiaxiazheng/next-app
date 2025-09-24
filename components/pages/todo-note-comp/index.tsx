@@ -1,9 +1,8 @@
 import styles from "./index.module.scss";
-import { getTodoList, getTodoCategory, TodoItemType, handleCopy } from "@xiaxiazheng/blog-libs";
+import { getTodoList, getTodoCategory, TodoItemType, handleCopy, getTodoTimeDetail } from "@xiaxiazheng/blog-libs";
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
-import { getTodoTimeDetail } from "../../todo/utils";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import Loading from "../../loading";
 import { useIsWork } from "../../../hooks/useIsWork";

@@ -2,8 +2,7 @@ import styles from "./index.module.scss";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import PreviewFiles from "../../common/preview-files";
-import { TodoItemType, TodoItem } from "@xiaxiazheng/blog-libs";
-import { renderDescription } from "../../todo/utils";
+import { TodoItemType, TodoItem, renderDescription } from "@xiaxiazheng/blog-libs";
 
 interface Props {
     item: TodoItemType;

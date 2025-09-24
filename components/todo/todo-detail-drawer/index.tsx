@@ -3,9 +3,16 @@ import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
-import { renderDescription, setFootPrintList } from "../utils";
 import { Button, Input, message, Space } from "antd";
-import { doneTodoItem, getTodoById, TodoStatus, TodoItem, TodoChainIcon, hasChainIcon } from "@xiaxiazheng/blog-libs";
+import { doneTodoItem,
+    getTodoById,
+    TodoStatus,
+    TodoItem,
+    TodoChainIcon,
+    hasChainIcon,
+    renderDescription,
+    setFootPrintList
+ } from "@xiaxiazheng/blog-libs";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
