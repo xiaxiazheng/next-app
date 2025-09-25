@@ -41,6 +41,7 @@ const InputList = ({ value = "", onChange, handleParse }: any) => {
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
                     <TextArea
+                        className={styles.inputTextArea}
                         placeholder="补充以及具体描述"
                         autoSize={{ minRows: 3, maxRows: 10 }}
                         style={{ wordBreak: "break-all" }}

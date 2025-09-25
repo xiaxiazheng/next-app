@@ -12,3 +12,8 @@
         }
     }
 }
+
+.inputTextArea {
+    // 禁止选中，用来屏蔽 H5 输入过程中错乱的问题
+    -webkit-user-select: text;
+}
