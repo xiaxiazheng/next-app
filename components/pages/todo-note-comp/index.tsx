@@ -129,7 +129,7 @@ const TodoNoteComp = () => {
                                         isActive={false}
                                         getData={getData}
                                         maxImgCount={2}
-                                        descriptionClassName={styles.renderDescription}
+                                        descriptionClassName={styles.description}
                                         keyword={keyword}
                                     />
                                 </div>

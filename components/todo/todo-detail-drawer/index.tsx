@@ -1,16 +1,17 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space } from "antd";
-import { doneTodoItem,
+import {
+    TodoDescription,
+    TodoItemType,
+    doneTodoItem,
     getTodoById,
     TodoStatus,
     TodoItem,
     TodoChainIcon,
     hasChainIcon,
-    renderDescription,
     setFootPrintList,
     decrypt
  } from "@xiaxiazheng/blog-libs";
@@ -198,7 +199,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 }
             >
                 <div style={{ fontSize: 13 }}>
-                    {activeTodo?.description && renderDescription(activeTodo.description, keyword)}
+                    <TodoDescription
+                        todoDescription={activeTodo?.description}
+                        keyword={keyword}
+                    />
                 </div>
                 {activeTodo?.todo_id && (
                     <div style={{ marginTop: 10 }}>
@@ -226,7 +230,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                 height={"90vh"}
             >
                 <div style={{ fontSize: 13 }}>
-                    {decodeData && renderDescription(decodeData, keyword)}
+                    <TodoDescription
+                        todoDescription={decodeData}
+                        keyword={keyword}
+                    /> 
                 </div>
             </DrawerWrapper>
         </>

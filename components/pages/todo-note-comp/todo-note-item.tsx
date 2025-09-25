@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import PreviewFiles from "../../common/preview-files";
-import { TodoItemType, TodoItem, renderDescription } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, TodoItem, TodoDescription } from "@xiaxiazheng/blog-libs";
 
 interface Props {
     item: TodoItemType;
@@ -21,7 +21,12 @@ const TodoNoteItem = (props: Props) => {
             <div className={`${styles.note_cont} ${isActive ? styles.active : ""}`}>
                 {showTitle && <TodoItem item={item} showTime={false} keyword={keyword} />}
                 {item.description !== "" && (
-                    <div className={descriptionClassName}>{renderDescription(item.description, keyword)}</div>
+                    <div className={descriptionClassName}>
+                        <TodoDescription
+                            todoDescription={item.description}
+                            keyword={keyword}
+                        />
+                    </div>
                 )}
             </div>
             <div className={styles.imgFileList}>
