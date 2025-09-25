@@ -6,7 +6,7 @@ import { Button, Space, Spin } from "antd";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
 
 dayjs.locale("zh-cn");
@@ -20,7 +20,7 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     const getData = async () => {
         setLoading(true);

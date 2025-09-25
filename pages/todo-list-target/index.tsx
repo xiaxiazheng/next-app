@@ -5,7 +5,7 @@ import { getTodoTarget } from "@xiaxiazheng/blog-libs";
 import { Spin } from "antd";
 import TodoAllList from "../../components/todo/todo-all-list";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     refreshFlag: number;
@@ -14,7 +14,7 @@ interface IProps {
 const TodoListTarget: React.FC<IProps> = ({ refreshFlag }) => {
     const [todoList, setTodoList] = useState<TodoItemType[]>();
 
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     const [loading, setLoading] = useState<boolean>(false);
 

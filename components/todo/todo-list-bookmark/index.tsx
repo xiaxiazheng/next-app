@@ -5,7 +5,7 @@ import { getTodoBookMark } from "@xiaxiazheng/blog-libs";
 import { Spin } from "antd";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoAllList from "../todo-all-list";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     refreshFlag: number;
@@ -29,7 +29,7 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
         getData();
     }, [refreshFlag]);
     
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     return (
         <Spin spinning={loading}>

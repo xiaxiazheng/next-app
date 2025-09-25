@@ -10,7 +10,7 @@ import {
     getTodoFootprint,
     TodoItemType,
     TodoTypeIcon,
-    useSettings,
+    useSettingsContext,
 } from "@xiaxiazheng/blog-libs";
 import TodoDayListWrapper from "../../todo/todo-day-list-wrapper";
 import TodoTreeList from "../../todo/todo-tree-list";
@@ -50,7 +50,7 @@ const TitleWrapper: React.FC<any> = (props) => {
 };
 
 const HomeTodo: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100vh - 110px)' }) => {
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
     const [followUpList, setFollowUpList] = useState<TodoItemType[]>([]);

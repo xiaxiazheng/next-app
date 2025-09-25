@@ -7,7 +7,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import TodoTreeList from "../../../components/todo/todo-tree-list";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 // 如果是今天的，就不展示日期，只展示时间
 const handleTime = (time: string) => {
@@ -26,7 +26,7 @@ const TodoFootprint: React.FC<IProps> = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     const getData = async () => {
         setLoading(true);

@@ -6,7 +6,7 @@ import { getTodoCategory } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../constant";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import InputList from "../todo-form/input-list";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 interface Props extends FormProps {
     todo?: TodoItemType;
@@ -26,7 +26,7 @@ const TodoFormPunchTheClock: React.FC<Props> = (props) => {
         getCategory();
     }, []);
 
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     return (
         <main className={styles.edit_todo}>

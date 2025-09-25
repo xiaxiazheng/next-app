@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import TouchEventClass from "../utils/touch-event";
-// import useSettings from "./useSettings";
+// import useSettingsContext from "./useSettingsContext";
 
 let touchEvent: TouchEventClass;
 let isInit = false;
 
 const useTouchEvent = () => {
-    // const settings = useSettings();
+    // const settings = useSettingsContext();
     // const touchSafeXY = settings?.touchSafeXY; // 获取 settings 配置
 
     if (!touchEvent) {

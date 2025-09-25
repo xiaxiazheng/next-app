@@ -14,14 +14,14 @@ import {
     DownCircleOutlined,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
-import { useSettings } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 
 const minCategory = 6;
 
 const CategoryOptions = ({ value, onChange, category }: any) => {
     const [showAll, setShowAll] = useState<boolean>(false);
 
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     useEffect(() => {
         if (
@@ -69,7 +69,7 @@ interface Props extends FormProps {
 const TodoForm: React.FC<Props> = (props) => {
     const { status, todo, operatorType, form, onFieldsChange, ...rest } = props;
 
-    const settings = useSettings();
+    const settings = useSettingsContext();
 
     const [category, setCategory] = useState<any[]>([]);
     const getCategory = async () => {
