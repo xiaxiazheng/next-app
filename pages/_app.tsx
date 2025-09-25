@@ -6,6 +6,7 @@ import RouterDrawer from "../components/common/router-drawer";
 import Affix from "../components/common/affix";
 import { useRouter } from "next/router";
 import AddTodoHoc from "../components/todo/add-todo-hoc";
+import { SettingsProvider } from "@xiaxiazheng/blog-libs";
 
 function App({ Component, pageProps }: any) {
     const router = useRouter();
@@ -22,35 +23,37 @@ function App({ Component, pageProps }: any) {
     const isShowHome = !isMusic && router.pathname !== "/" && router.pathname !== '/todo-note';
 
     return (
-        <Spin spinning={loading} style={{ overflow: "hidden" }}>
-            <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} />
-            {isShowHome && <Affix type="home" bottomIndex={1} />}
-            <Affix
-                type="category"
-                bottomIndex={isShowHome ? 2 : 1}
-                onClick={() => {
-                    setShowDrawer(true);
-                }}
-            />
-            {!isMusic && <AddTodoHoc
-                onClose={() => refresh()}
-                renderChildren={({onClick}) => {
-                    return (
-                        <Affix
-                            type="add"
-                            bottomIndex={isShowHome ? 3 : 2}
-                            onClick={() => onClick()}
-                        />
-                    )
-                }} />
-            }
-            <RouterDrawer
-                setRouterLoading={setLoading}
-                refresh={refresh}
-                showDrawer={showDrawer}
-                setShowDrawer={setShowDrawer}
-            />
-        </Spin>
+        <SettingsProvider>
+            <Spin spinning={loading} style={{ overflow: "hidden" }}>
+                <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} />
+                {isShowHome && <Affix type="home" bottomIndex={1} />}
+                <Affix
+                    type="category"
+                    bottomIndex={isShowHome ? 2 : 1}
+                    onClick={() => {
+                        setShowDrawer(true);
+                    }}
+                />
+                {!isMusic && <AddTodoHoc
+                    onClose={() => refresh()}
+                    renderChildren={({ onClick }) => {
+                        return (
+                            <Affix
+                                type="add"
+                                bottomIndex={isShowHome ? 3 : 2}
+                                onClick={() => onClick()}
+                            />
+                        )
+                    }} />
+                }
+                <RouterDrawer
+                    setRouterLoading={setLoading}
+                    refresh={refresh}
+                    showDrawer={showDrawer}
+                    setShowDrawer={setShowDrawer}
+                />
+            </Spin>
+        </SettingsProvider>
     );
 }
 
