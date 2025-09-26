@@ -190,7 +190,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 </Button>
                             )}
                             {footer?.()}
-                            {activeTodo.isKeyNode === "1" && <>
+                            {activeTodo?.isKeyNode === "1" && <>
                                 <Input value={password} onChange={e => setPassword(e.target.value)} />
                                 <Button onClick={() => handleDecode()}>解密</Button>
                             </>}

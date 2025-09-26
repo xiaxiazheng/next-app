@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TodoItemType, TodoTree } from "@xiaxiazheng/blog-libs";
 import TodoDetailDrawer from "../todo-detail-drawer";
+import { handleTreeToList } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     list: TodoItemType[];
@@ -35,7 +36,7 @@ const TodoTreeList: React.FC<IProps> = (props) => {
             {activeId !== '' && <TodoDetailDrawer
                 visible={true}
                 onClose={() => setActiveId("")}
-                activeTodo={list.filter(item => item.todo_id === activeId)?.[0]}
+                activeTodo={handleTreeToList(list).filter(item => item.todo_id === activeId)?.[0]}
                 onRefresh={() => onRefresh()}
                 keyword={keyword}
             />}
