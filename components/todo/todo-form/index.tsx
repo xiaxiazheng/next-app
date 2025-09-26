@@ -136,7 +136,7 @@ const TodoForm: React.FC<Props> = (props) => {
                     }} />
                 </Form.Item>
                 <Form.Item label="预设选项">
-                    <Space>
+                    <Space wrap>
                         {settings?.todoPreset?.map((item, index) => {
                             return <Button style={{ borderColor: settings?.todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
                                 <span style={{ color: settings?.todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
