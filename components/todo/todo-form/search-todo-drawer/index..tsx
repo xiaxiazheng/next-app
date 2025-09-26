@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { message, DrawerProps, Input, Space } from "antd";
 import { getTodoById, getTodoList, TodoItem } from "@xiaxiazheng/blog-libs";
-import { TodoItemType } from "@xiaxiazheng/blog-libs";
+import { TodoItemType, Loading } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";
 import DrawerWrapper from "../../../common/drawer-wrapper";
-import Loading from "../../../loading";
 
 interface IProps extends DrawerProps {
     todo_id: string;

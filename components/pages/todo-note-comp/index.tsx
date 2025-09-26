@@ -1,10 +1,9 @@
 import styles from "./index.module.scss";
-import { getTodoList, getTodoCategory, TodoItemType, handleCopy, getTodoTimeDetail } from "@xiaxiazheng/blog-libs";
+import { getTodoList, getTodoCategory, TodoItemType, handleCopy, getTodoTimeDetail, Loading } from "@xiaxiazheng/blog-libs";
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
 import DrawerWrapper from "../../common/drawer-wrapper";
-import Loading from "../../loading";
 import { useIsWork } from "../../../hooks/useIsWork";
 import TodoDetailDrawer from "../../todo/todo-detail-drawer";
 import TodoNoteItem from "./todo-note-item";
