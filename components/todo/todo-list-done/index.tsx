@@ -3,7 +3,7 @@ import { getTodoDone, getTodoCategory, TodoStatus, formatArrayToTimeMap, getRang
 import { useEffect, useReducer, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
-import { Pagination, Button, Spin, Space, Radio, Checkbox } from "antd";
+import { Button, Spin, Space, Checkbox } from "antd";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import { SyncOutlined } from "@ant-design/icons";
 import { getShowList } from "../utils";
@@ -11,6 +11,7 @@ import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@a
 import TodoTreeList from "../todo-tree-list";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { debounce } from "lodash";
+import TodoPagination from "../todo-pagination";
 
 interface IProps {
     refreshFlag: number;
@@ -174,7 +175,7 @@ const TodoListDone: React.FC<IProps> = ({ refreshFlag, keyword, setKeyword }) =>
                 ))}
                 {Object.keys(todoMap)?.length === 0 && <div className={styles.noResult}>无搜索结果</div>}
             </div>
-            <Pagination
+            <TodoPagination
                 className={styles.pagination}
                 pageSize={15}
                 current={pageNo}

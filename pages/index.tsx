@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import styles from "./index.module.scss";
 import { message } from "antd";
 import { useRouter } from "next/router";
-import HomeTodo from "../components/pages/home-todo";
+import TodoTabs from "../components/pages/todo-tabs";
 import TouchEventComp from "../utils/TouchEventComp";
 
 interface IProps {
@@ -25,7 +25,7 @@ const Home: React.FC<IProps> = ({ refreshFlag }) => {
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
-                <HomeTodo refreshFlag={refreshFlag} />
+                <TodoTabs refreshFlag={refreshFlag} />
             </main>
             <TouchEventComp />
         </div>
