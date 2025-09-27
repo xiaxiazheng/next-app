@@ -1,26 +1,32 @@
-import { useEffect } from "react";
+import { MutableRefObject, useEffect } from "react";
 import TouchEventClass from "../utils/touch-event";
 // import useSettingsContext from "./useSettingsContext";
 
-let touchEvent: TouchEventClass;
-let isInit = false;
+// let touchEvent: TouchEventClass;
+// let isInit = false;
 
-const useTouchEvent = () => {
+export interface TouchEventProps {
+    /** 用来绑定事件的 ref */
+    ref: MutableRefObject<any>;
+    /** 触发的事件 */
+    event: (e: any) => void;
+}
+
+const useTouchEvent = (props: TouchEventProps, dep: any[] = []) => {
+    const { ref, event } = props;
     // const settings = useSettingsContext();
     // const touchSafeXY = settings?.touchSafeXY; // 获取 settings 配置
 
-    if (!touchEvent) {
-        // 创建实例，用全局变量 touchEvent 保证只会有一个实例
-        touchEvent = new TouchEventClass();
-    }
+    // 创建实例，用全局变量 touchEvent 保证只会有一个实例
+    const touchEvent = new TouchEventClass();
 
     useEffect(() => {
-        if (!isInit) {
-            // 初始化 touch 监听事件，因为 window 对象的缘故，所以需要在 useEffect 里包裹
-            touchEvent.init();
-            isInit = true;
-        }
-    }, []);
+        // 初始化 touch 监听事件，因为 window 对象的缘故，所以需要在 useEffect 里包裹
+        console.log('准备 init', props);
+        touchEvent.init(props);
+    }, [ref, event, ...dep]);
+
+    console.log('ref', ref);
 
     // useEffect(() => {
     //     if (touchSafeXY) {

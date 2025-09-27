@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import styles from "./touch-event.module.scss";
+import { TouchEventProps } from "../hooks/useTouchEvent";
 
 export const debounceTime = 20;
 
@@ -20,12 +21,23 @@ export class TouchEventClass {
         right: [],
     };
     forceUpdate: Function = () => {};
+    lastDom: any;
+    event: (e) => void;
 
-    init = () => {
-        console.log('init touch event');
-        document.addEventListener("touchstart", this.handleStart);
-        document.addEventListener("touchend", this.handleEnd);
-        document.addEventListener("touchmove", this.handleMove);
+    init = (props: TouchEventProps) => {
+        const { ref, event } = props;
+        if (ref && ref?.current) {
+            if (this.lastDom) {
+                this.lastDom.removeEventListener("touchstart", this.handleStart);
+                this.lastDom.removeEventListener("touchend", this.handleEnd);
+                this.lastDom.removeEventListener("touchmove", this.handleMove);
+            }
+            this.event = event;
+            ref?.current?.addEventListener("touchstart", this.handleStart);
+            ref?.current?.addEventListener("touchend", this.handleEnd);
+            ref?.current?.addEventListener("touchmove", this.handleMove);
+            this.lastDom = ref?.current;
+        }
     };
 
     setForceUpdate = (forceUpdate: Function) => {
@@ -40,21 +52,6 @@ export class TouchEventClass {
         if (y) {
             this.safeY = y;
         }
-    };
-
-    pushList = (
-        direction: "bottom" | "top" | "left" | "right",
-        params: {
-            id: string;
-            handleMoveEnd: () => void;
-            tipsText: string;
-        }
-    ) => {
-        this.map[direction].push(params);
-    };
-
-    popList = (direction: "bottom" | "top" | "left" | "right", id: string) => {
-        this.map[direction] = this.map[direction].filter((item) => item.id !== id);
     };
 
     handleStart = debounce((e: TouchEvent) => {
@@ -80,12 +77,13 @@ export class TouchEventClass {
         return "";
     };
 
-    handleRunMoveEnd = (endX: number, endY: number) => {
+    handleRunMoveEnd = (endX: number, endY: number, e: TouchEvent) => {
         const moveX = endX - this.startX;
         const moveY = endY - this.startY;
         let direction = this.getDirection(moveX, moveY);
-        const len = this.map[direction]?.length;
-        len && this.map[direction][len - 1].handleMoveEnd();
+        // const len = this.map[direction]?.length;
+        // len && this.map[direction][len - 1].handleMoveEnd();
+        this.event?.(e);
     };
 
     handleMoveEndText = () => {
@@ -95,7 +93,7 @@ export class TouchEventClass {
     };
 
     handleEnd = debounce((e: TouchEvent) => {
-        this.handleRunMoveEnd(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY);
+        this.handleRunMoveEnd(e.changedTouches?.[0]?.pageX, e.changedTouches?.[0]?.pageY, e);
         this.isStart = false;
         this.isShow = false;
         this.getRender();

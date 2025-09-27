@@ -54,10 +54,12 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         const res = await doneTodoItem(params);
         if (res) {
             message.success(res.message);
-            handleClose();
             onRefresh(res.data);
+            setLoading(false);
+            handleClose();
+        } else {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleClose = () => {
@@ -190,7 +192,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 </Button>
                             )}
                             {footer?.()}
-                            {activeTodo?.isKeyNode === "1" && <>
+                            {activeTodo?.isEncode === "1" && <>
                                 <Input value={password} onChange={e => setPassword(e.target.value)} />
                                 <Button onClick={() => handleDecode()}>解密</Button>
                             </>}

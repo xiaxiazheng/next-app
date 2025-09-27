@@ -57,7 +57,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             isWork: "0",
             isHabit: "0",
             isFollowUp: "0",
-            isKeyNode: "0",
+            isEncode: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await addTodoItem(val);

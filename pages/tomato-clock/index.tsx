@@ -99,7 +99,7 @@ const TomatoClock = () => {
             status: "1",
             isWork: "0",
             isHabit: "0",
-            isKeyNode: "0",
+            isEncode: "0",
             isFollowUp: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
