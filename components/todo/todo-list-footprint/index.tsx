@@ -51,10 +51,10 @@ const TodoFootprint: React.FC<IProps> = () => {
 
     return (
         <Spin spinning={loading}>
-            <Header title={settings?.todoNameMap?.["footprint"]} />
+            <Header title={settings?.todoNameMap?.footprint} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
-                    <span>{settings?.todoNameMap?.["footprint"]}({todoList?.length})</span>
+                    <span>{settings?.todoNameMap?.footprint}({todoList?.length})</span>
                     <Space size={8}>
                         {/* 刷新列表 */}
                         <Button

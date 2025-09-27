@@ -165,7 +165,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
                         className={styles.btn}
                         type="text"
                         onClick={() => setIsWork(isWork === "1" ? "" : "1")}
-                        icon={<TodoTypeIcon type="work" />}
+                        icon={<TodoTypeIcon type="isWork" />}
                         style={
                             isWork === "1"
                                 ? {

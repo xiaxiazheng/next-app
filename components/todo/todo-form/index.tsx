@@ -2,19 +2,18 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Radio, FormInstance, FormProps, Space, Button } from "antd";
 import styles from "./index.module.scss";
 import dayjs from "dayjs";
-import { getTodoCategory, TodoStatus, TodoItemType, TodoTypeIcon, splitStr } from "@xiaxiazheng/blog-libs";
+import { getTodoCategory, TodoStatus, TodoItemType, TodoTypeIcon, splitStr, TodoPresetList } from "@xiaxiazheng/blog-libs";
 import { colorTitle } from "../constant";
 import { OperatorType } from "../types";
 import InputList from "./input-list";
 import NameTextArea from "./name-textarea";
-import SwitchComp from "./switch";
 import SelectBeforeTodo from "./select-before-todo";
 import {
     UpCircleOutlined,
     DownCircleOutlined,
 } from "@ant-design/icons";
 import TimePicker from "./time-picker";
-import { useSettingsContext } from "@xiaxiazheng/blog-libs";
+import { useSettingsContext, SwitchCompent } from "@xiaxiazheng/blog-libs";
 
 const minCategory = 6;
 
@@ -137,21 +136,9 @@ const TodoForm: React.FC<Props> = (props) => {
                 </Form.Item>
                 <Form.Item label="预设选项">
                     <Space wrap>
-                        {settings?.todoPreset?.map((item, index) => {
-                            return <Button style={{ borderColor: settings?.todoColorMap?.[item.color] }} key={index} onClick={() => handlePreset(item)}>
-                                <span style={{ color: settings?.todoColorMap?.[item.color] }}>{`${item?.category}`}</span>
-                                {item?.isWork && <TodoTypeIcon
-                                    type={item?.isWork === "1" ? "work" : "life"}
-                                    style={{ color: "#00d4d8" }}
-                                />}
-                                {item?.isNote === "1" && <TodoTypeIcon
-                                    type="note"
-                                    style={{
-                                        color: "#ffeb3b"
-                                    }}
-                                />}
-                            </Button>
-                        })}
+                        <TodoPresetList
+                            onClick={(item) => handlePreset(item)}
+                        />
                     </Space>
                 </Form.Item>
                 <Form.Item
@@ -194,18 +181,14 @@ const TodoForm: React.FC<Props> = (props) => {
                     <CategoryOptions category={category} />
                 </Form.Item>
                 <Form.Item label="特殊状态" style={{ marginBottom: 0 }}>
-                    <Space size={6} style={{ flexWrap: "wrap" }}>
+                    <Space wrap size={6}>
                         <Form.Item
                             name="isWork"
                             rules={[{ required: true }]}
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span style={{ color: "#00d4d8" }}>
-                                    <TodoTypeIcon type="work" /> 工作
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="isWork" />
                         </Form.Item>
                         <Form.Item
                             name="doing"
@@ -213,11 +196,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span>
-                                    <TodoTypeIcon type="urgent" style={{ color: "red" }} /> {settings?.todoNameMap?.urgent}
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="doing" />
                         </Form.Item>
                         <Form.Item
                             name="isTarget"
@@ -225,11 +204,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span>
-                                    <TodoTypeIcon type="target" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.target}
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="isTarget" />
                         </Form.Item>
                         <Form.Item
                             name="isBookMark"
@@ -237,11 +212,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span>
-                                    <TodoTypeIcon type="bookMark" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.bookMark}
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="isBookMark" />
                         </Form.Item>
                         <Form.Item
                             name="isNote"
@@ -249,11 +220,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span>
-                                    <TodoTypeIcon type="note" style={{ color: "#ffeb3b" }} /> {settings?.todoNameMap?.note}
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="isNote" />
                         </Form.Item>
                         <Form.Item
                             name="isFollowUp"
@@ -261,18 +228,7 @@ const TodoForm: React.FC<Props> = (props) => {
                             initialValue={"0"}
                             style={{ marginBottom: 3 }}
                         >
-                            <SwitchComp>
-                                <span>
-                                    <TodoTypeIcon
-                                        type="followUp"
-                                        style={{
-                                            marginRight: 5,
-                                            color: "#ffeb3b",
-                                        }}
-                                    />{" "}
-                                    {settings?.todoNameMap?.followUp}
-                                </span>
-                            </SwitchComp>
+                            <SwitchCompent type="isFollowUp" />
                         </Form.Item>
                     </Space>
                 </Form.Item>

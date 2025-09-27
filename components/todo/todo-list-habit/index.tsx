@@ -41,11 +41,11 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title={settings?.todoNameMap?.["habit"]} />
+            <Header title={settings?.todoNameMap?.isCategory} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
                     <span style={{ fontSize: 16 }}>
-                        {settings?.todoNameMap?.["habit"]} ({todoList?.length || 0})
+                        {settings?.todoNameMap?.isCategory} ({todoList?.length || 0})
                     </span>
                     <Space size={8}>
                         {/* 刷新列表 */}

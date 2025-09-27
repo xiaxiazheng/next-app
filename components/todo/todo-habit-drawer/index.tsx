@@ -58,6 +58,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             isCategory: "0",
             isFollowUp: "0",
             isEncode: "0",
+            isShow: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await addTodoItem(val);

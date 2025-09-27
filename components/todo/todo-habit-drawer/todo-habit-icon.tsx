@@ -15,7 +15,7 @@ const TodoHabitIcon = (props: { item: TodoItemType }) => {
 
     return (
       <TodoTypeIcon
-        type="habit"
+        type="isCategory"
           className={styles.habitIcon}
           style={{
               color: isTodayDone ? "#52d19c" : "#f5222d",

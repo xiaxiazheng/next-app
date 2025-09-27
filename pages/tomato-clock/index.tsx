@@ -101,6 +101,7 @@ const TomatoClock = () => {
             isCategory: "0",
             isEncode: "0",
             isFollowUp: "0",
+            isShow: "0",
             time: dayjs().format("YYYY-MM-DD"),
         };
         await addTodoItem(val);

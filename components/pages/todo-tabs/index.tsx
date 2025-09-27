@@ -207,13 +207,13 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             </div>
         },
         {
-            key: 'habit', label: <><TodoTypeIcon type="habit" style={{ marginRight: 3 }} />tree</>, children:
+            key: 'habit', label: <><TodoTypeIcon type="isCategory" style={{ marginRight: 3 }} />tree</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListHabit refreshFlag={refreshFlag} />
                 </div>
         },
         {
-            key: 'mark', label: <><TodoTypeIcon type="bookMark" style={{ marginRight: 3 }} />mark</>, children:
+            key: 'mark', label: <><TodoTypeIcon type="isBookMark" style={{ marginRight: 3 }} />mark</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListBookmark refreshFlag={refreshFlag} />
                 </div>
@@ -221,7 +221,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
         {
             key: 'other', label: 'other', children: <div className={styles.content} style={{ height: contentHeight }}>
                 {/* target */}
-                <TitleWrapper title={settings?.todoNameMap?.target} list={targetList}>
+                <TitleWrapper title={settings?.todoNameMap?.isTarget} list={targetList}>
                     <TodoTreeList list={targetList} onRefresh={getData} />
                 </TitleWrapper>
                 <TitleWrapper title={`已完成的重要todo最近八条`} list={importantList}>
