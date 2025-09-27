@@ -75,7 +75,7 @@ const CMD: React.FC<ICMD> = (props) => {
                 isTarget: "0",
                 isBookMark: "0",
                 isWork: "0",
-                isHabit: "0",
+                isCategory: "0",
                 isEncode: "0",
                 isFollowUp: "0",
                 time: dayjs().format("YYYY-MM-DD"),

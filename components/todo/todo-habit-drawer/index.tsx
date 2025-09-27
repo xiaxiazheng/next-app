@@ -55,7 +55,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
             other_id: active.todo_id,
             status: "1",
             isWork: "0",
-            isHabit: "0",
+            isCategory: "0",
             isFollowUp: "0",
             isEncode: "0",
             time: dayjs().format("YYYY-MM-DD"),

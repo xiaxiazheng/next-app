@@ -7,7 +7,7 @@ import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
 
-    if (item.isHabit !== '1') {
+    if (item.isCategory !== '1') {
         return null;
     }
 

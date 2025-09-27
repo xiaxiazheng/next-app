@@ -29,7 +29,7 @@ const HomeTips: React.FC = (props) => {
         let list: TodoItemType[] = [];
         if (res) {
             list = res.data.list
-                .filter(item => item.isHabit === '1')
+                .filter(item => item.isCategory === '1')
                 .filter((item) => !handleIsTodayPunchTheClock(item))
         }
 

@@ -50,7 +50,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             pageSize: settings?.todoShowBeforeToday?.limit || 500
         } : {});
         if (res) {
-            setTodoList(res?.data?.list?.filter((item) => item.isHabit !== "1"));
+            setTodoList(res?.data?.list?.filter((item) => item.isCategory !== "1"));
         }
     };
 
