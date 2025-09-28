@@ -7,12 +7,12 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
     const { title, open, onClose, placement = "bottom", footer, height = "75vh", className, ...rest } = props;
 
     const ref = useRef(null);
-    useTouchEvent({
-        ref,
-        event: (e) => {
-            onClose(e);
-        }
-    });
+    // useTouchEvent({
+    //     ref,
+    //     event: (e) => {
+    //         onClose(e);
+    //     }
+    // });
 
     return (
         <Drawer
@@ -28,7 +28,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
             push={{ distance: 5 }}
             {...rest}
         >
-            <div ref={ref} style={{ border: '1px solid white' }} className={styles.content}>{props.children}</div>
+            <div ref={ref} className={styles.content}>{props.children}</div>
         </Drawer>
     );
 };

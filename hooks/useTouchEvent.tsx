@@ -26,7 +26,7 @@ const useTouchEvent = (props: TouchEventProps, dep: any[] = []) => {
         touchEvent.init(props);
     }, [ref, event, ...dep]);
 
-    console.log('ref', ref);
+    // console.log('ref', ref);
 
     // useEffect(() => {
     //     if (touchSafeXY) {
