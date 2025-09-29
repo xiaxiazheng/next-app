@@ -12,7 +12,7 @@ const TouchEventComp = () => {
     // }, [forceUpdate])
 
     // return <>{touchEvent.render()}</>;
-    return <>{666}</>
+    return <></>
 };
 
 export default TouchEventComp;

@@ -13,6 +13,7 @@
         "restart": "pm2 restart next-app",
         "checkByted": "sh ./checkByted.sh",
         "docker:push": "sh deployPush.sh",
+        "docker:continuePush": "sh deployPushContinue.sh",
         "docker:pull": "sh deployPull.sh",
         "docker:build": "docker build -t xiaxiazheng/nextapp:latest .",
         "docker:run": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest",
@@ -20,7 +21,7 @@
         "docker:load": "docker load --input xiaxiazheng-next-app.tar"
     },
     "dependencies": {
-        "@xiaxiazheng/blog-libs": "0.0.18",
+        "@xiaxiazheng/blog-libs": "file:.yalc/@xiaxiazheng/blog-libs",
         "antd": "^5.2.3",
         "dayjs": "^1.10.7",
         "highlight.js": "^11.2.0",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "../../../components/common/header";
+import Header from "../../common/header";
 import styles from "./index.module.scss";
 import { getTodoHabit, TodoStatus } from "@xiaxiazheng/blog-libs";
 import { Button, Space, Spin } from "antd";
@@ -8,14 +8,20 @@ import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
+import TodoListCategoryChild from "./todo-list-category-child";
+import DrawerWrapper from "../../common/drawer-wrapper";
 
 dayjs.locale("zh-cn");
 
 interface IProps {
     refreshFlag: number;
+    keyword?: string
 }
 
-const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
+/** 知识目录的组件 */
+const TodoListCategory: React.FC<IProps> = (props) => {
+    const { refreshFlag, keyword = '' } = props;
+
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -26,6 +32,7 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
         setLoading(true);
         const params = {
             status: TodoStatus.todo,
+            keyword
         };
         const res = await getTodoHabit(params);
         if (res) {
@@ -38,6 +45,9 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
     useEffect(() => {
         getData();
     }, [refreshFlag]);
+
+    const [categoryTodo, setCategoryTodo] = useState<TodoItemType>();
+    const [showChildDrawer, setShowChildDrawer] = useState<boolean>(false);
 
     return (
         <Spin spinning={loading}>
@@ -61,11 +71,27 @@ const TodoListHabit: React.FC<IProps> = ({ refreshFlag }) => {
                 <TodoTreeList
                     list={todoList}
                     onRefresh={getData}
+                    showDetailDrawer={false}
+                    onClick={(item) => {
+                        setCategoryTodo(item);
+                        setShowChildDrawer(true);
+                    }}
                 />
+                {/* category child List */}
+                <DrawerWrapper
+                    title={`查看 category "${categoryTodo?.name}"下的 todo`}
+                    open={showChildDrawer}
+                    onClose={() => setShowChildDrawer(false)}
+                >
+                    <TodoListCategoryChild
+                        categoryTodo={categoryTodo}
+                        refreshFlag={refreshFlag}
+                    />
+                </DrawerWrapper>
             </main>
         </Spin>
     );
 };
 
-export default TodoListHabit;
+export default TodoListCategory;
 

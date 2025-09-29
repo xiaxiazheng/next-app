@@ -22,7 +22,7 @@ import TodayBeforeYears from "../../todo/today-before-years";
 import TodoDayList from "../../todo/todo-day-list";
 import type { TabsProps } from 'antd';
 import useStorageState from "../../../hooks/useStorageState";
-import TodoListHabit from "../../todo/todo-list-habit";
+import TodoListCategory from "../../todo/todo-list-category";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
 // import useTouchEvent from "../../../hooks/useTouchEvent";
 import TitleWrapper from "./title-wrapper";
@@ -124,7 +124,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
     const [keyword, setKeyword] = useState<string>("");
     const handleSearch = () => {
         setHistoryWord(keyword);
-        !['done', 'home'].includes(activeKey) && setActiveKey('done');
+        !['done', 'category'].includes(activeKey) && setActiveKey('done');
         setIsShowHistory(false);
         getData();
     };
@@ -202,16 +202,16 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             </div>
         },
         {
-            key: 'home', label: <><EyeFilled /> home</>, children: <div className={styles.content} style={{ height: contentHeight }}>
-                <HomeTodo refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
-            </div>
-        },
-        {
-            key: 'habit', label: <><TodoTypeIcon type="isCategory" style={{ marginRight: 3 }} />tree</>, children:
+            key: 'category', label: <><TodoTypeIcon type="isCategory" style={{ marginRight: 3 }} />category</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
-                    <TodoListHabit refreshFlag={refreshFlag} />
+                    <TodoListCategory refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
                 </div>
         },
+        // {
+        //     key: 'home', label: <><EyeFilled /> home</>, children: <div className={styles.content} style={{ height: contentHeight }}>
+        //         <HomeTodo refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
+        //     </div>
+        // },
         {
             key: 'mark', label: <><TodoTypeIcon type="isBookMark" style={{ marginRight: 3 }} />mark</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>

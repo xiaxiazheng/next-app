@@ -9,11 +9,21 @@ interface IProps {
     showTime?: boolean;
     keyword?: string;
     dataMode?: 'flat' | 'tree';
+    showDetailDrawer?: boolean;
+    onClick?: (item: TodoItemType) => void;
 }
 
 /** todo 列表渲染的统一入口 */
 const TodoTreeList: React.FC<IProps> = (props) => {
-    const { list, onRefresh, showTime = false, keyword, dataMode = 'flat' } = props;
+    const {
+        list,
+        onRefresh,
+        showTime = false,
+        keyword,
+        dataMode = 'flat',
+        showDetailDrawer = true,
+        onClick
+    } = props;
 
     const [activeId, setActiveId] = useState<string>('');
 
@@ -24,6 +34,7 @@ const TodoTreeList: React.FC<IProps> = (props) => {
                 todoList={list}
                 onClick={(item) => {
                     setActiveId(item.todo_id);
+                    onClick?.(item);
                 }}
                 keyword={keyword}
                 getTodoItemProps={(item) => {
@@ -33,7 +44,7 @@ const TodoTreeList: React.FC<IProps> = (props) => {
                 }}
             />
             {/* 一个list，对应一个详情弹窗 */}
-            {activeId !== '' && <TodoDetailDrawer
+            {activeId !== '' && showDetailDrawer && <TodoDetailDrawer
                 visible={true}
                 onClose={() => setActiveId("")}
                 activeTodo={handleTreeToList(list).filter(item => item.todo_id === activeId)?.[0]}
