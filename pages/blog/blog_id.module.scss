@@ -1,9 +1,14 @@
 .blog_cont {
     /* width: 100vw; */
+    height: calc(100vh - 30px);
+    overflow: auto;
 }
 
 .head {
     text-align: center;
+    position: sticky;
+    top: 0;
+    background: #001529;
 }
 
 .blogcontEditor {

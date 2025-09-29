@@ -20,7 +20,7 @@
         "docker:load": "docker load --input xiaxiazheng-next-app.tar"
     },
     "dependencies": {
-        "@xiaxiazheng/blog-libs": "file:.yalc/@xiaxiazheng/blog-libs",
+        "@xiaxiazheng/blog-libs": "0.0.18",
         "antd": "^5.2.3",
         "dayjs": "^1.10.7",
         "highlight.js": "^11.2.0",

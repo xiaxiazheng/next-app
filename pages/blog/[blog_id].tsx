@@ -1,7 +1,7 @@
 import Header from "../../components/common/header";
 import { useRouter } from "next/router";
 import styles from "./blog_id.module.scss";
-import { GetBlogCont } from "@xiaxiazheng/blog-libs";
+import { GetBlogCont, MarkdownShow } from "@xiaxiazheng/blog-libs";
 import { useEffect, useState } from "react";
 import { OneBlogType } from "../../components/blog/types";
 import AffixBack from "../../components/common/affix/affix-back";
@@ -34,7 +34,8 @@ const Blog = () => {
                 <div className={styles.blog_cont}>
                     <h3 className={styles.head}>{blog?.title}</h3>
                     <div className={styles.blogcontEditor}>
-                        <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>
+                        {blog?.edittype === 'richtext' && <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>}
+                        {blog?.edittype === 'markdown' && <MarkdownShow blogcont={blog?.blogcont} style={{ paddingLeft: 4 }} />}
                     </div>
                 </div>
                 <AffixCopy
