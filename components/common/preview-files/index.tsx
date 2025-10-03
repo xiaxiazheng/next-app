@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./index.module.scss";
-import { staticUrl } from "@xiaxiazheng/blog-libs";
+import { handleComputedFileSize, staticUrl } from "@xiaxiazheng/blog-libs";
 import MyModal from "../my-modal";
 import { Button, message, Space } from "antd";
 import { PlayCircleOutlined } from "@ant-design/icons";
@@ -16,14 +16,6 @@ export interface FileType {
     size: string;
     fileUrl?: string;
 }
-
-export const handleSize = (size: number) => {
-    if (size < 1024 * 1024) {
-        return `${(size / 1024).toFixed(1)}KB`;
-    } else {
-        return `${(size / 1024 / 1024).toFixed(2)}MB`;
-    }
-};
 
 interface Props {
     filesList: FileType[];
@@ -141,7 +133,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
                         </audio>
                     </div>
                     {/* <div className={styles.name}>{active?.originalname}</div> */}
-                    <div className={styles.size}>大小：{handleSize(Number(active?.size || 0))}</div>
+                    <div className={styles.size}>大小：{handleComputedFileSize(Number(active?.size || 0))}</div>
                     <div className={styles.time}>创建时间：{active?.cTime}</div>
                     <Space size={8}>
                         {!isVideo(active) && <Button onClick={() => handleDownload(active?.fileUrl)}>下载文件</Button>}

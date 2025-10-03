@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useState, createRef } from "react";
 import styles from "./index.module.scss";
-import { handleSize } from "../upload-image-file";
+import { handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 import { PhotoConsumer } from "react-photo-view";
 import "react-photo-view/dist/index.css";
 import { Button } from "antd";
@@ -70,7 +70,7 @@ const PreviewImage: React.FC<IProps> = (props) => {
                 <div className={styles.imageInfo}>
                     <div>
                         <div>{img.imgname}</div>
-                        <div>{handleSize(Number(img.size))}</div>
+                        <div>{handleComputedFileSize(Number(img.size))}</div>
                         <div>{img.cTime}</div>
                     </div>
                     <div className={styles.infoIcons}>
