@@ -8,7 +8,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useSettingsContext } from "@xiaxiazheng/blog-libs";
 import TodoTreeList from "../todo-tree-list";
-import TodoListCategoryChild from "./todo-list-category-child";
+import TodoListDirectoryChild from "./todo-list-directory-child";
 import DrawerWrapper from "../../common/drawer-wrapper";
 
 dayjs.locale("zh-cn");
@@ -19,7 +19,7 @@ interface IProps {
 }
 
 /** 知识目录的组件 */
-const TodoListCategory: React.FC<IProps> = (props) => {
+const TodoListDirectory: React.FC<IProps> = (props) => {
     const { refreshFlag, keyword = '' } = props;
 
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
@@ -51,11 +51,11 @@ const TodoListCategory: React.FC<IProps> = (props) => {
 
     return (
         <Spin spinning={loading}>
-            <Header title={settings?.todoNameMap?.isCategory} />
+            <Header title={settings?.todoNameMap?.isDirectory} />
             <main className={styles.pool}>
                 <h2 className={styles.h2}>
                     <span style={{ fontSize: 16 }}>
-                        {settings?.todoNameMap?.isCategory} ({todoList?.length || 0})
+                        {settings?.todoNameMap?.isDirectory} ({todoList?.length || 0})
                     </span>
                     <Space size={8}>
                         {/* 刷新列表 */}
@@ -83,7 +83,7 @@ const TodoListCategory: React.FC<IProps> = (props) => {
                     open={showChildDrawer}
                     onClose={() => setShowChildDrawer(false)}
                 >
-                    <TodoListCategoryChild
+                    <TodoListDirectoryChild
                         categoryTodo={categoryTodo}
                         refreshFlag={refreshFlag}
                     />
@@ -93,5 +93,5 @@ const TodoListCategory: React.FC<IProps> = (props) => {
     );
 };
 
-export default TodoListCategory;
+export default TodoListDirectory;
 

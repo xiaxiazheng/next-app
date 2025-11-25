@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { HomeTodoCategoryChildList, TodoItemType, TodoTree } from "@xiaxiazheng/blog-libs";
+import { HomeTodoDirectoryChildList, TodoItemType, TodoTree } from "@xiaxiazheng/blog-libs";
 import TodoDetailDrawer from "../../todo-detail-drawer";
-import { handleTreeToList } from "@xiaxiazheng/blog-libs";
 
 interface IProps {
     categoryTodo: TodoItemType | undefined;
@@ -9,7 +8,7 @@ interface IProps {
 }
 
 /** category 的 child List 列表 */
-const TodoListCategoryChild: React.FC<IProps> = (props) => {
+const TodoListDirectoryChild: React.FC<IProps> = (props) => {
     const { categoryTodo, refreshFlag } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
@@ -22,7 +21,7 @@ const TodoListCategoryChild: React.FC<IProps> = (props) => {
 
     return (
         <>
-            <HomeTodoCategoryChildList
+            <HomeTodoDirectoryChildList
                 type="all"
                 flag={refreshFlag + flag}
                 categroy_todo_id={categoryTodo?.todo_id}
@@ -49,4 +48,4 @@ const TodoListCategoryChild: React.FC<IProps> = (props) => {
     );
 };
 
-export default TodoListCategoryChild;
+export default TodoListDirectoryChild;

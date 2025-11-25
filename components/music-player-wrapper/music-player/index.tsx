@@ -22,7 +22,6 @@ let timer: any = -1;
 
 const Music: React.FC<PropsType> = (props) => {
     const { list: musicList } = props;
-    console.log('musicList', musicList);
 
     useEffect(() => {
         setRandomList(musicList);

@@ -22,7 +22,7 @@ import TodayBeforeYears from "../../todo/today-before-years";
 import TodoDayList from "../../todo/todo-day-list";
 import type { TabsProps } from 'antd';
 import useStorageState from "../../../hooks/useStorageState";
-import TodoListCategory from "../../todo/todo-list-category";
+import TodoListDirectory from "../../todo/todo-list-directory";
 import TodoListBookmark from "../../todo/todo-list-bookmark";
 // import useTouchEvent from "../../../hooks/useTouchEvent";
 import TitleWrapper from "./title-wrapper";
@@ -50,7 +50,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             pageSize: settings?.todoShowBeforeToday?.limit || 500
         } : {});
         if (res) {
-            setTodoList(res?.data?.list?.filter((item) => item.isCategory !== "1"));
+            setTodoList(res?.data?.list?.filter((item) => item.isDirectory !== "1"));
         }
     };
 
@@ -202,9 +202,9 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             </div>
         },
         {
-            key: 'category', label: <><TodoTypeIcon type="isCategory" style={{ marginRight: 3 }} />category</>, children:
+            key: 'category', label: <><TodoTypeIcon type="isDirectory" style={{ marginRight: 3 }} />category</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
-                    <TodoListCategory refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
+                    <TodoListDirectory refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
                 </div>
         },
         // {

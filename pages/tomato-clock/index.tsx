@@ -98,7 +98,7 @@ const TomatoClock = () => {
             other_id: "",
             status: "1",
             isWork: "0",
-            isCategory: "0",
+            isDirectory: "0",
             isEncode: "0",
             isFollowUp: "0",
             isShow: "0",

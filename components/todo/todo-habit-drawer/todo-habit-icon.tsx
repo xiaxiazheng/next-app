@@ -7,7 +7,7 @@ import { TodoTypeIcon } from "@xiaxiazheng/blog-libs";
 const TodoHabitIcon = (props: { item: TodoItemType }) => {
     const { item } = props;
 
-    if (item.isCategory !== '1') {
+    if (item.isDirectory !== '1') {
         return null;
     }
 
@@ -15,7 +15,7 @@ const TodoHabitIcon = (props: { item: TodoItemType }) => {
 
     return (
       <TodoTypeIcon
-        type="isCategory"
+        type="isDirectory"
           className={styles.habitIcon}
           style={{
               color: isTodayDone ? "#52d19c" : "#f5222d",
