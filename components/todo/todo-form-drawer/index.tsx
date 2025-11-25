@@ -35,7 +35,8 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         }
     }, [open]);
 
-    const handleSave = async () => {
+    const handleSave = async (params?: { isClose?: boolean }) => {
+        const { isClose = true } = params || {};
         await form.validateFields();
 
         let val = form.getFieldsValue();
@@ -63,19 +64,21 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
         const res =
             data && operatorType === "edit"
                 ? await editTodoItem({
-                      ...val,
-                      todo_id: data.todo_id,
-                  })
+                    ...val,
+                    todo_id: data.todo_id,
+                })
                 : await addTodoItem(val);
         if (res) {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
             onSubmit?.(operatorType === "edit" ? val : res.data.newTodoItem);
             setIsEdit(false);
+            isClose && onClose?.({} as any);
         } else {
             message.error(`${operatorMap[operatorType]} Todo 失败，请重试`);
         }
         setLoading(false);
     };
+
     const [form] = Form.useForm();
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [isClose, setIsClose] = useState<boolean>(false);
@@ -86,8 +89,13 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             title={
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span>{operatorMap[operatorType]} todo</span>
-                    <span style={isEdit ? { color: "#f5222d" } : { color: "#40a9ff" }} onClick={() => handleSave()}>
-                        save
+                    <span>
+                        <span style={{ color: isEdit ? "#f5222d" : "#40a9ff", marginRight: 15 }} onClick={() => handleSave()}>
+                            save&close
+                        </span>
+                        <span style={{ color: isEdit ? "#f5222d" : "#40a9ff" }} onClick={() => handleSave({ isClose: false })}>
+                            save
+                        </span>
                     </span>
                 </div>
             }

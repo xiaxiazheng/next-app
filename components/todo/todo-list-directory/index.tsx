@@ -46,7 +46,7 @@ const TodoListDirectory: React.FC<IProps> = (props) => {
         getData();
     }, [refreshFlag]);
 
-    const [categoryTodo, setCategoryTodo] = useState<TodoItemType>();
+    const [directoryTodo, setDirectoryTodo] = useState<TodoItemType>();
     const [showChildDrawer, setShowChildDrawer] = useState<boolean>(false);
 
     return (
@@ -73,18 +73,18 @@ const TodoListDirectory: React.FC<IProps> = (props) => {
                     onRefresh={getData}
                     showDetailDrawer={false}
                     onClick={(item) => {
-                        setCategoryTodo(item);
+                        setDirectoryTodo(item);
                         setShowChildDrawer(true);
                     }}
                 />
-                {/* category child List */}
+                {/* directory child List */}
                 <DrawerWrapper
-                    title={`查看 category "${categoryTodo?.name}"下的 todo`}
+                    title={`查看 directory "${directoryTodo?.name}"下的 todo`}
                     open={showChildDrawer}
                     onClose={() => setShowChildDrawer(false)}
                 >
                     <TodoListDirectoryChild
-                        categoryTodo={categoryTodo}
+                        directoryTodo={directoryTodo}
                         refreshFlag={refreshFlag}
                     />
                 </DrawerWrapper>

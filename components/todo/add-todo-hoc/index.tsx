@@ -35,7 +35,6 @@ function AddTodoHoc(props: Props) {
                 }}
                 onSubmit={(val) => {
                     setNewTodo(val);
-                    setShowAddTodo(false);
                 }}
             />
             {newTodo && (

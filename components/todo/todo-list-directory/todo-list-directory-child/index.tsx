@@ -3,19 +3,19 @@ import { HomeTodoDirectoryChildList, TodoItemType, TodoTree } from "@xiaxiazheng
 import TodoDetailDrawer from "../../todo-detail-drawer";
 
 interface IProps {
-    categoryTodo: TodoItemType | undefined;
+    directoryTodo: TodoItemType | undefined;
     refreshFlag: number;
 }
 
-/** category 的 child List 列表 */
+/** directory 的 child List 列表 */
 const TodoListDirectoryChild: React.FC<IProps> = (props) => {
-    const { categoryTodo, refreshFlag } = props;
+    const { directoryTodo, refreshFlag } = props;
 
     const [visible, setVisible] = useState<boolean>(false);
     const [activeTodo, setActiveTodo] = useState<TodoItemType>();
     const [flag, setFlag] = useState<number>(0);
 
-    if (!categoryTodo) {
+    if (!directoryTodo) {
         return null;
     }
 
@@ -24,7 +24,7 @@ const TodoListDirectoryChild: React.FC<IProps> = (props) => {
             <HomeTodoDirectoryChildList
                 type="all"
                 flag={refreshFlag + flag}
-                categroy_todo_id={categoryTodo?.todo_id}
+                categroy_todo_id={directoryTodo?.todo_id}
                 onClick={item => {
                     setActiveTodo(item);
                     setVisible(true);

@@ -77,7 +77,6 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const onSubmit = async (val: TodoItemType) => {
         const newTodo = { ...activeTodo, ...val };
         onRefresh(newTodo);
-        setShowEdit(false);
     };
 
     const handleUpload = async () => {

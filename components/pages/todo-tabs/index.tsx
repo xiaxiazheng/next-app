@@ -124,7 +124,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
     const [keyword, setKeyword] = useState<string>("");
     const handleSearch = () => {
         setHistoryWord(keyword);
-        !['done', 'category'].includes(activeKey) && setActiveKey('done');
+        !['done', 'directory'].includes(activeKey) && setActiveKey('done');
         setIsShowHistory(false);
         getData();
     };
@@ -202,7 +202,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
             </div>
         },
         {
-            key: 'category', label: <><TodoTypeIcon type="isDirectory" style={{ marginRight: 3 }} />category</>, children:
+            key: 'directory', label: <><TodoTypeIcon type="isDirectory" style={{ marginRight: 3 }} />directory</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>
                     <TodoListDirectory refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
                 </div>
