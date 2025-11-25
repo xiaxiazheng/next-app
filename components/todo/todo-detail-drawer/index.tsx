@@ -36,7 +36,15 @@ interface IProps {
 
 // 点开查看 todo 的详情，有 description 和该 todo 上挂的图片
 const TodoDetailDrawer: React.FC<IProps> = (props) => {
-    const { activeTodo, visible, onRefresh, onClose, keyword, footer, footerConfig } = props;
+    const { activeTodo: oldActiveTodo, visible, onRefresh, onClose, keyword, footer, footerConfig } = props;
+
+    // 自己存一份，外部清空这里不清空；外部修改这里同步修改
+    const [activeTodo, setActiveTodo] = useState<TodoItemType>();
+    useEffect(() => {
+        if (oldActiveTodo) {
+            setActiveTodo(oldActiveTodo);
+        }
+    }, [oldActiveTodo]);
 
     useEffect(() => {
         if (activeTodo) {
@@ -55,6 +63,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
         if (res) {
             message.success(res.message);
             onRefresh(res.data);
+            setActiveTodo(res.data);
             setLoading(false);
             handleClose();
         } else {
@@ -76,11 +85,13 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
 
     const onSubmit = async (val: TodoItemType) => {
         const newTodo = { ...activeTodo, ...val };
+        setActiveTodo(newTodo);
         onRefresh(newTodo);
     };
 
     const handleUpload = async () => {
         const res = await GetTodoById(activeTodo.todo_id);
+        setActiveTodo(res.data);
         onRefresh(res.data);
     };
 
