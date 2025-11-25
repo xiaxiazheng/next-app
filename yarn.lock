@@ -653,10 +653,10 @@
   resolved "https://mirrors.tencent.com/npm/@types/scheduler/-/scheduler-0.16.2.tgz"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
-"@xiaxiazheng/blog-libs@0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@xiaxiazheng/blog-libs/-/blog-libs-0.0.19.tgz#ec9cc1eeb84e0ba69794e74f67a72efff7a1fb5f"
-  integrity sha512-YGl9LjjUnBKfX9n3KhNx54Yzwl3KO50AE13OEyOCXWG19D/nLejsdUfzZ9mIBA7A3+r6Uv6yvkPO/0d96Ry/Ag==
+"@xiaxiazheng/blog-libs@0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@xiaxiazheng/blog-libs/-/blog-libs-0.0.22.tgz#842a580726c6e7b65b25e144cadb376e19166670"
+  integrity sha512-nBq6440ry0u8C6a3CcCyqIAbDEsX22RGREmUBUCPi+U/fkxcK4MrAJWx5PhWm9rHZ9vfasouTkVaBT7CIVdewQ==
   dependencies:
     antd "^5.27.4"
     highlight.js "^11.2.0"
