@@ -38,12 +38,14 @@ const Note = () => {
         }
     }, [contItem]);
 
+    console.log('contItem', contItem)
+
     // 获取树当前节点具体内容数据
     const getTreeCont = async (id: string) => {
         // 获取数据
         let res = await getNodeCont(id || treeItem.id);
-        if (res.data) {
-            res.data.forEach((item: any) => {
+        if (res) {
+            res.forEach((item: any) => {
                 item.originCont = item.cont;
                 item.cont = item.cont.replace(/</g, "&lt;"); // html标签的<转成实体字符,让所有的html标签失效
                 item.cont = item.cont.replace(/&lt;pre/g, "<pre"); // 把pre标签转回来
@@ -52,7 +54,7 @@ const Note = () => {
                 item.cont = item.cont.replace(/ {2}/g, "&nbsp;&nbsp;"); // 把空格转成实体字符，以防多空格被合并
                 item.cont = item.cont.replace(/\n|\r\n/g, "<br/>"); // 把换行转成br标签
             });
-            setContList(res.data);
+            setContList(res);
         }
     };
 
