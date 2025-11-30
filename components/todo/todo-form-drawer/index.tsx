@@ -102,6 +102,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             destroyOnClose
             {...props}
             onClose={(e) => {
+                e.stopPropagation();
                 if (isEdit && !isClose) {
                     message.warning("还有编辑内容没保存，确定不要就再点一次");
                     setIsClose(true);

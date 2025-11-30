@@ -17,6 +17,7 @@ function AddTodoHoc(props: Props) {
     const { operatorType = 'add', todo_id, renderChildren, onClose } = props;
     const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
     const [newTodo, setNewTodo] = useState<TodoItemType>();
+    const [showDetail, setShowDetail] = useState<boolean>(false);
 
     return (
         <>
@@ -32,6 +33,7 @@ function AddTodoHoc(props: Props) {
                 open={showAddTodo}
                 onClose={() => {
                     setShowAddTodo(false);
+                    setShowDetail(true);
                 }}
                 onSubmit={(val) => {
                     setNewTodo(val);
@@ -40,13 +42,14 @@ function AddTodoHoc(props: Props) {
             {newTodo && (
                 <TodoDetailDrawer
                     activeTodo={newTodo}
-                    visible={true}
+                    visible={showDetail}
                     keyword={""}
                     onRefresh={(item) => { setNewTodo(item) }}
                     onClose={() => {
                         setShowAddTodo(false);
                         setNewTodo(undefined);
                         onClose?.();
+                        setShowDetail(false);
                     }}
                 />
             )}

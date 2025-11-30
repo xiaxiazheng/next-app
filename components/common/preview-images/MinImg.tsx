@@ -7,6 +7,9 @@ import "react-photo-view/dist/index.css";
 import { handleOnloadImage } from "./utils";
 import { ImgType } from ".";
 import Image from "next/image";
+import { handleComputedFileSize } from "@xiaxiazheng/blog-libs";
+
+const MAX_FILE_SIZE = 1024 * 1024 * 5;
 
 interface IProps {
     ref: any;
@@ -43,6 +46,10 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
     }, [ref]);
 
     const onloadImage = async () => {
+        if (Number(img.size) > MAX_FILE_SIZE) {
+            setUrl(imageMinUrl);
+            return;
+        }
         const url = await handleOnloadImage(imageMinUrl, `min_${img_id}`, imgname);
         setImg({
             ...img,
@@ -53,11 +60,13 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
 
     return (
         <div ref={ref} className={styles.min_img} style={style}>
-            {!url ? (
-                <Image width={80} height={80} src="/loading.svg" />
-            ) : (
-                <img width={80} height={80} src={url} style={{ objectFit: 'cover', ...style }} {...rest} />
-            )}
+            {/* {Number(img.size) > MAX_FILE_SIZE ? handleComputedFileSize(Number(img.size)) : */}
+            {
+                !url ? (
+                    <Image width={80} height={80} src="/loading.svg" />
+                ) : (
+                    <img width={80} height={80} src={url} style={{ objectFit: 'cover', ...style }} {...rest} />
+                )}
         </div>
     );
 });

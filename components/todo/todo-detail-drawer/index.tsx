@@ -28,7 +28,7 @@ interface IProps {
      * 触发外部列表刷新
      */
     onRefresh: (item?: TodoItemType) => void;
-    onClose: Function; // 关闭弹窗时触发
+    onClose: () => void; // 关闭弹窗时触发
     keyword?: string;
     footer?: () => ReactNode;
     footerConfig?: { hideAddBtn?: boolean; hideDoneBtn?: boolean };
@@ -124,7 +124,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                     )
                 }
                 open={visible}
-                onClose={handleClose}
+                onClose={e => {
+                    e.stopPropagation();
+                    handleClose();
+                }}
                 height={"90vh"}
                 footer={
                     <div

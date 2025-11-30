@@ -132,6 +132,8 @@ const TodoForm: React.FC<Props> = (props) => {
                         } else {
                             form.setFieldValue("description", text);
                         }
+                        // @ts-ignore
+                        onFieldsChange?.();
                     }} />
                 </Form.Item>
                 <Form.Item label="预设选项">
