@@ -157,7 +157,8 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                 <>
                                     <AddTodoHoc
                                         operatorType="copy"
-                                        todo_id={activeTodo?.todo_id}
+                                        template_todo_id={activeTodo?.todo_id}
+                                        onClose={onRefresh}
                                         renderChildren={({ onClick }) => {
                                             return (
                                                 <Button
@@ -173,7 +174,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                     />
                                     <AddTodoHoc
                                         operatorType="progress"
-                                        todo_id={activeTodo?.todo_id}
+                                        template_todo_id={activeTodo?.todo_id}
                                         onClose={onRefresh}
                                         renderChildren={({ onClick }) => {
                                             return (
@@ -228,7 +229,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             </DrawerWrapper>
             <TodoFormDrawer
                 open={showEdit}
-                todo_id={activeTodo?.todo_id}
+                template_todo_id={activeTodo?.todo_id}
                 onClose={() => setShowEdit(false)}
                 operatorType={"edit"}
                 onSubmit={onSubmit}

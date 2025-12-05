@@ -121,7 +121,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                 )}
             </DrawerWrapper>
             <TodoFormDrawer
-                todo_id={active?.todo_id}
+                template_todo_id={active?.todo_id}
                 open={showEdit}
                 onClose={() => {
                     setShowEdit(false);

@@ -2,48 +2,53 @@ import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
-import { addTodoItem, editTodoItem, getTodoById, TodoStatus, TodoItemType } from "@xiaxiazheng/blog-libs";
+import { addTodoItem, editTodoItem, getTodoById, TodoStatus, TodoItemType, OperatorColorMap } from "@xiaxiazheng/blog-libs";
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType } from "../types";
 import dayjs from "dayjs";
 
 interface IProps extends DrawerProps {
-    todo_id?: string;
+    /** 用来作为 todo-form 默认数据的 todo 的 id
+     * 编辑的话，会用这个 id 来编辑
+     * 新增 progress 和 copy 则不会使用这个 id，只用其他的数据
+     */
+    template_todo_id?: string;
     operatorType: OperatorType;
     onSubmit?: (val: any) => void;
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { todo_id, open, operatorType, onSubmit, onClose } = props;
+    const { template_todo_id, open, operatorType, onSubmit, onClose } = props;
 
-    const [data, setData] = useState<TodoItemType>();
+    // 根据 todo_id 获取 todo 详情
+    const [todoFromId, setTodoFromId] = useState<TodoItemType>();
     const [loading, setLoading] = useState<boolean>(false);
 
     const getData = async () => {
         setLoading(true);
-        const res = await getTodoById(todo_id);
-        setData(res.data);
+        const res = await getTodoById(template_todo_id);
+        setTodoFromId(res.data);
         setLoading(false);
     };
 
     useEffect(() => {
         if (open) {
-            todo_id && getData();
+            template_todo_id && getData();
         } else {
             form.resetFields();
         }
-    }, [open]);
+    }, [open, template_todo_id]);
 
     const handleSave = async (params?: { isClose?: boolean }) => {
         const { isClose = true } = params || {};
         await form.validateFields();
 
         let val = form.getFieldsValue();
-        if (data) {
+        if (todoFromId) {
             // 编辑
             val = {
-                ...data,
+                ...todoFromId,
                 ...val
             };
         } else {
@@ -62,15 +67,18 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
 
         setLoading(true);
         const res =
-            data && operatorType === "edit"
+            template_todo_id && operatorType === "edit" // 这两都得有才是编辑，如果是 progress 或 copy 则会有 template_todo_id 但 operatorType !== "edit"
                 ? await editTodoItem({
                     ...val,
-                    todo_id: data.todo_id,
+                    template_todo_id,
                 })
                 : await addTodoItem(val);
         if (res) {
             message.success(`${operatorMap[operatorType]} Todo 成功`);
-            onSubmit?.(operatorType === "edit" ? val : res.data.newTodoItem);
+            onSubmit?.(operatorType === "edit" ? {
+                    ...val,
+                    template_todo_id,
+                } : res.data.newTodoItem);
             setIsEdit(false);
             isClose && onClose?.({} as any);
         } else {
@@ -88,7 +96,13 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
             className={styles.TodoFormDrawer}
             title={
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <span>{operatorMap[operatorType]} todo</span>
+                    <span style={{ color: operatorType === 'edit' ? OperatorColorMap?.edit : OperatorColorMap?.add }}>
+                        <span
+                            className={styles.titleClass}
+                            style={{ backgroundColor: operatorType === 'edit' ? OperatorColorMap.edit : OperatorColorMap.add }}
+                        />
+                        {operatorMap[operatorType]} todo
+                    </span>
                     <span>
                         <span style={{ color: isEdit ? "#f5222d" : "#40a9ff", marginRight: 15 }} onClick={() => handleSave()}>
                             save&close
@@ -99,6 +113,10 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     </span>
                 </div>
             }
+            style={{
+                border: `1px solid ${operatorType === 'edit' ? OperatorColorMap?.edit : OperatorColorMap?.add}`,
+                boxSizing: 'border-box'
+            }}
             destroyOnClose
             {...props}
             onClose={(e) => {
@@ -117,7 +135,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                 <TodoForm
                     form={form}
                     status={TodoStatus.todo}
-                    todo={data}
+                    todo={todoFromId}
                     operatorType={operatorType}
                     onFieldsChange={() => {
                         setIsEdit(true);
