@@ -3,11 +3,9 @@
  */
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
-import "react-photo-view/dist/index.css";
 import { handleOnloadImage } from "./utils";
 import { ImgType } from ".";
 import Image from "next/image";
-import { handleComputedFileSize } from "@xiaxiazheng/blog-libs";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 

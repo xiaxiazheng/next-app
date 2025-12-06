@@ -8,4 +8,11 @@ const withTM = require('next-transpile-modules')([ // 主要是用来允许这�
 module.exports = withTM({
   // 其他 Next.js 配置...
   basePath: "/m",
+  webpack: (config, { dev, isServer }) => {
+    // 仅在开发模式下禁用缓存，解决库的 yalc 的热更新问题
+    if (dev) {
+      config.cache = false
+    }
+    return config
+  }
 });

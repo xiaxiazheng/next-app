@@ -30,15 +30,17 @@
 }
 
 .imageInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: rgba(0,0,0,.5);
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     word-break: break-all;
-    >div:last-child {
-        display: flex;
-        align-items: center;
-    }
-    button {
-        margin-left: 10px;
-    }
+    z-index: 20;
+    color: white;
 }
 

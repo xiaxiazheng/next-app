@@ -3,9 +3,9 @@
  */
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { staticUrl } from "@xiaxiazheng/blog-libs";
+import { handleComputedFileSize, staticUrl } from "@xiaxiazheng/blog-libs";
 import { PhotoProvider } from "react-photo-view";
-import "react-photo-view/dist/index.css";
+import 'react-photo-view/dist/react-photo-view.css';
 import PreviewImage from "./PreviewImage";
 
 export interface ImgType {
@@ -55,7 +55,18 @@ const PreviewImages: React.FC<Props> = (props) => {
     };
 
     return (
-        <PhotoProvider maskClosable={true}>
+        <PhotoProvider
+            maskClosable={true}
+            overlayRender={(props) => {
+                const { index } = props;
+                const img = list[index];
+                return <div className={styles.imageInfo}>
+                    <div>{img.imgname}</div>
+                    <div>{handleComputedFileSize(Number(img.size))}</div>
+                    <div>{img.cTime}</div>
+                </div>;
+            }}
+        >
             {list?.map((img) => (
                 <PreviewImage key={img.img_id} image={img} style={style} />
             ))}

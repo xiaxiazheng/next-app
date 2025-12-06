@@ -5,11 +5,11 @@
 import React, { useEffect, useState, createRef } from "react";
 import styles from "./index.module.scss";
 import { handleComputedFileSize } from "@xiaxiazheng/blog-libs";
-import { PhotoConsumer } from "react-photo-view";
-import "react-photo-view/dist/index.css";
+import { PhotoView } from "react-photo-view";
+import 'react-photo-view/dist/react-photo-view.css';
 import { Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
-import { handleOnloadImage, base64ByBlob, blobToUrl } from "./utils";
+import { handleOnloadImage } from "./utils";
 import MinImg from "./MinImg";
 import { ImgType } from ".";
 
@@ -63,32 +63,27 @@ const PreviewImage: React.FC<IProps> = (props) => {
     const ref = createRef();
 
     return (
-        <PhotoConsumer
+        <PhotoView
             key={img.img_id}
             src={isShowOrigin ? img.imageUrl : img.imageMinUrl}
-            intro={
-                <div className={styles.imageInfo}>
-                    <div>
-                        <div>{img.imgname}</div>
-                        <div>{handleComputedFileSize(Number(img.size))}</div>
-                        <div>{img.cTime}</div>
-                    </div>
-                    <div className={styles.infoIcons}>
-                        {!isShowOrigin && (
-                            <Button
-                                onClick={() => handlePreviewOrigin(img.img_id, img.imageUrl, img.imgname)}
-                                type="primary"
-                            >
-                                {loading ? "加载中..." : "查看原图"}
-                            </Button>
-                        )}
-                        <Button icon={<DownloadOutlined />} onClick={() => handleDownload(img.imageUrl)} />
-                    </div>
-                </div>
-            }
+            // overlay={
+            //     <div className={styles.imageInfo}>
+            //         <div className={styles.infoIcons}>
+            //             {!isShowOrigin && (
+            //                 <Button
+            //                     onClick={() => handlePreviewOrigin(img.img_id, img.imageUrl, img.imgname)}
+            //                     type="primary"
+            //                 >
+            //                     {loading ? "加载中..." : "查看原图"}
+            //                 </Button>
+            //             )}
+            //             <Button icon={<DownloadOutlined />} onClick={() => handleDownload(img.imageUrl)} />
+            //         </div>
+            //     </div>
+            // }
         >
             <MinImg ref={ref} img={img} setImg={setImg} style={style} />
-        </PhotoConsumer>
+        </PhotoView>
     );
 };
 
