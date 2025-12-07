@@ -1,3 +1,4 @@
+const path = require('path');
 // module.exports = {
 //     basePath: "/m",
 // };
@@ -10,9 +11,21 @@ module.exports = withTM({
   basePath: "/m",
   webpack: (config, { dev, isServer }) => {
     // 仅在开发模式下禁用缓存，解决库的 yalc 的热更新问题
+    // if (dev) {
+    //   console.log(config, dev);
+    //   config.cache = false
+    // }
+    // return config
+
     if (dev) {
-      config.cache = false
+      config.cache = {
+        type: 'filesystem',
+        // 重点关注：忽略对 node_modules 的缓存，但保留对项目源码的缓存
+        managedPaths: [path.resolve(__dirname, 'node_modules/')],
+        // 或者使用 buildDependencies 策略，二选一
+        // buildDependencies: { ... } 
+      };      
     }
-    return config
+    return config;
   }
 });
