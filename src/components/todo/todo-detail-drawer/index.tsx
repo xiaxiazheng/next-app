@@ -54,6 +54,9 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const handleDone = async () => {
+        if (!activeTodo) {
+            return;
+        }
         setLoading(true);
         const params = {
             todo_id: activeTodo.todo_id,
@@ -90,13 +93,16 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     };
 
     const handleUpload = async () => {
+        if (!activeTodo) {
+            return;
+        }
         const res = await GetTodoById(activeTodo.todo_id);
         setActiveTodo(res.data);
         onRefresh(res.data);
     };
 
     // 判断是否应该优先添加子节点
-    const shouldAddChild = (todo: TodoItemType) => {
+    const shouldAddChild = (todo?: TodoItemType) => {
         if (todo?.isTarget === "1") {
             return true;
         }
@@ -107,6 +113,9 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     const [password, setPassword] = useState<string>(localStorage.getItem('encodePassword') || '');
     const [decodeData, setDecodeData] = useState<string>('');
     const handleDecode = async () => {
+        if (!activeTodo) {
+            return;
+        }
         const data = await decrypt(activeTodo.description, password);
         if (data) {
             setDecodeData(data);
@@ -191,7 +200,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                                     />
                                 </>
                             )}
-                            {hasChainIcon(activeTodo).hasChain && (
+                            {activeTodo && hasChainIcon(activeTodo).hasChain && (
                                 <Button
                                     onClick={() => {
                                         setShowChain(true);
