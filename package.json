@@ -9,9 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@xiaxiazheng/blog-libs": "^0.0.22",
+    "antd": "^6.1.3",
+    "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-photo-view": "^1.2.7"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -20,6 +25,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "sass": "^1.97.1",
     "typescript": "^5"
   }
 }
