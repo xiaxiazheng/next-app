@@ -11,6 +11,7 @@ interface Props {
 }
 
 const indexMap = {
+    0: 20,
     1: 20,
     2: 70,
     3: 120,
@@ -28,7 +29,7 @@ const Affix: React.FC<Props> = (props) => {
     const bottom = indexMap?.[bottomIndex] || 20;
     const router = useRouter();
 
-    const onClickMap = {
+    const onClickMap: any = {
         home: () => router.push("/"),
     };
 

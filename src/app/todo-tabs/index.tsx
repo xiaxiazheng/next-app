@@ -99,7 +99,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
     // search 触发更新用的 flag
     const [searchFlag, setSearchFlag] = useState<number>(0);
     const getData = () => {
-        const map = {
+        const map: any = {
             todo: [getTodoList, getTodoFollowUpList],
             other: [getTodoTargetTodoList, getTodoImportantDoneList, getTodoFootprintList],
         };
