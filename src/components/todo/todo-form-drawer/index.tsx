@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
@@ -31,6 +31,9 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const getData = async () => {
+        if (!template_todo_id) {
+            return;
+        }
         setLoading(true);
         const res = await getTodoById(template_todo_id);
         setTodoFromId(res.data);
@@ -132,7 +135,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                 } else {
                     setIsEdit(false);
                     setIsClose(false);
-                    onClose(e);
+                    onClose?.(e);
                 }
             }}
         >

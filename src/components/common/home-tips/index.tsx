@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "./index.module.scss";
 import { getTodo, getTodoTarget, TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Space } from "antd";
 import { handleIsTodayPunchTheClock } from "../../todo/todo-form-habit/utils";
 

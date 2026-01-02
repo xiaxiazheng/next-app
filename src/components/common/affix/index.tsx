@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { Button } from "antd";
 import { HomeOutlined, PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface Props {
     type: "home" | "add" | "category";

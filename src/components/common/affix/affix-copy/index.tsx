@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import { Button } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { message } from "antd";
 
 interface Props {
