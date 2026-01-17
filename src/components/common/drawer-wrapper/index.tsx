@@ -24,7 +24,7 @@ const DrawerWrapper: React.FC<DrawerProps> = (props) => {
             title={title}
             closeIcon={null}
             closable={false}
-            style={{ height }}
+            height={height}
             push={{ distance: 5 }}
             {...rest}
         >

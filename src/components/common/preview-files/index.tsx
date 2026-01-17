@@ -126,7 +126,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
                 </div>
             ))}
             <MyModal title={active?.originalname} visible={isShow} onCancel={() => setIsShow(false)} showFooter={false}>
-                <Space size={10} direction="vertical" style={{ display: "flex" }}>
+                <Space size={10} orientation="vertical" style={{ display: "flex" }}>
                     <div className={styles.videoBox} style={{ display: isVideo(active) ? "" : "none" }} ref={videoBox}>
                         <audio controls autoPlay>
                             <source src={""} />

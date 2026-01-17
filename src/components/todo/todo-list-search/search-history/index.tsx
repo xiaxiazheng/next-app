@@ -42,7 +42,7 @@ const SearchHistory: React.FC<IProps> = (props) => {
     }, []);
 
     return (
-        <Space size={8} direction="vertical" className={styles.history}>
+        <Space size={8} orientation="vertical" className={styles.history}>
             {list.map((item, index) => {
                 return (
                     <div key={index} className={styles.word}>

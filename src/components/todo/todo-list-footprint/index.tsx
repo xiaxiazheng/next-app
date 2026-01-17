@@ -65,7 +65,7 @@ const TodoFootprint: React.FC<IProps> = () => {
                         />
                     </Space>
                 </h2>
-                <Space className={`${styles.content} ScrollBar`} direction="vertical" size={5}>
+                <Space className={`${styles.content} ScrollBar`} orientation="vertical" size={5}>
                     {todoList?.map((item) => {
                         return (
                             <div key={item.todo_id} className={styles.item}>

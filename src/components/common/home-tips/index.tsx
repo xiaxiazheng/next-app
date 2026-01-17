@@ -49,7 +49,7 @@ const HomeTips: React.FC = (props) => {
     if (msgList.length === 0) return null;
 
     return (
-        <Space direction="vertical" className={`${styles.HomeTips}`}>
+        <Space orientation="vertical" className={`${styles.HomeTips}`}>
             {msgList.map((item) => {
                 return (
                     <div key={item.type} onClick={() => router.push(item.type)}>

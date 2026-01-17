@@ -29,7 +29,7 @@ const InputList = ({ value = "", onChange, handleParse }: any) => {
     }
 
     return (
-        <Space size={4} direction="vertical" style={{ width: "100%" }}>
+        <Space size={4} orientation="vertical" style={{ width: "100%" }}>
             <div style={{ display: "flex" }}>
                 <Button style={{ flex: 1 }} icon={<PlusOutlined />} onClick={() => onChange(`${splitStr}${value}`)}>
                     增加描述
