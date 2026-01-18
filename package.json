@@ -5,8 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -H 0.0.0.0",
+    "lint": "eslint",
+    "docker:push": "sh deployPush.sh",
+    "docker:continuePush": "sh deployPushContinue.sh",
+    "docker:pull": "sh deployPull.sh",
+    "docker:build": "docker build --platform linux/amd64 -t xiaxiazheng/nextapp:latest .",
+    "docker:run": "docker run --rm -it -p 3000:3000/tcp xiaxiazheng/nextapp:latest",
+    "docker:save": "docker save -o xiaxiazheng-next-app.tar xiaxiazheng/nextapp",
+    "docker:load": "docker load --input xiaxiazheng-next-app.tar"
   },
   "dependencies": {
     "@xiaxiazheng/blog-libs": "^0.0.22",
