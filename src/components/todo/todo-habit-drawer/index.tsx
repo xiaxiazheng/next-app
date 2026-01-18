@@ -71,7 +71,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
 
     const [desc, setDesc] = useState<string>("");
 
-    const isTodayDone = handleIsTodayPunchTheClock(active);
+    const isTodayDone = active ? handleIsTodayPunchTheClock(active) : false;
 
     return (
         <>
@@ -93,7 +93,7 @@ const TodoHabitDrawer: React.FC<IProps> = (props) => {
                                 今日已打卡
                             </Button>
                         ) : (
-                            <Button type="primary" onClick={() => punchTheClock(active)}>
+                            <Button type="primary" onClick={() => active && punchTheClock(active)}>
                                 现在打卡
                             </Button>
                         )}

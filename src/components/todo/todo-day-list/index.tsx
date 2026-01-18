@@ -38,6 +38,9 @@ const TodoDayList: React.FC<IProps> = (props) => {
         setShowChangeExpire(true);
     };
     const changeExpireToToday = async () => {
+        if (!changeExpireList || changeExpireList.length === 0) {
+            return;
+        }
         const promiseList = changeExpireList.map((item) => {
             return editTodoItem({
                 ...item,
@@ -101,11 +104,3 @@ const TodoDayList: React.FC<IProps> = (props) => {
 };
 
 export default TodoDayList;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
     LoginOutlined,
     BookOutlined,
@@ -111,7 +111,7 @@ const RouterDrawer: React.FC<IProps> = (props) => {
     ];
 
     const router = useRouter();
-    const activePath = router.pathname;
+    const activePath = usePathname();
 
     const handleClick = async (path: string) => {
         setShowDrawer(false);

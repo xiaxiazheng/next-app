@@ -35,7 +35,7 @@ const TodoListBookmark: React.FC<IProps> = ({ refreshFlag }) => {
         <Spin spinning={loading}>
             <Header title={settings?.todoNameMap?.isBookMark} />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.isBookMark} />
+                <TodoAllList list={todoList || []} getData={getData} title={settings?.todoNameMap?.isBookMark} />
             </main>
         </Spin>
     );

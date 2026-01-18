@@ -37,7 +37,7 @@ export default function TodoListTarget({ refreshFlag = 0 }: IProps) {
         <Spin spinning={loading}>
             <Header title={settings?.todoNameMap?.isTarget} />
             <main className={styles.pool}>
-                <TodoAllList list={todoList} getData={getData} title={settings?.todoNameMap?.isTarget} />
+                <TodoAllList list={todoList || []} getData={getData} title={settings?.todoNameMap?.isTarget} />
             </main>
         </Spin>
     );

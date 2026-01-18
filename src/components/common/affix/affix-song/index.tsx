@@ -2,14 +2,18 @@ import styles from "./index.module.scss";
 import { Button } from "antd";
 import { RocketOutlined } from "@ant-design/icons";
 
-const AffixSong = ({ onClick }) => {
+interface Props {
+    onClick?: () => void;
+}
+
+const AffixSong = ({ onClick }: Props) => {
     return (
         <Button
             className={styles.affix}
             type="primary"
             shape="circle"
             size="large"
-            onClick={() => onClick()}
+            onClick={() => onClick?.()}
             icon={<RocketOutlined />}
         />
     );

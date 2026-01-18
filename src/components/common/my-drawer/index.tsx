@@ -20,7 +20,7 @@ const MyDrawer: React.FC<Props> = (props) => {
                 alignItems: placement === "bottom" ? "flex-end" : "flex-start",
             }}
         >
-            <div className={styles.mask} onClick={() => onCancel()} />
+            <div className={styles.mask} onClick={() => onCancel?.()} />
             <div className={styles.drawer_box}>
                 {title && <div className={styles.title}>{title}</div>}
                 <div className={styles.content}>{props.children}</div>

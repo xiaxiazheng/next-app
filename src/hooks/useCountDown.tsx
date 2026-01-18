@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const useCountDown = (timeToCount = 60 * 1000, interval = 1000): [number, { start: (ttc?: any) => void; pause: () => void; resume: () => void; reset: () => void; }] => {
+const useCountDown = (timeToCount = 60 * 1000, interval = 1000): [number, { start: (ttc?: number) => void; pause: () => void; resume: () => void; reset: () => void; }] => {
   const [timeLeft, setTimeLeft] = React.useState(timeToCount);
   const timer = React.useRef<any>({});
 
@@ -8,7 +8,7 @@ const useCountDown = (timeToCount = 60 * 1000, interval = 1000): [number, { star
     setTimeLeft(timeToCount);
   }, [timeToCount]);
 
-  const run = (ts) => {
+  const run = (ts: number) => {
     if (!timer.current.started) {
       timer.current.started = ts;
       timer.current.lastInterval = ts;
@@ -32,7 +32,7 @@ const useCountDown = (timeToCount = 60 * 1000, interval = 1000): [number, { star
   }
 
   const start = React.useCallback(
-    (ttc) => {
+    (ttc?: number) => {
       window.cancelAnimationFrame(timer.current.requestId);
 
       const newTimeToCount = ttc !== undefined ? ttc : timeToCount

@@ -26,7 +26,7 @@ export const playAudio = (count = 0) => {
 };
 
 // 这么写是为了缓存 Audio 实例，
-let audioCtx = null;
+let audioCtx: AudioContext | null = null;
 const getAudio = () => {
     if (audioCtx) return audioCtx;
     // @ts-ignore
@@ -35,9 +35,12 @@ const getAudio = () => {
     audioCtx = new AudioContext();
 };
 
-const playFrequency = (frequency) => {
+const playFrequency = (frequency: number) => {
     if (!audioCtx) {
         getAudio();
+    }
+    if (!audioCtx) {
+        return;
     }
 
     // 创建一个OscillatorNode, 它表示一个周期性波形（振荡），基本上来说创造了一个音调

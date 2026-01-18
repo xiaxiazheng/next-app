@@ -32,6 +32,11 @@ export default function BlogRandom() {
             }
         }
 
+        // 如果 count 仍然是 undefined，说明获取 total 失败，直接返回
+        if (!count || count === 0) {
+            return;
+        }
+
         // 然后计算出 offset，随机选一篇
         const params = {
             pageNo: Math.floor(count * Math.random()) + 1,
@@ -67,11 +72,11 @@ export default function BlogRandom() {
                 <div className={styles.blog_cont}>
                     <h3 className={styles.head}>{blog?.title}</h3>
                     <div className={styles.blogcontEditor}>
-                        <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>
+                        {blog?.blogcont && <div dangerouslySetInnerHTML={{ __html: blog.blogcont }}></div>}
                     </div>
                 </div>
                 <AffixCopy
-                    copyUrl={`https://www.xiaxiazheng.cn/blog/${blog && btoa(decodeURIComponent(blog.blog_id))}`}
+                    copyUrl={blog?.blog_id ? `https://www.xiaxiazheng.cn/blog/${btoa(decodeURIComponent(blog.blog_id))}` : ''}
                 />
                 <AffixRefresh onClick={() => handleSwitch()} />
             </main>

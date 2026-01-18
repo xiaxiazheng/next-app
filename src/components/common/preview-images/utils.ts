@@ -14,9 +14,12 @@ import localforage from "localforage";
 // };
 
 // 将 image 对象变成 canvas 对象
-export function imagetoCanvas(image) {
+export function imagetoCanvas(image: HTMLImageElement) {
     var cvs = document.createElement("canvas");
     var ctx = cvs.getContext("2d");
+    if (!ctx) {
+        throw new Error("无法获取 canvas context");
+    }
     cvs.width = image.width;
     cvs.height = image.height;
     ctx.drawImage(image, 0, 0, cvs.width, cvs.height);
@@ -24,7 +27,7 @@ export function imagetoCanvas(image) {
 }
 
 // 将 canvas 变成 blob
-export const canvasResizetoDataUrl = (canvas): string => {
+export const canvasResizetoDataUrl = (canvas: HTMLCanvasElement): string => {
     return canvas.toDataURL();
 };
 
@@ -33,7 +36,7 @@ export const handleImageToBase64 = (src: string) => {
     return new Promise((resolve) => {
         const img = new Image();
         img.onload = (e) => {
-            const canvas = imagetoCanvas(e.target);
+            const canvas = imagetoCanvas(e.target as HTMLImageElement);
             const base64 = canvasResizetoDataUrl(canvas);
             resolve(base64);
         };
@@ -59,13 +62,17 @@ export const handleOnloadImage = async (imageUrl: string, img_id: string, imgnam
     return cache as string;
 };
 
-export const base64ByBlob = (base64) => {
+export const base64ByBlob = (base64: string) => {
     return new Promise((resolve) => {
-        let arr = base64.split(","),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
+        let arr = base64.split(",");
+        const match = arr[0].match(/:(.*?);/);
+        if (!match || !match[1]) {
+            throw new Error("无效的 base64 格式");
+        }
+        const mime = match[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
         while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
         }
@@ -73,6 +80,6 @@ export const base64ByBlob = (base64) => {
     });
 };
 
-export const blobToUrl = (blob) => {
+export const blobToUrl = (blob: Blob) => {
     return window.URL.createObjectURL(blob);
 }

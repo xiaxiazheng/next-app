@@ -31,7 +31,7 @@ const SelectBeforeTodo: React.FC<IProps> = (props) => {
             {beforeTodo ? (
                 <>
                     <TodoItem item={beforeTodo} keyword="" onClick={() => setVisible(true)} showTime={true} />
-                    <Button type="primary" danger onClick={() => onChange("")}>
+                    <Button type="primary" danger onClick={() => onChange?.("")}>
                         删
                     </Button>
                 </>
@@ -44,7 +44,7 @@ const SelectBeforeTodo: React.FC<IProps> = (props) => {
                 todo_id={value}
                 filterTodoId={activeTodo?.todo_id}
                 handleChoice={(todo) => {
-                    onChange(todo.todo_id);
+                    onChange?.(todo.todo_id);
                     setVisible(false);
                 }}
             />

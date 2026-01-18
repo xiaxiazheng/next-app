@@ -75,7 +75,8 @@ export default function TomatoClock() {
                         const reg = new RegExp(/倒计时：(\S*)，时长/, "g");
                         return reg.exec(item.name);
                     })
-                    .map((match) => match?.[1]);
+                    .map((match) => match?.[1])
+                    .filter((item): item is string => item !== undefined && item !== null);
                 setLastList(list);
             } else {
                 setLastList([]);

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { message, Spin } from "antd";
 import { useRouter } from "next/navigation";
-import { getTodo, getTodoList, TodoStatus } from "@xiaxiazheng/blog-libs";
+import { getTodo, getTodoList, TodoStatus, TodoItemType } from "@xiaxiazheng/blog-libs";
 import TodoDayListWrapper from "../todo-day-list-wrapper";
 import dayjs from "dayjs";
 
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const TodayBeforeYears: React.FC<IProps> = ({ refreshFlag }) => {
-    const [todoList, setTodoList] = useState([]);
+    const [todoList, setTodoList] = useState<TodoItemType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
 

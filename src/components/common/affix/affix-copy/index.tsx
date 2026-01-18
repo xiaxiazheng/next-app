@@ -15,6 +15,10 @@ const AffixCopy: React.FC<Props> = (props) => {
 
     // 复制文件的 url
     const copyFileUrl = () => {
+        if (!copyUrl) {
+            message.warning("没有可复制的内容");
+            return;
+        }
         const input = document.createElement("input");
         document.body.appendChild(input);
         input.setAttribute("value", copyUrl);

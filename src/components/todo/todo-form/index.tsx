@@ -27,7 +27,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
             category.length !== 0 &&
             !category
                 ?.slice(0, minCategory)
-                .map((item) => item.category)
+                .map((item: any) => item.category)
                 .includes(value)
         ) {
             setShowAll(true);
@@ -40,7 +40,7 @@ const CategoryOptions = ({ value, onChange, category }: any) => {
         <>
             <Radio.Group buttonStyle="solid" value={value} onChange={onChange}>
                 {(showAll ? category : category?.slice(0, settings?.todoCategoryDefaultShow || minCategory))?.map(
-                    (item) => (
+                    (item: any) => (
                         <Radio.Button key={item.category} value={item.category}>
                             {item.category} ({item.count})
                         </Radio.Button>
@@ -81,9 +81,9 @@ const TodoForm: React.FC<Props> = (props) => {
     }, []);
 
     useEffect(() => {
-        if (todo) {
+        if (todo && form) {
             if (operatorType === "progress") {
-                form.setFieldsValue({
+                form?.setFieldsValue({
                     ...todo,
                     status: TodoStatus.todo,
                     time: dayjs().format("YYYY-MM-DD"),
@@ -97,13 +97,13 @@ const TodoForm: React.FC<Props> = (props) => {
                     color: String(settings?.todoDefaultColor) || '4',
                 });
             } else if (operatorType === "add-note") {
-                form.setFieldsValue({
+                form?.setFieldsValue({
                     ...todo,
                     status: Number(todo.status),
                     isNote: "1",
                 });
             } else {
-                form.setFieldsValue({
+                form?.setFieldsValue({
                     ...todo,
                     status: Number(todo.status),
                 });
@@ -113,6 +113,7 @@ const TodoForm: React.FC<Props> = (props) => {
 
     // 处理预设选项集
     const handlePreset = (item: Record<string, string>) => {
+        if (!form) return;
         form.setFieldsValue(item);
         // @ts-ignore
         onFieldsChange?.();
@@ -122,10 +123,11 @@ const TodoForm: React.FC<Props> = (props) => {
         <main className={styles.edit_todo}>
             <Form form={form} layout={"vertical"} onFieldsChange={onFieldsChange} {...rest}>
                 <Form.Item name="name" label="名称" style={{ width: "100%" }} rules={[{ required: true }]}>
-                    <NameTextArea handleDelete={() => form.setFieldValue("name", "")} />
+                    <NameTextArea handleDelete={() => form?.setFieldValue("name", "")} />
                 </Form.Item>
                 <Form.Item name="description" label="详细描述">
                     <InputList handleParse={(text: string) => {
+                        if (!form) return;
                         const oldText = form.getFieldValue("description");
                         if (!!oldText) {
                             form.setFieldValue("description", text + splitStr + oldText);

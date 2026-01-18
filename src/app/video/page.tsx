@@ -17,7 +17,7 @@ export default function Video() {
         setLoading(true);
         const res = await getMediaList();
         if (res) {
-            const list = res.filter((item) =>
+            const list = res.filter((item: any) =>
                 item.mimeType.includes("video")
             );
             setList(list);

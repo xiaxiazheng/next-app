@@ -14,7 +14,12 @@ export class TouchEventClass {
     isShow = false;
     safeX = 120;
     safeY = 210;
-    map = {
+    map: {
+        top: any[];
+        bottom: any[];
+        left: any[];
+        right: any[];
+    } = {
         top: [],
         bottom: [],
         left: [],
@@ -22,7 +27,7 @@ export class TouchEventClass {
     };
     forceUpdate: Function = () => {};
     lastDom: any;
-    event: (e) => void;
+    event: ((e: TouchEvent) => void) | undefined;
 
     init = (props: TouchEventProps) => {
         const { ref, event } = props;
@@ -61,7 +66,7 @@ export class TouchEventClass {
         console.log(this.map);
     }, debounceTime);
 
-    getDirection = (moveX: number, moveY: number) => {
+    getDirection = (moveX: number, moveY: number): "" | "top" | "bottom" | "left" | "right" => {
         if (-moveY > this.safeY && Math.abs(moveX) < this.safeX) {
             return "top";
         }
@@ -83,11 +88,16 @@ export class TouchEventClass {
         let direction = this.getDirection(moveX, moveY);
         // const len = this.map[direction]?.length;
         // len && this.map[direction][len - 1].handleMoveEnd();
-        this.event?.(e);
+        if (this.event) {
+            this.event(e);
+        }
     };
 
     handleMoveEndText = () => {
         const direction = this.getDirection(this.moveX, this.moveY);
+        if (!direction) {
+            return "";
+        }
         const len = this.map[direction]?.length;
         return len ? this.map[direction][len - 1].tipsText : "";
     };

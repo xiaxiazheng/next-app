@@ -107,11 +107,3 @@ const TodoSplitTimeRangeList = (props: IProps) => {
 };
 
 export default TodoSplitTimeRangeList;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

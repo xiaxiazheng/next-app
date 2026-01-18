@@ -85,6 +85,10 @@ const PreviewFiles: React.FC<Props> = (props) => {
             video.controls = true;
             video.autoPlay = true;
 
+            if (!file.fileUrl) {
+                message.error("文件URL不存在");
+                return;
+            }
             const source = document.createElement("source");
             source.src = file.fileUrl;
             source.type = "video/mp4";
@@ -127,7 +131,7 @@ const PreviewFiles: React.FC<Props> = (props) => {
             ))}
             <MyModal title={active?.originalname} visible={isShow} onCancel={() => setIsShow(false)} showFooter={false}>
                 <Space size={10} orientation="vertical" style={{ display: "flex" }}>
-                    <div className={styles.videoBox} style={{ display: isVideo(active) ? "" : "none" }} ref={videoBox}>
+                    <div className={styles.videoBox} style={{ display: active && isVideo(active) ? "" : "none" }} ref={videoBox}>
                         <audio controls autoPlay>
                             <source src={""} />
                         </audio>
@@ -136,8 +140,8 @@ const PreviewFiles: React.FC<Props> = (props) => {
                     <div className={styles.size}>大小：{handleComputedFileSize(Number(active?.size || 0))}</div>
                     <div className={styles.time}>创建时间：{active?.cTime}</div>
                     <Space size={8}>
-                        {!isVideo(active) && <Button onClick={() => handleDownload(active?.fileUrl)}>下载文件</Button>}
-                        <Button onClick={() => copyFileUrl(active?.fileUrl)}>复制文件路径</Button>
+                        {active && !isVideo(active) && active.fileUrl && <Button onClick={() => handleDownload(active.fileUrl!)}>下载文件</Button>}
+                        {active && active.fileUrl && <Button onClick={() => copyFileUrl(active.fileUrl!)}>复制文件路径</Button>}
                     </Space>
                 </Space>
             </MyModal>

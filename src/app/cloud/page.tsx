@@ -36,9 +36,12 @@ export default function Cloud() {
     const getFolderList = async (parent_id: string) => {
         setFolderList([]);
         const username = localStorage.getItem("username");
+        if (!username) {
+            return;
+        }
         const res = await getFolder(parent_id, username);
         if (res) {
-            setFolderList(res.data.sort((a, b) => new Date(b.cTime).getTime() - new Date(a.cTime).getTime()));
+            setFolderList(res.data.sort((a: FolderType, b: FolderType) => new Date(b.cTime).getTime() - new Date(a.cTime).getTime()));
         }
     };
 
@@ -46,6 +49,9 @@ export default function Cloud() {
     const getImageList = async (parent_id: string) => {
         setImageList([]);
         const username = localStorage.getItem("username");
+        if (!username) {
+            return;
+        }
         const res = await getImageListByOtherId(parent_id, username);
         console.log(res);
         if (res) {
@@ -57,6 +63,9 @@ export default function Cloud() {
     const getFileList = async (parent_id: string) => {
         setFileList([]);
         const username = localStorage.getItem("username");
+        if (!username) {
+            return;
+        }
         const res = await getFileListByOtherId(parent_id, username);
         if (res) {
             setFileList(res as FileType[]);

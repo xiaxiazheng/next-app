@@ -47,7 +47,7 @@ const ChainDrawer: React.FC<IProps> = (props) => {
                     <TodoTreeList
                         dataMode="tree"
                         list={todoChainList}
-                        onRefresh={(item) => {
+                        onRefresh={(item: TodoItemType) => {
                             handleRefresh(item.todo_id);
                         }}
                         showTime={true}

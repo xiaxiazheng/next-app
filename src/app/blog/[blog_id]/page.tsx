@@ -37,12 +37,12 @@ export default function BlogDetail() {
                 <div className={styles.blog_cont}>
                     <h3 className={styles.head}>{blog?.title}</h3>
                     <div className={styles.blogcontEditor}>
-                        {blog?.edittype === 'richtext' && <div dangerouslySetInnerHTML={{ __html: blog?.blogcont }}></div>}
-                        {blog?.edittype === 'markdown' && <MarkdownShow blogcont={blog?.blogcont} style={{ paddingLeft: 4 }} />}
+                        {blog?.edittype === 'richtext' && blog?.blogcont && <div dangerouslySetInnerHTML={{ __html: blog.blogcont }}></div>}
+                        {blog?.edittype === 'markdown' && blog?.blogcont && <MarkdownShow blogcont={blog.blogcont} style={{ paddingLeft: 4 }} />}
                     </div>
                 </div>
                 <AffixCopy
-                    copyUrl={`https://www.xiaxiazheng.cn/blog/${blog && btoa(decodeURIComponent(blog.blog_id))}`}
+                    copyUrl={blog?.blog_id ? `https://www.xiaxiazheng.cn/blog/${btoa(decodeURIComponent(blog.blog_id))}` : ''}
                 />
                 <AffixBack backUrl={"/blog"} />
             </main>

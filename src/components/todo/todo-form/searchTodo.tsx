@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { message, Select, Tooltip } from "antd";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 import { getTodoById, getTodoList } from "@xiaxiazheng/blog-libs";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import styles from "./index.module.scss";

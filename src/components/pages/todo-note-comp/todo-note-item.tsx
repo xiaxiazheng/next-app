@@ -31,10 +31,10 @@ const TodoNoteItem = (props: Props) => {
             </div>
             <div className={styles.imgFileList}>
                 <PreviewImages
-                    imagesList={maxImgCount !== -1 ? item.imgList.slice(0, maxImgCount) : item.imgList}
+                    imagesList={maxImgCount !== -1 ? (item.imgList || []).slice(0, maxImgCount) : (item.imgList || [])}
                     style={{ margin: 0 }}
                 />
-                <PreviewFiles filesList={item.fileList} style={{ margin: 0 }} />
+                <PreviewFiles filesList={item.fileList || []} style={{ margin: 0 }} />
                 {isActive && (
                     <UploadImageFile
                         type="todo"
@@ -43,7 +43,7 @@ const TodoNoteItem = (props: Props) => {
                         style={{ margin: 0 }}
                     />
                 )}
-                {maxImgCount !== -1 && item.imgList.length > maxImgCount && (
+                {maxImgCount !== -1 && item.imgList && item.imgList.length > maxImgCount && (
                     <div style={{ opacity: 0.7 }}>还有 {item.imgList.length - maxImgCount} 张图</div>
                 )}
             </div>

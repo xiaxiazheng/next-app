@@ -25,7 +25,7 @@ const HomeTodo: React.FC<IProps> = props => {
             refreshFlag={refreshFlag + flag}
             getActiveTodo={setActiveTodo}
             defaultPageSize={10}
-            PaginationComp={TodoPagination}
+            PaginationComp={TodoPagination as any}
             paginationProps={{
                 className: styles.pagination
             }}
@@ -33,7 +33,7 @@ const HomeTodo: React.FC<IProps> = props => {
                 setVisible(true);
             }}
         />
-        {visible && <TodoDetailDrawer
+        {visible && activeTodo && <TodoDetailDrawer
             activeTodo={activeTodo}
             visible={visible}
             onClose={() => setVisible(false)}

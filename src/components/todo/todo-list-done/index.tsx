@@ -4,7 +4,7 @@ import { useEffect, useReducer, useState } from "react";
 import { TodoItemType } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 import { Button, Spin, Space, Checkbox } from "antd";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
+type CheckboxValueType = string | number | boolean;
 import { SyncOutlined } from "@ant-design/icons";
 import { getShowList } from "../utils";
 import { CalendarOutlined, ClearOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";

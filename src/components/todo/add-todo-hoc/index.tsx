@@ -30,10 +30,10 @@ function AddTodoHoc(props: Props) {
 
     /** 三种方式新增的 todo 会留存在这里，新增或变成编辑，同时也有新的 todo_id */
     const [localOperatorType, setLocalOperatorType] = useState<OperatorType>(operatorType);
-    const [localTodoId, setLocalTodoId] = useState<string>(template_todo_id);
+    const [localTodoId, setLocalTodoId] = useState<string>(template_todo_id || '');
     useEffect(() => {
         setLocalOperatorType(operatorType);
-        setLocalTodoId(template_todo_id);
+        setLocalTodoId(template_todo_id || '');
     }, [template_todo_id, operatorType]);
 
     return (

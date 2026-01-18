@@ -54,11 +54,3 @@ const TodoDayListWrapper: React.FC<IProps> = (props) => {
 };
 
 export default TodoDayListWrapper;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

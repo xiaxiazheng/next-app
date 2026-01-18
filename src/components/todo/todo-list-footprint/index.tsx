@@ -37,7 +37,7 @@ const TodoFootprint: React.FC<IProps> = () => {
                 list.map((item: TodoItemType) => {
                     return {
                         ...item,
-                        edit_time: item.mTime,
+                        edit_time: item.mTime || item.cTime || '',
                     };
                 })
             );
@@ -81,11 +81,3 @@ const TodoFootprint: React.FC<IProps> = () => {
 };
 
 export default TodoFootprint;
-
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            // props for your component
-        },
-    };
-}

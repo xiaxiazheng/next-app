@@ -48,6 +48,9 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
             setUrl(imageMinUrl);
             return;
         }
+        if (!imageMinUrl || !imgname) {
+            return;
+        }
         const url = await handleOnloadImage(imageMinUrl, `min_${img_id}`, imgname);
         setImg({
             ...img,
@@ -61,7 +64,7 @@ const MinImg: React.FC<IProps> = React.forwardRef((props, ref: any) => {
             {/* {Number(img.size) > MAX_FILE_SIZE ? handleComputedFileSize(Number(img.size)) : */}
             {
                 !url ? (
-                    <Image width={80} height={80} src="/loading.svg" />
+                    <Image width={80} height={80} src="/loading.svg" alt="loading" />
                 ) : (
                     <img width={80} height={80} src={url} style={{ objectFit: 'cover', ...style }} {...rest} />
                 )}

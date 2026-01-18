@@ -5,15 +5,16 @@ import { useRouter } from "next/navigation";
 
 interface Props {
     style?: any;
-    type?: 'sticky' | 'fixed'
+    type?: 'sticky' | 'fixed';
+    children?: React.ReactNode;
 }
 
 const AffixFooter: React.FC<Props> = (props) => {
-    const { type = 'sticky' } = props;
+    const { type = 'sticky', children } = props;
 
     return (
-        <div {...props} className={type === 'sticky' ? styles.footer : styles.fixed}>
-            {props.children}
+        <div style={props.style} className={type === 'sticky' ? styles.footer : styles.fixed}>
+            {children}
         </div>
     );
 };

@@ -31,7 +31,7 @@ const TodoNoteComp = () => {
 
     const getData = async (props: { isNeedScroll?: boolean } = { isNeedScroll: true }) => {
         setLoading(true);
-        const params = {
+        const params: any = {
             pageNo,
             pageSize,
             keyword: keyword || "",

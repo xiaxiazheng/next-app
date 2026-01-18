@@ -105,7 +105,7 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
         };
         if (map?.[activeKey]) {
             setLoading(true);
-            Promise.all(map[activeKey].map((item) => item())).finally(() => {
+            Promise.all(map[activeKey].map((item: () => void | Promise<void>) => item())).finally(() => {
                 setLoading(false);
             });
         } else {

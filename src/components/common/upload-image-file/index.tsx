@@ -19,7 +19,8 @@ const UploadImageFile: React.FC<Props> = (props) => {
 
     const [username, setUsername] = useState<string>('');
     useEffect(() => {
-        setUsername(localStorage.getItem("username"));
+        const storedUsername = localStorage.getItem("username");
+        setUsername(storedUsername || '');
     }, []);
 
     const [uploadFileList, setUploadFileList] = useState<UploadFile<any>[]>([]);

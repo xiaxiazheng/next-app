@@ -156,7 +156,10 @@ export default function MaoPu() {
                     footer={() => null}
                     style={{ maxWidth: "100vw" }}
                 >
-                    <Item item={list.find((item) => item.mao_id === activeId)} isShowAll={true} />
+                    {(() => {
+                        const activeItem = list.find((item) => item.mao_id === activeId);
+                        return activeItem ? <Item item={activeItem} isShowAll={true} /> : null;
+                    })()}
                 </MyModal>
             </main>
         </>

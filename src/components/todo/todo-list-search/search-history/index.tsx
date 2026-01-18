@@ -8,7 +8,8 @@ interface IProps {
 
 export const getHisotryList = () => {
     try {
-        return JSON.parse(localStorage.getItem("historyList")) || [];
+        const historyList = localStorage.getItem("historyList");
+        return historyList ? JSON.parse(historyList) : [];
     } catch (e) {
         console.error(e);
         return [];

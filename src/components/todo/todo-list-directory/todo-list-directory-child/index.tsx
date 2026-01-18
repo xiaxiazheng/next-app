@@ -39,7 +39,7 @@ const TodoListDirectoryChild: React.FC<IProps> = (props) => {
                     setActiveTodo(undefined);
                     setVisible(false);
                 }}
-                activeTodo={activeTodo}
+                activeTodo={activeTodo!}
                 onRefresh={() => {
                     setFlag(prev => prev + 1);
                 }}
