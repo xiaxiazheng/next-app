@@ -1470,12 +1470,13 @@
   resolved "https://mirrors.tencent.com/npm/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.11.1.tgz#538b1e103bf8d9864e7b85cc96fa8d6fb6c40777"
   integrity sha512-lrW200hZdbfRtztbygyaq/6jP6AKE8qQN2KvPcJ+x7wiD038YtnYtZ82IMNJ69GJibV7bwL3y9FgK+5w/pYt6g==
 
-"@xiaxiazheng/blog-libs@^0.0.22":
-  version "0.0.22"
-  resolved "https://mirrors.tencent.com/npm/@xiaxiazheng/blog-libs/-/blog-libs-0.0.22.tgz#842a580726c6e7b65b25e144cadb376e19166670"
-  integrity sha512-nBq6440ry0u8C6a3CcCyqIAbDEsX22RGREmUBUCPi+U/fkxcK4MrAJWx5PhWm9rHZ9vfasouTkVaBT7CIVdewQ==
+"@xiaxiazheng/blog-libs@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@xiaxiazheng/blog-libs/-/blog-libs-0.0.23.tgz#23248183a4db4251f860cdfcf55c0b7dc06dac3e"
+  integrity sha512-Jj0cZa42fnp3PB4A945Nrd+/j2xdNBEwnfWfsFnLr6anLsUKrYnNCuI1nxhV12oCNYyhmnClWncQ7nxXa6YQqA==
   dependencies:
     antd "^5.27.4"
+    hammerjs "^2.0.8"
     highlight.js "^11.2.0"
     markdown-it "^12.0.2"
 
@@ -2561,6 +2562,11 @@ gopd@^1.0.1, gopd@^1.2.0:
   version "1.2.0"
   resolved "https://mirrors.tencent.com/npm/gopd/-/gopd-1.2.0.tgz#89f56b8217bdbc8802bd299df6d7f1081d7e51a1"
   integrity sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==
 
 has-bigints@^1.0.2:
   version "1.1.0"

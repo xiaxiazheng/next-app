@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     userScalable: false,
     viewportFit: "cover",
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

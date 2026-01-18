@@ -2,16 +2,11 @@ import { useRouter } from "next/navigation";
 import styles from "./index.module.scss";
 import TodoForm from "../todo-form";
 import { useEffect, useState } from "react";
-import { addTodoItem, editTodoItem, getTodoById, TodoStatus, TodoItemType } from "@xiaxiazheng/blog-libs";
+import { addTodoItem, editTodoItem, getTodoById, TodoStatus, TodoItemType, OperatorColorMap } from "@xiaxiazheng/blog-libs";
 import { DrawerProps, Form, message, Spin } from "antd";
 import DrawerWrapper from "../../common/drawer-wrapper";
 import { operatorMap, OperatorType } from "../types";
 import dayjs from "dayjs";
-
-const OperatorColorMap: any = {
-    add: 'black',
-    edit: 'blue',
-}
 
 interface IProps extends DrawerProps {
     /** 用来作为 todo-form 默认数据的 todo 的 id
