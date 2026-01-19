@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 import { Tabs } from "antd";
 import MusicPlayerWrapper from "../../components/music-player-wrapper";
 import TodoTabs from "../todo-tabs";
-import TodoNote from "../../components/pages/todo-note-comp";
+import TodoNote from "../../components/todo-note-comp";
 import HomeTranslate from "../../components/home-translate";
 import TouchEventComp from "../../utils/TouchEventComp";
 import type { TabsProps } from 'antd';

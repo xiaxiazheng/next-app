@@ -205,11 +205,6 @@ const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100
                     <TodoListDirectory refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
                 </div>
         },
-        // {
-        //     key: 'home', label: <><EyeFilled /> home</>, children: <div className={styles.content} style={{ height: contentHeight }}>
-        //         <HomeTodo refreshFlag={refreshFlag + searchFlag} keyword={keyword} />
-        //     </div>
-        // },
         {
             key: 'mark', label: <><TodoTypeIcon type="isBookMark" style={{ marginRight: 3 }} />mark</>, children:
                 <div className={styles.content} style={{ height: contentHeight }}>

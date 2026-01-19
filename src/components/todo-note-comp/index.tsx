@@ -3,9 +3,9 @@ import { getTodoList, getTodoCategory, TodoItemType, handleCopy, getTodoTimeDeta
 import { useEffect, useRef, useState } from "react";
 import { Input, Button, Pagination, Radio, Space, message } from "antd";
 import { ApartmentOutlined, SyncOutlined } from "@ant-design/icons";
-import DrawerWrapper from "../../common/drawer-wrapper";
-import { useIsWork } from "../../../hooks/useIsWork";
-import TodoDetailDrawer from "../../todo/todo-detail-drawer";
+import DrawerWrapper from "../common/drawer-wrapper";
+import { useIsWork } from "../../hooks/useIsWork";
+import TodoDetailDrawer from "../todo/todo-detail-drawer";
 import TodoNoteItem from "./todo-note-item";
 
 const { Search } = Input;
