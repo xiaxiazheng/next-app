@@ -41,6 +41,9 @@ function AddTodoHoc(props: Props) {
             {renderChildren({
                 onClick: () => {
                     setShowAddTodo(true);
+                    // 每次点击新增，都要重置 local 保存的状态
+                    setLocalOperatorType(operatorType);
+                    setLocalTodoId(template_todo_id || '');
                 }
             })}
             <TodoFormDrawer
@@ -51,6 +54,7 @@ function AddTodoHoc(props: Props) {
                 onClose={() => {
                     setShowAddTodo(false);
                     setShowDetail(true);
+                    setLocalTodoId('');
                     onClose?.();
                 }}
                 onSubmit={(val: TodoItemType) => {
