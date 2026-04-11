@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 const useStorageState = (key: string): [boolean, () => void] => {
-    const [state, setState] = useState<boolean>(false);
+    const [state, setState] = useState<boolean>(true);
     useEffect(() => {
-        setState(localStorage.getItem(key) === 'true');
+        const stored = localStorage.getItem(key);
+        if (stored !== null) {
+            setState(stored === 'true');
+        }
     }, []);
 
     const update = () => {
