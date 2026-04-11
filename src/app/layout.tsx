@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "../styles/global.scss";
+import "../styles/darkTheme.css";
 import LayoutWrapper from "../components/LayoutWrapper";
 
 const geistSans = Geist({
@@ -37,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} darkTheme`}>
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
