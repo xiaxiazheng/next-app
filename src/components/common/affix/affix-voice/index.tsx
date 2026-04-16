@@ -143,20 +143,10 @@ const AffixVoice: React.FC = () => {
     const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
     audioChunksRef.current = [];
 
-    // 解码为 AudioBuffer 并转换为 WAV
+    // 直接使用 webm/opus 压缩格式，比 WAV 小很多
     try {
       const arrayBuffer = await audioBlob.arrayBuffer();
-      const audioContext = audioContextRef.current!;
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-      // 如果采样率不是 16kHz，需要重采样
-      let bufferToUse = audioBuffer;
-      if (audioBuffer.sampleRate !== 16000) {
-        bufferToUse = await resampleBuffer(audioContext, audioBuffer, 16000);
-      }
-
-      const wavBuffer = audioBufferToWav(bufferToUse);
-      const audioBase64 = arrayBufferToBase64(wavBuffer);
+      const audioBase64 = arrayBufferToBase64(arrayBuffer);
 
       await recognizeAndCreateTodo(audioBase64);
     } catch (error) {
@@ -174,7 +164,7 @@ const AffixVoice: React.FC = () => {
     }
 
     try {
-      const res = await speechRecognition(audioBase64, "wav");
+      const res = await speechRecognition(audioBase64, "ogg-opus");
 
       if (!res || res.resultsCode !== "success") {
         message.error(res?.message || "语音识别失败");
