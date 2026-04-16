@@ -6,7 +6,6 @@ import { message } from "antd";
 import { useRouter } from "next/navigation";
 import TodoTabs from "./todo-tabs";
 import TouchEventComp from "../utils/TouchEventComp";
-import VoiceRecorder from "../components/common/voice-recorder";
 import { addTodoItem, CreateTodoItemReq } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
 
@@ -62,7 +61,6 @@ export default function Home() {
                 <TodoTabs />
             </main>
             <TouchEventComp />
-            <VoiceRecorder onRecognized={handleVoiceRecognized} />
         </div>
     );
 }
