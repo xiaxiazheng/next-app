@@ -4,6 +4,7 @@ import { Button, message } from "antd";
 import { AudioOutlined, LoadingOutlined } from "@ant-design/icons";
 import { addTodoItem, speechRecognition } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
+import { useRefreshContext } from "../../../../LayoutWrapper";
 
 type RecordingState = "idle" | "recording" | "recognizing";
 
@@ -64,6 +65,7 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 const AffixVoice: React.FC = () => {
+  const { refresh } = useRefreshContext();
   const [state, setState] = useState<RecordingState>("idle");
   const [isSupported, setIsSupported] = useState(true);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -198,11 +200,11 @@ const AffixVoice: React.FC = () => {
         description,
         time: now.format("YYYY-MM-DD"),
         status: 0,
-        color: "0",
-        category: "",
+        color: "3",
+        category: "个人",
         doing: "0",
         isNote: "0",
-        isTarget: "1",
+        isTarget: "0",
         isBookMark: "0",
         isWork: "0",
         isDirectory: "0",
@@ -211,6 +213,7 @@ const AffixVoice: React.FC = () => {
         isShow: "0",
       });
       message.success("已创建语音 todo");
+      refresh();
     } catch (error) {
       console.error("Speech recognition error:", error);
       message.error("语音识别请求失败");
