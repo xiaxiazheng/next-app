@@ -17,6 +17,7 @@
     "docker:load": "docker load --input xiaxiazheng-next-app.tar"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.1",
     "@xiaxiazheng/blog-libs": "workspace:*",
     "antd": "^6.1.3",
     "dayjs": "^1.10.7",

@@ -59,7 +59,7 @@ export default function Home() {
         <div>
             <Header title="XIAXIAZheng" />
             <main className={styles.home}>
-                <TodoTabs refreshFlag={0} />
+                <TodoTabs />
             </main>
             <TouchEventComp />
             <VoiceRecorder onRecognized={handleVoiceRecognized} />

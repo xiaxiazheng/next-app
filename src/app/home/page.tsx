@@ -22,7 +22,7 @@ export default function Home({ refreshFlag = 0 }: IProps) {
             key: 'todo',
             label: 'todo',
             children: <div className={styles.content}>
-                <TodoTabs refreshFlag={refreshFlag} contentHeight="calc(100vh - 170px)" />
+                <TodoTabs contentHeight="calc(100vh - 170px)" />
             </div>
         },
         {

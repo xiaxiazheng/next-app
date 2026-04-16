@@ -25,13 +25,14 @@ import useStorageState from "../../hooks/useStorageState";
 import TodoListDirectory from "../../components/todo/todo-list-directory";
 import TodoListBookmark from "../../components/todo/todo-list-bookmark";
 import TitleWrapper from "./title-wrapper";
+import { useRefreshContext } from "../../components/LayoutWrapper";
 
 interface IProps {
-    refreshFlag: number;
     contentHeight?: string;
 }
 
-const TodoTabs: React.FC<IProps> = ({ refreshFlag = 0, contentHeight = 'calc(100vh - 110px)' }) => {
+const TodoTabs: React.FC<IProps> = ({ contentHeight = 'calc(100vh - 110px)' }) => {
+    const { refreshFlag } = useRefreshContext();
     const settings = useSettingsContext();
 
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);

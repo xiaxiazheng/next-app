@@ -1,22 +1,32 @@
 'use client';
 // import { AppProps } from "next/app";
 // import "../styles/global.scss";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState, createContext, useContext } from "react";
 import { Spin } from "antd";
 import RouterDrawer from "../components/common/router-drawer";
 import Affix from "../components/common/affix";
+import AffixVoice from "../components/common/affix/affix-voice";
 import { useRouter, usePathname } from "next/navigation";
 
 import AddTodoHoc from "../components/todo/add-todo-hoc";
 import { SettingsProvider } from "@xiaxiazheng/blog-libs";
 
+interface RefreshContextType {
+    refreshFlag: number;
+    refresh: () => void;
+}
+
+const RefreshContext = createContext<RefreshContextType>({ refreshFlag: 0, refresh: () => {} });
+
+export const useRefreshContext = () => useContext(RefreshContext);
+
 const LayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
     const Provider: any = SettingsProvider;
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [flag, setFlag] = useState<number>();
+    const [refreshFlag, setRefreshFlag] = useState<number>(0);
     const refresh = () => {
-        setFlag(Math.random());
+        setRefreshFlag(Math.random());
     };
 
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
@@ -26,8 +36,10 @@ const LayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <Provider>
             <Spin spinning={loading} style={{ overflow: "hidden" }}>
-                {/* <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} /> */}
-                {children}
+                <RefreshContext.Provider value={{ refreshFlag, refresh }}>
+                    {/* <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} /> */}
+                    {children}
+                </RefreshContext.Provider>
                 {isShowHome && <Affix type="home" bottomIndex={1} />}
                 <Affix
                     type="category"
@@ -48,6 +60,7 @@ const LayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
                         )
                     }} />
                 }
+                <AffixVoice />
                 <RouterDrawer
                     setRouterLoading={setLoading}
                     refresh={refresh}
