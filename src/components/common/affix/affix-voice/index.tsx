@@ -4,7 +4,7 @@ import { Button, message } from "antd";
 import { AudioOutlined, LoadingOutlined } from "@ant-design/icons";
 import { addTodoItem, speechRecognition } from "@xiaxiazheng/blog-libs";
 import dayjs from "dayjs";
-import { useRefreshContext } from "../../../../LayoutWrapper";
+import { useRefreshContext } from "../../../LayoutWrapper";
 
 type RecordingState = "idle" | "recording" | "recognizing";
 
@@ -226,7 +226,7 @@ const AffixVoice: React.FC = () => {
     return null;
   }
 
-  const bottom = 220;
+  const bottom = 120;
   const isRecording = state === "recording";
   const isRecognizing = state === "recognizing";
 
