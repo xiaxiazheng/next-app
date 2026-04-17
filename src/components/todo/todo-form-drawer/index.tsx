@@ -16,10 +16,12 @@ interface IProps extends DrawerProps {
     template_todo_id?: string;
     operatorType: OperatorType;
     onSubmit?: (val: any) => void;
+    /** 识别到的文本，追加到 description 头部 */
+    descriptionPrefix?: string;
 }
 
 const TodoFormDrawer: React.FC<IProps> = (props) => {
-    const { template_todo_id, open, operatorType, onSubmit, onClose } = props;
+    const { template_todo_id, open, operatorType, onSubmit, onClose, descriptionPrefix } = props;
 
     // 根据 todo_id 获取 todo 详情
     const [todoFromId, setTodoFromId] = useState<TodoItemType>();
@@ -140,6 +142,7 @@ const TodoFormDrawer: React.FC<IProps> = (props) => {
                     status={TodoStatus.todo}
                     todo={todoFromId}
                     operatorType={operatorType}
+                    descriptionPrefix={descriptionPrefix}
                     onFieldsChange={() => {
                         setIsEdit(true);
                         setIsClose(false);

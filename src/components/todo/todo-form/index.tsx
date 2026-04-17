@@ -63,10 +63,11 @@ interface Props extends FormProps {
     todo?: TodoItemType;
     form?: FormInstance;
     operatorType: OperatorType;
+    descriptionPrefix?: string;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
-    const { status, todo, operatorType, form, onFieldsChange, ...rest } = props;
+    const { status, todo, operatorType, form, onFieldsChange, descriptionPrefix, ...rest } = props;
 
     const settings = useSettingsContext();
 
@@ -82,9 +83,13 @@ const TodoForm: React.FC<Props> = (props) => {
 
     useEffect(() => {
         if (todo && form) {
+            const desc = descriptionPrefix
+                ? descriptionPrefix + splitStr + (todo.description || "")
+                : todo.description;
             if (operatorType === "progress") {
                 form?.setFieldsValue({
                     ...todo,
+                    description: desc,
                     status: TodoStatus.todo,
                     time: dayjs().format("YYYY-MM-DD"),
                     other_id: todo.todo_id,
@@ -99,17 +104,19 @@ const TodoForm: React.FC<Props> = (props) => {
             } else if (operatorType === "add-note") {
                 form?.setFieldsValue({
                     ...todo,
+                    description: desc,
                     status: Number(todo.status),
                     isNote: "1",
                 });
             } else {
                 form?.setFieldsValue({
                     ...todo,
+                    description: desc,
                     status: Number(todo.status),
                 });
             }
         }
-    }, [todo, operatorType]);
+    }, [todo, operatorType, descriptionPrefix]);
 
     // 处理预设选项集
     const handlePreset = (item: Record<string, string>) => {

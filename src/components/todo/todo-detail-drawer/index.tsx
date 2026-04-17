@@ -3,6 +3,7 @@ import PreviewImages from "../../common/preview-images";
 import UploadImageFile from "../../common/upload-image-file";
 import styles from "./index.module.scss";
 import { Button, Input, message, Space } from "antd";
+import { AudioOutlined, LoadingOutlined } from "@ant-design/icons";
 import {
     TodoDescription,
     TodoItemType,
@@ -19,6 +20,7 @@ import DrawerWrapper from "../../common/drawer-wrapper";
 import TodoFormDrawer from "../todo-form-drawer";
 import ChainDrawer from "../chain-drawer";
 import AddTodoHoc from "../add-todo-hoc";
+import VoiceRecordButton from "../../common/voice-record-button";
 
 interface IProps {
     activeTodo: TodoItemType;
@@ -79,6 +81,7 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
     };
 
     const [showEdit, setShowEdit] = useState<boolean>(false);
+    const [pendingDescriptionPrefix, setPendingDescriptionPrefix] = useState<string>();
 
     const [showChain, setShowChain] = useState<boolean>(false);
 
@@ -162,6 +165,19 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
                             >
                                 编辑
                             </Button>
+                            <VoiceRecordButton
+                                onRecognize={(text) => {
+                                    setPendingDescriptionPrefix(text);
+                                    setShowEdit(true);
+                                }}
+                            >
+                                {(state) => (
+                                    <Button
+                                        loading={state === "recognizing"}
+                                        icon={state === "recognizing" ? <LoadingOutlined /> : <AudioOutlined />}
+                                    />
+                                )}
+                            </VoiceRecordButton>
                             {!footerConfig?.hideAddBtn && (
                                 <>
                                     <AddTodoHoc
@@ -239,9 +255,10 @@ const TodoDetailDrawer: React.FC<IProps> = (props) => {
             <TodoFormDrawer
                 open={showEdit}
                 template_todo_id={activeTodo?.todo_id}
-                onClose={() => setShowEdit(false)}
+                onClose={() => { setShowEdit(false); setPendingDescriptionPrefix(undefined); }}
                 operatorType={"edit"}
                 onSubmit={onSubmit}
+                descriptionPrefix={pendingDescriptionPrefix}
             />
             <ChainDrawer open={showChain} onClose={() => setShowChain(false)} todo_id={activeTodo?.todo_id} />
             <DrawerWrapper

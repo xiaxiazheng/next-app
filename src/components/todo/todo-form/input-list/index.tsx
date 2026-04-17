@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Input, message, Space } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined, AudioOutlined, LoadingOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 import { splitStr } from "@xiaxiazheng/blog-libs";
+import VoiceRecordButton from "../../../common/voice-record-button";
 
 const { TextArea } = Input;
 
@@ -37,6 +38,18 @@ const InputList = ({ value = "", onChange, handleParse }: any) => {
                 <Button style={{ width: 70, marginLeft: 5 }} onClick={() => handleParse1()}>
                     粘贴
                 </Button>
+                <VoiceRecordButton
+                    onRecognize={handleParse}
+                    visible
+                >
+                    {(state) => (
+                        <Button
+                            style={{ width: 70, marginLeft: 5 }}
+                            loading={state === "recognizing"}
+                            icon={state === "recognizing" ? <LoadingOutlined /> : <AudioOutlined />}
+                        />
+                    )}
+                </VoiceRecordButton>
             </div>
             {l?.map((item: string, index: number) => (
                 <div key={index} className={styles.inputItem}>
