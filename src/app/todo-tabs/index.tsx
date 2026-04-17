@@ -35,6 +35,9 @@ const TodoTabs: React.FC<IProps> = ({ contentHeight = 'calc(100vh - 110px)' }) =
     const { refreshFlag } = useRefreshContext();
     const settings = useSettingsContext();
 
+    // Watch refreshFlag changes
+    console.log('[TodoTabs render] refreshFlag:', refreshFlag);
+
     const [todoList, setTodoList] = useState<TodoItemType[]>([]);
     const [followUpList, setFollowUpList] = useState<TodoItemType[]>([]);
     const [targetList, setTargetList] = useState<TodoItemType[]>([]);
@@ -100,6 +103,7 @@ const TodoTabs: React.FC<IProps> = ({ contentHeight = 'calc(100vh - 110px)' }) =
     // search 触发更新用的 flag
     const [searchFlag, setSearchFlag] = useState<number>(0);
     const getData = () => {
+        console.log('[getData] activeKey:', activeKey);
         const map: any = {
             todo: [getTodoList, getTodoFollowUpList],
             other: [getTodoTargetTodoList, getTodoImportantDoneList, getTodoFootprintList],
@@ -115,6 +119,7 @@ const TodoTabs: React.FC<IProps> = ({ contentHeight = 'calc(100vh - 110px)' }) =
     };
 
     useEffect(() => {
+        console.log('[TodoTabs useEffect] refreshFlag:', refreshFlag, 'activeKey:', activeKey, 'settings:', JSON.stringify(settings));
         if (settings && JSON.stringify(settings) !== '{}') {
             getData();
         }

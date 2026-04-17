@@ -203,7 +203,9 @@ const AffixVoice: React.FC = () => {
         isShow: "0",
       });
       message.success("已创建语音 todo");
+      console.log('[affix-voice] calling refresh');
       refresh();
+      console.log('[affix-voice] refresh called');
     } catch (error) {
       console.error("Speech recognition error:", error);
       message.error("语音识别请求失败");

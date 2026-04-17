@@ -39,6 +39,7 @@ const LayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
                 <RefreshContext.Provider value={{ refreshFlag, refresh }}>
                     {/* <Component {...pageProps} setRouterLoading={setLoading} refreshFlag={flag} /> */}
                     {children}
+                    <AffixVoice />
                 </RefreshContext.Provider>
                 {isShowHome && <Affix type="home" bottomIndex={1} />}
                 <Affix
@@ -60,7 +61,6 @@ const LayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
                         )
                     }} />
                 }
-                <AffixVoice />
                 <RouterDrawer
                     setRouterLoading={setLoading}
                     refresh={refresh}
